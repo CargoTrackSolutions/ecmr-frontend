@@ -1,38 +1,36 @@
 # eCMR Frontend
 
-Exchange the content of this file with the most important information about your project.
-The following sections / bullet points should help you better structure it.
+This is the frontend application of the eCMR service. The Frontend is designed to create, manage, archive sign and send an
+eCMR ( digital convention relative au contrat de transport international de marchandises par route) with your partners
+in road transports, including cross-border cases.
 
-## Project Overview
-  * General information about the project
-  * Current state (evtl. link to already deployed production / development versions)
-  * Future goals / features
-  * Version information
-  * etc.
+Core technology of the frontend is the [Angular](https://angular.io/) framework.
 
-## Setting up the project
-  * Required components / Dependencies
-  * Conventions
-  * etc.
+# Versions
 
-## Running the project
-  * Starting the project (eg. Docker, etc.)
-  * Known problems
-  * etc.
+The versions of the runtime environment and the most relevant frameworks used are listed below:
+
+* trion/ng-cli-karma: 17.3.3 (CI Pipeline Base Image)
+* Node: 20.12.0 (as used by the trion/ng-cli-karma:17.3.3 image to build the application)
+* npm: 10.5.0   (as used by the given Node version)
+* Angular CLI: 17.3.3
 
 ## Documentation
 
 For more details, please refer to the `documentation` directory.
 
 ## License
+
 Licensed under the Open Logistics Foundation License 1.3.
 For details on the licensing terms, see the LICENSE file.
 
 ## Licenses of third-party dependencies
 
-For information about licenses of third-party dependencies, please refer to the `README.md` files of the corresponding components.
+For information about licenses of third-party dependencies, please refer to the `README.md` files of the corresponding
+components.
 
 ## Contact information
-  * Working Group Information
-  * Development Team
-  * etc.
+
+* Working Group Information
+* Development Team
+* etc.
