@@ -1,6 +1,6 @@
-├─ MIT: 742
+├─ MIT: 802
 ├─ ISC: 112
-├─ Apache-2.0: 34
+├─ Apache-2.0: 35
 ├─ BSD-2-Clause: 31
 ├─ BSD-3-Clause: 19
 ├─ Unlicense: 2
