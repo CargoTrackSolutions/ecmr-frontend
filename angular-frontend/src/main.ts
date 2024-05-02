@@ -1,3 +1,5 @@
+/// <reference types="@angular/localize" />
+
 /**
  * Copyright Open Logistics Foundation
  *

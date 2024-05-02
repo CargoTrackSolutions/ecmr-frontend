@@ -1,0 +1,5 @@
+@use '@angular/material' as mat;
+
+
+$custom-primary-palette: mat.define-palette(mat.$green-palette);
+$custom-accent-palette: mat.define-palette(mat.$blue-grey-palette);

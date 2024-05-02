@@ -1,1 +1,62 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@import "custom-theme";
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+//Color SVG Sidenav Icons To Primary Color
+.primary-fill {
+  fill: $primary-color;
+}
+
+.primary-letter-fill{
+  fill: white;
+}
+
+.primary-stroke {
+  stroke: $primary-color;
+}
+
+.active .primary-fill {
+  fill: white !important;
+}
+
+.active .primary-letter-fill{
+  fill: $primary-color;
+}
+
+.active .primary-stroke {
+  stroke: white !important;
+}
+
+//Sidenav Accent Color Hover
+.sidenav-container__icon-container:hover{
+  background-color: mat.get-color-from-palette($my-accent, 400);
+  cursor: pointer;
+}
+
+.sidenav__icon:hover:not(.active) {
+  background-color: mat.get-color-from-palette($my-accent, 400);
+  cursor: pointer;
+}
+
+.footer-line:hover{
+  background-color: mat.get-color-from-palette($my-accent, 400);
+  cursor: pointer;
+}
+
+.active{
+  background-color: mat.get-color-from-palette($my-primary, 500);
+}
+

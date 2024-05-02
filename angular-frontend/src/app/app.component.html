@@ -1,6 +1,99 @@
-<main>
-  <h1>Hello, World!
-  </h1>
-</main>
+<mat-toolbar color="primary">
+    <mat-toolbar-row class="p-0 w-100 justify-content-between">
+        <div class="d-flex flex-row align-items-center justify-content-center">
+            <div class="menu-button-container d-flex justify-content-center align-items-center me-2">
+                <button class="menu-button d-flex flex-column justify-content-around align-items-center" (click)="toggleMenu(); drawer.toggle()">
+                    <div class="bar1" [class.change]="isOpen"></div>
+                    <div class="bar2" [class.change]="isOpen"></div>
+                    <div class="bar3" [class.change]="isOpen"></div>
+                </button>
+            </div>
+            <span class="text-white">eCMR</span>
+        </div>
+        <button mat-icon-button (click)="toggleTheme()">
+            <mat-icon class="text-white">{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        </button>
+    </mat-toolbar-row>
+</mat-toolbar>
+<mat-drawer-container class="sidenav-container" autosize>
+    <mat-drawer class="d-flex flex-column" mode="side" [opened]="true" *ngIf="!isMobile">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+            <a class="sidenav__icon" tabindex="0" (click)="navigateTo('ecmr-overview')"
+               (keyup.enter)="navigateTo('ecmr-overview')"
+               [routerLink]="['/ecmr-overview']" routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact: true}"
+               matRipple>
+                <app-ecmr-icon></app-ecmr-icon>
+            </a>
+            <a class="sidenav__icon" tabindex="0" (click)="navigateTo('ecmr-templates-overview')"
+               (keyup.enter)="navigateTo('ecmr-templates-overview')"
+               [routerLink]="['/ecmr-templates-overview']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
+            true}"
+               matRipple>
+                <app-ecmr-template-icon></app-ecmr-template-icon>
+            </a>
+            <a class="sidenav__icon" tabindex="0" (click)="navigateTo('ecmr-archive')"
+               (keyup.enter)="navigateTo('ecmr-archive')"
+               [routerLink]="['/ecmr-archive']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+               matRipple>
+                <app-ecmr-done-icon></app-ecmr-done-icon>
+            </a>
+        </div>
+    </mat-drawer>
+    <mat-drawer-container class="sidenav-container" autosize>
+        <mat-drawer #drawer class="sidenav" [mode]="isMobile ? 'over' : 'side'" [style.width]="isMobile ? '100%' : '300px'">
+            <div class="h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <a class="sidenav-container__icon-container" matRipple
+                       tabindex="0" (click)="navigateTo('ecmr-overview')"
+                       (keyup.enter)="navigateTo('ecmr-overview')"
+                       [routerLink]="['/ecmr-overview']">
+                        <div class="sidenav__icon" *ngIf="isMobile">
+                            <app-ecmr-icon></app-ecmr-icon>
+                        </div>
+                        eCMR-Overview
+                    </a>
+                    <a class="sidenav-container__icon-container" matRipple
+                       tabindex="0" (click)="navigateTo('ecmr-templates-overview')"
+                       (keyup.enter)="navigateTo('ecmr-templates-overview')"
+                       [routerLink]="['/ecmr-templates-overview']">
+                        <div class="sidenav__icon" *ngIf="isMobile">
+                            <app-ecmr-template-icon></app-ecmr-template-icon>
+                        </div>
+                        Templates
+                    </a>
+                    <a class="sidenav-container__icon-container" matRipple
+                       tabindex="0" (click)="navigateTo('ecmr-archive')"
+                       (keyup.enter)="navigateTo('ecmr-archive')"
+                       [routerLink]="['/ecmr-archive']">
+                        <div class="sidenav__icon" *ngIf="isMobile">
+                            <app-ecmr-done-icon></app-ecmr-done-icon>
+                        </div>
+                        Archive
+                    </a>
+                </div>
+                <div class="d-flex flex-column gap-1 ps-1 pe-1 mb-4">
+                    <div class="footer-line">
+                        <mat-icon color="primary">logout</mat-icon>
+                        <span>Logout</span>
+                    </div>
+                    <a class="footer-line"
+                       tabindex="0" [routerLink]="['/privacy']" (click)="navigateTo('privacy')"
+                       (keyup.enter)="navigateTo('privacy')">
+                        <mat-icon color="primary">shield</mat-icon>
+                        <span>Privacy</span>
+                    </a>
+                    <a class="footer-line"
+                       tabindex="0" [routerLink]="['/imprint-legal-matter']" (click)="navigateTo('imprint-legal-matter')"
+                       (keyup.enter)="navigateTo('imprint-legal-matter')">
+                        <mat-icon color="primary">info</mat-icon>
+                        <span>Imprint, Legal Matter</span>
+                    </a>
+                </div>
+            </div>
+        </mat-drawer>
+        <router-outlet/>
+    </mat-drawer-container>
+</mat-drawer-container>
 
-<router-outlet />
+

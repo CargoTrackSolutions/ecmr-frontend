@@ -1,0 +1,90 @@
+//Animated Menu Button
+.menu-button-container {
+  width: 64px;
+  height: 64px;
+
+  .menu-button {
+    width: 40px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    div {
+      width: 100%;
+      height: 3px;
+      background-color: #ffffff;
+      transition: all 0.3s ease;
+    }
+
+    .change {
+      &.bar1 {
+        transform: rotate(-45deg) translate(-5px, 6px);
+      }
+
+      &.bar2 {
+        opacity: 0;
+      }
+
+      &.bar3 {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+    }
+  }
+}
+
+//Calculated Sidenav-height
+.sidenav-container {
+  height: calc(100vh - 64px);
+}
+
+@media screen and (max-width: 600px) {
+  .sidenav-container {
+    height: calc(100vh - 56px);
+  }
+}
+
+//Fixed Desktop Quick-Sidenav
+.sidenav-container__icon-container {
+  height: 64px;
+  font-weight: bold;
+  font-size: 20px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding-left: 10px;
+  gap: 15px;
+}
+
+.sidenav__icon {
+  width: 64px !important;
+  height: 64px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+//Sidenav Footer items
+.footer-line {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.sidenav .mat-drawer-inner-container {
+  width: 250px;
+  display: flex !important;
+  justify-content: space-between !important;
+  flex-direction: column;
+  height: 100%;
+}
+
+a{
+  color: inherit;
+  text-decoration: none;
+}
+

@@ -8,4 +8,10 @@
 
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+    // { path: 'ecmr-overview', component: ecmrOverview },
+    // { path: 'ecmr-archive', component: ecmrArchive },
+    // { path: 'ecmr-templates-overview', component: ecmrTemplatesOverview },
+    // { path: 'privacy', component: privacy },
+    // { path: 'imprint-legal-matter', component: imprintLegalMatter },
+];
