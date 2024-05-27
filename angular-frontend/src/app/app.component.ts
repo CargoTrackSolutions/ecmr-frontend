@@ -6,22 +6,22 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDrawer, MatDrawerContainer, MatSidenavModule } from '@angular/material/sidenav';
-import { MatButtonModule } from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { Subscription } from 'rxjs';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { MatIconModule } from '@angular/material/icon';
-import { ThemeService } from './services/theme.service';
-import { EcmrIconComponent } from './components/ecmr-icons/ecmr-icon/ecmr-icon.component';
-import { EcmrDoneIconComponent } from './components/ecmr-icons/ecmr-done-icon/ecmr-done-icon.component';
-import { EcmrTemplateIconComponent } from './components/ecmr-icons/ecmr-template-icon/ecmr-template-icon.component';
-import { CommonModule } from '@angular/common';
-import { MatRipple } from '@angular/material/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatDrawer, MatDrawerContainer, MatSidenavModule} from '@angular/material/sidenav';
+import {MatButtonModule} from '@angular/material/button';
+import {FormsModule} from '@angular/forms';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {Subscription} from 'rxjs';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {MatIconModule} from '@angular/material/icon';
+import {ThemeService} from './core/services/theme.service';
+import {EcmrIconComponent} from './shared/ecmr-icons/ecmr-icon/ecmr-icon.component';
+import {EcmrDoneIconComponent} from './shared/ecmr-icons/ecmr-done-icon/ecmr-done-icon.component';
+import {EcmrTemplateIconComponent} from './shared/ecmr-icons/ecmr-template-icon/ecmr-template-icon.component';
+import {CommonModule} from '@angular/common';
+import {MatRipple} from '@angular/material/core';
 
 @Component({
     selector: 'app-root',

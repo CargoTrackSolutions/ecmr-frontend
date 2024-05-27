@@ -6,10 +6,11 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
+import {EcmrOverviewComponent} from "./features/ecmr-overview/ecmrOverview.component";
 
 export const routes: Routes = [
-    // { path: 'ecmr-overview', component: ecmrOverview },
+    { path: 'ecmr-overview', component: EcmrOverviewComponent },
     // { path: 'ecmr-archive', component: ecmrArchive },
     // { path: 'ecmr-templates-overview', component: ecmrTemplatesOverview },
     // { path: 'privacy', component: privacy },

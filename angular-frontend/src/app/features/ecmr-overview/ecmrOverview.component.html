@@ -1,0 +1,270 @@
+<article>
+  <section>
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <mat-label>Overview</mat-label>
+        <div class="search-bar-container">
+          <mat-form-field class="search-bar-input">
+            <input matInput placeholder="Search">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+
+          <button mat-flat-button class="search-bar-button" color="primary" (click)="createNewEcmr()">
+            <mat-icon iconPositionEnd>add</mat-icon>
+            Create New
+          </button>
+          <button mat-flat-button (click)="importEcmr()">Import
+            <mat-icon iconPositionEnd>download</mat-icon>
+          </button>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <!-- Overview Table Container -->
+    <div class="ecmr-overview-table-container">
+      <div style="position: absolute; display: flex; align-content: end;" *ngIf="showDetails">
+        <div style="position: fixed; z-index: 5; right: 0; width: 35%; height: 10%">
+          <mat-card>
+            <mat-card-content style="overflow: scroll; height: 90vh">
+              <button style="margin: 5px" mat-flat-button (click)="closeDetailsView()">
+                <mat-icon iconPositionEnd>close</mat-icon>
+              </button>
+              <button style="margin: 5px" mat-flat-button color="primary">PDF
+                <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
+              </button>
+              <button style="margin: 5px" mat-flat-button color="primary">Edit
+                <mat-icon iconPositionEnd>edit_note</mat-icon>
+              </button>
+              <button style="margin: 5px" mat-stroked-button>Copy
+                <mat-icon iconPositionEnd>content_copy</mat-icon>
+              </button>
+              <button style="margin: 5px" mat-stroked-button>Share
+                <mat-icon iconPositionEnd>share</mat-icon>
+              </button>
+              <mat-divider></mat-divider>
+              <h3>To be implemented.</h3>
+              <br>
+              <span>This is the detail view that will contain an overview of the selected ecmr.</span>
+              <br>
+              <br>
+              <span>{{ JSON.stringify(selectedEcmr) }}</span>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <!-- Overview of eCMRs -->
+      <table class="ecmr-overview-table" mat-table [dataSource]="dataSource" matSort
+             (matSortChange)="sortData($event)"
+             cdkDropList
+             cdkDropListOrientation="horizontal"
+             (cdkDropListDropped)="tableDrop($event)">
+
+        <!-- ID Column used to display icon buttons -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>
+            <button mat-icon-button (click)="toggleColumnSelectionMenu()">
+              <mat-icon>tune</mat-icon>
+            </button>
+            <ng-container *ngIf="showColumSelection">
+              <mat-card style="position: absolute; width: 250px; z-index: 5;">
+                <button mat-stroked-button (click)="updateColumns()">Configure Columns
+                  <mat-icon color="primary">close</mat-icon>
+                </button>
+                <mat-checkbox [checked]="toggledColumns[0]" (change)="toggleColumnAtIndex(0)">Reference ID
+                </mat-checkbox>
+                <mat-checkbox [checked]="toggledColumns[1]" (change)="toggleColumnAtIndex(1)">From</mat-checkbox>
+                <mat-checkbox [checked]="toggledColumns[2]" (change)="toggleColumnAtIndex(2)">To</mat-checkbox>
+                <mat-checkbox [checked]="toggledColumns[3]" (change)="toggleColumnAtIndex(3)">Transport Type
+                </mat-checkbox>
+                <mat-checkbox [checked]="toggledColumns[4]" (change)="toggleColumnAtIndex(4)">Last Editor</mat-checkbox>
+                <mat-checkbox [checked]="toggledColumns[5]" (change)="toggleColumnAtIndex(5)">Status</mat-checkbox>
+                <mat-checkbox [checked]="toggledColumns[6]" (change)="toggleColumnAtIndex(6)">Last Edit Date
+                </mat-checkbox>
+                <mat-checkbox [checked]="toggledColumns[7]" (change)="toggleColumnAtIndex(7)">Creation Date
+                </mat-checkbox>
+                <div style="margin: 0 auto;">
+                  <button mat-flat-button color="primary" style="margin: 15px;"
+                          (click)="updateColumns()">Apply
+                    <mat-icon iconPositionEnd>check</mat-icon>
+                  </button>
+                </div>
+              </mat-card>
+            </ng-container>
+            <button mat-icon-button (click)="toggleFilterListIcon()">
+              <mat-icon>{{ getFilterListIcon() }}</mat-icon>
+            </button>
+          </th>
+          <td id="icons" mat-cell *matCellDef="let ecmr; let i = index;" style="width: 300px;">
+          <span>
+          <button mat-icon-button (click)="shareEcmr()" matTooltip="Share eCMR">
+            <mat-icon>share</mat-icon>
+          </button>
+          <button mat-icon-button (click)="guestAccessToEcmr()" matTooltip="Guest Access to eCMR">
+            <mat-icon>qr_code2</mat-icon>
+          </button>
+          <button mat-icon-button (click)="editEcmr()" matTooltip="Edit eCMR">
+            <mat-icon>edit_note</mat-icon>
+          </button>
+          <button mat-icon-button (click)="historyOfEcmr()" matTooltip="History of eCMR">
+            <mat-icon>history</mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteEcmr()" matTooltip="Delete eCMR">
+            <mat-icon color="warn" >close</mat-icon>
+          </button>
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Reference ID Column -->
+        <ng-container matColumnDef="referenceId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
+              cdkDragBoundary="mat-header-row">
+            <div style="margin-top: 15px; margin-bottom: 15px;">
+              <span style="float: left; font-weight: bold">Reference ID</span>
+              <br>
+              <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                <input matInput>
+              </mat-form-field>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let ecmrData; let i = index;"
+              (click)="showDetailsForEcmrAtIndex(i)">{{ ecmrData.ecmrConsignment.referenceIdentificationNumber.value }}
+          </td>
+        </ng-container>
+
+        <!-- From Column -->
+        <ng-container matColumnDef="from">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
+              cdkDragBoundary="mat-header-row">
+            <div style="margin-top: 15px; margin-bottom: 15px;">
+              <span style="float: left; font-weight: bold">From</span>
+              <br>
+              <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                <input matInput>
+              </mat-form-field>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let ecmrData; let i = index;"
+              (click)="showDetailsForEcmrAtIndex(i)">{{ ecmrData.ecmrConsignment.senderInformation.senderNameCompany.value }}
+          </td>
+        </ng-container>
+
+        <!-- To Column -->
+        <ng-container matColumnDef="to">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
+              cdkDragBoundary="mat-header-row">
+            <div style="margin-top: 15px; margin-bottom: 15px;">
+              <span style="float: left; font-weight: bold">To</span>
+              <br>
+              <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                <input matInput>
+              </mat-form-field>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let ecmrData; let i = index;"
+              (click)="showDetailsForEcmrAtIndex(i)">{{ ecmrData.ecmrConsignment.consigneeInformation.consigneeNameCompany.value }}
+          </td>
+        </ng-container>
+
+        <!-- Transport Type Column -->
+        <ng-container matColumnDef="transportType">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
+              cdkDragBoundary="mat-header-row">
+            <div style="margin-top: 15px; margin-bottom: 15px;">
+              <span style="float: left; font-weight: bold">Transport Type</span>
+              <br>
+              <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                <input matInput>
+              </mat-form-field>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let ecmrData; let i = index;"
+              (click)="showDetailsForEcmrAtIndex(i)">{{ ecmrData.ecmrConsignment.sendersInstructions.transportInstructionsDescription.value }}
+          </td>
+        </ng-container>
+
+        <!-- Last Editor Column -->
+        <ng-container matColumnDef="lastEditor">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
+              cdkDragBoundary="mat-header-row">
+            <div style="margin-top: 15px; margin-bottom: 15px;">
+              <span style="float: left; font-weight: bold">Last Editor</span>
+              <br>
+              <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                <input matInput>
+              </mat-form-field>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let ecmrData; let i = index;"
+              (click)="showDetailsForEcmrAtIndex(i)">{{ ecmrData.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.value.userName }}
+          </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
+              cdkDragBoundary="mat-header-row">
+            <div style="margin-top: 15px; margin-bottom: 15px;">
+              <span style="float: left; font-weight: bold">Status</span>
+              <br>
+              <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                <input matInput>
+              </mat-form-field>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let ecmrData; let i = index;"
+              (click)="showDetailsForEcmrAtIndex(i)">{{ ecmrData.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.carrierReservationsObservations.value }}
+          </td>
+        </ng-container>
+
+        <!-- Last Edit Date Column -->
+        <ng-container matColumnDef="lastEditDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
+              cdkDragBoundary="mat-header-row">
+            <div style="margin-top: 15px; margin-bottom: 15px;">
+              <span style="float: left; font-weight: bold">Last Edit Date</span>
+              <br>
+              <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                <input matInput>
+              </mat-form-field>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let ecmrData; let i = index" (click)="showDetailsForEcmrAtIndex(i)">{{
+              ecmrData.ecmrConsignment.successiveCarriers.successiveCarrierSignatureDate.value.toLocaleDateString("de-DE", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit"
+              })
+            }}
+          </td>
+        </ng-container>
+
+        <!-- Creation Date Column -->
+        <ng-container matColumnDef="creationDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
+              cdkDragBoundary="mat-header-row">
+            <div style="margin-top: 15px; margin-bottom: 15px;">
+              <span style="float: left; font-weight: bold">Creation Date</span>
+              <br>
+              <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                <input matInput>
+              </mat-form-field>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let ecmrData; let i = index" (click)="showDetailsForEcmrAtIndex(i)">{{
+              ecmrData.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.value.timestamp.toLocaleDateString("de-DE", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit"
+              })
+            }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;" style="cursor:pointer"
+            ></tr>
+      </table>
+    </div>
+  </section>
+</article>
