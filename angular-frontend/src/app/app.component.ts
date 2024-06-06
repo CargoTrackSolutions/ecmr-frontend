@@ -6,6 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -22,17 +23,25 @@ import {EcmrDoneIconComponent} from './shared/ecmr-icons/ecmr-done-icon/ecmr-don
 import {EcmrTemplateIconComponent} from './shared/ecmr-icons/ecmr-template-icon/ecmr-template-icon.component';
 import {CommonModule} from '@angular/common';
 import {MatRipple} from '@angular/material/core';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
+}
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [RouterOutlet, MatToolbarModule, MatDrawerContainer, MatDrawer, MatButtonModule, MatSidenavModule, FormsModule, MatCheckboxModule, MatIconModule, EcmrIconComponent, EcmrDoneIconComponent, EcmrTemplateIconComponent, RouterLink, RouterLinkActive, CommonModule, MatRipple],
+    imports: [RouterOutlet, MatToolbarModule, MatDrawerContainer, MatDrawer, MatButtonModule, MatSidenavModule, FormsModule, MatCheckboxModule, MatIconModule, EcmrIconComponent, EcmrDoneIconComponent, EcmrTemplateIconComponent, RouterLink, RouterLinkActive, CommonModule, MatRipple, TranslateModule, HttpClientModule],
+    providers: [HttpClientModule],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit, OnDestroy {
     title = 'angular-frontend';
-
+    actualLanguage = 'DE';
     isOpen = false;
 
     isMobile: boolean = false;
@@ -42,7 +51,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     constructor(private breakpointObserver: BreakpointObserver,
                 private router: Router,
-                private themeService: ThemeService) {
+                private themeService: ThemeService,
+                private translate: TranslateService) {
+      translate.setDefaultLang('en');
     }
 
     ngOnInit() {
@@ -55,6 +66,16 @@ export class AppComponent implements OnInit, OnDestroy {
             this.isMobile = result.matches;
         });
     }
+
+  changeLanguage() {
+    if (this.actualLanguage === 'EN') {
+      this.translate.use('de');
+      this.actualLanguage = 'DE';
+    } else if (this.actualLanguage === 'DE') {
+      this.translate.use('en');
+      this.actualLanguage = 'EN';
+    }
+  }
 
     ngOnDestroy() {
         if (this.breakpointSubscription) {

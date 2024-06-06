@@ -7,15 +7,23 @@
  */
 
 import {TestBed} from '@angular/core/testing';
-import {AppComponent} from './app.component';
+import {AppComponent, HttpLoaderFactory} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
 import {routes} from './app.routes';
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {HttpClient} from "@angular/common/http";
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, BrowserAnimationsModule, RouterModule.forRoot(routes)],
+      imports: [AppComponent, BrowserAnimationsModule, RouterModule.forRoot(routes), TranslateModule.forRoot({
+        loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+        }
+      }),],
     }).compileComponents();
   });
 

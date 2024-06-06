@@ -1,6 +1,40 @@
 {
   "title": "eCMR Service",
+  "general": {
+    "apply_button": "Annehmen"
+  },
   "menu": {
-    "home":"eCMR erstellen"
+    "overview": "eCMR Übersicht",
+    "templates": "Vorlagen",
+    "archive": "Archiv",
+    "logout": "Logout",
+    "privacy": "Datenschutz",
+    "imprint_legal": "Impressum, Rechtliches"
+  },
+  "overview": {
+    "title": "Übersicht",
+    "search" : "Suchen",
+    "create_new": "Erstellen",
+    "import": "Importieren",
+    "table_header": {
+      "ref_id": "Referenz ID",
+      "from": "Von",
+      "to": "Nach",
+      "transport_type": "Transportart",
+      "last_editor": "zuletzt bearbeitet von",
+      "status": "Status",
+      "last_edit_date": "zuletzt bearbeitet am",
+      "creation_date": "erstellt am"
+    },
+    "tooltips": {
+      "share": "eCMR teilen",
+      "guest_access": "Gastzugang",
+      "edit": "Bearbeiten",
+      "history": "Historie",
+      "delete": "Löschen"
+    },
+    "columns_settings": {
+      "configure_columns": "Spalten konfigurieren"
+    }
   }
 }

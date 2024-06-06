@@ -8,8 +8,12 @@
                     <div class="bar3" [class.change]="isOpen"></div>
                 </button>
             </div>
-            <span class="text-white">eCMR</span>
+            <span class="text-white">{{'title' | translate }}</span>
         </div>
+        <span style="margin-left: auto; margin-right: 0;"></span>
+        <button (click)="changeLanguage()" mat-icon-button>
+            <div style="font-size: medium">{{actualLanguage}}</div>
+        </button>
         <button mat-icon-button (click)="toggleTheme()">
             <mat-icon class="text-white">{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
         </button>
@@ -51,7 +55,7 @@
                         <div class="sidenav__icon" *ngIf="isMobile">
                             <app-ecmr-icon></app-ecmr-icon>
                         </div>
-                        eCMR-Overview
+                        {{'menu.overview' | translate }}
                     </a>
                     <a class="sidenav-container__icon-container" matRipple
                        tabindex="0" (click)="navigateTo('ecmr-templates-overview')"
@@ -60,7 +64,7 @@
                         <div class="sidenav__icon" *ngIf="isMobile">
                             <app-ecmr-template-icon></app-ecmr-template-icon>
                         </div>
-                        Templates
+                        {{'menu.templates' | translate }}
                     </a>
                     <a class="sidenav-container__icon-container" matRipple
                        tabindex="0" (click)="navigateTo('ecmr-archive')"
@@ -69,25 +73,25 @@
                         <div class="sidenav__icon" *ngIf="isMobile">
                             <app-ecmr-done-icon></app-ecmr-done-icon>
                         </div>
-                        Archive
+                        {{'menu.archive' | translate }}
                     </a>
                 </div>
                 <div class="d-flex flex-column gap-1 ps-1 pe-1 mb-4">
                     <div class="footer-line">
                         <mat-icon color="primary">logout</mat-icon>
-                        <span>Logout</span>
+                        <span>{{'menu.logout' | translate }}</span>
                     </div>
                     <a class="footer-line"
                        tabindex="0" [routerLink]="['/privacy']" (click)="navigateTo('privacy')"
                        (keyup.enter)="navigateTo('privacy')">
                         <mat-icon color="primary">shield</mat-icon>
-                        <span>Privacy</span>
+                        <span>{{'menu.privacy' | translate }}</span>
                     </a>
                     <a class="footer-line"
                        tabindex="0" [routerLink]="['/imprint-legal-matter']" (click)="navigateTo('imprint-legal-matter')"
                        (keyup.enter)="navigateTo('imprint-legal-matter')">
                         <mat-icon color="primary">info</mat-icon>
-                        <span>Imprint, Legal Matter</span>
+                        <span>{{'menu.imprint_legal' | translate }}</span>
                     </a>
                 </div>
             </div>
@@ -95,5 +99,3 @@
         <router-outlet/>
     </mat-drawer-container>
 </mat-drawer-container>
-
-

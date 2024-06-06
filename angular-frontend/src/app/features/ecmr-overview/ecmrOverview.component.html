@@ -2,18 +2,18 @@
   <section>
     <mat-toolbar>
       <mat-toolbar-row>
-        <mat-label>Overview</mat-label>
+        <mat-label>{{ 'overview.title' | translate }}</mat-label>
         <div class="search-bar-container">
           <mat-form-field class="search-bar-input">
-            <input matInput placeholder="Search">
+            <input matInput placeholder="{{'overview.search' | translate}}">
             <mat-icon matSuffix>search</mat-icon>
           </mat-form-field>
 
           <button mat-flat-button class="search-bar-button" color="primary" (click)="createNewEcmr()">
             <mat-icon iconPositionEnd>add</mat-icon>
-            Create New
+            {{ 'overview.create_new' | translate }}
           </button>
-          <button mat-flat-button (click)="importEcmr()">Import
+          <button mat-flat-button (click)="importEcmr()">{{ 'overview.import' | translate }}
             <mat-icon iconPositionEnd>download</mat-icon>
           </button>
         </div>
@@ -67,24 +67,24 @@
             </button>
             <ng-container *ngIf="showColumSelection">
               <mat-card style="position: absolute; width: 250px; z-index: 5;">
-                <button mat-stroked-button (click)="updateColumns()">Configure Columns
+                <button mat-stroked-button (click)="updateColumns()">{{ 'overview.columns_settings.configure_columns' | translate }}
                   <mat-icon color="primary">close</mat-icon>
                 </button>
-                <mat-checkbox [checked]="toggledColumns[0]" (change)="toggleColumnAtIndex(0)">Reference ID
+                <mat-checkbox [checked]="toggledColumns[0]" (change)="toggleColumnAtIndex(0)">{{'overview.table_header.ref_id' | translate}}
                 </mat-checkbox>
-                <mat-checkbox [checked]="toggledColumns[1]" (change)="toggleColumnAtIndex(1)">From</mat-checkbox>
-                <mat-checkbox [checked]="toggledColumns[2]" (change)="toggleColumnAtIndex(2)">To</mat-checkbox>
-                <mat-checkbox [checked]="toggledColumns[3]" (change)="toggleColumnAtIndex(3)">Transport Type
+                <mat-checkbox [checked]="toggledColumns[1]" (change)="toggleColumnAtIndex(1)">{{'overview.table_header.from' | translate}}</mat-checkbox>
+                <mat-checkbox [checked]="toggledColumns[2]" (change)="toggleColumnAtIndex(2)">{{'overview.table_header.to' | translate}}</mat-checkbox>
+                <mat-checkbox [checked]="toggledColumns[3]" (change)="toggleColumnAtIndex(3)">{{'overview.table_header.transport_type' | translate}}
                 </mat-checkbox>
-                <mat-checkbox [checked]="toggledColumns[4]" (change)="toggleColumnAtIndex(4)">Last Editor</mat-checkbox>
-                <mat-checkbox [checked]="toggledColumns[5]" (change)="toggleColumnAtIndex(5)">Status</mat-checkbox>
-                <mat-checkbox [checked]="toggledColumns[6]" (change)="toggleColumnAtIndex(6)">Last Edit Date
+                <mat-checkbox [checked]="toggledColumns[4]" (change)="toggleColumnAtIndex(4)">{{'overview.table_header.last_editor' | translate}}</mat-checkbox>
+                <mat-checkbox [checked]="toggledColumns[5]" (change)="toggleColumnAtIndex(5)">{{'overview.table_header.status' | translate}}</mat-checkbox>
+                <mat-checkbox [checked]="toggledColumns[6]" (change)="toggleColumnAtIndex(6)">{{'overview.table_header.last_edit_date' | translate}}
                 </mat-checkbox>
-                <mat-checkbox [checked]="toggledColumns[7]" (change)="toggleColumnAtIndex(7)">Creation Date
+                <mat-checkbox [checked]="toggledColumns[7]" (change)="toggleColumnAtIndex(7)">{{'overview.table_header.creation_date' | translate}}
                 </mat-checkbox>
                 <div style="margin: 0 auto;">
                   <button mat-flat-button color="primary" style="margin: 15px;"
-                          (click)="updateColumns()">Apply
+                          (click)="updateColumns()">{{ 'general.apply_button' | translate }}
                     <mat-icon iconPositionEnd>check</mat-icon>
                   </button>
                 </div>
@@ -96,19 +96,19 @@
           </th>
           <td id="icons" mat-cell *matCellDef="let ecmr; let i = index;" style="width: 300px;">
           <span>
-          <button mat-icon-button (click)="shareEcmr()" matTooltip="Share eCMR">
+          <button mat-icon-button (click)="shareEcmr()" matTooltip="{{'overview.tooltips.share' | translate}}">
             <mat-icon>share</mat-icon>
           </button>
-          <button mat-icon-button (click)="guestAccessToEcmr()" matTooltip="Guest Access to eCMR">
+          <button mat-icon-button (click)="guestAccessToEcmr()" matTooltip="{{'overview.tooltips.guest_access' | translate}}">
             <mat-icon>qr_code2</mat-icon>
           </button>
-          <button mat-icon-button (click)="editEcmr()" matTooltip="Edit eCMR">
+          <button mat-icon-button (click)="editEcmr()" matTooltip="{{'overview.tooltips.edit' | translate}}">
             <mat-icon>edit_note</mat-icon>
           </button>
-          <button mat-icon-button (click)="historyOfEcmr()" matTooltip="History of eCMR">
+          <button mat-icon-button (click)="historyOfEcmr()" matTooltip="{{'overview.tooltips.history' | translate}}">
             <mat-icon>history</mat-icon>
           </button>
-          <button mat-icon-button (click)="deleteEcmr()" matTooltip="Delete eCMR">
+          <button mat-icon-button (click)="deleteEcmr()" matTooltip="{{'overview.tooltips.delete' | translate}}">
             <mat-icon color="warn" >close</mat-icon>
           </button>
             </span>
@@ -120,7 +120,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
               cdkDragBoundary="mat-header-row">
             <div style="margin-top: 15px; margin-bottom: 15px;">
-              <span style="float: left; font-weight: bold">Reference ID</span>
+              <span style="float: left; font-weight: bold">{{ 'overview.table_header.ref_id' | translate }}</span>
               <br>
               <mat-form-field appearance="outline" *ngIf="this.showFilter">
                 <input matInput>
@@ -137,7 +137,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
               cdkDragBoundary="mat-header-row">
             <div style="margin-top: 15px; margin-bottom: 15px;">
-              <span style="float: left; font-weight: bold">From</span>
+              <span style="float: left; font-weight: bold">{{ 'overview.table_header.from' | translate }}</span>
               <br>
               <mat-form-field appearance="outline" *ngIf="this.showFilter">
                 <input matInput>
@@ -154,7 +154,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
               cdkDragBoundary="mat-header-row">
             <div style="margin-top: 15px; margin-bottom: 15px;">
-              <span style="float: left; font-weight: bold">To</span>
+              <span style="float: left; font-weight: bold">{{ 'overview.table_header.to' | translate }}</span>
               <br>
               <mat-form-field appearance="outline" *ngIf="this.showFilter">
                 <input matInput>
@@ -171,7 +171,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
               cdkDragBoundary="mat-header-row">
             <div style="margin-top: 15px; margin-bottom: 15px;">
-              <span style="float: left; font-weight: bold">Transport Type</span>
+              <span style="float: left; font-weight: bold">{{ 'overview.table_header.transport_type' | translate }}</span>
               <br>
               <mat-form-field appearance="outline" *ngIf="this.showFilter">
                 <input matInput>
@@ -188,7 +188,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
               cdkDragBoundary="mat-header-row">
             <div style="margin-top: 15px; margin-bottom: 15px;">
-              <span style="float: left; font-weight: bold">Last Editor</span>
+              <span style="float: left; font-weight: bold">{{ 'overview.table_header.last_editor' | translate }}</span>
               <br>
               <mat-form-field appearance="outline" *ngIf="this.showFilter">
                 <input matInput>
@@ -205,7 +205,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
               cdkDragBoundary="mat-header-row">
             <div style="margin-top: 15px; margin-bottom: 15px;">
-              <span style="float: left; font-weight: bold">Status</span>
+              <span style="float: left; font-weight: bold">{{ 'overview.table_header.status' | translate }}</span>
               <br>
               <mat-form-field appearance="outline" *ngIf="this.showFilter">
                 <input matInput>
@@ -222,7 +222,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
               cdkDragBoundary="mat-header-row">
             <div style="margin-top: 15px; margin-bottom: 15px;">
-              <span style="float: left; font-weight: bold">Last Edit Date</span>
+              <span style="float: left; font-weight: bold">{{ 'overview.table_header.last_edit_date' | translate }}</span>
               <br>
               <mat-form-field appearance="outline" *ngIf="this.showFilter">
                 <input matInput>
@@ -244,7 +244,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
               cdkDragBoundary="mat-header-row">
             <div style="margin-top: 15px; margin-bottom: 15px;">
-              <span style="float: left; font-weight: bold">Creation Date</span>
+              <span style="float: left; font-weight: bold">{{ 'overview.table_header.creation_date' | translate }}</span>
               <br>
               <mat-form-field appearance="outline" *ngIf="this.showFilter">
                 <input matInput>

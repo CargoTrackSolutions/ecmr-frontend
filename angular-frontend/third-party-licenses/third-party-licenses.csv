@@ -212,6 +212,8 @@
 "@material/typography@15.0.0-canary.7f224ddd4.0","MIT","https://github.com/material-components/material-components-web"
 "@ng-bootstrap/ng-bootstrap@16.0.0","MIT","https://github.com/ng-bootstrap/ng-bootstrap"
 "@ngtools/webpack@17.3.6","MIT","https://github.com/angular/angular-cli"
+"@ngx-translate/core@15.0.0","Custom: LICENSE",""
+"@ngx-translate/http-loader@8.0.0","Custom: LICENSE",""
 "@nodelib/fs.scandir@2.1.5","MIT","https://github.com/nodelib/nodelib/tree/master/packages/fs/fs.scandir"
 "@nodelib/fs.stat@2.0.5","MIT","https://github.com/nodelib/nodelib/tree/master/packages/fs/fs.stat"
 "@nodelib/fs.walk@1.2.8","MIT","https://github.com/nodelib/nodelib/tree/master/packages/fs/fs.walk"

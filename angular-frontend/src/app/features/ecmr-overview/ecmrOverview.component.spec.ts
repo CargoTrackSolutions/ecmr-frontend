@@ -18,9 +18,13 @@ import {
   MatCellDef,
   MatColumnDef,
   MatHeaderCell,
-  MatHeaderCellDef, MatHeaderRow,
-  MatHeaderRowDef, MatRow, MatRowDef,
-  MatTable, MatTableModule
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable,
+  MatTableModule
 } from "@angular/material/table";
 import {MatTabBody, MatTabHeader} from "@angular/material/tabs";
 import {MatInput} from "@angular/material/input";
@@ -32,7 +36,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {
   MatAccordion,
   MatExpansionPanel,
-  MatExpansionPanelDescription, MatExpansionPanelHeader,
+  MatExpansionPanelDescription,
+  MatExpansionPanelHeader,
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
 import {MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
@@ -45,6 +50,9 @@ import {MatDivider} from "@angular/material/divider";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {EcmrOverviewService} from "./ecmr-overview-service/ecmr-overview.service";
 import {EcmrData} from "../../core/models/EcmrData";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {HttpLoaderFactory} from "../../app.component";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 describe('OverviewComponent', () => {
   let component: EcmrOverviewComponent;
@@ -52,7 +60,7 @@ describe('OverviewComponent', () => {
 
   const overviewServiceSpy = jasmine.createSpyObj('EcmrOverviewService', ['initializeData', 'getData']);
 
-  const testEcmr: EcmrData =  {
+  const testEcmr: EcmrData = {
     ecmrId: "FhG-IML-504",
     ecmrConsignment: {
       senderInformation: {
@@ -271,12 +279,20 @@ describe('OverviewComponent', () => {
         MatMiniFabButton,
         CdkScrollable,
         MatDivider,
+        HttpClientModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient]
+          }
+        }),
       ],
       providers: [
-        {provide: EcmrOverviewService, useValue: overviewServiceSpy},
+        {provide: EcmrOverviewService, useValue: overviewServiceSpy}
       ]
     })
-    .compileComponents();
+      .compileComponents();
 
     overviewServiceSpy.getData.and.returnValue(testEcmr)
 
@@ -290,6 +306,7 @@ describe('OverviewComponent', () => {
   });
 
   it('should initialize data', () => {
+    component.ngOnInit();
     expect(overviewServiceSpy.initializeData).toHaveBeenCalled();
     expect(overviewServiceSpy.getData).toHaveBeenCalled();
   });

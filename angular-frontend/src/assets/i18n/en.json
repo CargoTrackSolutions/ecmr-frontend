@@ -1,6 +1,40 @@
 {
   "title": "eCMR Service",
+  "general": {
+    "apply_button": "Apply"
+  },
   "menu": {
-    "home":"create eCMR"
+    "overview": "eCMR Overview",
+    "templates": "Templates",
+    "archive": "Archive",
+    "logout": "Logout",
+    "privacy": "Privacy",
+    "imprint_legal": "Imprint, Legal Matter"
+  },
+  "overview": {
+    "title": "Overview",
+    "search" : "Search",
+    "create_new": "Create new",
+    "import": "Import",
+    "table_header": {
+      "ref_id": "Reference ID",
+      "from": "From",
+      "to": "To",
+      "transport_type": "Transport Type",
+      "last_editor": "Last Editor",
+      "status": "Status",
+      "last_edit_date": "Last Edit Date",
+      "creation_date": "Creation Date"
+    },
+    "tooltips": {
+      "share": "Share eCMR",
+      "guest_access": "Guest Access",
+      "edit": "Edit",
+      "history": "History",
+      "delete": "Delete eCMR"
+    },
+    "columns_settings": {
+      "configure_columns": "Configure Columns"
+    }
   }
 }

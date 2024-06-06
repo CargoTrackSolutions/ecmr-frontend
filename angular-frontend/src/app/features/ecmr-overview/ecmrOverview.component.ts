@@ -53,6 +53,7 @@ import {CdkScrollable} from "@angular/cdk/overlay";
 import {MatDivider} from "@angular/material/divider";
 import {EcmrData} from "../../core/models/EcmrData";
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-overview',
@@ -109,6 +110,7 @@ import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/d
     MatDivider,
     CdkDropList,
     CdkDrag,
+    TranslateModule,
   ],
   templateUrl: './ecmrOverview.component.html',
   styleUrl: './ecmrOverview.component.scss'
