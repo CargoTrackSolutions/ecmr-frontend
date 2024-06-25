@@ -6,8 +6,6 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {SupplyChainConsignmentItemGrossWeight} from "./SupplyChainConsignmentItemGrossWeight";
-
 export interface GrossWeightInKg {
-  supplyChainConsignmentItemGrossWeight: SupplyChainConsignmentItemGrossWeight;
+  supplyChainConsignmentItemGrossWeight: number | null;
 }

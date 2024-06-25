@@ -6,8 +6,6 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {CustomCashOnDelivery} from "./CustomCashOnDelivery";
-
 export interface CashOnDelivery {
-  customCashOnDelivery: CustomCashOnDelivery;
+  customCashOnDelivery: number | null;
 }

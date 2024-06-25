@@ -9,6 +9,6 @@
 import {EcmrConsignment} from "./EcmrConsignment";
 
 export interface EcmrData {
-  ecmrId: string;
+  ecmrId: string | null;
   ecmrConsignment: EcmrConsignment;
 }

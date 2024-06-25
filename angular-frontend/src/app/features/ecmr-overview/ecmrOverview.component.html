@@ -102,7 +102,7 @@
           <button mat-icon-button (click)="guestAccessToEcmr()" matTooltip="{{'overview.tooltips.guest_access' | translate}}">
             <mat-icon>qr_code2</mat-icon>
           </button>
-          <button mat-icon-button (click)="editEcmr()" matTooltip="{{'overview.tooltips.edit' | translate}}">
+          <button mat-icon-button (click)="editEcmr(ecmr.ecmrId)" matTooltip="{{'overview.tooltips.edit' | translate}}">
             <mat-icon>edit_note</mat-icon>
           </button>
           <button mat-icon-button (click)="historyOfEcmr()" matTooltip="{{'overview.tooltips.history' | translate}}">
@@ -145,7 +145,7 @@
             </div>
           </th>
           <td mat-cell *matCellDef="let ecmrData; let i = index;"
-              (click)="showDetailsForEcmrAtIndex(i)">{{ ecmrData.ecmrConsignment.senderInformation.senderNameCompany.value }}
+              (click)="showDetailsForEcmrAtIndex(i)">{{ ecmrData.ecmrConsignment.senderInformation.senderNameCompany }}
           </td>
         </ng-container>
 
@@ -162,7 +162,7 @@
             </div>
           </th>
           <td mat-cell *matCellDef="let ecmrData; let i = index;"
-              (click)="showDetailsForEcmrAtIndex(i)">{{ ecmrData.ecmrConsignment.consigneeInformation.consigneeNameCompany.value }}
+              (click)="showDetailsForEcmrAtIndex(i)">{{ ecmrData.ecmrConsignment.consigneeInformation.consigneeNameCompany }}
           </td>
         </ng-container>
 
@@ -179,7 +179,7 @@
             </div>
           </th>
           <td mat-cell *matCellDef="let ecmrData; let i = index;"
-              (click)="showDetailsForEcmrAtIndex(i)">{{ ecmrData.ecmrConsignment.sendersInstructions.transportInstructionsDescription.value }}
+              (click)="showDetailsForEcmrAtIndex(i)">{{ ecmrData.ecmrConsignment.sendersInstructions.transportInstructionsDescription }}
           </td>
         </ng-container>
 
@@ -196,7 +196,7 @@
             </div>
           </th>
           <td mat-cell *matCellDef="let ecmrData; let i = index;"
-              (click)="showDetailsForEcmrAtIndex(i)">{{ ecmrData.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.value.userName }}
+              (click)="showDetailsForEcmrAtIndex(i)">{{ ecmrData.ecmrConsignment.signatureOrStampOfTheSender.senderSignature?.userName }}
           </td>
         </ng-container>
 
@@ -213,7 +213,7 @@
             </div>
           </th>
           <td mat-cell *matCellDef="let ecmrData; let i = index;"
-              (click)="showDetailsForEcmrAtIndex(i)">{{ ecmrData.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.carrierReservationsObservations.value }}
+              (click)="showDetailsForEcmrAtIndex(i)">{{ ecmrData.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.carrierReservationsObservations }}
           </td>
         </ng-container>
 
@@ -230,7 +230,7 @@
             </div>
           </th>
           <td mat-cell *matCellDef="let ecmrData; let i = index" (click)="showDetailsForEcmrAtIndex(i)">{{
-              ecmrData.ecmrConsignment.successiveCarriers.successiveCarrierSignatureDate.value.toLocaleDateString("de-DE", {
+              ecmrData.ecmrConsignment.successiveCarrierInformation.successiveCarrierSignatureDate?.toLocaleDateString("de-DE", {
                 year: "numeric",
                 month: "2-digit",
                 day: "2-digit"
@@ -252,7 +252,7 @@
             </div>
           </th>
           <td mat-cell *matCellDef="let ecmrData; let i = index" (click)="showDetailsForEcmrAtIndex(i)">{{
-              ecmrData.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.value.timestamp.toLocaleDateString("de-DE", {
+              ecmrData.ecmrConsignment.signatureOrStampOfTheSender.senderSignature?.timestamp.toLocaleDateString("de-DE", {
                 year: "numeric",
                 month: "2-digit",
                 day: "2-digit"

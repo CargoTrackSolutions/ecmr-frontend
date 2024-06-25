@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {SenderSignature} from "./SenderSignature";
+import { Signature } from '../signature/Signature';
 
 export interface SignatureOrStampOfTheSender {
-  senderSignature: SenderSignature;
+  senderSignature: Signature | null;
 }

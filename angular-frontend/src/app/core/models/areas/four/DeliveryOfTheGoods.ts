@@ -6,12 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {LogisticsLocationName} from "./LogisticsLocationName";
-import {LogisticsCountry} from "./LogisticsCountry";
-import {LogisticsLocationOpeningHours} from "./LogisticsLocationOpeningHours";
-
 export interface DeliveryOfTheGoods {
-  logisticsLocationName: LogisticsLocationName;
-  logisticsCountry: LogisticsCountry;
-  logisticsLocationOpeningHours: LogisticsLocationOpeningHours;
+  logisticsLocationCity: string | null;
+  logisticsLocationOpeningHours: string | null;
 }

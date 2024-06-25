@@ -6,8 +6,6 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {SupplyChainConsignmentItemGrossVolume} from "./SupplyChainConsignmentItemGrossVolume";
-
 export interface VolumeInM3 {
-  supplyChainConsignmentItemGrossVolume: SupplyChainConsignmentItemGrossVolume;
+  supplyChainConsignmentItemGrossVolume: number | null;
 }

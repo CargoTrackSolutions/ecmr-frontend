@@ -28,6 +28,10 @@ $dark-theme: mat.define-dark-theme((
 
 @include mat.all-component-themes($light-theme);
 
+.mat-mdc-unelevated-button.mat-primary{
+        color: #fff!important;
+}
+
 .dark-theme{
         @include mat.all-component-themes($dark-theme);
 }

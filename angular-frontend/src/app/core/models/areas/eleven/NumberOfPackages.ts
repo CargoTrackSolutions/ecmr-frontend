@@ -6,8 +6,6 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {LogisticsPackageItemQuantity} from "./LogisticsPackageItemQuantity";
-
 export interface NumberOfPackages {
-  logisticsPackageItemQuantity: LogisticsPackageItemQuantity;
+  logisticsPackageItemQuantity: number | null;
 }

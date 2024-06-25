@@ -6,8 +6,6 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {CustomSpecialAgreement} from "./CustomSpecialAgreement";
-
 export interface SpecialAgreementsSenderCarrier{
-  customSpecialAgreement: CustomSpecialAgreement;
+  customSpecialAgreement: string | null;
 }

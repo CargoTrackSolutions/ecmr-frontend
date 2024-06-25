@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-export interface Established {
-  customEstablishedDate: Date | null;
-  customEstablishedIn: string | null;
+export interface SenderContactInformation {
+    email: string | null;
+    phone: string | null;
 }

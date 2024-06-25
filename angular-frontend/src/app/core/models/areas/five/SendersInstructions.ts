@@ -6,8 +6,6 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {TransportInstructionsDescription} from "./TransportInstructionsDescription";
-
 export interface SendersInstructions {
-  transportInstructionsDescription: TransportInstructionsDescription;
+  transportInstructionsDescription: string | null;
 }

@@ -6,16 +6,15 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {ConsigneeNameCompany} from "./ConsigneeNameCompany";
-import {ConsigneeNamePerson} from "./ConsigneeNamePerson";
-import {ConsigneePostcode} from "./ConsigneePostcode";
-import {ConsigneeCity} from "./ConsigneeCity";
-import {ConsigneeCountryCode} from "./ConsigneeCountryCode";
+import { ConsigneeContactInformation } from './ConsigneeContactInformation';
+import { ConsigneeCountryCode } from './ConsigneeCountryCode';
 
 export interface ConsigneeInformation {
-  consigneeNameCompany: ConsigneeNameCompany;
-  consigneeNamePerson: ConsigneeNamePerson;
-  consigneePostcode: ConsigneePostcode;
-  consigneeCity: ConsigneeCity;
-  consigneeCountry: ConsigneeCountryCode;
+  consigneeNameCompany: string | null;
+  consigneeNamePerson: string | null;
+  consigneeStreet: string | null;
+  consigneePostcode: string | null;
+  consigneeCity: string | null;
+  consigneeCountryCode: ConsigneeCountryCode;
+  consigneeContactInformation: ConsigneeContactInformation;
 }

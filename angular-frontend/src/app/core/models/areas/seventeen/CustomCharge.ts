@@ -6,7 +6,10 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-export interface Established {
-  customEstablishedDate: Date | null;
-  customEstablishedIn: string | null;
+import { PayerType } from '../../../enums/PayerType';
+
+export interface CustomCharge {
+    value: number | null;
+    currency: string | null;
+    payer: PayerType | null;
 }

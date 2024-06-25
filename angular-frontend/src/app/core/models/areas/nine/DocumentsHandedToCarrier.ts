@@ -6,8 +6,6 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {DocumentsRemarks} from "./DocumentsRemarks";
-
 export interface DocumentsHandedToCarrier {
-  documentsRemarks: DocumentsRemarks;
+  documentsRemarks: string | null;
 }

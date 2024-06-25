@@ -60,3 +60,13 @@ body {
   background-color: mat.get-color-from-palette($my-primary, 500);
 }
 
+app-ecmr-editor ::-webkit-scrollbar-thumb{
+  border-radius: 5px;
+  cursor: pointer;
+  background: mat.get-color-from-palette($my-primary, 500);
+}
+
+app-ecmr-editor ::-webkit-scrollbar-thumb:hover {
+  background: mat.get-color-from-palette($my-accent, 500);
+}
+

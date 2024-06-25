@@ -6,10 +6,9 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {CarrierReservationsObservations} from './CarrierReservationsObservations';
-import {SenderReservationsObservationsSignature} from "./SenderReservationsObservationsSignature";
+import { Signature } from '../signature/Signature';
 
 export interface CarriersReservationsAndObservationsOnTakingOverTheGoods {
-  carrierReservationsObservations: CarrierReservationsObservations;
-  senderReservationsObservationsSignature: SenderReservationsObservationsSignature;
+  carrierReservationsObservations: string | null;
+  senderReservationsObservationsSignature: Signature | null;
 }

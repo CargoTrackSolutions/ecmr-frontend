@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {CarrierSignature} from "./CarrierSignature";
+import { Signature } from '../signature/Signature';
 
 export interface SignatureOrStampOfTheCarrier {
-  carrierSignature: CarrierSignature;
+  carrierSignature: Signature | null;
 }

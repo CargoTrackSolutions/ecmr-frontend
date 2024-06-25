@@ -6,18 +6,13 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {ConfirmedLogisticsLocationName} from "./ConfirmedLogisticsLocationName";
-import {ConsigneeReservationsObservations} from "./ConsigneeReservationsObservations";
-import {ConsigneeSignature} from "./ConsigneeSignature";
-import {ConsigneeSignatureDate} from "./ConsigneeSignatureDate";
-import {ConsigneeTimeOfArrival} from "./ConsigneeTimeOfArrival";
-import {ConsigneeTimeOfDeparture} from "./ConsigneeTimeOfDeparture";
+import { Signature } from '../signature/Signature';
 
 export interface GoodsReceived {
-  confirmedLogisticsLocationName: ConfirmedLogisticsLocationName;
-  consigneeReservationsObservations: ConsigneeReservationsObservations;
-  consigneeSignature: ConsigneeSignature;
-  consigneeSignatureDate: ConsigneeSignatureDate;
-  consigneeTimeOfArrival: ConsigneeTimeOfArrival;
-  consigneeTimeOfDeparture: ConsigneeTimeOfDeparture;
+  confirmedLogisticsLocationName: string | null;
+  consigneeReservationsObservations: string | null;
+  consigneeSignature: Signature | null;
+  consigneeSignatureDate: Date | null;
+  consigneeTimeOfArrival: Date | null;
+  consigneeTimeOfDeparture: Date | null;
 }

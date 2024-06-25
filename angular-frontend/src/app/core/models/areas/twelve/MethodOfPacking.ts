@@ -6,8 +6,6 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {LogisticsPackageType} from "./LogisticsPackageType";
-
 export type MethodOfPacking = {
-  logisticsPackageType: LogisticsPackageType;
+  logisticsPackageType: string | null;
 }

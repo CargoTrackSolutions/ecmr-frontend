@@ -8,7 +8,7 @@
 
 export interface SenderCountryCode {
   // region or state within the country of the sender
-  region: string;
+  region: string | null;
   // ISO 3166-1 Country Code
-  value: string;
+  value: string | null;
 }

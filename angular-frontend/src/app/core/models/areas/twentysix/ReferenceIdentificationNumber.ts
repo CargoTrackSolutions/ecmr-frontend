@@ -7,5 +7,5 @@
  */
 
 export interface ReferenceIdentificationNumber {
-  value: string;
+  value: string | null;
 }

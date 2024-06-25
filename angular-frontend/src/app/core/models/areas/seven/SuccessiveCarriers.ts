@@ -6,23 +6,18 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {SuccessiveCarrierCity} from "./SuccessiveCarrierCity";
-import {SuccessiveCarrierCountry} from "./SuccessiveCarrierCountry";
-import {SuccessiveCarrierName} from "./SuccessiveCarrierName";
-import {SuccessiveCarrierPersonName} from "./SuccessiveCarrierPersonName";
-import {SuccessiveCarrierPostcode} from "./SuccessiveCarrierPostcode";
-import {SuccessiveCarrierSignature} from "./SuccessiveCarrierSignature";
-import {SuccessiveCarrierSignatureDate} from "./SuccessiveCarrierSignatureDate";
-import {SuccessiveCarrierStreetName} from "./SuccessiveCarrierStreetName";
+import { Signature } from '../signature/Signature';
+import { SuccessiveCarrierContactInformation } from './SuccessiveCarrierContactInformation';
+import { SuccessiveCarrierCountryCode } from './SuccessiveCarrierCountryCode';
 
-export interface SuccessiveCarriers {
-  successiveCarrierCity: SuccessiveCarrierCity;
-  successiveCarrierCountry: SuccessiveCarrierCountry;
-  successiveCarrierName: SuccessiveCarrierName;
-  successiveCarrierPersonName: SuccessiveCarrierPersonName;
-  successiveCarrierPostcode: SuccessiveCarrierPostcode;
-  successiveCarrierSignature: SuccessiveCarrierSignature;
-  successiveCarrierSignatureDate: SuccessiveCarrierSignatureDate;
-  successiveCarrierStreetName: SuccessiveCarrierStreetName;
-
+export interface SuccessiveCarrierInformation {
+  successiveCarrierCity: string | null;
+  successiveCarrierCountryCode: SuccessiveCarrierCountryCode;
+  successiveCarrierName: string | null;
+  successiveCarrierPersonName: string | null;
+  successiveCarrierPostcode: string | null;
+  successiveCarrierSignature: Signature | null;
+  successiveCarrierSignatureDate: Date | null;
+  successiveCarrierStreetName: string | null;
+  successiveCarrierContactInformation: SuccessiveCarrierContactInformation;
 }

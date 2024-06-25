@@ -6,18 +6,15 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {SenderNameCompany} from "./SenderNameCompany";
-import {SenderNamePerson} from "./SenderNamePerson";
-import {SenderStreet} from "./SenderStreet";
-import {SenderPostcode} from "./SenderPostcode";
-import {SenderCity} from "./SenderCity";
-import {SenderCountryCode} from "./SenderCountryCode";
+import { SenderContactInformation } from './SenderContactInformation';
+import { SenderCountryCode } from './SenderCountryCode';
 
 export interface SenderInformation {
-  senderNameCompany: SenderNameCompany;
-  senderNamePerson: SenderNamePerson;
-  senderStreet: SenderStreet;
-  senderPostcode: SenderPostcode;
-  senderCity: SenderCity;
-  senderCountry: SenderCountryCode;
+  senderNameCompany: string | null;
+  senderNamePerson: string | null;
+  senderStreet: string | null;
+  senderPostcode: string | null;
+  senderCity: string | null;
+  senderCountryCode: SenderCountryCode;
+  senderContactInformation: SenderContactInformation;
 }

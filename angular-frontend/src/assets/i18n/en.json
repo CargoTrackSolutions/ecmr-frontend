@@ -3,6 +3,14 @@
   "general": {
     "apply_button": "Apply"
   },
+  "common": {
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "save": "Save"
+  },
+  "error": {
+    "required": "Field must not be empty"
+  },
   "menu": {
     "overview": "eCMR Overview",
     "templates": "Templates",
@@ -36,5 +44,136 @@
     "columns_settings": {
       "configure_columns": "Configure Columns"
     }
+  },
+  "ecmr_editor": {
+    "create_new_title": "Create new eCMR",
+    "edit_title": "Edit eCMR",
+    "load_from_template": "Load From Template",
+    "save_as_template": "Save as Template",
+    "sign": "Sign",
+    "reference_id": "Reference ID",
+    "user_guides_and_docs": "User Guide & Docs",
+    "title_1": "1. Sender (name, address, country)",
+    "sender": {
+      "name": "Name",
+      "person_name": "Person Name",
+      "street_name": "Street Name",
+      "post_code": "Post Code",
+      "city_name": "City Name",
+      "country": "Country"
+    },
+    "title_2": "2. Consignee (name, address, country)",
+    "consignee": {
+      "name": "Name",
+      "person_name": "Person Name",
+      "street_name": "Street Name",
+      "post_code": "Post Code",
+      "city_name": "City Name",
+      "country": "Country"
+    },
+    "title_3": "3. Taking over the Goods",
+    "taking_over_the_goods": {
+      "place": "Place",
+      "time_of_arrival": "Time of Arrival",
+      "time_of_departure": "Time of Departure"
+    },
+    "title_4": "4. Delivery of the Goods",
+    "delivery_of_the_goods": {
+      "place": "Place",
+      "opening_hours": "Opening Hours"
+    },
+    "title_5": "5. Sender's instructions",
+    "senders_instruction": {
+      "description": "Description"
+    },
+    "title_6": "6. Carrier (name, address, country, other references)",
+    "carrier_information": {
+      "name": "Name",
+      "person_name": "Person Name",
+      "street_name": "Street Name",
+      "post_code": "Post Code",
+      "city_name": "City Name",
+      "country": "Country",
+      "license_plate": "License Plate"
+    },
+    "title_7": "7. Successive Carriers",
+    "successive_carriers": {
+      "name": "Name",
+      "person_name": "Person Name",
+      "street_name": "Street Name",
+      "post_code": "Post Code",
+      "city_name": "City Name",
+      "country": "Country",
+      "date": "Date",
+      "signature": "Signature"
+    },
+    "title_8": "8. Carrier's reservations and observations on taking over the goods",
+    "carriers_reservations": {
+      "reservation_and_observation": "Reservation and Observation"
+    },
+    "title_9": "9. Documents handed to the carrier by the sender",
+    "documents_handed_to_carrier": {
+      "remarks": "Remarks"
+    },
+    "title_10": "10. Marks and Nos",
+    "marks_and_nos": {
+      "marking_text": "Marking Text",
+      "barcode_number": "Barcode Number"
+    },
+    "title_11": "11. Number of packages",
+    "number_of_packages": {
+      "item_quantity": "Item Quantity"
+    },
+    "title_12": "12. Method of packing" ,
+    "method_of_packing": {
+      "type_text": "Type Text"
+    },
+    "title_13": "13. Nature of goods",
+    "nature_of_goods": {
+      "identification_text": "Identification Text"
+    },
+    "title_14": "14. Gross weight in Kg",
+    "gross_weight_in_kg": {
+      "gross_weight": "Gross Weight"
+    },
+    "title_15": "15. Volume in m³",
+    "volume_in_m3": {
+      "volume": "Volume"
+    },
+    "add_item": "Add Item",
+    "title_16": "16. Special agreements between the sender and carrier",
+    "special_agreements_sen_carr": {
+      "special_agreements": "Special Agreements"
+    },
+    "title_17": "17. To be paid by",
+    "to_be_paid_by": {
+      "carriage_charges": "Carriage Charges",
+      "currency":  "Currency",
+      "payer": "Payer",
+      "supplementary_charges": "Supplementary Charges",
+      "custom_duties_charges": "Customs Duties",
+      "other_charges": "Other Charges"
+    },
+    "title_18": "18. Other useful particulars",
+    "other_useful_particulars": {
+      "particulars": "Particulars"
+    },
+    "title_19": "19. Cash on delivery",
+    "cash_on_delivery": {
+      "particulars": "Particulars"
+    },
+    "title_20": "20. This carriage is subject, notwithstanding any clause to the contrary, to the Convention on the Contract for the international Carriage of Goods by Road",
+    "title_21": "21. Established",
+    "established": {
+      "in": "In",
+      "on": "On"
+    },
+    "title_22": "22. Signature or Stamp of the sender",
+    "title_23": "23. Signature or Stamp of the carrier",
+    "title_24": "24. Goods received",
+    "non_contractual_part_reserved_for_the_carrier": "Non-contractual part reserved for the carrier",
+    "remarks": "Remarks",
+    "email": "Email",
+    "phone": "Phone"
   }
 }

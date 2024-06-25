@@ -6,14 +6,11 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {CustomChargeCarriage} from "./CustomChargeCarriage";
-import {CustomChargeSupplementary} from "./CustomChargeSupplementary";
-import {CustomChargeCustomsDuties} from "./CustomChargeCustomsDuties";
-import {CustomChargeOther} from "./CustomChargeOther";
+import { CustomCharge } from './CustomCharge';
 
 export interface ToBePaidBy {
-  customChargeCarriage: CustomChargeCarriage;
-  customChargeSupplementary: CustomChargeSupplementary;
-  customChargeCustomsDuties: CustomChargeCustomsDuties;
-  customChargeOther: CustomChargeOther;
+  customChargeCarriage: CustomCharge;
+  customChargeSupplementary: CustomCharge;
+  customChargeCustomsDuties: CustomCharge;
+  customChargeOther: CustomCharge;
 }

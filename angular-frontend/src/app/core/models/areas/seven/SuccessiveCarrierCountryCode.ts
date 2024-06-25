@@ -6,7 +6,9 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-export interface Established {
-  customEstablishedDate: Date | null;
-  customEstablishedIn: string | null;
+export interface SuccessiveCarrierCountryCode {
+  // region or state within the country of the sender
+  region: string | null;
+  // ISO 3166-1 Country Code
+  value: string | null;
 }

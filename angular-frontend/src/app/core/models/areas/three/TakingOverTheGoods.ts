@@ -6,16 +6,8 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {LogisticsTakingOverTheGoods} from "./LogisticsTakingOverTheGoods";
-import {LogisticsTakingOverTheGoodsCountry} from "./LogisticsTakingOverTheGoodsCountry";
-import {LogisticsEventActualOccurrence} from "./LogisticsEventActualOccurrence";
-import {LogisticsTimeOfArrivalDate} from "./LogisticsTimeOfArrivalDate";
-import {LogisticsTimeOfDepartureDate} from "./LogisticsTimeOfDepartureDate";
-
 export interface TakingOverTheGoods {
-  logisticsTakingOverTheGoods: LogisticsTakingOverTheGoods;
-  logisticsTakingOverTheGoodsCountry: LogisticsTakingOverTheGoodsCountry;
-  logisticsEventActualOccurrence: LogisticsEventActualOccurrence;
-  logisticsTimeOfArrivalDate: LogisticsTimeOfArrivalDate;
-  logisticsTimeOfDepartureDate: LogisticsTimeOfDepartureDate;
+  takingOverTheGoodsPlace: string | null;
+  logisticsTimeOfArrivalDateTime: Date | null;
+  logisticsTimeOfDepartureDateTime: Date | null;
 }

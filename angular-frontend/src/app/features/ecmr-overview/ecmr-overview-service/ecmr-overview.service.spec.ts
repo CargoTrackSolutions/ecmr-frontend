@@ -9,12 +9,16 @@
 import {TestBed} from '@angular/core/testing';
 
 import {EcmrOverviewService} from './ecmr-overview.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('EcmrOverviewService', () => {
   let service: EcmrOverviewService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [EcmrOverviewService]
+    });
     service = TestBed.inject(EcmrOverviewService);
   });
 

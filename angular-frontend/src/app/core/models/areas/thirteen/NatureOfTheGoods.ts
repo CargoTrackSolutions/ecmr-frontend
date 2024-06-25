@@ -6,8 +6,6 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {TransportCargoIdentification} from "./TransportCargoIdentification";
-
 export interface NatureOfTheGoods {
-  transportCargoIdentification: TransportCargoIdentification;
+  transportCargoIdentification: string | null;
 }

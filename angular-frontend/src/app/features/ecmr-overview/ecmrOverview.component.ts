@@ -41,7 +41,6 @@ import {
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
 import {MatDialog, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
-import {EcmrCreationDialogComponent} from "./dialog/creation/ecmr-creation-dialog.component";
 import {EcmrImportDialogComponent} from "./dialog/import/ecmr-import-dialog.component";
 import {MatTooltip} from "@angular/material/tooltip";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -54,6 +53,7 @@ import {MatDivider} from "@angular/material/divider";
 import {EcmrData} from "../../core/models/EcmrData";
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
 import {TranslateModule} from "@ngx-translate/core";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-overview',
@@ -143,14 +143,15 @@ export class EcmrOverviewComponent implements AfterViewInit, OnInit {
 
   toggledColumns = [this.showRefId, this.showFrom, this.showTo, this.showTransportType, this.showLastEditor, this.showStatus, this.showLastEditDate, this.showCreationDate];
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, public snackbar: MatSnackBar, public overviewService: EcmrOverviewService) {
+  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, public snackbar: MatSnackBar, public overviewService: EcmrOverviewService, private router: Router) {
   }
 
   @ViewChild(MatSort) sort: MatSort = new MatSort();
 
   ngOnInit() {
-    this.overviewService.initializeData();
-    this.dataSource = new MatTableDataSource(this.overviewService.getData());
+    this.overviewService.getAllEcmr().subscribe(data => {
+      this.dataSource = new MatTableDataSource(data);
+    })
   }
 
   ngAfterViewInit() {
@@ -158,7 +159,7 @@ export class EcmrOverviewComponent implements AfterViewInit, OnInit {
   }
 
   showDetailsForEcmrAtIndex(index: number) {
-    this.selectedEcmr = this.overviewService.getData()[index];
+    this.selectedEcmr = this.dataSource.data[index];
     this.showDetails = true;
   }
 
@@ -177,19 +178,19 @@ export class EcmrOverviewComponent implements AfterViewInit, OnInit {
         case 'referenceId':
           return compare(a.ecmrConsignment.referenceIdentificationNumber.value, b.ecmrConsignment.referenceIdentificationNumber.value, isAsc);
         case 'from':
-          return compare(a.ecmrConsignment.senderInformation.senderNameCompany.value, b.ecmrConsignment.senderInformation.senderNameCompany.value, isAsc);
+          return compare(a.ecmrConsignment.senderInformation.senderNameCompany, b.ecmrConsignment.senderInformation.senderNameCompany, isAsc);
         case 'to':
-          return compare(a.ecmrConsignment.consigneeInformation.consigneeNameCompany.value, b.ecmrConsignment.consigneeInformation.consigneeNameCompany.value, isAsc);
+          return compare(a.ecmrConsignment.consigneeInformation.consigneeNameCompany, b.ecmrConsignment.consigneeInformation.consigneeNameCompany, isAsc);
         case 'transportType':
-          return compare(a.ecmrConsignment.sendersInstructions.transportInstructionsDescription.value, b.ecmrConsignment.sendersInstructions.transportInstructionsDescription.value, isAsc);
+          return compare(a.ecmrConsignment.sendersInstructions.transportInstructionsDescription, b.ecmrConsignment.sendersInstructions.transportInstructionsDescription, isAsc);
         case 'lastEditor':
-          return compare(a.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.value.userName, b.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.value.userName, isAsc);
+          return compare(a.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.userName, b.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.userName, isAsc);
         case 'status':
-          return compare(a.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.carrierReservationsObservations.value, b.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.carrierReservationsObservations.value, isAsc);
+          return compare(a.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.carrierReservationsObservations, b.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.carrierReservationsObservations, isAsc);
         case 'lastEditDate':
-          return compare(a.ecmrConsignment.successiveCarriers.successiveCarrierSignatureDate.value, b.ecmrConsignment.successiveCarriers.successiveCarrierSignatureDate.value, isAsc);
+          return compare(a.ecmrConsignment.successiveCarrierInformation.successiveCarrierSignatureDate!, b.ecmrConsignment.successiveCarrierInformation.successiveCarrierSignatureDate!, isAsc);
         case 'creationDate':
-          return compare(a.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.value.timestamp, b.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.value.timestamp, isAsc);
+          return compare(a.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.timestamp, b.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.timestamp, isAsc);
         default:
           return 0;
       }
@@ -260,9 +261,8 @@ export class EcmrOverviewComponent implements AfterViewInit, OnInit {
 
   }
 
-  // TODO: implement Create-function for eCMR
   createNewEcmr() {
-    this.dialog.open(EcmrCreationDialogComponent);
+    this.router.navigateByUrl('/ecmr-editor');
   }
 
   // TODO: implement Import-function for eCMR
@@ -275,9 +275,8 @@ export class EcmrOverviewComponent implements AfterViewInit, OnInit {
     this.snackbar.open('Not implemented yet.', '', {duration: 3000});
   }
 
-  // TODO: implement Edit-function for eCMR
-  editEcmr() {
-    this.snackbar.open('Not implemented yet.', '', {duration: 3000});
+  editEcmr(ecmrId: string) {
+    if(ecmrId) this.router.navigateByUrl(`/ecmr-editor/${ecmrId}`);
   }
 
   // TODO: implement Delete-function for eCMR
@@ -298,6 +297,9 @@ export class EcmrOverviewComponent implements AfterViewInit, OnInit {
   protected readonly JSON = JSON;
 }
 
-function compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+function compare(a: number | string | Date | null, b: number | string | Date | null, isAsc: boolean) {
+  if(a && b){
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  return 0
 }

@@ -3,6 +3,11 @@
   "general": {
     "apply_button": "Annehmen"
   },
+  "common": {
+    "cancel": "Abbrechen",
+    "reset": "Zurücksetzen",
+    "save": "Speichern"
+  },
   "menu": {
     "overview": "eCMR Übersicht",
     "templates": "Vorlagen",
@@ -36,5 +41,129 @@
     "columns_settings": {
       "configure_columns": "Spalten konfigurieren"
     }
+  },
+  "ecmr_editor": {
+    "create_new_title": "Neuer eCMR",
+    "edit_title": "Bearbeite eCMR",
+    "load_from_template": "Lade von Template",
+    "save_as_template": "Speichern als Template",
+    "sign": "Unterschreiben",
+    "reference_id": "Referenz ID",
+    "user_guides_and_docs": "Benutzerhandbuch & Docs",
+    "title_1": "1. Sender (Name, Adresse, Land)",
+    "sender": {
+      "name": "Name",
+      "person_name": "Personenname",
+      "street_name": "Staßenname",
+      "post_code": "Postleitzahl",
+      "city_name": "Stadtname",
+      "country": "Land"
+    },
+    "title_2": "2. Empfgänger (Name, Adresse, Land)",
+    "consignee": {
+      "name": "Name",
+      "person_name": "Personenname",
+      "street_name": "Staßenname",
+      "post_code": "Postleitzahl",
+      "city_name": "Stadtname",
+      "country": "Land"
+    },
+    "title_3": "3. Übernahme der Güter",
+    "taking_over_the_goods": {
+      "place": "Standort",
+      "time_of_arrival": "Ankunftszeit",
+      "time_of_departure": "Abfahrzeit"
+    },
+    "title_4": "4. Lieferung der Güter",
+    "delivery_of_the_goods": {
+      "place": "Standort",
+      "opening_hours": "Öffnungszeiten"
+    },
+    "title_5": "5. Anweisungen des Absenders",
+    "senders_instruction": {
+      "description": "Beschreibung"
+    },
+    "title_6": "6. Transporteur (Name, Adresse, Land, Andere Referenzen)",
+    "carrier_information": {
+      "name": "Name",
+      "person_name": "Personenname",
+      "street_name": "Staßenname",
+      "post_code": "Postleitzahl",
+      "city_name": "Stadtname",
+      "country": "Land",
+      "license_plate": "Nummernschild"
+    },
+    "title_7": "7. Nachfolgende Transporteure",
+    "successive_carriers": {
+      "name": "Name",
+      "person_name": "Personenname",
+      "street_name": "Staßenname",
+      "post_code": "Postleitzahl",
+      "city_name": "Stadtname",
+      "country": "Land",
+      "date": "Datum",
+      "signature": "Unterschrift"
+    },
+    "title_8": "8. Vorbehalte und Bemerkungen des Frachtführers bei der Übernahme des Gutes",
+    "carriers_reservations": {
+      "reservation_and_observation": "Vorbehalte und Bemerkungen"
+    },
+    "title_9": "9. Dokumente, die dem Frachtführer vom Absender übergeben werden",
+    "documents_handed_to_carrier": {
+      "remarks": "Bemerkungen"
+    },
+    "title_10": "10. Marks and Nos",
+    "marks_and_nos": {
+      "marking_text": "Marking Text",
+      "barcode_number": "Barcode Number"
+    },
+    "title_11": "11. Number of packages",
+    "number_of_packages": {
+      "item_quantity": "Item Quantity"
+    },
+    "title_12": "12. Method of packing" ,
+    "method_of_packing": {
+      "type_text": "Type Text"
+    },
+    "title_13": "13. Nature of goods",
+    "nature_of_goods": {
+      "identification_text": "Identification Text"
+    },
+    "title_14": "14. Gross weight in Kg",
+    "gross_weight_in_kg": {
+      "gross_weight": "Gross Weight"
+    },
+    "title_15": "15. Volume in m³",
+    "volume_in_m3": {
+      "volume": "Volume"
+    },
+    "add_item": "Add Item",
+    "title_16": "16. Besondere Vereinbarungen zwischen dem Absender und dem Beförderer",
+    "special_agreements_sen_carr": {
+      "special_agreements": "Besondere Vereinbarungen"
+    },
+    "title_17": "17. Zu zahlen von",
+    "carriers_reservation_on_taking_over": {
+
+    },
+    "title_18": "18. Andere nützliche Angaben",
+    "other_useful_particulars": {
+      "particulars": "Angaben"
+    },
+    "title_19": "19. Cash on delivery",
+    "cash_on_delivery": {
+      "particulars": "Angaben"
+    },
+    "title_20": "20. Dieser Transport unterliegt, ungeachtet einer gegenteiligen Klausel, dem Übereinkommen über den Beförderungsvertrag im internationalen Straßengüterverkehr",
+    "title_21": "21. Established",
+    "established": {
+      "in": "In",
+      "on": "On"
+    },
+    "title_22": "22. Unterschrift oder Stempel des Absenders",
+    "title_23": "23. Unterschrift oder Stempel des Transporteur",
+    "title_24": "24. Waren erhalten",
+    "non_contractual_part_reserved_for_the_carrier": "Non-contractual part reserved for the carrier",
+    "remarks": "Bemerkungen"
   }
 }
