@@ -7,6 +7,7 @@
  */
 
 export const environment = {
-    production: true,
-    backendUrl: 'http://localhost:8080/api'
-}
+  production: true,
+  // @ts-expect-error: No other possibility?
+  backendUrl: window["env"]["BACKEND_API_URL"] || "https://BACKEND_API_URL.environment-variable.not-set",
+};
