@@ -1,7 +1,9 @@
 {
   "title": "eCMR Service",
   "general": {
-    "apply_button": "Apply"
+    "apply_button": "Apply",
+    "snackbar_action": "Close",
+    "snackbar_error": "An error occurred. Please try again later."
   },
   "common": {
     "cancel": "Cancel",
@@ -21,7 +23,7 @@
   },
   "overview": {
     "title": "Overview",
-    "search" : "Search",
+    "search": "Search",
     "create_new": "Create new",
     "import": "Import",
     "table_header": {
@@ -43,7 +45,8 @@
     },
     "columns_settings": {
       "configure_columns": "Configure Columns"
-    }
+    },
+    "confirmation_message": "Are you sure you want to move this eCMR to the archive?"
   },
   "ecmr_editor": {
     "create_new_title": "Create new eCMR",
@@ -124,7 +127,7 @@
     "number_of_packages": {
       "item_quantity": "Item Quantity"
     },
-    "title_12": "12. Method of packing" ,
+    "title_12": "12. Method of packing",
     "method_of_packing": {
       "type_text": "Type Text"
     },
@@ -148,7 +151,7 @@
     "title_17": "17. To be paid by",
     "to_be_paid_by": {
       "carriage_charges": "Carriage Charges",
-      "currency":  "Currency",
+      "currency": "Currency",
       "payer": "Payer",
       "supplementary_charges": "Supplementary Charges",
       "custom_duties_charges": "Customs Duties",
@@ -175,5 +178,15 @@
     "remarks": "Remarks",
     "email": "Email",
     "phone": "Phone"
+  },
+  "archive": {
+    "title": "Archive",
+    "search": "Search",
+    "confirmation_message": "Are you sure you want to remove this eCMR from the archive?"
+  },
+  "confirmation": {
+    "title": "Confirmation",
+    "accept": "Accept",
+    "cancel": "Cancel"
   }
 }

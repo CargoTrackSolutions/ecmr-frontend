@@ -6,20 +6,20 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {EcmrOverviewService} from './ecmr-overview.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { EcmrService } from './ecmr.service';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
-describe('EcmrOverviewService', () => {
-  let service: EcmrOverviewService;
+describe('EcmrService', () => {
+  let service: EcmrService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [EcmrOverviewService]
+      providers: [EcmrService]
     });
-    service = TestBed.inject(EcmrOverviewService);
+    service = TestBed.inject(EcmrService);
   });
 
   it('should be created', () => {

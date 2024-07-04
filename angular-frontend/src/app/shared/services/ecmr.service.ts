@@ -7,14 +7,15 @@
  */
 
 import { Injectable } from '@angular/core';
-import { EcmrData } from '../../../core/models/EcmrData';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
+import {HttpClient} from "@angular/common/http";
+import {EcmrData} from "../../core/models/EcmrData";
+import {environment} from "../../../environments/environment.development";
+import {EcmrType} from "../../core/models/EcmrType";
 
 @Injectable({
   providedIn: 'root'
 })
-export class EcmrOverviewService {
+export class EcmrService {
 
   static ecmrId = 0;
 
@@ -24,6 +25,21 @@ export class EcmrOverviewService {
 
   getAllEcmr() {
     return this.http.get<EcmrData[]>(`${environment.backendUrl}/ecmr`)
+  }
+
+  getAllArchivedEcmr() {
+    const params = {'type': EcmrType[EcmrType.ARCHIVED]}
+    return this.http.get<EcmrData[]>(`${environment.backendUrl}/ecmr`, {params: params})
+  }
+
+  moveToArchive(ecmrId: string){
+    const params = {'type':  EcmrType[EcmrType.ARCHIVED]}
+    return this.http.patch<EcmrData>(`${environment.backendUrl}/ecmr/${ecmrId}`, {}, {params: params})
+  }
+
+  moveOutOfArchive(ecmrId: string){
+    const params = {'type':  EcmrType[EcmrType.ECMR]}
+    return this.http.patch<EcmrData>(`${environment.backendUrl}/ecmr/${ecmrId}`, {}, {params: params})
   }
 
   // ecmrDataToEcmrElement(ecmrData: EcmrData): EcmrElement {

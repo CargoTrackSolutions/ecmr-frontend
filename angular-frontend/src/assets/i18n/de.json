@@ -1,7 +1,9 @@
 {
   "title": "eCMR Service",
   "general": {
-    "apply_button": "Annehmen"
+    "apply_button": "Annehmen",
+    "snackbar_action": "Schließen",
+    "snackbar_error": "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal."
   },
   "common": {
     "cancel": "Abbrechen",
@@ -40,7 +42,8 @@
     },
     "columns_settings": {
       "configure_columns": "Spalten konfigurieren"
-    }
+    },
+    "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR in das Archiv verschieben wollen?"
   },
   "ecmr_editor": {
     "create_new_title": "Neuer eCMR",
@@ -165,5 +168,15 @@
     "title_24": "24. Waren erhalten",
     "non_contractual_part_reserved_for_the_carrier": "Non-contractual part reserved for the carrier",
     "remarks": "Bemerkungen"
+  },
+  "archive": {
+    "title": "Archiv",
+    "search": "Suchen",
+    "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR aus dem Archiv entfernen wollen?"
+  },
+  "confirmation": {
+    "title": "Bestätigung",
+    "accept": "Bestätigen",
+    "cancel": "Abbrechen"
   }
 }

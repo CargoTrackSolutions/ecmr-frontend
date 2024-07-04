@@ -1,0 +1,13 @@
+<section>
+  <h2> {{'confirmation.title' | translate }} </h2>
+
+  <mat-dialog-content>
+    <p>{{ data.text }}</p>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-stroked-button (click)="close(true)">{{'confirmation.accept' | translate }}</button>
+    <button mat-stroked-button (click)="close(false)">{{'confirmation.cancel' | translate }}</button>
+  </mat-dialog-actions>
+
+</section>

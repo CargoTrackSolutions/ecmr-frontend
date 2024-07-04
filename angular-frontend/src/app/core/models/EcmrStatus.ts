@@ -6,11 +6,9 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {EcmrConsignment} from "./EcmrConsignment";
-import {EcmrStatus} from "./EcmrStatus";
-
-export interface EcmrData {
-  ecmrId: string | null;
-  ecmrConsignment: EcmrConsignment;
-  ecmrStatus?: EcmrStatus;
+export enum EcmrStatus {
+  NEW,
+  LOADING,
+  IN_TRANSPORT,
+  ARRIVED_AT_DESTINATION
 }

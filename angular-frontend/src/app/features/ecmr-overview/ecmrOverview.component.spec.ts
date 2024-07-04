@@ -48,19 +48,19 @@ import { MatCard, MatCardContent } from '@angular/material/card';
 import { CdkScrollable } from '@angular/cdk/overlay';
 import { MatDivider } from '@angular/material/divider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EcmrOverviewService } from './ecmr-overview-service/ecmr-overview.service';
 import { EcmrData } from '../../core/models/EcmrData';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../app.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { PayerType } from '../../core/enums/PayerType';
 import { of } from 'rxjs';
+import {EcmrService} from "../../shared/services/ecmr.service";
 
 describe('OverviewComponent', () => {
     let component: EcmrOverviewComponent;
     let fixture: ComponentFixture<EcmrOverviewComponent>;
 
-    const overviewServiceSpy = jasmine.createSpyObj('EcmrOverviewService', ['getAllEcmr']);
+    const ecmrServiceSpy = jasmine.createSpyObj('EcmrService', ['getAllEcmr']);
 
     const testEcmr: EcmrData = {
         ecmrId: 'FhG-IML-504',
@@ -315,12 +315,12 @@ describe('OverviewComponent', () => {
                     }),
                 ],
                 providers: [
-                    {provide: EcmrOverviewService, useValue: overviewServiceSpy}
+                    {provide: EcmrService, useValue: ecmrServiceSpy}
                 ]
             })
                 .compileComponents();
 
-            overviewServiceSpy.getAllEcmr.and.returnValue(of([testEcmr]));
+            ecmrServiceSpy.getAllEcmr.and.returnValue(of([testEcmr]));
 
             fixture = TestBed.createComponent(EcmrOverviewComponent);
             component = fixture.componentInstance;
@@ -335,25 +335,9 @@ describe('OverviewComponent', () => {
 
     it('should initialize data', () => {
         component.ngOnInit();
-        expect(overviewServiceSpy.getAllEcmr).toHaveBeenCalled();
+        expect(ecmrServiceSpy.getAllEcmr).toHaveBeenCalled();
     });
 
-    it('should show ecmr details', () => {
-        component.showDetailsForEcmrAtIndex(1)
-        expect(component.showDetails).toBeTrue()
 
-        component.closeDetailsView()
-        expect(component.showDetails).toBeFalse()
-    });
-
-    it('should hide columns', () => {
-        expect(component.toggledColumns[0]).toBeTrue()
-        component.toggleColumnAtIndex(0)
-        expect(component.toggledColumns[0]).toBeFalse()
-
-        const displayedCols = component.displayedColumns.length
-        component.updateColumns()
-        expect(component.displayedColumns.length < displayedCols).toBeTrue()
-    });
 })
 ;
