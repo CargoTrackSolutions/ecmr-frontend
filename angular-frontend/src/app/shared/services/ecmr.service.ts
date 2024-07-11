@@ -7,77 +7,120 @@
  */
 
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {EcmrData} from "../../core/models/EcmrData";
-import {environment} from "../../../environments/environment.development";
-import {EcmrType} from "../../core/models/EcmrType";
+import { HttpClient } from '@angular/common/http';
+import { EcmrType } from '../../core/models/EcmrType';
+import { Ecmr } from '../../core/models/Ecmr';
+import { ShowColumns } from '../../features/ecmr-overview/show-columns';
+import { FilterRequest } from '../../features/ecmr-overview/filter-request';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class EcmrService {
 
-  static ecmrId = 0;
+    static ecmrId = 0;
 
-  constructor(private http: HttpClient) {
-  }
+    constructor(private http: HttpClient) {
+    }
 
+    getAllEcmr() {
+        return this.http.get<Ecmr[]>(`${environment.backendUrl}/ecmr`)
+    }
 
-  getAllEcmr() {
-    return this.http.get<EcmrData[]>(`${environment.backendUrl}/ecmr`)
-  }
+    saveDisplayedColumns(columns: string[]) {
+        const columnString: string = JSON.stringify(columns);
+        localStorage.setItem('columns', columnString);
+    }
 
-  getAllArchivedEcmr() {
-    const params = {'type': EcmrType[EcmrType.ARCHIVED]}
-    return this.http.get<EcmrData[]>(`${environment.backendUrl}/ecmr`, {params: params})
-  }
+    saveShowColumns(showColumns: ShowColumns) {
+        const columnString: string = JSON.stringify(showColumns);
+        localStorage.setItem('showColumns', columnString);
+    }
 
-  moveToArchive(ecmrId: string){
-    const params = {'type':  EcmrType[EcmrType.ARCHIVED]}
-    return this.http.patch<EcmrData>(`${environment.backendUrl}/ecmr/${ecmrId}`, {}, {params: params})
-  }
+    saveFilterRequest(filterRequest: FilterRequest) {
+        const filterString: string = JSON.stringify(filterRequest);
+        localStorage.setItem('filterRequest', filterString);
+    }
 
-  moveOutOfArchive(ecmrId: string){
-    const params = {'type':  EcmrType[EcmrType.ECMR]}
-    return this.http.patch<EcmrData>(`${environment.backendUrl}/ecmr/${ecmrId}`, {}, {params: params})
-  }
+    getDisplayedColumns(): string[] | null {
+        const columnString: string | null = localStorage.getItem('columns');
+        if (columnString) {
+            return JSON.parse(columnString)
+        } else {
+            return null
+        }
+    }
 
-  // ecmrDataToEcmrElement(ecmrData: EcmrData): EcmrElement {
-  //   EcmrOverviewService.ecmrId++;
-  //   return {
-  //     id: EcmrOverviewService.ecmrId.toString(),
-  //     referenceId: ecmrData.ecmrId,
-  //     from: ecmrData.ecmrConsignment.senderInformation.senderNameCompany,
-  //     to: ecmrData.ecmrConsignment.consigneeInformation.consigneeNameCompany,
-  //     transportType: TransportType.International,
-  //     lastEditor: ecmrData.ecmrConsignment.senderInformation.senderNamePerson,
-  //     status: Status.NEW,
-  //     lastEditDate: ecmrData.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.timestamp.toString(),
-  //     creationDate: ecmrData.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.timestamp.toString()
-  //   }
-  // }
+    getShowColumns(): ShowColumns | null {
+        const columnString: string | null = localStorage.getItem('showColumns');
+        if (columnString) {
+            return JSON.parse(columnString)
+        } else {
+            return null
+        }
+    }
+
+    getFilterRequest(): FilterRequest | null {
+        const filterString: string | null = localStorage.getItem('filterRequest');
+        if (filterString) {
+            return JSON.parse(filterString)
+        } else {
+            return null
+        }
+    }
+
+    getAllArchivedEcmr() {
+        const params = {'type': EcmrType[EcmrType.ARCHIVED]}
+        return this.http.get<Ecmr[]>(`${environment.backendUrl}/ecmr`, {params: params})
+    }
+
+    moveToArchive(ecmrId: string) {
+        const params = {'type': EcmrType[EcmrType.ARCHIVED]}
+        return this.http.patch<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}`, {}, {params: params})
+    }
+
+    moveOutOfArchive(ecmrId: string) {
+        const params = {'type': EcmrType[EcmrType.ECMR]}
+        return this.http.patch<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}`, {}, {params: params})
+    }
+
+    // EcmrToEcmrElement(Ecmr: Ecmr): EcmrElement {
+    //   EcmrOverviewService.ecmrId++;
+    //   return {
+    //     id: EcmrOverviewService.ecmrId.toString(),
+    //     referenceId: Ecmr.ecmrId,
+    //     from: Ecmr.ecmrConsignment.senderInformation.senderNameCompany,
+    //     to: Ecmr.ecmrConsignment.consigneeInformation.consigneeNameCompany,
+    //     transportType: TransportType.International,
+    //     lastEditor: Ecmr.ecmrConsignment.senderInformation.senderNamePerson,
+    //     status: Status.NEW,
+    //     lastEditDate: Ecmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.timestamp.toString(),
+    //     creationDate: Ecmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.timestamp.toString()
+    //   }
+    // }
 }
 
 export interface EcmrElement {
-  id: string;
-  referenceId: string;
-  from: string;
-  to: string;
-  transportType: TransportType;
-  lastEditor: string;
-  status: Status;
-  lastEditDate: string;
-  creationDate: string;
+    id: string;
+    referenceId: string;
+    from: string;
+    to: string;
+    transportType: TransportType;
+    lastEditor: string;
+    status: Status;
+    lastEditDate: string;
+    creationDate: string;
 }
 
 enum Status {
-  NEW = "New",
-  LOADING = "Loading",
-  IN_TRANSPORT = "In Transport",
-  ARRIVED_AT_DESTINATION = "Arrived at destination"
+    NEW = 'New',
+    LOADING = 'Loading',
+    IN_TRANSPORT = 'In Transport',
+    ARRIVED_AT_DESTINATION = 'Arrived at destination'
 }
 
 enum TransportType {
-  National = "national",
-  International = "international"
+    National = 'national',
+    International = 'international'
 }

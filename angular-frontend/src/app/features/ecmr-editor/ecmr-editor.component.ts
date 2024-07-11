@@ -28,7 +28,7 @@ import { EcmrConsignment } from '../../core/models/EcmrConsignment';
 import { TranslateModule } from '@ngx-translate/core';
 import { Signature } from '../../core/models/areas/signature/Signature';
 import { EcmrEditorService } from './ecmr-editor-service/ecmr-editor.service';
-import { EcmrData } from '../../core/models/EcmrData';
+import { Ecmr } from '../../core/models/Ecmr';
 import { PayerType } from '../../core/enums/PayerType';
 import { MatSelect } from '@angular/material/select';
 
@@ -293,8 +293,7 @@ export class EcmrEditorComponent implements OnInit {
         });
 
         if (this.isEdit) {
-            this.ecmrEditorService.getEcmr(this.id).subscribe(data =>{
-                console.log(data.ecmrConsignment);
+            this.ecmrEditorService.getEcmr(this.id).subscribe(data => {
                 this.ecmrConsignment = data.ecmrConsignment;
                 this.ecmrConsignmentFormGroup.controls.itemList.controls = []
                 this.ecmrConsignment.itemList.forEach(() => {
@@ -335,7 +334,7 @@ export class EcmrEditorComponent implements OnInit {
      * Filter function for country autocomplete fields
      */
     private _filter(value: string): string[] {
-        if(value){
+        if (value) {
             const filteredValue: string = value.toUpperCase();
             return this.countries.filter(option =>
                 option.includes(filteredValue)
@@ -346,18 +345,16 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     saveEcmr() {
-        console.log(this.ecmrConsignmentFormGroup.getRawValue());
-
         if (this.ecmrConsignmentFormGroup.valid && !this.isEdit) {
             const formValue: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
-            const ecmr: EcmrData = {
+            const ecmr: Ecmr = {
                 ecmrId: null,
                 ecmrConsignment: formValue
             }
             this.ecmrEditorService.saveEcmr(ecmr).subscribe(() => {
                 this.returnToOverview()
             })
-        } else if(this.ecmrConsignmentFormGroup.valid && this.isEdit){
+        } else if (this.ecmrConsignmentFormGroup.valid && this.isEdit) {
             //TODO implement save on edit
         }
     }
@@ -405,6 +402,6 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     returnToOverview() {
-        this.router.navigate(["/ecmr-overview"])
+        this.router.navigate(['/ecmr-overview'])
     }
 }

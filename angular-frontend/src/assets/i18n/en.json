@@ -31,10 +31,24 @@
       "from": "From",
       "to": "To",
       "transport_type": "Transport Type",
+      "transport_types": {
+        "national": "National",
+        "international": "International"
+      },
       "last_editor": "Last Editor",
       "status": "Status",
+      "ecmr_status": {
+        "new": "New",
+        "loading": "Loading",
+        "in_transport": "In Transport",
+        "arrived_at_destination": "Arrived At Destination"
+      },
       "last_edit_date": "Last Edit Date",
-      "creation_date": "Creation Date"
+      "creation_date": "Creation Date",
+      "license_plate": "License Plate",
+      "carrier_name": "Carrier Name",
+      "carrier_post_code": "Carrier Post Code",
+      "consignee_post_code": "Consignee Post Code"
     },
     "tooltips": {
       "share": "Share eCMR",

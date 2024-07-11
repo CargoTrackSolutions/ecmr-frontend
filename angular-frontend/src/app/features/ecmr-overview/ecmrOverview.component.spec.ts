@@ -48,7 +48,7 @@ import { MatCard, MatCardContent } from '@angular/material/card';
 import { CdkScrollable } from '@angular/cdk/overlay';
 import { MatDivider } from '@angular/material/divider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EcmrData } from '../../core/models/EcmrData';
+import { Ecmr } from '../../core/models/Ecmr';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../app.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -60,9 +60,9 @@ describe('OverviewComponent', () => {
     let component: EcmrOverviewComponent;
     let fixture: ComponentFixture<EcmrOverviewComponent>;
 
-    const ecmrServiceSpy = jasmine.createSpyObj('EcmrService', ['getAllEcmr']);
+    const ecmrServiceSpy = jasmine.createSpyObj('EcmrService', ['getAllEcmr', 'getShowColumns', 'getDisplayedColumns', 'getFilterRequest']);
 
-    const testEcmr: EcmrData = {
+    const testEcmr: Ecmr = {
         ecmrId: 'FhG-IML-504',
         ecmrConsignment: {
             senderInformation: {

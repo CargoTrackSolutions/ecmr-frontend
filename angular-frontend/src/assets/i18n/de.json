@@ -28,8 +28,18 @@
       "from": "Von",
       "to": "Nach",
       "transport_type": "Transportart",
+      "transport_types": {
+        "national": "National",
+        "international": "International"
+      },
       "last_editor": "zuletzt bearbeitet von",
       "status": "Status",
+      "ecmr_status": {
+        "new": "New",
+        "loading": "Loading",
+        "in_transport": "In Transport",
+        "arrived_at_destination": "Arrived At Destination"
+      },
       "last_edit_date": "zuletzt bearbeitet am",
       "creation_date": "erstellt am"
     },

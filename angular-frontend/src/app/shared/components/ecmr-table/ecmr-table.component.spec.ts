@@ -60,6 +60,6 @@ describe('EcmrTableComponent', () => {
 
     const displayedCols = component.displayedColumns.length
     component.updateColumns()
-    expect(component.displayedColumns.length < displayedCols).toBeTrue()
+    expect(component.columns.length > displayedCols).toBeTrue()
   });
 });
