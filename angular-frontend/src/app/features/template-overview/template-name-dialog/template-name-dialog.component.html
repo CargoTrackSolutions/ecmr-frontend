@@ -1,0 +1,17 @@
+<h1 mat-dialog-title class="h1">{{ 'ecmr_editor.save_as_template' | translate }}</h1>
+<mat-dialog-content [formGroup]="templateNameDialogFormGroup">
+    <mat-form-field>
+        <mat-label>{{ 'ecmr_editor.template_name' | translate }}</mat-label>
+        <input formControlName="templateName" required matInput>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-flat-button color="warn" (click)="closeDialog()">
+        {{ 'common.cancel' | translate }}
+        <mat-icon>close</mat-icon>
+    </button>
+    <button mat-flat-button color="primary" (click)="saveTemplateName()" [disabled]="!this.templateNameDialogFormGroup.valid">
+        {{ 'common.save' | translate }}
+        <mat-icon>save</mat-icon>
+    </button>
+</mat-dialog-actions>

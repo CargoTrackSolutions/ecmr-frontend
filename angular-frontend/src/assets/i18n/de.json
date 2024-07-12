@@ -8,7 +8,10 @@
   "common": {
     "cancel": "Abbrechen",
     "reset": "Zurücksetzen",
-    "save": "Speichern"
+    "save": "Speichern",
+    "edit": "Bearbeiten",
+    "close": "Schließen",
+    "share": "Teilen"
   },
   "menu": {
     "overview": "eCMR Übersicht",
@@ -48,18 +51,30 @@
       "guest_access": "Gastzugang",
       "edit": "Bearbeiten",
       "history": "Historie",
-      "delete": "Löschen"
+      "delete": "Löschen",
+      "delete_template": "Vorlage löschen"
     },
     "columns_settings": {
       "configure_columns": "Spalten konfigurieren"
     },
     "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR in das Archiv verschieben wollen?"
   },
+  "template_overview": {
+    "title": "Vorlagen Übersicht",
+    "table_header": {
+      "number": "Nummer",
+      "name": "Name"
+    },
+    "load_from_template_header": "Daten aus Vorlage laden",
+    "load_selected": "Auswahl laden",
+    "delete_template_dialog_text": "Sind Sie sicher, dass Sie die Vorlage löschen wollen? Diese kann nicht wiederhergestellt werden!"
+  },
   "ecmr_editor": {
     "create_new_title": "Neuer eCMR",
     "edit_title": "Bearbeite eCMR",
-    "load_from_template": "Lade von Template",
-    "save_as_template": "Speichern als Template",
+    "load_from_template": "Aus Vorlage laden",
+    "save_as_template": "Speichern als Vorlage",
+    "template_name": "Vorlagen Name",
     "sign": "Unterschreiben",
     "reference_id": "Referenz ID",
     "user_guides_and_docs": "Benutzerhandbuch & Docs",

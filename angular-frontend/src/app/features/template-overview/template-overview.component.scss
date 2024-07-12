@@ -1,0 +1,64 @@
+.search-bar-container {
+  position: sticky;
+  left: 85%;
+}
+
+#icons span{
+  visibility: hidden;
+}
+
+#icons:hover span{
+  visibility: visible;
+}
+
+.search-bar-input {
+  margin-top: 20px;
+  width: 450px;
+}
+
+.search-bar-button {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.icon-button {
+  text-align: center;
+  min-width: 48px;
+  min-height: 48px;
+}
+
+.ecmr-overview-table {
+  min-width: 100%;
+  position: sticky;
+}
+
+.ecmr-overview-table-container {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+#quick-view-container{
+  position: fixed;
+  z-index: 5;
+  right: 0;
+  width: 35%;
+  height: 10%
+}
+
+mat-card-content{
+  overflow: scroll;
+  height: 90vh
+}
+
+#column-selection{
+  position: absolute;
+  width: 250px;
+  z-index: 5;
+}
+
+#rows{
+  cursor:pointer
+}
+

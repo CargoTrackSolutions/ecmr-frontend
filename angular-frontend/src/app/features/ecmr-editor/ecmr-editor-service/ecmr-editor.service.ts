@@ -11,6 +11,7 @@ import { EcmrConsignment } from '../../../core/models/EcmrConsignment';
 import { Ecmr } from '../../../core/models/Ecmr';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { TemplateUser } from '../../../core/models/TemplateUser';
 
 
 @Injectable({
@@ -27,6 +28,18 @@ export class EcmrEditorService {
 
     getEcmr(ecmrId: string) {
         return this.http.get<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}`)
+    }
+
+    getTemplate(templateId: number) {
+        return this.http.get<TemplateUser>(`${environment.backendUrl}/template/${templateId}`)
+    }
+
+    saveTemplate(ecmr: Ecmr, name: string) {
+        return this.http.post<TemplateUser>(`${environment.backendUrl}/template`, ecmr, {params: {'name': name}})
+    }
+
+    updateTemplate(template: TemplateUser) {
+        return this.http.patch<TemplateUser>(`${environment.backendUrl}/template`,template);
     }
 
     createEmptyEcmrConsignment(): EcmrConsignment {

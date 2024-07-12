@@ -3,10 +3,16 @@
         <button mat-icon-button *ngIf="isMobile" color="primary" (click)="returnToOverview()">
             <mat-icon>arrow_back</mat-icon>
         </button>
-        @if (isEdit) {
+        @if (isEdit && !isTemplate) {
             <h6>{{ "ecmr_editor.edit_title" | translate }}</h6>
-        } @else {
+        } @else if(!isEdit && !isTemplate) {
             <h6>{{ "ecmr_editor.create_new_title" | translate }}</h6>
+        }
+
+        @if (isEdit && isTemplate) {
+            <h6>{{ "ecmr_editor.template.edit_title" | translate }}</h6>
+        } @else if(!isEdit && isTemplate) {
+            <h6>{{ "ecmr_editor.template.create_new_title" | translate }}</h6>
         }
     </div>
     @if (!isMobile) {
@@ -19,22 +25,22 @@
                 <mat-icon>restart_alt</mat-icon>
                 {{ "common.reset" | translate }}
             </button>
-            <button mat-stroked-button color="primary">
+            <button mat-stroked-button color="primary" (click)="loadFromTemplate()" *ngIf="(!isEdit && isTemplate) || !isTemplate">
                 <mat-icon iconPositionEnd>upload_file</mat-icon>
                 {{ "ecmr_editor.load_from_template" | translate }}
             </button>
-            <button mat-flat-button color="primary" (click)="saveEcmr()">
+            <button mat-flat-button color="primary" (click)="isTemplate ? saveTemplate() : saveEcmr()">
                 <mat-icon iconPositionEnd>save</mat-icon>
                 {{ "common.save" | translate }}
             </button>
-            <button mat-flat-button color="primary">
+            <button mat-flat-button color="primary" *ngIf="!isTemplate" (click)="saveTemplate()">
                 <mat-icon iconPositionEnd>description</mat-icon>
                 {{ "ecmr_editor.save_as_template" | translate }}
             </button>
         </div>
     } @else {
         <div class="d-flex flex-row gap-2 align-items-center">
-            <button mat-flat-button color="primary">
+            <button mat-flat-button color="primary" *ngIf="!isTemplate">
                 <mat-icon iconPositionEnd>edit</mat-icon>
                 {{ "ecmr_editor.sign" | translate }}
             </button>
@@ -45,13 +51,13 @@
                 <button mat-menu-item (click)="resetForm()" *ngIf="!isEdit">
                     {{ "common.reset" | translate }}
                 </button>
-                <button mat-menu-item>
+                <button mat-menu-item (click)="loadFromTemplate()" *ngIf="(!isEdit && isTemplate) || !isTemplate">
                     {{ "ecmr_editor.load_from_template" | translate }}
                 </button>
-                <button mat-menu-item (click)="saveEcmr()">
+                <button mat-menu-item (click)="isTemplate ? saveTemplate() : saveEcmr()">
                     {{ "common.save" | translate }}
                 </button>
-                <button mat-menu-item>
+                <button mat-menu-item *ngIf="!isTemplate" (click)="saveTemplate()">
                     {{ "ecmr_editor.save_as_template" | translate }}
                 </button>
             </mat-menu>
@@ -79,7 +85,7 @@
                         </mat-form-field>
                     </div>
                     <div class="d-flex flex-grow-1 flex-row gap-3 w-50 justify-content-end flex-wrap" *ngIf="!isMobile">
-                        <button mat-flat-button color="primary">
+                        <button mat-flat-button color="primary" *ngIf="!isTemplate">
                             <mat-icon iconPositionEnd>edit</mat-icon>
                             {{ "ecmr_editor.sign" | translate }}
                         </button>
@@ -566,7 +572,7 @@
                             <!-- Area 22 -->
 
                             <h6>{{ "ecmr_editor.title_22" | translate }}</h6>
-                            <button mat-flat-button color="primary">
+                            <button mat-flat-button color="primary" *ngIf="!isTemplate">
                                 Sign
                                 <mat-icon iconPositionEnd>sign</mat-icon>
                             </button>
@@ -574,7 +580,7 @@
                             <!-- Area 23 -->
 
                             <h6>{{ "ecmr_editor.title_23" | translate }}</h6>
-                            <button mat-flat-button color="primary">
+                            <button mat-flat-button color="primary" *ngIf="!isTemplate">
                                 Sign
                                 <mat-icon iconPositionEnd>sign</mat-icon>
                             </button>
@@ -598,7 +604,7 @@
                                     <mat-datepicker-toggle matIconSuffix [for]="consigneeSignatureDatePicker"></mat-datepicker-toggle>
                                 </mat-form-field>
                             </div>
-                            <button mat-flat-button color="primary">
+                            <button mat-flat-button color="primary" *ngIf="!isTemplate">
                                 Sign
                                 <mat-icon iconPositionEnd>sign</mat-icon>
                             </button>

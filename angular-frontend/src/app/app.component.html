@@ -29,9 +29,9 @@
                matRipple>
                 <app-ecmr-icon></app-ecmr-icon>
             </a>
-            <a class="sidenav__icon" tabindex="0" (click)="navigateTo('ecmr-templates-overview')"
-               (keyup.enter)="navigateTo('ecmr-templates-overview')"
-               [routerLink]="['/ecmr-templates-overview']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
+            <a class="sidenav__icon" tabindex="0" (click)="navigateTo('templates-overview')"
+               (keyup.enter)="navigateTo('templates-overview')"
+               [routerLink]="['/templates-overview']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
             true}"
                matRipple>
                 <app-ecmr-template-icon></app-ecmr-template-icon>
@@ -58,9 +58,9 @@
                         {{'menu.overview' | translate }}
                     </a>
                     <a class="sidenav-container__icon-container" matRipple
-                       tabindex="0" (click)="navigateTo('ecmr-templates-overview')"
-                       (keyup.enter)="navigateTo('ecmr-templates-overview')"
-                       [routerLink]="['/ecmr-templates-overview']">
+                       tabindex="0" (click)="navigateTo('templates-overview')"
+                       (keyup.enter)="navigateTo('templates-overview')"
+                       [routerLink]="['/templates-overview']">
                         <div class="sidenav__icon" *ngIf="isMobile">
                             <app-ecmr-template-icon></app-ecmr-template-icon>
                         </div>

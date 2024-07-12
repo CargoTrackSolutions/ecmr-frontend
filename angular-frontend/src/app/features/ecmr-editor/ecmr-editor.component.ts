@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 import { CountryCode } from '../../core/enums/CountryCode';
-import { map, Observable, startWith, Subscription } from 'rxjs';
+import { filter, map, Observable, startWith, Subscription, switchMap } from 'rxjs';
 import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
@@ -31,6 +31,10 @@ import { EcmrEditorService } from './ecmr-editor-service/ecmr-editor.service';
 import { Ecmr } from '../../core/models/Ecmr';
 import { PayerType } from '../../core/enums/PayerType';
 import { MatSelect } from '@angular/material/select';
+import { MatDialog } from '@angular/material/dialog';
+import { TemplateNameDialogComponent } from '../template-overview/template-name-dialog/template-name-dialog.component';
+import { LoadFromTemplateDialogComponent } from '../template-overview/load-from-template-dialog/load-from-template-dialog.component';
+import { TemplateUser } from '../../core/models/TemplateUser';
 
 @Component({
     selector: 'app-ecmr-editor',
@@ -72,10 +76,12 @@ export class EcmrEditorComponent implements OnInit {
     breakpointSubscription: Subscription | undefined;
 
     isEdit: boolean = false;
+    isTemplate: boolean = false;
 
     @ViewChild(MatAccordion) accordion: MatAccordion;
 
     ecmrConsignment: EcmrConsignment;
+    loadedTemplate: TemplateUser;
 
     payerType: PayerType[] = Object.values(PayerType);
 
@@ -276,7 +282,8 @@ export class EcmrEditorComponent implements OnInit {
     constructor(private breakpointObserver: BreakpointObserver,
                 private router: Router,
                 private ecmrEditorService: EcmrEditorService,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                public matDialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -287,24 +294,14 @@ export class EcmrEditorComponent implements OnInit {
             this.isMobile = result.matches;
         });
 
+        this.isTemplate = this.route.snapshot.url.join('/').includes('template-editor');
+
         this.sub = this.route.params.subscribe(params => {
             this.id = params['id'];
             if (this.id) this.isEdit = true;
         });
 
-        if (this.isEdit) {
-            this.ecmrEditorService.getEcmr(this.id).subscribe(data => {
-                this.ecmrConsignment = data.ecmrConsignment;
-                this.ecmrConsignmentFormGroup.controls.itemList.controls = []
-                this.ecmrConsignment.itemList.forEach(() => {
-                    this.addNewItem();
-                })
-                this.ecmrConsignmentFormGroup.patchValue(this.ecmrConsignment)
-                this.ecmrConsignmentFormGroup.controls.referenceIdentificationNumber.disable()
-            })
-        } else {
-            this.ecmrConsignment = this.ecmrEditorService.createEmptyEcmrConsignment();
-        }
+        this.initializeForm();
 
         // Initialize Country Autocomplete Form Fields
         const formGroupControl = this.ecmrConsignmentFormGroup.controls;
@@ -344,6 +341,34 @@ export class EcmrEditorComponent implements OnInit {
         }
     }
 
+    private initializeForm() {
+        if (this.isEdit) {
+            if (!this.isTemplate) {
+                this.ecmrEditorService.getEcmr(this.id).subscribe(data => {
+                    this.ecmrConsignment = data.ecmrConsignment;
+                    this.ecmrConsignmentFormGroup.controls.itemList.controls = []
+                    this.ecmrConsignment.itemList.forEach(() => {
+                        this.addNewItem();
+                    })
+                    this.ecmrConsignmentFormGroup.patchValue(this.ecmrConsignment)
+                    this.ecmrConsignmentFormGroup.controls.referenceIdentificationNumber.disable()
+                })
+            } else {
+                this.ecmrEditorService.getTemplate(Number.parseFloat(this.id)).subscribe(data => {
+                    this.loadedTemplate = data;
+                    this.ecmrConsignment = data.ecmr.ecmrConsignment;
+                    this.ecmrConsignmentFormGroup.controls.itemList.controls = []
+                    this.ecmrConsignment.itemList.forEach(() => {
+                        this.addNewItem();
+                    })
+                    this.ecmrConsignmentFormGroup.patchValue(this.ecmrConsignment)
+                })
+            }
+        } else {
+            this.ecmrConsignment = this.ecmrEditorService.createEmptyEcmrConsignment();
+        }
+    }
+
     saveEcmr() {
         if (this.ecmrConsignmentFormGroup.valid && !this.isEdit) {
             const formValue: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
@@ -357,6 +382,49 @@ export class EcmrEditorComponent implements OnInit {
         } else if (this.ecmrConsignmentFormGroup.valid && this.isEdit) {
             //TODO implement save on edit
         }
+    }
+
+    saveTemplate() {
+        if (this.ecmrConsignmentFormGroup.valid && !this.isEdit || !this.loadedTemplate || !this.isTemplate) {
+            this.matDialog.open(TemplateNameDialogComponent, {
+                minWidth: '350px'
+            }).afterClosed().pipe(
+                filter(dialogResult => dialogResult),
+                switchMap(dialogResult => {
+                    const formValues: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
+                    const ecmr: Ecmr = {
+                        ecmrId: null,
+                        ecmrConsignment: formValues
+                    }
+                    return this.ecmrEditorService.saveTemplate(ecmr, dialogResult);
+                })
+            ).subscribe(() => {
+                this.returnToOverview()
+            });
+        } else {
+            this.loadedTemplate.ecmr.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
+            this.ecmrEditorService.updateTemplate(this.loadedTemplate).subscribe(() => {
+                this.returnToOverview()
+            })
+        }
+    }
+
+    loadFromTemplate() {
+        this.matDialog.open(LoadFromTemplateDialogComponent, {
+            width: '90%'
+        })
+            .afterClosed()
+            .subscribe(dialogResult => {
+                if (dialogResult) {
+                    this.loadedTemplate = dialogResult;
+                    this.ecmrConsignment = dialogResult.ecmr.ecmrConsignment;
+                    this.ecmrConsignmentFormGroup.controls.itemList.controls = []
+                    this.ecmrConsignment.itemList.forEach(() => {
+                        this.addNewItem();
+                    })
+                    this.ecmrConsignmentFormGroup.patchValue(this.ecmrConsignment)
+                }
+            });
     }
 
     resetForm() {
@@ -402,6 +470,11 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     returnToOverview() {
-        this.router.navigate(['/ecmr-overview'])
+        if (!this.isTemplate) {
+            this.router.navigate(['/ecmr-overview'])
+        } else {
+            this.router.navigate(['/templates-overview'])
+        }
+
     }
 }

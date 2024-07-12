@@ -8,7 +8,10 @@
   "common": {
     "cancel": "Cancel",
     "reset": "Reset",
-    "save": "Save"
+    "save": "Save",
+    "edit": "Edit",
+    "close": "Close",
+    "share": "Share"
   },
   "error": {
     "required": "Field must not be empty"
@@ -55,18 +58,30 @@
       "guest_access": "Guest Access",
       "edit": "Edit",
       "history": "History",
-      "delete": "Delete eCMR"
+      "delete": "Delete eCMR",
+      "delete_template": "Delete Template"
     },
     "columns_settings": {
       "configure_columns": "Configure Columns"
     },
     "confirmation_message": "Are you sure you want to move this eCMR to the archive?"
   },
+  "template_overview": {
+    "title": "Templates Overview",
+    "table_header": {
+      "number": "Number",
+      "name": "Name"
+    },
+    "load_from_template_header": "Load Data from Template",
+    "load_selected": "Load selected",
+    "delete_template_dialog_text": "Are you sure you want to delete this Template? This cannot be undone!"
+  },
   "ecmr_editor": {
     "create_new_title": "Create new eCMR",
     "edit_title": "Edit eCMR",
     "load_from_template": "Load From Template",
     "save_as_template": "Save as Template",
+    "template_name": "Template Name",
     "sign": "Sign",
     "reference_id": "Reference ID",
     "user_guides_and_docs": "User Guide & Docs",
@@ -191,7 +206,11 @@
     "non_contractual_part_reserved_for_the_carrier": "Non-contractual part reserved for the carrier",
     "remarks": "Remarks",
     "email": "Email",
-    "phone": "Phone"
+    "phone": "Phone",
+    "template": {
+      "edit_title": "Edit Template",
+      "create_new_title": "Create Template"
+    }
   },
   "archive": {
     "title": "Archive",

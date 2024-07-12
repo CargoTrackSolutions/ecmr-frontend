@@ -1,0 +1,192 @@
+<article>
+    <section>
+        <mat-toolbar>
+            <mat-toolbar-row>
+                <mat-label>{{ 'template_overview.title' | translate }}</mat-label>
+                <div class="search-bar-container">
+                    <mat-form-field class="search-bar-input">
+                        <input matInput placeholder="{{'overview.search' | translate}}">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+
+                    <button mat-flat-button class="search-bar-button" color="primary" (click)="createNewTemplate()">
+                        <mat-icon iconPositionEnd>add</mat-icon>
+                        {{ 'overview.create_new' | translate }}
+                    </button>
+                </div>
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <div class="ecmr-overview-table-container">
+            <div class="position-absolute d-flex align-content-end" *ngIf="showDetails">
+                <div id="quick-view-container">
+                    <mat-card>
+                        <mat-card-content>
+                            <button class="m-1" mat-flat-button (click)="closeDetailsView()" color="warn">
+                                {{'common.close' | translate}}
+                                <mat-icon iconPositionEnd>close</mat-icon>
+                            </button>
+                            <button class="m-1" mat-flat-button color="primary" (click)="editTemplate(selectedTemplate!)">
+                                {{'common.edit' | translate}}
+                                <mat-icon iconPositionEnd>edit_note</mat-icon>
+                            </button>
+                            <button class="m-1" mat-stroked-button>
+                                {{'common.share' | translate}}
+                                <mat-icon iconPositionEnd>share</mat-icon>
+                            </button>
+                            <mat-divider></mat-divider>
+                            <h3>To be implemented.</h3>
+                            <br>
+                            <span>This is the detail view that will contain an overview of the selected ecmr.</span>
+                            <br>
+                            <br>
+                            <span>{{ JSON.stringify(selectedTemplate) }}</span>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+
+            <!-- Overview of eCMRs -->
+            <table class="ecmr-overview-table" mat-table [dataSource]="dataSource" matSort
+                   (matSortChange)="sortData($event)"
+                   cdkDropList
+                   cdkDropListOrientation="horizontal"
+                   (cdkDropListDropped)="tableDrop($event)">
+
+                <!-- ID Column used to display icon buttons -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <button mat-icon-button (click)="toggleColumnSelectionMenu()">
+                            <mat-icon>tune</mat-icon>
+                        </button>
+                        <ng-container *ngIf="showColumSelection">
+                            <mat-card id="column-selection">
+                                <button mat-stroked-button (click)="updateColumns()">{{ 'overview.columns_settings.configure_columns' | translate }}
+                                    <mat-icon color="primary">close</mat-icon>
+                                </button>
+                                <mat-checkbox [checked]="toggledColumns[0]"
+                                              (change)="toggleColumnAtIndex(0)">{{ 'template_overview.table_header.number' | translate }}
+                                </mat-checkbox>
+                                <mat-checkbox [checked]="toggledColumns[1]"
+                                              (change)="toggleColumnAtIndex(1)">{{ 'template_overview.table_header.name' | translate }}
+                                </mat-checkbox>
+                                <mat-checkbox [checked]="toggledColumns[2]"
+                                              (change)="toggleColumnAtIndex(2)">{{ 'overview.table_header.ref_id' | translate }}
+                                </mat-checkbox>
+                                <mat-checkbox [checked]="toggledColumns[3]"
+                                              (change)="toggleColumnAtIndex(3)">{{ 'overview.table_header.from' | translate }}
+                                </mat-checkbox>
+                                <mat-checkbox [checked]="toggledColumns[4]"
+                                              (change)="toggleColumnAtIndex(4)">{{ 'overview.table_header.to' | translate }}
+                                </mat-checkbox>
+                                <div class="mx-auto">
+                                    <button mat-flat-button color="primary" class="m-3"
+                                            (click)="updateColumns()">{{ 'general.apply_button' | translate }}
+                                        <mat-icon iconPositionEnd>check</mat-icon>
+                                    </button>
+                                </div>
+                            </mat-card>
+                        </ng-container>
+                        <button mat-icon-button (click)="toggleFilterListIcon()">
+                            <mat-icon>{{ getFilterListIcon() }}</mat-icon>
+                        </button>
+                    </th>
+                    <td id="icons" mat-cell *matCellDef="let templateUser; let i = index;">
+          <span>
+          <button mat-icon-button (click)="shareTemplate()" matTooltip="{{'overview.tooltips.share' | translate}}">
+            <mat-icon>share</mat-icon>
+          </button>
+          <button mat-icon-button (click)="editTemplate(templateUser)" matTooltip="{{'overview.tooltips.edit' | translate}}">
+            <mat-icon>edit_note</mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteTemplate(templateUser)" matTooltip="{{'overview.tooltips.delete_template' | translate}}">
+            <mat-icon color="warn">close</mat-icon>
+          </button>
+            </span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="number">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
+                        cdkDragBoundary="mat-header-row">
+                        <div class="my-3">
+                            <span class="float-start fw-bold">{{ 'template_overview.table_header.number' | translate }}</span>
+                            <br>
+                            <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                                <input matInput>
+                            </mat-form-field>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let templateUser; let i = index;"
+                        (click)="showDetailsForTemplateAtIndex(i)">{{ templateUser.templateUserNumber }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
+                        cdkDragBoundary="mat-header-row">
+                        <div class="my-3">
+                            <span class="float-start fw-bold">{{ 'template_overview.table_header.name' | translate }}</span>
+                            <br>
+                            <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                                <input matInput>
+                            </mat-form-field>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let templateUser; let i = index;"
+                        (click)="showDetailsForTemplateAtIndex(i)">{{ templateUser.name }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="refId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
+                        cdkDragBoundary="mat-header-row">
+                        <div class="my-3">
+                            <span class="float-start fw-bold">{{ 'overview.table_header.ref_id' | translate }}</span>
+                            <br>
+                            <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                                <input matInput>
+                            </mat-form-field>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let templateUser; let i = index;"
+                        (click)="showDetailsForTemplateAtIndex(i)">{{ templateUser.ecmr.ecmrConsignment.referenceIdentificationNumber.value }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="from">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
+                        cdkDragBoundary="mat-header-row">
+                        <div class="my-3">
+                            <span class="float-start fw-bold">{{ 'overview.table_header.from' | translate }}</span>
+                            <br>
+                            <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                                <input matInput>
+                            </mat-form-field>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let templateUser; let i = index;"
+                        (click)="showDetailsForTemplateAtIndex(i)">{{ templateUser.ecmr.ecmrConsignment.senderInformation.senderNameCompany }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="to">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
+                        cdkDragBoundary="mat-header-row">
+                        <div class="my-3">
+                            <span class="float-start fw-bold">{{ 'overview.table_header.to' | translate }}</span>
+                            <br>
+                            <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                                <input matInput>
+                            </mat-form-field>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let templateUser; let i = index;"
+                        (click)="showDetailsForTemplateAtIndex(i)">{{ templateUser.ecmr.ecmrConsignment.consigneeInformation.consigneeNameCompany }}
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;" id="rows"
+                ></tr>
+            </table>
+        </div>
+    </section>
+</article>
