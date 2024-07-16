@@ -122,8 +122,8 @@
       "license_plate": "Nummernschild"
     },
     "title_7": "7. Nachfolgende Transporteure",
-    "successive_carriers": {
-      "name": "Name",
+    "successive_carrier_information": {
+      "name": "Unternehmensname",
       "person_name": "Personenname",
       "street_name": "Staßenname",
       "post_code": "Postleitzahl",

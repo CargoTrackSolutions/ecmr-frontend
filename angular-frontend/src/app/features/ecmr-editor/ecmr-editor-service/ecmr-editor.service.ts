@@ -108,12 +108,12 @@ export class EcmrEditorService {
                     value: null,
                     region: null
                 },
-                successiveCarrierName: null,
-                successiveCarrierPersonName: null,
+                successiveCarrierNameCompany: null,
+                successiveCarrierNamePerson: null,
                 successiveCarrierPostcode: null,
                 successiveCarrierSignature: null,
                 successiveCarrierSignatureDate: null,
-                successiveCarrierStreetName: null,
+                successiveCarrierStreet: null,
                 successiveCarrierContactInformation: {
                     email: null,
                     phone: null

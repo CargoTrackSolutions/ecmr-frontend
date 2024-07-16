@@ -324,29 +324,29 @@
                         <div class="flex-grow-1 d-flex gap-1 flex-column col" formGroupName="successiveCarrierInformation">
                             <h6>{{ "ecmr_editor.title_7" | translate }}</h6>
                             <mat-form-field class="flex-grow-1">
-                                <mat-label>{{ "ecmr_editor.successive_carriers.name" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="successiveCarrierName">
+                                <mat-label>{{ "ecmr_editor.successive_carrier_information.name" | translate }}</mat-label>
+                                <input matInput type="text" formControlName="successiveCarrierNameCompany">
                             </mat-form-field>
                             <mat-form-field class="flex-grow-1">
-                                <mat-label>{{ "ecmr_editor.successive_carriers.person_name" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="successiveCarrierPersonName">
+                                <mat-label>{{ "ecmr_editor.successive_carrier_information.person_name" | translate }}</mat-label>
+                                <input matInput type="text" formControlName="successiveCarrierNamePerson">
                             </mat-form-field>
                             <mat-form-field class="flex-grow-1">
-                                <mat-label>{{ "ecmr_editor.successive_carriers.street_name" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="successiveCarrierStreetName">
+                                <mat-label>{{ "ecmr_editor.successive_carrier_information.street_name" | translate }}</mat-label>
+                                <input matInput type="text" formControlName="successiveCarrierStreet">
                             </mat-form-field>
                             <div class="d-flex flex-row gap-1 flex-wrap">
                                 <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.successive_carriers.post_code" | translate }}</mat-label>
+                                    <mat-label>{{ "ecmr_editor.successive_carrier_information.post_code" | translate }}</mat-label>
                                     <input matInput type="text" formControlName="successiveCarrierPostcode">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.successive_carriers.city_name" | translate }}</mat-label>
+                                    <mat-label>{{ "ecmr_editor.successive_carrier_information.city_name" | translate }}</mat-label>
                                     <input matInput type="text" formControlName="successiveCarrierCity">
                                 </mat-form-field>
                             </div>
                             <mat-form-field class="flex-grow-1" formGroupName="successiveCarrierCountryCode">
-                                <mat-label>{{ "ecmr_editor.successive_carriers.country" | translate }}</mat-label>
+                                <mat-label>{{ "ecmr_editor.successive_carrier_information.country" | translate }}</mat-label>
                                 <input matInput type="text" formControlName="value" maxlength="2" class="text-uppercase"
                                        [matAutocomplete]="successiveCarrierCountryAutocomplete">
                                 <mat-autocomplete #successiveCarrierCountryAutocomplete="matAutocomplete">
@@ -356,7 +356,7 @@
                                 </mat-autocomplete>
                             </mat-form-field>
                             <mat-form-field class="flex-grow-1">
-                                <mat-label>{{ "ecmr_editor.successive_carriers.date" | translate }}</mat-label>
+                                <mat-label>{{ "ecmr_editor.successive_carrier_information.date" | translate }}</mat-label>
                                 <input matInput formControlName="successiveCarrierSignatureDate"
                                        [matDatepicker]="successiveCarrierSignatureDatePicker">
                                 <mat-datepicker #successiveCarrierSignatureDatePicker></mat-datepicker>

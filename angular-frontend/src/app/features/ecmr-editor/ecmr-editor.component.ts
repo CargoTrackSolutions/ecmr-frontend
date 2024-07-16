@@ -181,12 +181,12 @@ export class EcmrEditorComponent implements OnInit {
                 value: new FormControl<string | null>(null),
                 region: new FormControl<string | null>(null),
             }),
-            successiveCarrierName: new FormControl<string | null>(null),
-            successiveCarrierPersonName: new FormControl<string | null>(null),
+            successiveCarrierNameCompany: new FormControl<string | null>(null),
+            successiveCarrierNamePerson: new FormControl<string | null>(null),
             successiveCarrierPostcode: new FormControl<string | null>(null),
             successiveCarrierSignature: new FormControl<Signature | null>(null),
             successiveCarrierSignatureDate: new FormControl<Date | null>(null),
-            successiveCarrierStreetName: new FormControl<string | null>(null),
+            successiveCarrierStreet: new FormControl<string | null>(null),
             successiveCarrierContactInformation: new FormGroup({
                 email: new FormControl<string | null>(null),
                 phone: new FormControl<string | null>(null)

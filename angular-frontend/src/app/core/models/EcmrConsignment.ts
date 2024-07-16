@@ -10,7 +10,7 @@ import {SenderInformation} from "./areas/one/SenderInformation";
 import {ConsigneeInformation} from "./areas/two/ConsigneeInformation";
 import {TakingOverTheGoods} from "./areas/three/TakingOverTheGoods";
 import {SendersInstructions} from "./areas/five/SendersInstructions";
-import { SuccessiveCarrierInformation } from './areas/seven/SuccessiveCarriers';
+import { SuccessiveCarrierInformation } from './areas/seven/SuccessiveCarrierInformation';
 import {
   CarriersReservationsAndObservationsOnTakingOverTheGoods
 } from "./areas/eight/CarriersReservationsAndObservationsOnTakingOverTheGoods";

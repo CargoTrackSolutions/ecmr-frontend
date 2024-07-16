@@ -13,11 +13,11 @@ import { SuccessiveCarrierCountryCode } from './SuccessiveCarrierCountryCode';
 export interface SuccessiveCarrierInformation {
   successiveCarrierCity: string | null;
   successiveCarrierCountryCode: SuccessiveCarrierCountryCode;
-  successiveCarrierName: string | null;
-  successiveCarrierPersonName: string | null;
+  successiveCarrierNameCompany: string | null;
+  successiveCarrierNamePerson: string | null;
   successiveCarrierPostcode: string | null;
   successiveCarrierSignature: Signature | null;
   successiveCarrierSignatureDate: Date | null;
-  successiveCarrierStreetName: string | null;
+  successiveCarrierStreet: string | null;
   successiveCarrierContactInformation: SuccessiveCarrierContactInformation;
 }

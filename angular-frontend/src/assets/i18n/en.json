@@ -129,8 +129,8 @@
       "license_plate": "License Plate"
     },
     "title_7": "7. Successive Carriers",
-    "successive_carriers": {
-      "name": "Name",
+    "successive_carrier_information": {
+      "name": "Company Name",
       "person_name": "Person Name",
       "street_name": "Street Name",
       "post_code": "Post Code",

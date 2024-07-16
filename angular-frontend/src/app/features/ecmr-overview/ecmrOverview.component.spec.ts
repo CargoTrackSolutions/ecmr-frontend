@@ -117,9 +117,9 @@ describe('OverviewComponent', () => {
             successiveCarrierInformation: {
                 successiveCarrierCity: 'Dortmund',
                 successiveCarrierCountryCode: {region: 'NRW', value: 'DE'},
-                successiveCarrierName: 'DHL',
-                successiveCarrierStreetName: 'Straße 1234',
-                successiveCarrierPersonName: 'Angelika Trommel',
+                successiveCarrierNameCompany: 'DHL',
+                successiveCarrierStreet: 'Straße 1234',
+                successiveCarrierNamePerson: 'Angelika Trommel',
                 successiveCarrierPostcode: '44809',
                 successiveCarrierSignature: {
                     type: '',
