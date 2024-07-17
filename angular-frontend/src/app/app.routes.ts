@@ -11,16 +11,19 @@ import { EcmrOverviewComponent } from './features/ecmr-overview/ecmrOverview.com
 import { EcmrEditorComponent } from './features/ecmr-editor/ecmr-editor.component';
 import { ArchiveComponent } from './features/archive/archive.component';
 import { TemplateOverviewComponent } from './features/template-overview/template-overview.component';
+import { AuthGuard } from './core/services/auth.service';
+import { LoginCallbackComponent } from './features/login-callback/login-callback.component';
 
 export const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'ecmr-overview'},
-    {path: 'ecmr-overview', component: EcmrOverviewComponent},
-    {path: 'ecmr-editor', component: EcmrEditorComponent},
-    {path: 'ecmr-editor/:id', component: EcmrEditorComponent},
-    {path: 'ecmr-archive', component: ArchiveComponent},
-    {path: 'templates-overview', component: TemplateOverviewComponent},
-    {path: 'template-editor', component: EcmrEditorComponent},
-    {path: 'template-editor/:id', component: EcmrEditorComponent}
+    {path: 'login-callback', component: LoginCallbackComponent, canActivate: []},
+    {path: 'ecmr-overview', component: EcmrOverviewComponent, canActivate: [AuthGuard]},
+    {path: 'ecmr-editor', component: EcmrEditorComponent, canActivate: [AuthGuard]},
+    {path: 'ecmr-editor/:id', component: EcmrEditorComponent, canActivate: [AuthGuard]},
+    {path: 'ecmr-archive', component: ArchiveComponent, canActivate: [AuthGuard]},
+    {path: 'templates-overview', component: TemplateOverviewComponent, canActivate: [AuthGuard]},
+    {path: 'template-editor', component: EcmrEditorComponent, canActivate: [AuthGuard]},
+    {path: 'template-editor/:id', component: EcmrEditorComponent, canActivate: [AuthGuard]}
     // { path: 'privacy', component: privacy },
     // { path: 'imprint-legal-matter', component: imprintLegalMatter },
 ];
