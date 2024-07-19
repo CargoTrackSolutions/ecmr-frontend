@@ -42,6 +42,10 @@ export class EcmrEditorService {
         return this.http.patch<TemplateUser>(`${environment.backendUrl}/template`,template);
     }
 
+  updateEcmr(ecmr: Ecmr){
+    return this.http.put<Ecmr>(`${environment.backendUrl}/ecmr`, ecmr)
+  }
+
     createEmptyEcmrConsignment(): EcmrConsignment {
         return {
             senderInformation: {

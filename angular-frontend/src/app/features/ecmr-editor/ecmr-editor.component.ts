@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatError, MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -25,7 +25,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { EcmrConsignment } from '../../core/models/EcmrConsignment';
-import { TranslateModule } from '@ngx-translate/core';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import { Signature } from '../../core/models/areas/signature/Signature';
 import { EcmrEditorService } from './ecmr-editor-service/ecmr-editor.service';
 import { Ecmr } from '../../core/models/Ecmr';
@@ -35,6 +35,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { TemplateNameDialogComponent } from '../template-overview/template-name-dialog/template-name-dialog.component';
 import { LoadFromTemplateDialogComponent } from '../template-overview/load-from-template-dialog/load-from-template-dialog.component';
 import { TemplateUser } from '../../core/models/TemplateUser';
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {DynamicDisableControlDirective} from "./dynamic-disable-control.directive";
 
 @Component({
     selector: 'app-ecmr-editor',
@@ -65,12 +67,16 @@ import { TemplateUser } from '../../core/models/TemplateUser';
         NgTemplateOutlet,
         TranslateModule,
         MatError,
-        MatSelect
+        MatSelect,
+        DynamicDisableControlDirective
     ],
     templateUrl: './ecmr-editor.component.html',
     styleUrl: './ecmr-editor.component.scss'
 })
 export class EcmrEditorComponent implements OnInit {
+    canFillSenderFields: boolean = false;
+    canFillCarrierFields: boolean = false;
+    canFillConsignorFields: boolean = false;
 
     isMobile: boolean = false;
     breakpointSubscription: Subscription | undefined;
@@ -81,6 +87,7 @@ export class EcmrEditorComponent implements OnInit {
     @ViewChild(MatAccordion) accordion: MatAccordion;
 
     ecmrConsignment: EcmrConsignment;
+    ecmrId: string|null;
     loadedTemplate: TemplateUser;
 
     payerType: PayerType[] = Object.values(PayerType);
@@ -283,6 +290,9 @@ export class EcmrEditorComponent implements OnInit {
                 private router: Router,
                 private ecmrEditorService: EcmrEditorService,
                 private route: ActivatedRoute,
+                private snackbar: MatSnackBar,
+                private translateService: TranslateService,
+                private cd: ChangeDetectorRef,
                 public matDialog: MatDialog) {
     }
 
@@ -327,6 +337,72 @@ export class EcmrEditorComponent implements OnInit {
             );
     }
 
+  setFormConstraints(){
+      if(this.isEdit){
+        if(this.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature != null){
+          this.canFillConsignorFields = true;
+        } else if(this.ecmrConsignment.signatureOrStampOfTheSender.senderSignature != null){
+          this.canFillCarrierFields = true;
+        } else {
+          this.canFillSenderFields = true;
+        }
+
+      } else {
+        this.canFillSenderFields = true;
+      }
+  }
+
+  //TODO: update this method, it is currently for testing purposes only!
+  signSender(){
+      if(this.ecmrConsignmentFormGroup.valid) {
+        console.log("sign sender")
+        const signature: Signature = {
+          type: 'signature',
+          userName: 'sender',
+          userCompany: 'the company',
+          userStreet: 'street',
+          userPostCode: '1234',
+          userCity: 'Bochum',
+          userCountry: 'DE',
+          timestamp: new Date(),
+          data: 'sender data'
+        }
+        this.ecmrConsignmentFormGroup.controls.signatureOrStampOfTheSender.controls.senderSignature.setValue(signature);
+
+        this.canFillSenderFields = false;
+        this.canFillCarrierFields = true;
+
+        this.cd.detectChanges();
+      }
+      else {
+        this.ecmrConsignmentFormGroup.markAllAsTouched();
+      }
+
+  }
+
+  //TODO: update this method, it is currently for testing purposes only!
+  signCarrier(){
+    console.log("sign carrier")
+    const signature: Signature = {
+      type: 'signature',
+      userName: 'carrier',
+      userCompany: 'the company',
+      userStreet: 'street',
+      userPostCode: '1234',
+      userCity: 'Bochum',
+      userCountry: 'DE',
+      timestamp: new Date(),
+      data: 'carrier data'
+    }
+
+    this.ecmrConsignmentFormGroup.controls.signatureOrStampOfTheCarrier.controls.carrierSignature.setValue(signature);
+
+    this.canFillCarrierFields = false;
+    this.canFillConsignorFields = true;
+
+    this.cd.detectChanges();
+  }
+
     /**
      * Filter function for country autocomplete fields
      */
@@ -345,13 +421,14 @@ export class EcmrEditorComponent implements OnInit {
         if (this.isEdit) {
             if (!this.isTemplate) {
                 this.ecmrEditorService.getEcmr(this.id).subscribe(data => {
+                    this.ecmrId = data.ecmrId;
                     this.ecmrConsignment = data.ecmrConsignment;
                     this.ecmrConsignmentFormGroup.controls.itemList.controls = []
                     this.ecmrConsignment.itemList.forEach(() => {
                         this.addNewItem();
                     })
                     this.ecmrConsignmentFormGroup.patchValue(this.ecmrConsignment)
-                    this.ecmrConsignmentFormGroup.controls.referenceIdentificationNumber.disable()
+                    this.setFormConstraints();
                 })
             } else {
                 this.ecmrEditorService.getTemplate(Number.parseFloat(this.id)).subscribe(data => {
@@ -362,10 +439,12 @@ export class EcmrEditorComponent implements OnInit {
                         this.addNewItem();
                     })
                     this.ecmrConsignmentFormGroup.patchValue(this.ecmrConsignment)
+                    this.setFormConstraints();
                 })
             }
         } else {
             this.ecmrConsignment = this.ecmrEditorService.createEmptyEcmrConsignment();
+            this.setFormConstraints();
         }
     }
 
@@ -380,7 +459,20 @@ export class EcmrEditorComponent implements OnInit {
                 this.returnToOverview()
             })
         } else if (this.ecmrConsignmentFormGroup.valid && this.isEdit) {
-            //TODO implement save on edit
+          const formValue: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
+          const ecmr: Ecmr = {
+            ecmrId: this.ecmrId,
+            ecmrConsignment: formValue
+          }
+
+          this.ecmrEditorService.updateEcmr(ecmr).subscribe({
+            next: () => { this.returnToOverview()},
+            error: error => {
+              const action = this.translateService.instant('general.snackbar_action');
+              const message = this.translateService.instant('general.snackbar_error');
+              this.snackbar.open(message, action, {duration: 3000})
+              console.error(error)}
+          })
         }
     }
 

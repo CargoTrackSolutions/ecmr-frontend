@@ -78,7 +78,7 @@
 
                         <mat-form-field class="flex-grow-1">
                             <mat-label>{{ "ecmr_editor.reference_id" | translate }}</mat-label>
-                            <input matInput type="text" formControlName="value">
+                            <input matInput type="text" [dynamicDisable]="!isEdit && !canFillSenderFields" formControlName="value">
                             @if (ecmrConsignmentFormGroup.controls.referenceIdentificationNumber.controls.value.hasError('required')) {
                                 <mat-error>{{ "error.required" | translate }}</mat-error>
                             }
@@ -106,30 +106,30 @@
                             <h6>{{ "ecmr_editor.title_1" | translate }}</h6>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.sender.name" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="senderNameCompany">
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="senderNameCompany">
                             </mat-form-field>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.sender.person_name" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="senderNamePerson">
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="senderNamePerson">
                             </mat-form-field>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.sender.street_name" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="senderStreet">
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="senderStreet">
                             </mat-form-field>
                             <div class="d-flex flex-row gap-1 flex-wrap">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.sender.post_code" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="senderPostcode">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="senderPostcode">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.sender.city_name" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="senderCity">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="senderCity">
                                 </mat-form-field>
                             </div>
                             <ng-container formGroupName="senderCountryCode">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.sender.country" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="value" maxlength="2" class="text-uppercase"
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="value" maxlength="2" class="text-uppercase"
                                            [matAutocomplete]="senderCountryAutocomplete">
                                     <mat-autocomplete #senderCountryAutocomplete="matAutocomplete">
                                         @for (country of filteredSenderCountries | async; track country) {
@@ -141,11 +141,11 @@
                             <div formGroupName="senderContactInformation" class="d-flex flex-column">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.email" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="email">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="email">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.phone" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="phone">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -156,30 +156,30 @@
                             <h6>{{ "ecmr_editor.title_2" | translate }}</h6>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.consignee.name" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="consigneeNameCompany">
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="consigneeNameCompany">
                             </mat-form-field>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.consignee.person_name" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="consigneeNamePerson">
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="consigneeNamePerson">
                             </mat-form-field>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.consignee.street_name" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="consigneeStreet">
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="consigneeStreet">
                             </mat-form-field>
                             <div class="d-flex flex-row gap-1 flex-wrap">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.consignee.post_code" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="consigneePostcode">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="consigneePostcode">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.consignee.city_name" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="consigneeCity">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="consigneeCity">
                                 </mat-form-field>
                             </div>
                             <ng-container formGroupName="consigneeCountryCode">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.consignee.country" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="value" maxlength="2" class="text-uppercase"
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="value" maxlength="2" class="text-uppercase"
                                            [matAutocomplete]="consigneeCountryAutocomplete">
                                     <mat-autocomplete #consigneeCountryAutocomplete="matAutocomplete">
                                         @for (country of filteredConsigneeCountries | async; track country) {
@@ -191,11 +191,11 @@
                             <div formGroupName="consigneeContactInformation" class="d-flex flex-column">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.email" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="email">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="email">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.phone" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="phone">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -213,19 +213,19 @@
                                 <h6>{{ "ecmr_editor.title_3" | translate }}</h6>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.taking_over_the_goods.place" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="takingOverTheGoodsPlace" class="flex-grow-1">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="takingOverTheGoodsPlace" class="flex-grow-1">
                                 </mat-form-field>
                                 <div class="d-flex flex-row gap-2 flex-grow-1 flex-wrap">
                                     <mat-form-field class="flex-grow-1">
                                         <mat-label>{{ "ecmr_editor.taking_over_the_goods.time_of_arrival" | translate }}</mat-label>
-                                        <input matInput formControlName="logisticsTimeOfArrivalDateTime"
+                                        <input [dynamicDisable]="!canFillSenderFields" matInput formControlName="logisticsTimeOfArrivalDateTime"
                                                [matDatepicker]="timeOfArrivalPicker">
                                         <mat-datepicker #timeOfArrivalPicker></mat-datepicker>
                                         <mat-datepicker-toggle matIconSuffix [for]="timeOfArrivalPicker"></mat-datepicker-toggle>
                                     </mat-form-field>
                                     <mat-form-field class="flex-grow-1">
                                         <mat-label>{{ "ecmr_editor.taking_over_the_goods.time_of_departure" | translate }}</mat-label>
-                                        <input matInput formControlName="logisticsTimeOfDepartureDateTime"
+                                        <input [dynamicDisable]="!canFillSenderFields" matInput formControlName="logisticsTimeOfDepartureDateTime"
                                                [matDatepicker]="timeOfDeparturePicker">
                                         <mat-datepicker #timeOfDeparturePicker></mat-datepicker>
                                         <mat-datepicker-toggle matIconSuffix [for]="timeOfDeparturePicker"></mat-datepicker-toggle>
@@ -239,11 +239,11 @@
                                 <h6>{{ "ecmr_editor.title_4" | translate }}</h6>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.delivery_of_the_goods.place" | translate }}</mat-label>
-                                    <input matInput formControlName="logisticsLocationCity">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput formControlName="logisticsLocationCity">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.delivery_of_the_goods.opening_hours" | translate }}</mat-label>
-                                    <textarea matInput formControlName="logisticsLocationOpeningHours"></textarea>
+                                    <textarea [dynamicDisable]="!canFillSenderFields" matInput formControlName="logisticsLocationOpeningHours"></textarea>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -254,7 +254,7 @@
                             <h6>{{ "ecmr_editor.title_5" | translate }}</h6>
                             <mat-form-field class="flex-grow-1 h-100">
                                 <mat-label>{{ "ecmr_editor.senders_instruction.description" | translate }}</mat-label>
-                                <textarea cdkTextareaAutosize class="flex-grow-1 h-100" matInput
+                                <textarea [dynamicDisable]="!canFillSenderFields" cdkTextareaAutosize class="flex-grow-1 h-100" matInput
                                           formControlName="transportInstructionsDescription"></textarea>
                             </mat-form-field>
                         </div>
@@ -271,30 +271,30 @@
                             <h6>{{ "ecmr_editor.title_6" | translate }}</h6>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.carrier_information.name" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="carrierNameCompany">
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierNameCompany">
                             </mat-form-field>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.carrier_information.person_name" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="carrierNamePerson">
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierNamePerson">
                             </mat-form-field>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.carrier_information.street_name" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="carrierStreet">
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierStreet">
                             </mat-form-field>
                             <div class="d-flex flex-row gap-1 flex-wrap">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.carrier_information.post_code" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="carrierPostcode">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierPostcode">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.carrier_information.city_name" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="carrierCity">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierCity">
                                 </mat-form-field>
                             </div>
                             <ng-container formGroupName="carrierCountryCode">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.carrier_information.country" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="value" maxlength="2" class="text-uppercase"
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="value" maxlength="2" class="text-uppercase"
                                            [matAutocomplete]="carrierCountryAutocomplete">
                                     <mat-autocomplete #carrierCountryAutocomplete="matAutocomplete">
                                         @for (country of filteredCarrierCountries | async; track country) {
@@ -305,16 +305,16 @@
                             </ng-container>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.carrier_information.license_plate" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="carrierLicensePlate">
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierLicensePlate">
                             </mat-form-field>
                             <div formGroupName="carrierContactInformation" class="d-flex flex-column">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.email" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="email">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="email">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.phone" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="phone">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -325,29 +325,29 @@
                             <h6>{{ "ecmr_editor.title_7" | translate }}</h6>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.successive_carrier_information.name" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="successiveCarrierNameCompany">
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="successiveCarrierNameCompany">
                             </mat-form-field>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.successive_carrier_information.person_name" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="successiveCarrierNamePerson">
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="successiveCarrierNamePerson">
                             </mat-form-field>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.successive_carrier_information.street_name" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="successiveCarrierStreet">
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="successiveCarrierStreet">
                             </mat-form-field>
                             <div class="d-flex flex-row gap-1 flex-wrap">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.successive_carrier_information.post_code" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="successiveCarrierPostcode">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="successiveCarrierPostcode">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.successive_carrier_information.city_name" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="successiveCarrierCity">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="successiveCarrierCity">
                                 </mat-form-field>
                             </div>
                             <mat-form-field class="flex-grow-1" formGroupName="successiveCarrierCountryCode">
                                 <mat-label>{{ "ecmr_editor.successive_carrier_information.country" | translate }}</mat-label>
-                                <input matInput type="text" formControlName="value" maxlength="2" class="text-uppercase"
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="value" maxlength="2" class="text-uppercase"
                                        [matAutocomplete]="successiveCarrierCountryAutocomplete">
                                 <mat-autocomplete #successiveCarrierCountryAutocomplete="matAutocomplete">
                                     @for (country of filteredSuccessiveCarrierCountries | async; track country) {
@@ -357,7 +357,7 @@
                             </mat-form-field>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.successive_carrier_information.date" | translate }}</mat-label>
-                                <input matInput formControlName="successiveCarrierSignatureDate"
+                                <input [dynamicDisable]="!canFillSenderFields" matInput formControlName="successiveCarrierSignatureDate"
                                        [matDatepicker]="successiveCarrierSignatureDatePicker">
                                 <mat-datepicker #successiveCarrierSignatureDatePicker></mat-datepicker>
                                 <mat-datepicker-toggle matIconSuffix [for]="successiveCarrierSignatureDatePicker"></mat-datepicker-toggle>
@@ -365,11 +365,11 @@
                             <div formGroupName="successiveCarrierContactInformation" class="d-flex flex-column">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.email" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="email">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="email">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.phone" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="phone">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone">
                                 </mat-form-field>
                             </div>
                             <!--Todo implement Signature field formControlName="successiveCarrierSignature"-->
@@ -388,7 +388,7 @@
                             <h6>{{ "ecmr_editor.title_8" | translate }}</h6>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.carriers_reservations.reservation_and_observation" | translate }}</mat-label>
-                                <textarea matInput cdkTextareaAutosize rows="5" formControlName="carrierReservationsObservations"></textarea>
+                                <textarea [dynamicDisable]="!canFillCarrierFields" matInput cdkTextareaAutosize rows="5" formControlName="carrierReservationsObservations"></textarea>
                             </mat-form-field>
                         </div>
 
@@ -398,7 +398,7 @@
                             <h6>{{ "ecmr_editor.title_9" | translate }}</h6>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.documents_handed_to_carrier.remarks" | translate }}</mat-label>
-                                <textarea matInput cdkTextareaAutosize rows="5" formControlName="documentsRemarks"></textarea>
+                                <textarea [dynamicDisable]="!canFillSenderFields" matInput cdkTextareaAutosize rows="5" formControlName="documentsRemarks"></textarea>
                             </mat-form-field>
                         </div>
                     </div>
@@ -418,7 +418,7 @@
                             <h6>{{ "ecmr_editor.title_16" | translate }}</h6>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.special_agreements_sen_carr.special_agreements" | translate }}</mat-label>
-                                <textarea matInput cdkTextareaAutosize rows="5" formControlName="customSpecialAgreement"></textarea>
+                                <textarea [dynamicDisable]="!canFillSenderFields" matInput cdkTextareaAutosize rows="5" formControlName="customSpecialAgreement"></textarea>
                             </mat-form-field>
                         </div>
 
@@ -429,15 +429,15 @@
                             <div class="d-flex flex-row gap-1 flex-wrap" formGroupName="customChargeCarriage">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.to_be_paid_by.carriage_charges" | translate }}</mat-label>
-                                    <input matInput type="number" formControlName="value" [min]="0">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="number" formControlName="value" [min]="0">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.to_be_paid_by.currency" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="currency">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="currency">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.to_be_paid_by.payer" | translate }}</mat-label>
-                                    <mat-select formControlName="payer">
+                                    <mat-select [dynamicDisable]="!canFillSenderFields" formControlName="payer">
                                         <mat-option [value]="null"></mat-option>
                                         @for (payer of payerType; track payer) {
                                             <mat-option [value]="payer">{{ payer }}</mat-option>
@@ -448,15 +448,15 @@
                             <div class="d-flex flex-row gap-1 flex-wrap" formGroupName="customChargeSupplementary">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.to_be_paid_by.supplementary_charges" | translate }}</mat-label>
-                                    <input matInput type="number" formControlName="value" [min]="0">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="number" formControlName="value" [min]="0">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.to_be_paid_by.currency" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="currency">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="currency">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.to_be_paid_by.payer" | translate }}</mat-label>
-                                    <mat-select formControlName="payer">
+                                    <mat-select [dynamicDisable]="!canFillSenderFields" formControlName="payer">
                                         <mat-option [value]="null"></mat-option>
                                         @for (payer of payerType; track payer) {
                                             <mat-option [value]="payer">{{ payer }}</mat-option>
@@ -467,15 +467,15 @@
                             <div class="d-flex flex-row gap-1 flex-wrap" formGroupName="customChargeCustomsDuties">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.to_be_paid_by.custom_duties_charges" | translate }}</mat-label>
-                                    <input matInput type="number" formControlName="value" [min]="0">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="number" formControlName="value" [min]="0">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.to_be_paid_by.currency" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="currency">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="currency">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.to_be_paid_by.payer" | translate }}</mat-label>
-                                    <mat-select formControlName="payer">
+                                    <mat-select [dynamicDisable]="!canFillSenderFields" formControlName="payer">
                                         <mat-option [value]="null"></mat-option>
                                         @for (payer of payerType; track payer) {
                                             <mat-option [value]="payer">{{ payer }}</mat-option>
@@ -486,15 +486,15 @@
                             <div class="d-flex flex-row gap-1 flex-wrap" formGroupName="customChargeOther">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.to_be_paid_by.other_charges" | translate }}</mat-label>
-                                    <input matInput type="number" formControlName="value" [min]="0">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="number" formControlName="value" [min]="0">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.to_be_paid_by.currency" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="currency">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="currency">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.to_be_paid_by.payer" | translate }}</mat-label>
-                                    <mat-select formControlName="payer">
+                                    <mat-select [dynamicDisable]="!canFillSenderFields" formControlName="payer">
                                         <mat-option [value]="null"></mat-option>
                                         @for (payer of payerType; track payer) {
                                             <mat-option [value]="payer">{{ payer }}</mat-option>
@@ -517,7 +517,7 @@
                             <h6>{{ "ecmr_editor.title_18" | translate }}</h6>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.other_useful_particulars.particulars" | translate }}</mat-label>
-                                <textarea matInput cdkTextareaAutosize rows="5" formControlName="customParticulars"></textarea>
+                                <textarea [dynamicDisable]="!canFillSenderFields" matInput cdkTextareaAutosize rows="5" formControlName="customParticulars"></textarea>
                             </mat-form-field>
                         </div>
 
@@ -528,7 +528,7 @@
                             <h6>{{ "ecmr_editor.title_19" | translate }}</h6>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.cash_on_delivery.particulars" | translate }}</mat-label>
-                                <input matInput type="number" formControlName="customCashOnDelivery" [min]="0">
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="number" formControlName="customCashOnDelivery" [min]="0">
                             </mat-form-field>
                         </div>
                     </div>
@@ -558,11 +558,11 @@
                             <div class="d-flex flex-row flex-wrap gap-2">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.established.in" | translate }}</mat-label>
-                                    <input matInput type="text" formControlName="customEstablishedIn">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="customEstablishedIn">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.established.on" | translate }}</mat-label>
-                                    <input matInput formControlName="customEstablishedDate"
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput formControlName="customEstablishedDate"
                                            [matDatepicker]="establishedDatePicker">
                                     <mat-datepicker #establishedDatePicker></mat-datepicker>
                                     <mat-datepicker-toggle matIconSuffix [for]="establishedDatePicker"></mat-datepicker-toggle>
@@ -572,7 +572,7 @@
                             <!-- Area 22 -->
 
                             <h6>{{ "ecmr_editor.title_22" | translate }}</h6>
-                            <button mat-flat-button color="primary" *ngIf="!isTemplate">
+                            <button [disabled]="!canFillSenderFields" mat-flat-button color="primary" (click)="signSender()" *ngIf="!isTemplate">
                                 Sign
                                 <mat-icon iconPositionEnd>sign</mat-icon>
                             </button>
@@ -580,7 +580,7 @@
                             <!-- Area 23 -->
 
                             <h6>{{ "ecmr_editor.title_23" | translate }}</h6>
-                            <button mat-flat-button color="primary" *ngIf="!isTemplate">
+                            <button [disabled]="!canFillCarrierFields" mat-flat-button color="primary" (click)="signCarrier()" *ngIf="!isTemplate">
                                 Sign
                                 <mat-icon iconPositionEnd>sign</mat-icon>
                             </button>
@@ -594,17 +594,17 @@
                             <div class="d-flex flex-row flex-wrap gap-2">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>In</mat-label>
-                                    <input matInput type="text" formControlName="confirmedLogisticsLocationName">
+                                    <input [dynamicDisable]="!canFillConsignorFields" matInput type="text" formControlName="confirmedLogisticsLocationName">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>Date</mat-label>
-                                    <input matInput formControlName="consigneeSignatureDate"
+                                    <input [dynamicDisable]="!canFillConsignorFields" matInput formControlName="consigneeSignatureDate"
                                            [matDatepicker]="consigneeSignatureDatePicker">
                                     <mat-datepicker #consigneeSignatureDatePicker></mat-datepicker>
                                     <mat-datepicker-toggle matIconSuffix [for]="consigneeSignatureDatePicker"></mat-datepicker-toggle>
                                 </mat-form-field>
                             </div>
-                            <button mat-flat-button color="primary" *ngIf="!isTemplate">
+                            <button [disabled]="!canFillConsignorFields" mat-flat-button color="primary" *ngIf="!isTemplate">
                                 Sign
                                 <mat-icon iconPositionEnd>sign</mat-icon>
                             </button>
@@ -623,7 +623,7 @@
                             <h6>{{ "ecmr_editor.non_contractual_part_reserved_for_the_carrier" | translate }}</h6>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.remarks" | translate }}</mat-label>
-                                <textarea matInput cdkTextareaAutosize rows="5" formControlName="nonContractualCarrierRemarks"></textarea>
+                                <textarea [dynamicDisable]="!canFillCarrierFields" matInput cdkTextareaAutosize rows="5" formControlName="nonContractualCarrierRemarks"></textarea>
                             </mat-form-field>
                         </div>
                     </div>
@@ -652,9 +652,11 @@
                             } @else {
                                 <div>{{ "Item " + (i + 1) }}</div>
                             }
+                          @if(canFillSenderFields){
                             <button mat-icon-button (click)="deleteItem(i)">
-                                <mat-icon color="warn">delete</mat-icon>
+                              <mat-icon color="warn">delete</mat-icon>
                             </button>
+                          }
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <div class="container-fluid">
@@ -667,11 +669,11 @@
                                     <h6>{{ "ecmr_editor.title_10" | translate }}</h6>
                                     <mat-form-field>
                                         <mat-label>{{ "ecmr_editor.marks_and_nos.marking_text" | translate }}</mat-label>
-                                        <input matInput type="text" formControlName="logisticsShippingMarksMarking">
+                                        <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="logisticsShippingMarksMarking">
                                     </mat-form-field>
                                     <mat-form-field>
                                         <mat-label>{{ "ecmr_editor.marks_and_nos.barcode_number" | translate }}</mat-label>
-                                        <input matInput type="text" formControlName="logisticsShippingMarksCustomBarcode">
+                                        <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="logisticsShippingMarksCustomBarcode">
                                     </mat-form-field>
                                 </div>
 
@@ -681,7 +683,7 @@
                                     <h6>{{ "ecmr_editor.title_11" | translate }}</h6>
                                     <mat-form-field>
                                         <mat-label>{{ "ecmr_editor.number_of_packages.item_quantity" | translate }}</mat-label>
-                                        <input matInput type="number" formControlName="logisticsPackageItemQuantity" [min]="0">
+                                        <input [dynamicDisable]="!canFillSenderFields" matInput type="number" formControlName="logisticsPackageItemQuantity" [min]="0">
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -693,7 +695,7 @@
                                     <h6>{{ "ecmr_editor.title_12" | translate }}</h6>
                                     <mat-form-field>
                                         <mat-label>{{ "ecmr_editor.method_of_packing.type_text" | translate }}</mat-label>
-                                        <input matInput type="text" formControlName="logisticsPackageType">
+                                        <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="logisticsPackageType">
                                     </mat-form-field>
                                 </div>
 
@@ -703,7 +705,7 @@
                                     <h6>{{ "ecmr_editor.title_13" | translate }}</h6>
                                     <mat-form-field>
                                         <mat-label>{{ "ecmr_editor.nature_of_goods.identification_text" | translate }}</mat-label>
-                                        <input matInput type="text" formControlName="transportCargoIdentification">
+                                        <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="transportCargoIdentification">
                                     </mat-form-field>
                                 </div>
 
@@ -714,7 +716,7 @@
                                         <h6>{{ "ecmr_editor.title_14" | translate }}</h6>
                                         <mat-form-field>
                                             <mat-label>{{ "ecmr_editor.gross_weight_in_kg.gross_weight" | translate }}</mat-label>
-                                            <input matInput type="number" formControlName="supplyChainConsignmentItemGrossWeight" [min]="0">
+                                            <input [dynamicDisable]="!canFillSenderFields" matInput type="number" formControlName="supplyChainConsignmentItemGrossWeight" [min]="0">
                                         </mat-form-field>
                                     </div>
 
@@ -724,7 +726,7 @@
                                         <h6>{{ "ecmr_editor.title_15" | translate }}</h6>
                                         <mat-form-field>
                                             <mat-label>{{ "ecmr_editor.volume_in_m3.volume" | translate }}</mat-label>
-                                            <input matInput type="number" formControlName="supplyChainConsignmentItemGrossVolume" [min]="0">
+                                            <input [dynamicDisable]="!canFillSenderFields" matInput type="number" formControlName="supplyChainConsignmentItemGrossVolume" [min]="0">
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -735,7 +737,7 @@
             }
         </mat-accordion>
         <div class="d-flex flex-row justify-content-between">
-            <button mat-stroked-button color="primary" class="mt-2" (click)="addNewItem()">
+            <button [disabled]="!canFillSenderFields" mat-stroked-button color="primary" class="mt-2" (click)="addNewItem()">
                 <mat-icon iconPositionEnd>add</mat-icon>
                 {{ "ecmr_editor.add_item" | translate }}
             </button>
