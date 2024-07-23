@@ -39,6 +39,14 @@ import { LoadingService } from '../../core/services/loading.service';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DynamicDisableControlDirective} from "./dynamic-disable-control.directive";
 
+export enum EditorMode {
+  ECMR_EDIT ,
+  ECMR_COPY ,
+  ECMR_NEW,
+  TEMPLATE_EDIT,
+  TEMPLATE_NEW,
+}
+
 @Component({
     selector: 'app-ecmr-editor',
     standalone: true,
@@ -82,8 +90,7 @@ export class EcmrEditorComponent implements OnInit {
     isMobile: boolean = false;
     breakpointSubscription: Subscription | undefined;
 
-    isEdit: boolean = false;
-    isTemplate: boolean = false;
+    editorMode: EditorMode;
 
     @ViewChild(MatAccordion) accordion: MatAccordion;
 
@@ -306,14 +313,31 @@ export class EcmrEditorComponent implements OnInit {
             this.isMobile = result.matches;
         });
 
-        this.isTemplate = this.route.snapshot.url.join('/').includes('template-editor');
-
         this.sub = this.route.params.subscribe(params => {
-            this.id = params['id'];
-            if (this.id) this.isEdit = true;
+          this.id = params['id'];
+          if (this.id) {
+            this.editorMode = EditorMode.ECMR_EDIT;
+          } else {
+            this.editorMode = EditorMode.ECMR_NEW;
+          }
         });
 
-        this.initializeForm();
+        if (this.route.snapshot.url.join('/').includes('template-editor')) {
+          this.editorMode = EditorMode.TEMPLATE_NEW;
+          this.sub = this.route.params.subscribe(params => {
+            this.id = params['id'];
+            if (this.id) {
+              this.editorMode = EditorMode.TEMPLATE_EDIT;
+            }
+          });
+        }
+
+
+        if (this.router.url.includes('copy')) {
+          this.editorMode = EditorMode.ECMR_COPY;
+        }
+
+    this.initializeForm();
 
         // Initialize Country Autocomplete Form Fields
         const formGroupControl = this.ecmrConsignmentFormGroup.controls;
@@ -337,10 +361,12 @@ export class EcmrEditorComponent implements OnInit {
                 startWith(formGroupControl.carrierInformation.controls.carrierCountryCode.controls.value.value ?? ''),
                 map(value => this._filter(value ?? ''))
             );
+
+        console.log(this.editorMode);
     }
 
   setFormConstraints(){
-      if(this.isEdit){
+      if(this.editorMode == EditorMode.ECMR_EDIT){
         if(this.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature != null){
           this.canFillConsignorFields = true;
         } else if(this.ecmrConsignment.signatureOrStampOfTheSender.senderSignature != null){
@@ -405,6 +431,8 @@ export class EcmrEditorComponent implements OnInit {
     this.cd.detectChanges();
   }
 
+
+
     /**
      * Filter function for country autocomplete fields
      */
@@ -419,39 +447,44 @@ export class EcmrEditorComponent implements OnInit {
         }
     }
 
-    private initializeForm() {
-        if (this.isEdit) {
-            if (!this.isTemplate) {
-                this.ecmrEditorService.getEcmr(this.id).subscribe(data => {
-                    this.ecmrId = data.ecmrId;
-                    this.ecmrConsignment = data.ecmrConsignment;
-                    this.ecmrConsignmentFormGroup.controls.itemList.controls = []
-                    this.ecmrConsignment.itemList.forEach(() => {
-                        this.addNewItem();
-                    })
-                    this.ecmrConsignmentFormGroup.patchValue(this.ecmrConsignment)
-                    this.setFormConstraints();
-                })
-            } else {
-                this.ecmrEditorService.getTemplate(Number.parseFloat(this.id)).subscribe(data => {
-                    this.loadedTemplate = data;
-                    this.ecmrConsignment = data.ecmr.ecmrConsignment;
-                    this.ecmrConsignmentFormGroup.controls.itemList.controls = []
-                    this.ecmrConsignment.itemList.forEach(() => {
-                        this.addNewItem();
-                    })
-                    this.ecmrConsignmentFormGroup.patchValue(this.ecmrConsignment)
-                    this.setFormConstraints();
-                })
-            }
-        } else {
-            this.ecmrConsignment = this.ecmrEditorService.createEmptyEcmrConsignment();
-            this.setFormConstraints();
-        }
+  private initializeForm() {
+    if (this.editorMode == EditorMode.ECMR_NEW || EditorMode.TEMPLATE_NEW) {
+      this.ecmrConsignment = this.ecmrEditorService.createEmptyEcmrConsignment();
+      this.setFormConstraints();
+      console.log("ECMR_NEW");
     }
+    if (this.editorMode == EditorMode.ECMR_EDIT) {
+      this.ecmrEditorService.getEcmr(this.id).subscribe(ecmr => {
+        this.loadEcmr(ecmr);
+        console.log("ECMR_EDIT");
+      });
+    }
+    if (this.editorMode == EditorMode.ECMR_COPY) {
+      this.ecmrEditorService.getEcmr(this.id).subscribe(ecmr => {
+        this.loadEcmr(this.ecmrEditorService.copyEcmr(ecmr));
+        console.log("ECMR_COPY");
+      });
+    }
+    if (this.editorMode == EditorMode.TEMPLATE_EDIT) {
+      this.ecmrEditorService.getTemplate(Number.parseFloat(this.id)).subscribe(ecmr => {
+        this.loadedTemplate = ecmr;
+        this.loadEcmr(ecmr.ecmr);
+        console.log("TEMPLATE_EDIT");
+      });
+    }
+  }
+  private loadEcmr(data: Ecmr) {
+    this.ecmrConsignment = data.ecmrConsignment;
+    this.ecmrConsignmentFormGroup.controls.itemList.controls = [];
+    this.ecmrConsignment.itemList.forEach(() => {
+      this.addNewItem();
+    });
+    this.ecmrConsignmentFormGroup.patchValue(this.ecmrConsignment);
+    this.setFormConstraints();
+  }
 
     saveEcmr() {
-        if (this.ecmrConsignmentFormGroup.valid && !this.isEdit) {
+        if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_NEW || this.editorMode == EditorMode.ECMR_COPY)) {
             const formValue: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
             const ecmr: Ecmr = {
                 ecmrId: null,
@@ -460,8 +493,9 @@ export class EcmrEditorComponent implements OnInit {
             this.loadingService.showLoaderUntilCompleted(this.ecmrEditorService.saveEcmr(ecmr))
                 .subscribe(() => {
                     this.returnToOverview()
+                  console.log("Has saved ecmr copy and new")
                 })
-        } else if (this.ecmrConsignmentFormGroup.valid && this.isEdit) {
+        } else if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_EDIT)) {
           const formValue: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
           const ecmr: Ecmr = {
             ecmrId: this.ecmrId,
@@ -476,11 +510,12 @@ export class EcmrEditorComponent implements OnInit {
               this.snackbar.open(message, action, {duration: 3000})
               console.error(error)}
           })
+          console.log("Has saved ecmr edit")
         }
     }
 
     saveTemplate() {
-        if (this.ecmrConsignmentFormGroup.valid && !this.isEdit || !this.loadedTemplate || !this.isTemplate) {
+        if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.TEMPLATE_NEW)) {
             this.matDialog.open(TemplateNameDialogComponent, {
                 minWidth: '350px'
             }).afterClosed().pipe(
@@ -496,7 +531,8 @@ export class EcmrEditorComponent implements OnInit {
             ).subscribe(() => {
                 this.returnToOverview()
             });
-        } else {
+        }
+        if(this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.TEMPLATE_EDIT)){
             this.loadedTemplate.ecmr.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
             this.ecmrEditorService.updateTemplate(this.loadedTemplate).subscribe(() => {
                 this.returnToOverview()
@@ -565,11 +601,22 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     returnToOverview() {
-        if (!this.isTemplate) {
+        if (!this.isTemplate()) {
             this.router.navigate(['/ecmr-overview'])
         } else {
             this.router.navigate(['/templates-overview'])
         }
 
+    }
+
+  protected readonly EditorMode = EditorMode;
+
+
+    isTemplate():boolean {
+      return (this.editorMode == EditorMode.TEMPLATE_NEW || this.editorMode == EditorMode.TEMPLATE_EDIT);
+    }
+
+    isNotEdit():boolean{
+      return !(this.editorMode == EditorMode.ECMR_EDIT || this.editorMode == EditorMode.TEMPLATE_EDIT)
     }
 }

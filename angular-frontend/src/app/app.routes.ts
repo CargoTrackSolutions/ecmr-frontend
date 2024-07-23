@@ -15,15 +15,16 @@ import { AuthGuard } from './core/services/auth.service';
 import { LoginCallbackComponent } from './features/login-callback/login-callback.component';
 
 export const routes: Routes = [
-    {path: '', pathMatch: 'full', redirectTo: 'ecmr-overview'},
-    {path: 'login-callback', component: LoginCallbackComponent, canActivate: []},
-    {path: 'ecmr-overview', component: EcmrOverviewComponent, canActivate: [AuthGuard]},
-    {path: 'ecmr-editor', component: EcmrEditorComponent, canActivate: [AuthGuard]},
-    {path: 'ecmr-editor/:id', component: EcmrEditorComponent, canActivate: [AuthGuard]},
-    {path: 'ecmr-archive', component: ArchiveComponent, canActivate: [AuthGuard]},
-    {path: 'templates-overview', component: TemplateOverviewComponent, canActivate: [AuthGuard]},
-    {path: 'template-editor', component: EcmrEditorComponent, canActivate: [AuthGuard]},
-    {path: 'template-editor/:id', component: EcmrEditorComponent, canActivate: [AuthGuard]}
-    // { path: 'privacy', component: privacy },
-    // { path: 'imprint-legal-matter', component: imprintLegalMatter },
+  {path: '', pathMatch: 'full', redirectTo: 'ecmr-overview'},
+  {path: 'login-callback', component: LoginCallbackComponent, canActivate: []},
+  {path: 'ecmr-overview', component: EcmrOverviewComponent, canActivate: [AuthGuard]},
+  {path: 'ecmr-editor', component: EcmrEditorComponent, canActivate: [AuthGuard]},
+  {path: 'ecmr-editor/:id', component: EcmrEditorComponent, canActivate: [AuthGuard]},
+  {path: 'ecmr-archive', component: ArchiveComponent, canActivate: [AuthGuard]},
+  {path: 'templates-overview', component: TemplateOverviewComponent, canActivate: [AuthGuard]},
+  {path: 'template-editor', component: EcmrEditorComponent, canActivate: [AuthGuard]},
+  {path: 'template-editor/:id', component: EcmrEditorComponent, canActivate: [AuthGuard]},
+  {path: 'ecmr-editor/:id/copy', component: EcmrEditorComponent, canActivate: [AuthGuard]}
+  // { path: 'privacy', component: privacy },
+  // { path: 'imprint-legal-matter', component: imprintLegalMatter },
 ];

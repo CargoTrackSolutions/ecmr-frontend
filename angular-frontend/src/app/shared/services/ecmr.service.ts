@@ -19,7 +19,7 @@ import { environment } from '../../../environments/environment';
 })
 export class EcmrService {
 
-    static ecmrId = 0;
+  static ecmrId = 0;
 
     constructor(private http: HttpClient) {
     }

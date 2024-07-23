@@ -12,35 +12,35 @@ import { Ecmr } from '../../../core/models/Ecmr';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { TemplateUser } from '../../../core/models/TemplateUser';
-
+import {Observable} from "rxjs";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class EcmrEditorService {
 
-    constructor(private http: HttpClient) {
-    }
+  constructor(private http: HttpClient) {
+  }
 
-    saveEcmr(ecmr: Ecmr) {
-        return this.http.post<Ecmr>(`${environment.backendUrl}/ecmr`, ecmr)
-    }
+  saveEcmr(ecmr: Ecmr) {
+    return this.http.post<Ecmr>(`${environment.backendUrl}/ecmr`, ecmr)
+  }
 
-    getEcmr(ecmrId: string) {
-        return this.http.get<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}`)
-    }
+  getEcmr(ecmrId: string) {
+    return this.http.get<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}`)
+  }
 
-    getTemplate(templateId: number) {
-        return this.http.get<TemplateUser>(`${environment.backendUrl}/template/${templateId}`)
-    }
+  getTemplate(templateId: number) {
+    return this.http.get<TemplateUser>(`${environment.backendUrl}/template/${templateId}`)
+  }
 
-    saveTemplate(ecmr: Ecmr, name: string) {
-        return this.http.post<TemplateUser>(`${environment.backendUrl}/template`, ecmr, {params: {'name': name}})
-    }
+  saveTemplate(ecmr: Ecmr, name: string) {
+    return this.http.post<TemplateUser>(`${environment.backendUrl}/template`, ecmr, {params: {'name': name}})
+  }
 
-    updateTemplate(template: TemplateUser) {
-        return this.http.patch<TemplateUser>(`${environment.backendUrl}/template`,template);
-    }
+  updateTemplate(template: TemplateUser) {
+    return this.http.patch<TemplateUser>(`${environment.backendUrl}/template`,template);
+  }
 
   updateEcmr(ecmr: Ecmr){
     return this.http.put<Ecmr>(`${environment.backendUrl}/ecmr`, ecmr)
@@ -180,4 +180,19 @@ export class EcmrEditorService {
             },
         }
     }
+
+  copyEcmr(ecmr: Ecmr): Ecmr {
+    // Reset Id
+    ecmr.ecmrId = null;
+    // Reset Signature
+    ecmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature = null;
+    ecmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature = null;
+    // Reset Carrier Reservation
+    ecmr.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.senderReservationsObservationsSignature = null;
+    ecmr.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.carrierReservationsObservations = null;
+    // Set new referenceIdentificationNumber to Copy
+    ecmr.ecmrConsignment.referenceIdentificationNumber.value += ": Copy";
+
+    return ecmr;
+  }
 }

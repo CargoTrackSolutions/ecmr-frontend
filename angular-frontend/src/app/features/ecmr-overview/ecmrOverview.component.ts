@@ -206,6 +206,12 @@ export class EcmrOverviewComponent implements OnInit {
         });
     }
 
+    onCopyEcmr(ecmrId: string | null | undefined) {
+      if (ecmrId) {
+        this.router.navigateByUrl(`/ecmr-editor/${ecmrId}/copy`);
+      }
+    }
+
     // TODO: implement Guest Access-function for eCMR
     guestAccessToEcmr() {
         this.snackbar.open('Not implemented yet.', '', {duration: 3000});
