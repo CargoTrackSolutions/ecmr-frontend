@@ -35,6 +35,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TemplateNameDialogComponent } from '../template-overview/template-name-dialog/template-name-dialog.component';
 import { LoadFromTemplateDialogComponent } from '../template-overview/load-from-template-dialog/load-from-template-dialog.component';
 import { TemplateUser } from '../../core/models/TemplateUser';
+import { LoadingService } from '../../core/services/loading.service';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DynamicDisableControlDirective} from "./dynamic-disable-control.directive";
 
@@ -293,6 +294,7 @@ export class EcmrEditorComponent implements OnInit {
                 private snackbar: MatSnackBar,
                 private translateService: TranslateService,
                 private cd: ChangeDetectorRef,
+                private loadingService: LoadingService,
                 public matDialog: MatDialog) {
     }
 
@@ -455,9 +457,10 @@ export class EcmrEditorComponent implements OnInit {
                 ecmrId: null,
                 ecmrConsignment: formValue
             }
-            this.ecmrEditorService.saveEcmr(ecmr).subscribe(() => {
-                this.returnToOverview()
-            })
+            this.loadingService.showLoaderUntilCompleted(this.ecmrEditorService.saveEcmr(ecmr))
+                .subscribe(() => {
+                    this.returnToOverview()
+                })
         } else if (this.ecmrConsignmentFormGroup.valid && this.isEdit) {
           const formValue: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
           const ecmr: Ecmr = {

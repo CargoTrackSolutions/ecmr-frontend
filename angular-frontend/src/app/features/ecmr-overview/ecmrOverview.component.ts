@@ -57,6 +57,8 @@ import { EcmrTableComponent } from '../../shared/components/ecmr-table/ecmr-tabl
 import { EMPTY, switchMap } from 'rxjs';
 import { EcmrService } from '../../shared/services/ecmr.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { HttpResponse } from '@angular/common/http';
+import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
     selector: 'app-overview',
@@ -129,7 +131,8 @@ export class EcmrOverviewComponent implements OnInit {
                 public snackbar: MatSnackBar,
                 public ecmrService: EcmrService,
                 private router: Router,
-                private translateService: TranslateService) {
+                private translateService: TranslateService,
+                private loadingService: LoadingService) {
     }
 
     // ecmr selected
@@ -144,12 +147,11 @@ export class EcmrOverviewComponent implements OnInit {
     }
 
     loadData() {
-        this.ecmrService.getAllEcmr().subscribe(data => {
+        this.loadingService.showLoaderUntilCompleted(this.ecmrService.getAllEcmr()).subscribe(data => {
             this.table.dataSource = new MatTableDataSource(data);
             this.table.ecmr = data;
             this.ecmr = data;
             this.table.initFilter();
-
         })
     }
 
@@ -210,4 +212,27 @@ export class EcmrOverviewComponent implements OnInit {
     }
 
     protected readonly JSON = JSON;
+
+    downloadPdf(ecmrId: string) {
+        this.loadingService.showLoaderUntilCompleted(this.ecmrService.downloadPdf(ecmrId)).subscribe((response: HttpResponse<Blob>) => {
+            const contentDisposition = response.headers.get('Content-Disposition');
+            let fileName = 'ecmr-report.pdf';
+
+            if (contentDisposition) {
+                const matches = /filename="([^"]*)"/.exec(contentDisposition);
+                if (matches?.[1]) {
+                    fileName = matches[1];
+                }
+            }
+            if (response.body) {
+                const file = new Blob([response.body], {type: 'application/pdf'});
+                const fileURL = URL.createObjectURL(file);
+                const link = document.createElement('a');
+                link.href = fileURL;
+                link.download = fileName;
+                link.target = '_blank';
+                link.click();
+            }
+        });
+    }
 }

@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatButton, MatIconButton, MatMiniFabButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
@@ -56,6 +56,7 @@ import { FilterRequest } from '../../../features/ecmr-overview/filter-request';
 import { EcmrService } from '../../services/ecmr.service';
 import { EcmrStatus } from '../../../core/models/EcmrStatus';
 import { EcmrTransportType } from '../../../core/models/EcmrTransportType';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-ecmr-table',
@@ -113,7 +114,8 @@ import { EcmrTransportType } from '../../../core/models/EcmrTransportType';
         CdkDropList,
         CdkDrag,
         TranslateModule,
-        NgTemplateOutlet
+        NgTemplateOutlet,
+        MatPaginator
     ],
     templateUrl: './ecmr-table.component.html',
     styleUrl: './ecmr-table.component.scss'
@@ -178,7 +180,10 @@ export class EcmrTableComponent implements OnInit {
                 private ecmrService: EcmrService) {
     }
 
+    @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort = new MatSort();
+
+    @Output() paginating = new EventEmitter<PageEvent>();
 
     ngOnInit() {
         this.initColumns();
@@ -220,6 +225,7 @@ export class EcmrTableComponent implements OnInit {
             this.filterTable(filterRequest);
         })
         this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
     }
 
     updateDisplayedColumns() {

@@ -8,6 +8,7 @@ $my-accent: mat.define-palette(p.$custom-accent-palette, 500);
 $my-warn: mat.define-palette(mat.$red-palette);
 
 $primary-color: mat.get-color-from-palette($my-primary, 500);
+$accent-color: mat.get-color-from-palette($my-accent, 500);
 
 $light-theme: mat.define-light-theme((
         color: (
@@ -25,13 +26,3 @@ $dark-theme: mat.define-dark-theme((
                 accent: $my-accent,
         )
 ));
-
-@include mat.all-component-themes($light-theme);
-
-.mat-mdc-unelevated-button.mat-primary{
-        color: #fff!important;
-}
-
-.dark-theme{
-        @include mat.all-component-themes($dark-theme);
-}

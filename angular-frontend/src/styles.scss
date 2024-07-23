@@ -1,10 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 @import "custom-theme";
+@import "bootstrap/scss/bootstrap";
 
-/* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
-
+/* Global Styles */
 html, body {
   height: 100%;
 }
@@ -14,13 +12,18 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+@include mat.all-component-themes($light-theme);
 
-//Color SVG Sidenav Icons To Primary Color
+.dark-theme {
+  @include mat.all-component-colors($dark-theme);
+}
+
+/* Custom Classes */
 .primary-fill {
   fill: $primary-color;
 }
 
-.primary-letter-fill{
+.primary-letter-fill {
   fill: white;
 }
 
@@ -32,7 +35,7 @@ body {
   fill: white !important;
 }
 
-.active .primary-letter-fill{
+.active .primary-letter-fill {
   fill: $primary-color;
 }
 
@@ -40,46 +43,29 @@ body {
   stroke: white !important;
 }
 
-//Sidenav Accent Color Hover
-.sidenav-container__icon-container:hover{
+.sidenav-container__icon-container:hover,
+.sidenav__icon:hover:not(.active),
+.footer-line:hover {
   background-color: mat.get-color-from-palette($my-accent, 400);
   cursor: pointer;
 }
 
-.sidenav__icon:hover:not(.active) {
-  background-color: mat.get-color-from-palette($my-accent, 400);
-  cursor: pointer;
-}
-
-.footer-line:hover{
-  background-color: mat.get-color-from-palette($my-accent, 400);
-  cursor: pointer;
-}
-
-.active{
+.active {
   background-color: mat.get-color-from-palette($my-primary, 500);
 }
 
-app-ecmr-editor ::-webkit-scrollbar-thumb{
+app-ecmr-editor ::-webkit-scrollbar-thumb,
+app-ecmr-table ::-webkit-scrollbar-thumb {
   border-radius: 5px;
   cursor: pointer;
   background: mat.get-color-from-palette($my-primary, 500);
 }
 
-app-ecmr-editor ::-webkit-scrollbar-thumb:hover {
+app-ecmr-editor ::-webkit-scrollbar-thumb:hover,
+app-ecmr-table ::-webkit-scrollbar-thumb:hover {
   background: mat.get-color-from-palette($my-accent, 500);
 }
 
-app-ecmr-table ::-webkit-scrollbar-thumb{
-  border-radius: 5px;
-  cursor: pointer;
-  background: mat.get-color-from-palette($my-primary, 500)!important;
+.mat-mdc-unelevated-button.mat-primary {
+  color: #fff !important;
 }
-
-app-ecmr-table ::-webkit-scrollbar-thumb:hover {
-  background: mat.get-color-from-palette($my-accent, 500)!important;
-}
-
-
-
-

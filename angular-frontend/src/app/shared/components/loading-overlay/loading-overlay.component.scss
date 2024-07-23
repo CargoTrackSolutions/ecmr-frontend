@@ -1,0 +1,65 @@
+@use "../../../../custom-theme" as custom-theme;
+
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.75);
+  z-index: 2500;
+  opacity: 0;
+  transition: opacity 1.5s ease-in;
+}
+
+.spinner {
+  width: 300px;
+  height: 300px;
+}
+
+.spinner-wrapper.show {
+  opacity: 1;
+}
+
+.rotating-svg {
+  width: 300px;
+  height: 300px;
+  position: fixed;
+  transform: translate(-50%, -50%);
+}
+
+#ring-one {
+  animation: rotate 2s linear infinite;
+
+  path {
+    fill: custom-theme.$primary-color !important;
+  }
+}
+
+#ring-two {
+  animation: rotate 4s linear infinite;
+
+  path {
+    fill: custom-theme.$accent-color !important;
+  }
+}
+
+#ring-three {
+  animation: rotate 1.5s linear infinite;
+
+  path {
+    fill: #464646 !important;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

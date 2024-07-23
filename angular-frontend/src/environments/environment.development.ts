@@ -8,14 +8,6 @@
 
 import { AuthConfig } from 'angular-oauth2-oidc';
 
-/**
- * Copyright Open Logistics Foundation
- *
- * Licensed under the Open Logistics Foundation License 1.3.
- * For details on the licensing terms, see the LICENSE file.
- * SPDX-License-Identifier: OLFL-1.3
- */
-
 const authConfig: AuthConfig = {
   issuer: 'YOUR-ISSUER',
   clientId: 'YOUR-CLIENT-ID',
@@ -30,8 +22,10 @@ const authConfig: AuthConfig = {
   skipIssuerCheck: true
 };
 
+
 export const environment = {
   production: false,
   backendUrl: "http://localhost:8080/api",
   authConfig
 };
+ 

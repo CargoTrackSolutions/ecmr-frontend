@@ -7,7 +7,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EcmrType } from '../../core/models/EcmrType';
 import { Ecmr } from '../../core/models/Ecmr';
 import { ShowColumns } from '../../features/ecmr-overview/show-columns';
@@ -99,6 +99,11 @@ export class EcmrService {
     //     creationDate: Ecmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.timestamp.toString()
     //   }
     // }
+    downloadPdf(ecmrId: string) {
+        let headers = new HttpHeaders();
+        headers = headers.set('Accept', 'application/pdf');
+        return this.http.get(`${environment.backendUrl}/ecmr/pdf/${ecmrId}`, {headers, responseType: 'blob', observe: 'response'});
+    }
 }
 
 export interface EcmrElement {
