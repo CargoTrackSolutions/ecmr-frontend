@@ -54,7 +54,7 @@ import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { EcmrTableComponent } from '../../shared/components/ecmr-table/ecmr-table.component';
-import { EMPTY, switchMap } from 'rxjs';
+import {EMPTY, Observable, switchMap} from 'rxjs';
 import { EcmrService } from '../../shared/services/ecmr.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { HttpResponse } from '@angular/common/http';
@@ -142,18 +142,22 @@ export class EcmrOverviewComponent implements OnInit {
 
     showDetails: boolean = false;
 
-    ngOnInit() {
-        this.loadData()
-    }
+  ngOnInit() {
+    this.loadData().subscribe(data => {
+      this.updateTableData(data);
+    });
+  }
 
-    loadData() {
-        this.loadingService.showLoaderUntilCompleted(this.ecmrService.getAllEcmr()).subscribe(data => {
-            this.table.dataSource = new MatTableDataSource(data);
-            this.table.ecmr = data;
-            this.ecmr = data;
-            this.table.initFilter();
-        })
-    }
+  loadData(): Observable<any> {
+    return this.ecmrService.getAllEcmr();
+  }
+
+  updateTableData(data: Ecmr[]) {
+    this.table.dataSource = new MatTableDataSource(data);
+    this.table.ecmr = data;
+    this.ecmr = data;
+    this.table.initFilter();
+  }
 
     createNewEcmr() {
         this.router.navigateByUrl('/ecmr-editor');
@@ -173,9 +177,14 @@ export class EcmrOverviewComponent implements OnInit {
         if (ecmrId) this.router.navigateByUrl(`/ecmr-editor/${ecmrId}`);
     }
 
-    // TODO: implement
     deleteEcmr(ecmrId: string) {
-        console.log('delete', ecmrId);
+      if (ecmrId) {
+        this.ecmrService.deleteEcmr(ecmrId).pipe(
+          switchMap(() => this.loadData())
+        ).subscribe(data => {
+          this.updateTableData(data);
+        });
+      }
     }
 
     moveToArchive(ecmrId: string) {

@@ -104,6 +104,11 @@ export class EcmrService {
         headers = headers.set('Accept', 'application/pdf');
         return this.http.get(`${environment.backendUrl}/ecmr/pdf/${ecmrId}`, {headers, responseType: 'blob', observe: 'response'});
     }
+
+    deleteEcmr(ecmrId: string) {
+    const params = {'type':  EcmrType[EcmrType.ECMR]}
+    return this.http.delete(`${environment.backendUrl}/ecmr/${ecmrId}`, {params: params});
+    }
 }
 
 export interface EcmrElement {
