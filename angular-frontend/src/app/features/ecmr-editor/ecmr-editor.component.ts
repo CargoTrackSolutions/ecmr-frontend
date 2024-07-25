@@ -9,7 +9,14 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatError, MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { MatInput } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,7 +24,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 import { CountryCode } from '../../core/enums/CountryCode';
 import { filter, map, Observable, startWith, Subscription, switchMap } from 'rxjs';
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import {AsyncPipe, NgClass, NgIf, NgTemplateOutlet} from '@angular/common';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
@@ -36,8 +43,8 @@ import { TemplateNameDialogComponent } from '../template-overview/template-name-
 import { LoadFromTemplateDialogComponent } from '../template-overview/load-from-template-dialog/load-from-template-dialog.component';
 import { TemplateUser } from '../../core/models/TemplateUser';
 import { LoadingService } from '../../core/services/loading.service';
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {DynamicDisableControlDirective} from "./dynamic-disable-control.directive";
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {DynamicDisableControlDirective} from './dynamic-disable-control.directive';
 
 export enum EditorMode {
   ECMR_EDIT ,
@@ -50,35 +57,36 @@ export enum EditorMode {
 @Component({
     selector: 'app-ecmr-editor',
     standalone: true,
-    imports: [
-        MatCardModule,
-        MatFormField,
-        MatInput,
-        MatLabel,
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatIconModule,
-        RouterLink,
-        MatAutocomplete,
-        MatOption,
-        MatAutocompleteTrigger,
-        AsyncPipe,
-        MatToolbar,
-        MatDatepicker,
-        MatDatepickerInput,
-        MatDatepickerToggle,
-        MatSuffix,
-        CdkTextareaAutosize,
-        MatMenuModule,
-        NgIf,
-        MatAccordion,
-        MatExpansionModule,
-        NgTemplateOutlet,
-        TranslateModule,
-        MatError,
-        MatSelect,
-        DynamicDisableControlDirective
-    ],
+  imports: [
+    MatCardModule,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatIconModule,
+    RouterLink,
+    MatAutocomplete,
+    MatOption,
+    MatAutocompleteTrigger,
+    AsyncPipe,
+    MatToolbar,
+    MatDatepicker,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatSuffix,
+    CdkTextareaAutosize,
+    MatMenuModule,
+    NgIf,
+    MatAccordion,
+    MatExpansionModule,
+    NgTemplateOutlet,
+    TranslateModule,
+    MatError,
+    MatSelect,
+    DynamicDisableControlDirective,
+    NgClass
+  ],
     templateUrl: './ecmr-editor.component.html',
     styleUrl: './ecmr-editor.component.scss'
 })
@@ -361,8 +369,6 @@ export class EcmrEditorComponent implements OnInit {
                 startWith(formGroupControl.carrierInformation.controls.carrierCountryCode.controls.value.value ?? ''),
                 map(value => this._filter(value ?? ''))
             );
-
-        console.log(this.editorMode);
     }
 
   setFormConstraints(){
@@ -382,7 +388,7 @@ export class EcmrEditorComponent implements OnInit {
 
   //TODO: update this method, it is currently for testing purposes only!
   signSender(){
-      if(this.ecmrConsignmentFormGroup.valid) {
+      if(this.senderFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
         console.log("sign sender")
         const signature: Signature = {
           type: 'signature',
@@ -404,8 +410,31 @@ export class EcmrEditorComponent implements OnInit {
       }
       else {
         this.ecmrConsignmentFormGroup.markAllAsTouched();
+        const action = this.translateService.instant('general.snackbar_action');
+        const message = this.translateService.instant('ecmr_editor.snackbar_error');
+        this.snackbar.open(message, action, {duration: 3000})
       }
 
+  }
+
+  senderFieldsAreValid(): boolean {
+    const invalidFields: AbstractControl[] = []
+    invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.senderInformation, ['senderNamePerson', 'region']));
+    invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.consigneeInformation, ['consigneeNamePerson', 'region']));
+    invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.takingOverTheGoods, ['region']));
+    invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.carrierInformation, ['region']));
+    if(this.ecmrConsignmentFormGroup.controls.itemList.controls.length > 0){
+      for(const itemGroup of this.itemList.controls) {
+        invalidFields.push(...this.checkControls(itemGroup, []))
+      }
+    }
+
+    invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.established, []));
+
+    for(const control of invalidFields){
+      control.setErrors({ 'mandatoryForSigning': true });
+    }
+    return invalidFields.length == 0;
   }
 
   //TODO: update this method, it is currently for testing purposes only!
@@ -431,7 +460,46 @@ export class EcmrEditorComponent implements OnInit {
     this.cd.detectChanges();
   }
 
+  //TODO: update this method, it is currently for testing purposes only!
+  signConsignor(){
+    console.log("sign consignor");
+    if(this.consignorFieldsAreValid() && this.ecmrConsignmentFormGroup.valid){
+      this.canFillConsignorFields = false;
+    } else {
+      this.ecmrConsignmentFormGroup.markAllAsTouched();
+      const action = this.translateService.instant('general.snackbar_action');
+      const message = this.translateService.instant('ecmr_editor.snackbar_error');
+      this.snackbar.open(message, action, {duration: 3000})
+    }
+  }
 
+  consignorFieldsAreValid(): boolean {
+    const invalidFields: AbstractControl[] = this.checkControls(this.ecmrConsignmentFormGroup.controls.goodsReceived,
+      ['consigneeReservationsObservations', 'consigneeTimeOfArrival', 'consigneeTimeOfDeparture', 'consigneeSignature'])
+    for(const control of invalidFields){
+      control.setErrors({ 'mandatoryForSigning': true });
+    }
+    return invalidFields.length == 0;
+  }
+
+  checkControls(group: FormGroup, excludedElements: string[]): AbstractControl[]{
+    const invalidFields: AbstractControl[] = [];
+    for (const controlName in group.controls) {
+      const control = group.controls[controlName];
+      if (control instanceof FormGroup) {
+        // recursive call for subgroups
+        const subResult = this.checkControls(control, excludedElements)
+        if (subResult.length >= 0) {
+          invalidFields.push(...subResult);
+        }
+      } else {
+        if (!excludedElements.includes(controlName) && (control.value === null || control.value === '')) {
+          invalidFields.push(control)
+        }
+      }
+    }
+    return invalidFields;
+  }
 
     /**
      * Filter function for country autocomplete fields
@@ -451,25 +519,21 @@ export class EcmrEditorComponent implements OnInit {
     if (this.editorMode == EditorMode.ECMR_NEW || EditorMode.TEMPLATE_NEW) {
       this.ecmrConsignment = this.ecmrEditorService.createEmptyEcmrConsignment();
       this.setFormConstraints();
-      console.log("ECMR_NEW");
     }
     if (this.editorMode == EditorMode.ECMR_EDIT) {
       this.ecmrEditorService.getEcmr(this.id).subscribe(ecmr => {
         this.loadEcmr(ecmr);
-        console.log("ECMR_EDIT");
       });
     }
     if (this.editorMode == EditorMode.ECMR_COPY) {
       this.ecmrEditorService.getEcmr(this.id).subscribe(ecmr => {
         this.loadEcmr(this.ecmrEditorService.copyEcmr(ecmr));
-        console.log("ECMR_COPY");
       });
     }
     if (this.editorMode == EditorMode.TEMPLATE_EDIT) {
       this.ecmrEditorService.getTemplate(Number.parseFloat(this.id)).subscribe(ecmr => {
         this.loadedTemplate = ecmr;
         this.loadEcmr(ecmr.ecmr);
-        console.log("TEMPLATE_EDIT");
       });
     }
   }
@@ -484,6 +548,7 @@ export class EcmrEditorComponent implements OnInit {
   }
 
     saveEcmr() {
+      this.ecmrConsignmentFormGroup.reset(this.ecmrConsignmentFormGroup.getRawValue())
         if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_NEW || this.editorMode == EditorMode.ECMR_COPY)) {
             const formValue: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
             const ecmr: Ecmr = {
@@ -493,7 +558,6 @@ export class EcmrEditorComponent implements OnInit {
             this.loadingService.showLoaderUntilCompleted(this.ecmrEditorService.saveEcmr(ecmr))
                 .subscribe(() => {
                     this.returnToOverview()
-                  console.log("Has saved ecmr copy and new")
                 })
         } else if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_EDIT)) {
           const formValue: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
@@ -510,7 +574,8 @@ export class EcmrEditorComponent implements OnInit {
               this.snackbar.open(message, action, {duration: 3000})
               console.error(error)}
           })
-          console.log("Has saved ecmr edit")
+        } else {
+          this.ecmrConsignmentFormGroup.markAllAsTouched();
         }
     }
 
@@ -597,7 +662,8 @@ export class EcmrEditorComponent implements OnInit {
      * Removes an Item FormGroup from the ItemList FormArray
      */
     deleteItem(i: number) {
-        this.ecmrConsignmentFormGroup.controls.itemList.controls.splice(i, 1)
+        this.ecmrConsignmentFormGroup.controls.itemList.controls.splice(i, 1);
+        this.ecmrConsignmentFormGroup.controls.itemList.updateValueAndValidity();
     }
 
     returnToOverview() {

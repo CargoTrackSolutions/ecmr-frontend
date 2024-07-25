@@ -72,6 +72,8 @@
   "ecmr_editor": {
     "create_new_title": "Neuer eCMR",
     "edit_title": "Bearbeite eCMR",
+    "error_mandatory": "Dieses Feld ist für die Signatur erforderlich.",
+    "snackbar_error": "Bitte füllen Sie alle Pflichtfelder aus.",
     "load_from_template": "Aus Vorlage laden",
     "save_as_template": "Speichern als Vorlage",
     "template_name": "Vorlagen Name",

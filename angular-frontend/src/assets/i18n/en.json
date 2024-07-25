@@ -79,6 +79,8 @@
   "ecmr_editor": {
     "create_new_title": "Create new eCMR",
     "edit_title": "Edit eCMR",
+    "error_mandatory": "This field is required for signing.",
+    "snackbar_error": "Please fill in all required fields.",
     "load_from_template": "Load From Template",
     "save_as_template": "Save as Template",
     "template_name": "Template Name",
