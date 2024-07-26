@@ -1,34 +1,45 @@
-<article>
-  <section>
-    <mat-toolbar>
-      <mat-toolbar-row>
-        <mat-label>{{'archive.title' | translate}}</mat-label>
-        <div class="search-bar-container">
-          <mat-form-field class="search-bar-input">
-            <input matInput placeholder="{{'archive.search' | translate}}">
-            <mat-icon matSuffix>search</mat-icon>
-          </mat-form-field>
+<mat-drawer-container [hasBackdrop]="false" class="h-100">
+    <mat-drawer [position]="'end'" [opened]="selectedEcmr !== null" class="detail-view" [mode]="'side'">
+        @if (selectedEcmr) {
+            <app-ecmr-overview-details (closeDetails)="closeDetailView($event)"
+                                       [quickViewButtons]="quickViewButtons"
+                                       [selectedEcmr]="selectedEcmr"></app-ecmr-overview-details>
+        }
+    </mat-drawer>
+    <article>
+        <section>
+            <mat-toolbar>
+                <mat-toolbar-row>
+                    <mat-label>{{ 'archive.title' | translate }}</mat-label>
+                    <div class="search-bar-container">
+                        <mat-form-field class="search-bar-input">
+                            <input matInput placeholder="{{'archive.search' | translate}}">
+                            <mat-icon matSuffix>search</mat-icon>
+                        </mat-form-field>
 
+                    </div>
+                </mat-toolbar-row>
+            </mat-toolbar>
+
+            <!-- Overview Table Container -->
+            <app-ecmr-table (selectedEcmr)="selectEcmr($event)"></app-ecmr-table>
+        </section>
+    </article>
+
+    <ng-template #quickViewButtons let-ecmr>
+        <div>
+            <button class="m-1" mat-flat-button color="primary" (click)="moveToOverview(ecmr.ecmrId)">Remove from archive
+                <mat-icon iconPositionEnd>archive</mat-icon>
+            </button>
+            <button class="m-1" mat-flat-button color="primary">PDF
+                <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
+            </button>
+            <button class="m-1" mat-stroked-button>Copy
+                <mat-icon iconPositionEnd>content_copy</mat-icon>
+            </button>
+            <button class="m-1" mat-stroked-button>Share
+                <mat-icon iconPositionEnd>share</mat-icon>
+            </button>
         </div>
-      </mat-toolbar-row>
-    </mat-toolbar>
-
-    <!-- Overview Table Container -->
-    <app-ecmr-table [quickViewButtons]="quickViewButtons"></app-ecmr-table>
-  </section>
-</article>
-
-<ng-template #quickViewButtons let-ecmr>
-  <button class="m-1" mat-flat-button color="primary" (click)="moveToOverview(ecmr.ecmrId)">Remove from archive
-    <mat-icon iconPositionEnd>archive</mat-icon>
-  </button>
-  <button class="m-1" mat-flat-button color="primary">PDF
-    <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
-  </button>
-  <button class="m-1" mat-stroked-button>Copy
-    <mat-icon iconPositionEnd>content_copy</mat-icon>
-  </button>
-  <button class="m-1" mat-stroked-button>Share
-    <mat-icon iconPositionEnd>share</mat-icon>
-  </button>
-</ng-template>
+    </ng-template>
+</mat-drawer-container>

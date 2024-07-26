@@ -14,12 +14,14 @@ import {
   MatCell,
   MatCellDef,
   MatColumnDef,
-  MatHeaderCell, MatHeaderCellDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
   MatHeaderRow,
   MatHeaderRowDef,
   MatRow,
   MatRowDef,
-  MatTable, MatTableDataSource
+  MatTable,
+  MatTableDataSource
 } from '@angular/material/table';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatDivider } from '@angular/material/divider';
@@ -39,6 +41,8 @@ import { TemplateOverviewService } from './template-overview-service/template-ov
 import { TemplateUser } from '../../core/models/TemplateUser';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { filter, switchMap } from 'rxjs';
+import { EcmrOverviewDetailsComponent } from '../ecmr-overview/ecmr-overview-details/ecmr-overview-details.component';
+import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-template-overview',
@@ -73,7 +77,10 @@ import { filter, switchMap } from 'rxjs';
     MatTooltip,
     NgIf,
     TranslateModule,
-    MatHeaderCellDef
+    MatHeaderCellDef,
+    EcmrOverviewDetailsComponent,
+    MatDrawer,
+    MatDrawerContainer
   ],
   templateUrl: './template-overview.component.html',
   styleUrl: './template-overview.component.scss'
@@ -93,10 +100,9 @@ export class TemplateOverviewComponent implements OnInit {
   showTo: boolean = true;
   toggledColumns = [this.showNumber, this.showName, this.showRefId, this.showFrom, this.showTo];
 
-  selectedTemplate: TemplateUser | undefined;
+  selectedTemplate: TemplateUser | null = null;
 
   dataSource: MatTableDataSource<TemplateUser> = new MatTableDataSource<TemplateUser>();
-  showDetails: boolean = false;
 
   protected readonly JSON = JSON;
 
@@ -139,10 +145,6 @@ export class TemplateOverviewComponent implements OnInit {
 
   shareTemplate() {
 
-  }
-
-  closeDetailsView() {
-    this.showDetails = false;
   }
 
   sortData(sort: Sort){
@@ -225,9 +227,14 @@ export class TemplateOverviewComponent implements OnInit {
 
   }
 
-  showDetailsForTemplateAtIndex(index: number) {
-    this.selectedTemplate = this.dataSource.data[index];
-    this.showDetails = true;
+  selectTemplate(templateUser: TemplateUser | null) {
+    console.log(templateUser);
+    this.selectedTemplate = templateUser;
+  }
+
+  closeDetailView($event: boolean) {
+    if ($event)
+      this.selectTemplate(null)
   }
 }
 

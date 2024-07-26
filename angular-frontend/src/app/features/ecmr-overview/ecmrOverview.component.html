@@ -1,49 +1,72 @@
-<article class="h-100">
-    <section class="d-flex flex-column h-100 overflow-hidden">
-        <mat-toolbar>
-            <mat-toolbar-row class="d-flex flex-row justify-content-between">
-                <mat-label>{{ 'overview.title' | translate }}</mat-label>
-                <div class="search-bar-container">
-                    <button mat-flat-button class="search-bar-button" color="primary" (click)="createNewEcmr()">
-                        <mat-icon iconPositionEnd>add</mat-icon>
-                        {{ 'overview.create_new' | translate }}
-                    </button>
-                    <button mat-flat-button (click)="importEcmr()">{{ 'overview.import' | translate }}
-                        <mat-icon iconPositionEnd>download</mat-icon>
-                    </button>
-                </div>
-            </mat-toolbar-row>
-        </mat-toolbar>
+<mat-drawer-container [hasBackdrop]="false" class="h-100">
+    <mat-drawer [position]="'end'" [opened]="selectedEcmr !== null" class="detail-view" [mode]="'side'">
+        @if (selectedEcmr) {
+            <app-ecmr-overview-details (closeDetails)="closeDetailView($event)"
+                                       [quickViewButtons]="quickViewButtons"
+                                       [selectedEcmr]="selectedEcmr"></app-ecmr-overview-details>
+        }
+    </mat-drawer>
+    <article class="h-100">
+        <section class="d-flex flex-column h-100 overflow-hidden">
+            <mat-toolbar class="action-bar-shadow">
+                <mat-toolbar-row class="d-flex flex-row justify-content-between">
+                    <mat-label>{{ 'overview.title' | translate }}</mat-label>
+                    <div class="search-bar-container">
+                        <button mat-flat-button class="search-bar-button" color="primary" (click)="createNewEcmr()">
+                            <mat-icon iconPositionEnd>add</mat-icon>
+                            {{ 'overview.create_new' | translate }}
+                        </button>
+                        <button mat-flat-button (click)="importEcmr()">{{ 'overview.import' | translate }}
+                            <mat-icon iconPositionEnd>download</mat-icon>
+                        </button>
+                    </div>
+                </mat-toolbar-row>
+            </mat-toolbar>
 
-        <!-- Overview Table Container -->
-        <app-ecmr-table [quickViewButtons]="quickViewButtons" [actionButtons]="actionButtons" [ecmr]="ecmr" class="h-100">
-        </app-ecmr-table>
-    </section>
-</article>
+            <!-- Overview Table Container -->
+            <app-ecmr-table [actionButtons]="actionButtons" [ecmr]="ecmr" (selectedEcmr)="selectEcmr($event)"
+                            class="h-100 overflow-x-auto overflow-y-hidden">
+            </app-ecmr-table>
+        </section>
+    </article>
 
 <ng-template #quickViewButtons let-ecmr>
-    <button class="m-1" mat-flat-button color="primary" (click)="moveToArchive(ecmr.ecmrId)">Archive
-        <mat-icon iconPositionEnd>archive</mat-icon>
-    </button>
-    <button class="m-1" mat-flat-button color="primary" (click)="downloadPdf(ecmr.ecmrId)">PDF
-        <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
-    </button>
-    <button class="m-1" mat-flat-button color="primary" (click)="editEcmr(ecmr.ecmrId)">Edit
-        <mat-icon iconPositionEnd>edit_note</mat-icon>
-    </button>
-    <button class="m-1" mat-stroked-button color="primary" (click)="onCopyEcmr(ecmr.ecmrId)">Copy
-        <mat-icon iconPositionEnd>content_copy</mat-icon>
-    </button>
-    <button class="m-1" mat-stroked-button>Share
-        <mat-icon iconPositionEnd>share</mat-icon>
-    </button>
+    <div>
+        <button class="m-1" mat-flat-button color="primary" (click)="moveToArchive(ecmr.ecmrId)">Archive
+            <mat-icon iconPositionEnd>archive</mat-icon>
+        </button>
+        <button class="m-1" mat-flat-button color="primary" (click)="downloadPdf(ecmr.ecmrId)">PDF
+            <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
+        </button>
+        <button class="m-1" mat-flat-button color="primary" (click)="editEcmr(ecmr.ecmrId)">Edit
+            <mat-icon iconPositionEnd>edit_note</mat-icon>
+        </button>
+        <button class="m-1" mat-stroked-button (click)="onCopyEcmr(ecmr.ecmrId)">Copy
+            <mat-icon iconPositionEnd>content_copy</mat-icon>
+        </button>
+        <button class="m-1" mat-stroked-button>Share
+            <mat-icon iconPositionEnd>share</mat-icon>
+        </button>
+    </div>
 </ng-template>
 
-<ng-template #actionButtons let-ecmr>
-    <button mat-icon-button (click)="editEcmr(ecmr.ecmrId)" matTooltip="{{'overview.tooltips.edit' | translate}}">
-        <mat-icon>edit_note</mat-icon>
-    </button>
-    <button mat-icon-button (click)="deleteEcmr(ecmr.ecmrId)" matTooltip="{{'overview.tooltips.delete' | translate}}">
-        <mat-icon color="warn">close</mat-icon>
-    </button>
-</ng-template>
+    <ng-template #actionButtons let-ecmr>
+        <button mat-icon-button (click)="shareEcmr();$event.stopPropagation()" matTooltip="{{'overview.tooltips.share' | translate}}">
+            <mat-icon>share</mat-icon>
+        </button>
+        <button mat-icon-button (click)="guestAccessToEcmr();$event.stopPropagation()" matTooltip="{{'overview.tooltips.guest_access' | translate}}">
+            <mat-icon>qr_code2</mat-icon>
+        </button>
+        <button mat-icon-button (click)="editEcmr(ecmr.ecmrId);$event.stopPropagation()" matTooltip="{{'overview.tooltips.edit' | translate}}">
+            <mat-icon>edit_note</mat-icon>
+        </button>
+        <button mat-icon-button (click)="historyOfEcmr();$event.stopPropagation()" matTooltip="{{'overview.tooltips.history' | translate}}">
+            <mat-icon>history</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deleteEcmr(ecmr.ecmrId);$event.stopPropagation()" matTooltip="{{'overview.tooltips.delete' | translate}}">
+            <mat-icon color="warn">close</mat-icon>
+        </button>
+    </ng-template>
+</mat-drawer-container>
+
+

@@ -11,7 +11,8 @@
     "save": "Save",
     "edit": "Edit",
     "close": "Close",
-    "share": "Share"
+    "share": "Share",
+    "copy": "Copy"
   },
   "error": {
     "required": "Field must not be empty"
@@ -94,7 +95,9 @@
       "street_name": "Street Name",
       "post_code": "Post Code",
       "city_name": "City Name",
-      "country": "Country"
+      "country": "Country",
+      "email": "Email",
+      "phone": "Phone"
     },
     "title_2": "2. Consignee (name, address, country)",
     "consignee": {
@@ -103,7 +106,9 @@
       "street_name": "Street Name",
       "post_code": "Post Code",
       "city_name": "City Name",
-      "country": "Country"
+      "country": "Country",
+      "email": "Email",
+      "phone": "Phone"
     },
     "title_3": "3. Taking over the Goods",
     "taking_over_the_goods": {
@@ -128,7 +133,10 @@
       "post_code": "Post Code",
       "city_name": "City Name",
       "country": "Country",
-      "license_plate": "License Plate"
+      "region": "Region",
+      "license_plate": "License Plate",
+      "email": "Email",
+      "phone": "Phone"
     },
     "title_7": "7. Successive Carriers",
     "successive_carrier_information": {
@@ -138,8 +146,11 @@
       "post_code": "Post Code",
       "city_name": "City Name",
       "country": "Country",
+      "region": "Region",
       "date": "Date",
-      "signature": "Signature"
+      "signature": "Signature",
+      "email": "Email",
+      "phone": "Phone"
     },
     "title_8": "8. Carrier's reservations and observations on taking over the goods",
     "carriers_reservations": {
@@ -194,6 +205,7 @@
     },
     "title_19": "19. Cash on delivery",
     "cash_on_delivery": {
+      "title": "Cash on Delivery",
       "particulars": "Particulars"
     },
     "title_20": "20. This carriage is subject, notwithstanding any clause to the contrary, to the Convention on the Contract for the international Carriage of Goods by Road",
@@ -212,7 +224,8 @@
     "template": {
       "edit_title": "Edit Template",
       "create_new_title": "Create Template"
-    }
+    },
+    "items": "Items"
   },
   "archive": {
     "title": "Archive",
@@ -223,5 +236,8 @@
     "title": "Confirmation",
     "accept": "Accept",
     "cancel": "Cancel"
+  },
+  "item": {
+    "empty": "Empty"
   }
 }

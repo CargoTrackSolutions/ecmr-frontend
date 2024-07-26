@@ -1,0 +1,16 @@
+.details-view {
+  height: 100%;
+  width: 100%;
+}
+
+.header-info-label {
+  font-size: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0);
+}

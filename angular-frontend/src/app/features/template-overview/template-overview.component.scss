@@ -28,7 +28,7 @@
 }
 
 .ecmr-overview-table {
-  min-width: 100%;
+  width: calc(100vw - 65px);
   position: sticky;
 }
 
@@ -62,3 +62,17 @@ mat-card-content{
   cursor:pointer
 }
 
+
+.detail-view {
+  height: 100%;
+  width: 40vw;
+}
+
+::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0);
+}

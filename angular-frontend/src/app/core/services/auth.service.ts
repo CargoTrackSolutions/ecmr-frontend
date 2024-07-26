@@ -40,6 +40,7 @@ export class AuthService {
         return from(this.oauthService.loadDiscoveryDocumentAndTryLogin());
     }
 
+    // eslint-disable-next-line
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         if (!this.isAuthenticated()) {
             this.initLogin(window.location.pathname);

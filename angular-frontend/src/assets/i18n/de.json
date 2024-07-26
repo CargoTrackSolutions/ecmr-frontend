@@ -11,7 +11,8 @@
     "save": "Speichern",
     "edit": "Bearbeiten",
     "close": "Schließen",
-    "share": "Teilen"
+    "share": "Teilen",
+    "copy": "Kopieren"
   },
   "menu": {
     "overview": "eCMR Übersicht",
@@ -38,10 +39,10 @@
       "last_editor": "zuletzt bearbeitet von",
       "status": "Status",
       "ecmr_status": {
-        "new": "New",
-        "loading": "Loading",
-        "in_transport": "In Transport",
-        "arrived_at_destination": "Arrived At Destination"
+        "new": "Neu",
+        "loading": "Ladend",
+        "in_transport": "Im Transport",
+        "arrived_at_destination": "Am Zielort angekommen"
       },
       "last_edit_date": "zuletzt bearbeitet am",
       "creation_date": "erstellt am"
@@ -87,16 +88,20 @@
       "street_name": "Staßenname",
       "post_code": "Postleitzahl",
       "city_name": "Stadtname",
-      "country": "Land"
+      "country": "Land",
+      "email": "Email",
+      "phone": "Telefon"
     },
-    "title_2": "2. Empfgänger (Name, Adresse, Land)",
+    "title_2": "2. Empfänger (Name, Adresse, Land)",
     "consignee": {
       "name": "Name",
       "person_name": "Personenname",
       "street_name": "Staßenname",
       "post_code": "Postleitzahl",
       "city_name": "Stadtname",
-      "country": "Land"
+      "country": "Land",
+      "email": "Email",
+      "phone": "Telefon"
     },
     "title_3": "3. Übernahme der Güter",
     "taking_over_the_goods": {
@@ -121,7 +126,10 @@
       "post_code": "Postleitzahl",
       "city_name": "Stadtname",
       "country": "Land",
-      "license_plate": "Nummernschild"
+      "region": "Region",
+      "license_plate": "Nummernschild",
+      "email": "Email",
+      "phone": "Telefon"
     },
     "title_7": "7. Nachfolgende Transporteure",
     "successive_carrier_information": {
@@ -131,8 +139,11 @@
       "post_code": "Postleitzahl",
       "city_name": "Stadtname",
       "country": "Land",
+      "region": "Region",
       "date": "Datum",
-      "signature": "Unterschrift"
+      "signature": "Unterschrift",
+      "email": "Email",
+      "phone": "Telefon"
     },
     "title_8": "8. Vorbehalte und Bemerkungen des Frachtführers bei der Übernahme des Gutes",
     "carriers_reservations": {
@@ -142,32 +153,32 @@
     "documents_handed_to_carrier": {
       "remarks": "Bemerkungen"
     },
-    "title_10": "10. Marks and Nos",
+    "title_10": "10. Markierungen und Ziffern",
     "marks_and_nos": {
-      "marking_text": "Marking Text",
-      "barcode_number": "Barcode Number"
+      "marking_text": "Textmarkierung",
+      "barcode_number": "Barcode-Nummer"
     },
-    "title_11": "11. Number of packages",
+    "title_11": "11. Anzahl Pakete",
     "number_of_packages": {
-      "item_quantity": "Item Quantity"
+      "item_quantity": "Quantität"
     },
-    "title_12": "12. Method of packing" ,
+    "title_12": "12. Verpackungsart" ,
     "method_of_packing": {
-      "type_text": "Type Text"
+      "type_text": "Art"
     },
-    "title_13": "13. Nature of goods",
+    "title_13": "13. Gegenstandsart",
     "nature_of_goods": {
-      "identification_text": "Identification Text"
+      "identification_text": "Identifikationstext"
     },
-    "title_14": "14. Gross weight in Kg",
+    "title_14": "14. Gesamtgewicht in kg",
     "gross_weight_in_kg": {
-      "gross_weight": "Gross Weight"
+      "gross_weight": "Gesamtgewicht"
     },
-    "title_15": "15. Volume in m³",
+    "title_15": "15. Volumen in m³",
     "volume_in_m3": {
-      "volume": "Volume"
+      "volume": "Volumen"
     },
-    "add_item": "Add Item",
+    "add_item": "Gegenstand hinzufügen",
     "title_16": "16. Besondere Vereinbarungen zwischen dem Absender und dem Beförderer",
     "special_agreements_sen_carr": {
       "special_agreements": "Besondere Vereinbarungen"
@@ -180,21 +191,23 @@
     "other_useful_particulars": {
       "particulars": "Angaben"
     },
-    "title_19": "19. Cash on delivery",
+    "title_19": "19. Bargeld bei Lieferung",
     "cash_on_delivery": {
+      "title": "Bargeld bei Lieferung",
       "particulars": "Angaben"
     },
     "title_20": "20. Dieser Transport unterliegt, ungeachtet einer gegenteiligen Klausel, dem Übereinkommen über den Beförderungsvertrag im internationalen Straßengüterverkehr",
-    "title_21": "21. Established",
+    "title_21": "21. Erstellt",
     "established": {
       "in": "In",
-      "on": "On"
+      "on": "Am"
     },
     "title_22": "22. Unterschrift oder Stempel des Absenders",
     "title_23": "23. Unterschrift oder Stempel des Transporteur",
     "title_24": "24. Waren erhalten",
-    "non_contractual_part_reserved_for_the_carrier": "Non-contractual part reserved for the carrier",
-    "remarks": "Bemerkungen"
+    "non_contractual_part_reserved_for_the_carrier": "Dem Beförderer vorbehaltener außervertraglicher Teil",
+    "remarks": "Bemerkungen",
+    "items": "Items"
   },
   "archive": {
     "title": "Archiv",
@@ -205,5 +218,8 @@
     "title": "Bestätigung",
     "accept": "Bestätigen",
     "cancel": "Abbrechen"
+  },
+  "item": {
+    "empty": "Leer"
   }
 }
