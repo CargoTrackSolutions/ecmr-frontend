@@ -57,12 +57,13 @@ import { EcmrOverviewDetailsComponent } from './ecmr-overview-details/ecmr-overv
 
 import { Ecmr } from '../../core/models/Ecmr';
 import { EcmrTableComponent } from '../../shared/components/ecmr-table/ecmr-table.component';
-import {EMPTY, Observable, switchMap} from 'rxjs';
+import { EMPTY, Subscription, Observable, switchMap } from 'rxjs';
 import { EcmrService } from '../../shared/services/ecmr.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { LoadingService } from '../../core/services/loading.service';
 import { HttpResponse } from '@angular/common/http';
 import { MatDrawer, MatDrawerContainer, MatSidenavContainer } from '@angular/material/sidenav';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-overview',
@@ -146,9 +147,12 @@ import { MatDrawer, MatDrawerContainer, MatSidenavContainer } from '@angular/mat
 })
 export class EcmrOverviewComponent implements OnInit {
 
-  @ViewChild(EcmrTableComponent) table: EcmrTableComponent;
-  @ViewChild(MatSort) sort: MatSort = new MatSort();
-  dataSourceIndex: number;
+  isMobile: boolean = false;
+    breakpointSubscription: Subscription | undefined;
+
+    @ViewChild(EcmrTableComponent) table: EcmrTableComponent;
+    @ViewChild(MatSort) sort: MatSort = new MatSort();
+    dataSourceIndex: number;
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
               public dialog: MatDialog,
@@ -156,8 +160,9 @@ export class EcmrOverviewComponent implements OnInit {
               public ecmrService: EcmrService,
               private router: Router,
               private translateService: TranslateService,
-              private loadingService: LoadingService) {
-  }
+              private loadingService: LoadingService,
+              private breakpointObserver: BreakpointObserver,) {
+    }
 
   // ecmr selected
     selectedEcmr: Ecmr | null = null;
@@ -166,15 +171,21 @@ export class EcmrOverviewComponent implements OnInit {
 
   showDetails: boolean = false;
 
-  ngOnInit() {
-    this.loadData().subscribe(data => {
-      this.updateTableData(data);
-    });
-  }
+    ngOnInit() {
+      this.breakpointSubscription = this.breakpointObserver
+        .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium])
+        .subscribe((result) => {
+          this.isMobile = result.matches;
+      });
 
-  loadData(): Observable<any> {
-    return this.ecmrService.getAllEcmr();
-  }
+      this.loadData().subscribe(data => {
+        this.updateTableData(data);
+      });
+    }
+
+    loadData(): Observable<any> {
+      return this.ecmrService.getAllEcmr();
+    }
 
   updateTableData(data: Ecmr[]) {
     this.table.dataSource = new MatTableDataSource(data);

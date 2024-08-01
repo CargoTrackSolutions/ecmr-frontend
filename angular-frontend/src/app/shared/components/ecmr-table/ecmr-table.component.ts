@@ -57,75 +57,97 @@ import { EcmrService } from '../../services/ecmr.service';
 import { EcmrStatus } from '../../../core/models/EcmrStatus';
 import { EcmrTransportType } from '../../../core/models/EcmrTransportType';
 import { EcmrOverviewDetailsComponent } from '../../../features/ecmr-overview/ecmr-overview-details/ecmr-overview-details.component';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
-  selector: 'app-ecmr-table',
-  standalone: true,
-  imports: [
-    MatToolbar,
-    MatToolbarRow,
-    MatIcon,
-    MatButton,
-    MatLabel,
-    MatTable,
-    MatTabHeader,
-    MatTabBody,
-    MatHeaderCell,
-    MatHeaderCellDef,
-    MatCellDef,
-    MatColumnDef,
-    MatCell,
-    MatHeaderRowDef,
-    MatRow,
-    MatRowDef,
-    MatHeaderRow,
-    MatTableModule,
-    MatInput,
-    MatFormField,
-    MatPrefix,
-    MatSuffix,
-    MatSort,
-    MatSortHeader,
-    MatSortModule,
-    MatIconButton,
-    MatButtonToggleGroup,
-    MatButtonToggle,
-    MatCheckbox,
-    MatSelect,
-    ReactiveFormsModule,
-    MatOption,
-    MatAccordion,
-    MatExpansionPanel,
-    MatExpansionPanelTitle,
-    MatExpansionPanelDescription,
-    MatExpansionPanelHeader,
-    MatDialogContent,
-    MatDialogTitle,
-    MatTooltip,
-    MatMenu,
-    MatMenuTrigger,
-    MatMenuItem,
-    NgIf,
-    MatCard,
-    MatCardContent,
-    MatMiniFabButton,
-    CdkScrollable,
-    MatDivider,
-    CdkDropList,
-    CdkDrag,
-    TranslateModule,
-    NgTemplateOutlet,
-    EcmrOverviewDetailsComponent
-  ],
-  templateUrl: './ecmr-table.component.html',
-  styleUrl: './ecmr-table.component.scss'
+    selector: 'app-ecmr-table',
+    standalone: true,
+    imports: [
+        MatToolbar,
+        MatToolbarRow,
+        MatIcon,
+        MatButton,
+        MatLabel,
+        MatTable,
+        MatTabHeader,
+        MatTabBody,
+        MatHeaderCell,
+        MatHeaderCellDef,
+        MatCellDef,
+        MatColumnDef,
+        MatCell,
+        MatHeaderRowDef,
+        MatRow,
+        MatRowDef,
+        MatHeaderRow,
+        MatTableModule,
+        MatInput,
+        MatFormField,
+        MatPrefix,
+        MatSuffix,
+        MatSort,
+        MatSortHeader,
+        MatSortModule,
+        MatIconButton,
+        MatButtonToggleGroup,
+        MatButtonToggle,
+        MatCheckbox,
+        MatSelect,
+        ReactiveFormsModule,
+        MatOption,
+        MatAccordion,
+        MatExpansionPanel,
+        MatExpansionPanelTitle,
+        MatExpansionPanelDescription,
+        MatExpansionPanelHeader,
+        MatDialogContent,
+        MatDialogTitle,
+        MatTooltip,
+        MatMenu,
+        MatMenuTrigger,
+        MatMenuItem,
+        NgIf,
+        MatCard,
+        MatCardContent,
+        MatMiniFabButton,
+        CdkScrollable,
+        MatDivider,
+        CdkDropList,
+        CdkDrag,
+        TranslateModule,
+        NgTemplateOutlet,
+        CdkAccordionModule,
+        CommonModule,
+        MatPaginator,
+        EcmrOverviewDetailsComponent,
+    ],
+    templateUrl: './ecmr-table.component.html',
+    animations: [
+        trigger('detailExpand', [
+            state('collapsed', style({height: '0px', minHeight: '0'})),
+            state('expanded', style({height: '*'})),
+            transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+        ]),
+    ],
+    styleUrl: './ecmr-table.component.scss'
 })
 export class EcmrTableComponent implements OnInit {
+
+  isMobile: boolean = false;
+  breakpointSubscription: Subscription | undefined;
 
   displayedColumns: string[] = ['id', 'referenceId', 'from', 'to', 'transportType', 'lastEditor', 'status', 'lastEditDate', 'creationDate', 'licensePlate', 'carrierName', 'carrierPostCode', 'consigneePostCode'];
   columns: string[] = ['id', 'referenceId', 'from', 'to', 'transportType', 'lastEditor', 'status', 'lastEditDate', 'creationDate', 'licensePlate', 'carrierName', 'carrierPostCode', 'consigneePostCode'];
   filteredColumns: string[] = [];
+
+  displayedColumnsMobile = ['content'];
+  expandedElement: Ecmr | null = null;
 
   dataSource: MatTableDataSource<Ecmr> = new MatTableDataSource<Ecmr>();
 
@@ -168,14 +190,16 @@ export class EcmrTableComponent implements OnInit {
   @Input() quickViewButtons: TemplateRef<object>;
   @Input() actionButtons: TemplateRef<object>;
   @Input() ecmr: Ecmr[];
-    @Output() selectedEcmr = new EventEmitter<Ecmr>();
+  @Output() selectedEcmr = new EventEmitter<Ecmr>();
 
   toggledColumns = [this.showColumns.referenceId, this.showColumns.from, this.showColumns.to, this.showColumns.transportType, this.showColumns.lastEditor, this.showColumns.status, this.showColumns.lastEditDate, this.showColumns.creationDate];
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
               public dialog: MatDialog,
               public snackbar: MatSnackBar,
-              private ecmrService: EcmrService) {
+              private ecmrService: EcmrService,
+              private breakpointObserver: BreakpointObserver,
+              private router: Router) {
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -184,7 +208,13 @@ export class EcmrTableComponent implements OnInit {
   @Output() paginating = new EventEmitter<PageEvent>();
 
   ngOnInit() {
-    this.initColumns();
+      this.breakpointSubscription = this.breakpointObserver
+      .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium])
+      .subscribe((result) => {
+        this.isMobile = result.matches;
+      });
+
+      this.initColumns();
   }
 
   showDetailsForEcmrAtIndex(index: number) {
@@ -343,6 +373,16 @@ export class EcmrTableComponent implements OnInit {
   // TODO: implement Guest Access-function for eCMR
   guestAccessToEcmr() {
     this.snackbar.open('Not implemented yet.', '', {duration: 3000});
+  }
+
+  // TODO: implement Show-function for eCMR
+  showEcmr() {
+    this.snackbar.open('Not implemented yet.', '', { duration: 3000 });
+  }
+
+  // TODO: implement Download-function for eCMR
+  downloadPDF() {
+    this.snackbar.open('Not implemented yet.', '', { duration: 3000 });
   }
 
   private filterTable(filterRequest: FilterRequest) {

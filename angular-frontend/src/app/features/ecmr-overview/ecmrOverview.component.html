@@ -12,13 +12,19 @@
                 <mat-toolbar-row class="d-flex flex-row justify-content-between">
                     <mat-label>{{ 'overview.title' | translate }}</mat-label>
                     <div class="search-bar-container">
-                        <button mat-flat-button class="search-bar-button" color="primary" (click)="createNewEcmr()">
-                            <mat-icon iconPositionEnd>add</mat-icon>
-                            {{ 'overview.create_new' | translate }}
-                        </button>
+                      <button mat-flat-button class="search-bar-button" color="primary" (click)="createNewEcmr()">
+                          <mat-icon iconPositionEnd>add</mat-icon>
+                          {{ 'overview.create_new' | translate }}
+                      </button>
+                      @if(!isMobile) {
                         <button mat-flat-button (click)="importEcmr()">{{ 'overview.import' | translate }}
-                            <mat-icon iconPositionEnd>download</mat-icon>
+                          <mat-icon iconPositionEnd>download</mat-icon>
                         </button>
+                      } @else {
+                        <button mat-flat-button class="download-button-mobile" (click)="importEcmr()">
+                          <mat-icon>download</mat-icon>
+                        </button>
+                      }
                     </div>
                 </mat-toolbar-row>
             </mat-toolbar>

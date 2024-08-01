@@ -65,10 +65,9 @@ export class AppComponent implements OnInit, OnDestroy {
     ngOnInit() {
       this.isDarkMode = this.themeService.isDarkMode();
 
-        this.breakpointSubscription = this.breakpointObserver.observe([
-            Breakpoints.Handset,
-            Breakpoints.Tablet
-        ]).subscribe(result => {
+        this.breakpointSubscription = this.breakpointObserver
+        .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium])
+        .subscribe(result => {
             this.isMobile = result.matches;
         });
     }

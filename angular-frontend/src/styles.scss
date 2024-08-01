@@ -31,6 +31,10 @@ body {
   stroke: $primary-color;
 }
 
+.primary-color {
+  color: $primary-color;
+}
+
 .active .primary-fill {
   fill: white !important;
 }
