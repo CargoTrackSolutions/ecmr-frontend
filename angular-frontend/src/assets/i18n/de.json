@@ -18,6 +18,9 @@
     "overview": "eCMR Übersicht",
     "templates": "Vorlagen",
     "archive": "Archiv",
+    "user_overview": "Benutzerverwaltung",
+    "group_overview": "Gruppenverwaltung",
+    "location_overview": "Standortverwaltung",
     "logout": "Logout",
     "privacy": "Datenschutz",
     "imprint_legal": "Impressum, Rechtliches"
@@ -221,5 +224,9 @@
   },
   "item": {
     "empty": "Leer"
+  },
+  "group_overview": {
+    "name": "Name",
+    "title": "Gruppenverwaltung"
   }
 }

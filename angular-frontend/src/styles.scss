@@ -35,6 +35,10 @@ body {
   color: $primary-color;
 }
 
+.active .mat-icon {
+  color: white;
+}
+
 .active .primary-fill {
   fill: white !important;
 }
@@ -59,6 +63,7 @@ body {
 }
 
 app-ecmr-editor ::-webkit-scrollbar-thumb,
+app-group-overview ::-webkit-scrollbar-thumb,
 app-ecmr-overview-details ::-webkit-scrollbar-thumb,
 app-template-overview ::-webkit-scrollbar-thumb,
 app-ecmr-table ::-webkit-scrollbar-thumb {
@@ -69,6 +74,7 @@ app-ecmr-table ::-webkit-scrollbar-thumb {
 
 app-ecmr-editor ::-webkit-scrollbar-thumb:hover,
 app-ecmr-overview-details ::-webkit-scrollbar-thumb:hover,
+app-group-overview ::-webkit-scrollbar-thumb:hover,
 app-template-overview ::-webkit-scrollbar-thumb:hover,
 app-ecmr-table ::-webkit-scrollbar-thumb:hover {
   background: mat.get-color-from-palette($my-accent, 500);

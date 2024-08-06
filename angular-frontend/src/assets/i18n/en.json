@@ -21,6 +21,9 @@
     "overview": "eCMR Overview",
     "templates": "Templates",
     "archive": "Archive",
+    "user_overview": "User management",
+    "group_overview": "Group management",
+    "location_overview": "Location management",
     "logout": "Logout",
     "privacy": "Privacy",
     "imprint_legal": "Imprint, Legal Matter"
@@ -239,5 +242,9 @@
   },
   "item": {
     "empty": "Empty"
+  },
+  "group_overview": {
+    "name": "Name",
+    "title": "Group management"
   }
 }

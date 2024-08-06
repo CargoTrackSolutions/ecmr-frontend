@@ -1,0 +1,17 @@
+<mat-toolbar>
+    <mat-toolbar-row class="d-flex flex-row justify-content-between">
+        <mat-label>{{ 'group_overview.title' | translate }}</mat-label>
+    </mat-toolbar-row>
+</mat-toolbar>
+<div class="table-container d-flex flex-column">
+    <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>{{ "group_overview.name" | translate }}</th>
+            <td *matCellDef="let element" class="ps-3">{{ element.name }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+<mat-paginator showFirstLastButtons [pageSizeOptions]="[5,10,20]" class="mat-paginator-sticky"></mat-paginator>

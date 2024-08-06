@@ -13,6 +13,7 @@ import { ArchiveComponent } from './features/archive/archive.component';
 import { TemplateOverviewComponent } from './features/template-overview/template-overview.component';
 import { AuthGuard } from './core/services/auth.service';
 import { LoginCallbackComponent } from './features/login-callback/login-callback.component';
+import { GroupOverviewComponent } from './features/group/group-overview/group-overview.component';
 
 export const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'ecmr-overview'},
@@ -24,7 +25,8 @@ export const routes: Routes = [
   {path: 'templates-overview', component: TemplateOverviewComponent, canActivate: [AuthGuard]},
   {path: 'template-editor', component: EcmrEditorComponent, canActivate: [AuthGuard]},
   {path: 'template-editor/:id', component: EcmrEditorComponent, canActivate: [AuthGuard]},
-  {path: 'ecmr-editor/:id/copy', component: EcmrEditorComponent, canActivate: [AuthGuard]}
+  {path: 'ecmr-editor/:id/copy', component: EcmrEditorComponent, canActivate: [AuthGuard]},
+  {path: 'group-overview', component: GroupOverviewComponent, canActivate: [AuthGuard]},
   // { path: 'privacy', component: privacy },
   // { path: 'imprint-legal-matter', component: imprintLegalMatter },
 ];

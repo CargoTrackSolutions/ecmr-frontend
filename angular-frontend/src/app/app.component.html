@@ -43,6 +43,24 @@
                matRipple>
                 <app-ecmr-done-icon></app-ecmr-done-icon>
             </a>
+            <a class="sidenav__icon" tabindex="0" (click)="navigateTo('user-overview')"
+               (keyup.enter)="navigateTo('user-overview')"
+               [routerLink]="['/user-overview']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+               matRipple>
+                <mat-icon color="primary" class="scale-icon">person</mat-icon>
+            </a>
+            <a class="sidenav__icon" tabindex="0" (click)="navigateTo('group-overview')"
+               (keyup.enter)="navigateTo('group-overview')"
+               [routerLink]="['/group-overview']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+               matRipple>
+                <mat-icon color="primary" class="scale-icon">groups</mat-icon>
+            </a>
+            <a class="sidenav__icon" tabindex="0" (click)="navigateTo('location-overview')"
+               (keyup.enter)="navigateTo('location-overview')"
+               [routerLink]="['/location-overview']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+               matRipple>
+                <mat-icon color="primary" class="scale-icon">location_on</mat-icon>
+            </a>
         </div>
     </mat-drawer>
     <mat-drawer-container class="sidenav-container" autosize>
@@ -75,6 +93,33 @@
                             <app-ecmr-done-icon></app-ecmr-done-icon>
                         </div>
                         {{'menu.archive' | translate }}
+                    </a>
+                    <a class="sidenav-container__icon-container" matRipple
+                       tabindex="0" (click)="navigateTo('user-overview')"
+                       (keyup.enter)="navigateTo('user-overview')"
+                       [routerLink]="['/user-overview']">
+                        <div class="sidenav__icon" *ngIf="isMobile">
+                            <app-ecmr-done-icon></app-ecmr-done-icon>
+                        </div>
+                        {{ 'menu.user_overview' | translate }}
+                    </a>
+                    <a class="sidenav-container__icon-container" matRipple
+                       tabindex="0" (click)="navigateTo('group-overview')"
+                       (keyup.enter)="navigateTo('group-overview')"
+                       [routerLink]="['/group-overview']">
+                        <div class="sidenav__icon" *ngIf="isMobile">
+                            <app-ecmr-done-icon></app-ecmr-done-icon>
+                        </div>
+                        {{ 'menu.group_overview' | translate }}
+                    </a>
+                    <a class="sidenav-container__icon-container" matRipple
+                       tabindex="0" (click)="navigateTo('location-overview')"
+                       (keyup.enter)="navigateTo('location-overview')"
+                       [routerLink]="['/location-overview']">
+                        <div class="sidenav__icon" *ngIf="isMobile">
+                            <app-ecmr-done-icon></app-ecmr-done-icon>
+                        </div>
+                        {{ 'menu.location_overview' | translate }}
                     </a>
                 </div>
                 <div class="d-flex flex-column gap-1 ps-1 pe-1 mb-4">
