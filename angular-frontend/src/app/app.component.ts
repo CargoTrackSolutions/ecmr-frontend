@@ -7,7 +7,7 @@
  */
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDrawer, MatDrawerContainer, MatSidenavModule } from '@angular/material/sidenav';
@@ -43,7 +43,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 })
 export class AppComponent implements OnInit, OnDestroy {
     title = 'angular-frontend';
-    actualLanguage = 'DE';
+    actualLanguage = 'EN';
     isOpen = false;
 
     isMobile: boolean = false;
@@ -52,6 +52,8 @@ export class AppComponent implements OnInit, OnDestroy {
     isDarkMode: boolean = false;
 
     loading$: Observable<boolean>;
+
+    @ViewChild('drawer') drawer: MatDrawer;
 
     constructor(private breakpointObserver: BreakpointObserver,
                 private router: Router,
@@ -98,6 +100,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     navigateTo(url: string) {
-        this.router.navigateByUrl(url)
+        this.router.navigateByUrl(url);
+        if (this.isOpen) this.toggleMenu();
+        this.drawer.close();
     }
 }

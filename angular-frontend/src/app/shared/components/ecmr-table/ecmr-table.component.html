@@ -334,8 +334,8 @@
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;" id="rows"
-              (click)="showDetailsForEcmrAtIndex(i)"
-          ></tr>
+              (click)="showDetailsForEcmrAtIndex(i)">
+          </tr>
       </table>
   } @else {
       <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
@@ -395,7 +395,8 @@
               [class.expanded-row]="expandedElement === element"
               (click)="expandedElement = expandedElement === element ? null : element">
           </tr>
-          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="expanded-row"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"
+              class="expanded-row"></tr>
       </table>
   }
 </div>

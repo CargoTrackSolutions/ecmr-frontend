@@ -1,0 +1,45 @@
+table {
+  overflow: auto;
+}
+
+.table-container {
+  height: calc(100vh - 184px);
+  overflow: auto;
+}
+
+.mat-paginator-sticky {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+}
+
+.mat-mdc-row, .cdk-row, .mdc-data-table__row {
+  height: calc((100vh - 240px) / 10) !important;
+  max-height: calc((100vh - 240px) / 10) !important;
+}
+
+.mat-mdc-row:hover {
+  background-color: rgba(196, 196, 196, 0.08) !important;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0);
+}
+
+tr {
+  cursor: pointer;
+}
+
+#icons {
+  width: 10rem;
+}
+
+.actions {
+  width: 10rem;
+}
+

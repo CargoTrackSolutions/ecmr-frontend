@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>{{ (isEditMode ? "group_edit_dialog.edit" : "group_edit_dialog.create") | translate }}</h2>
+<mat-dialog-content [formGroup]="groupFormGroup">
+    <div class="mt-4 d-flex flex-column">
+        <mat-form-field class="row">
+            <mat-label>{{ "group_edit_dialog.name" | translate }}</mat-label>
+            <input matInput formControlName="name"/>
+            @if (groupFormGroup.controls.name.invalid) {
+                <mat-error>{{ "common.errors.required" | translate }}</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field class="row">
+            <mat-label>{{ "group_edit_dialog.location" | translate }}</mat-label>
+            <mat-select formControlName="location" [compareWith]="compareLocationFn">
+                @for (location of locations; track location) {
+                    <mat-option [value]="location">{{ location.name }}</mat-option>
+                }
+            </mat-select>
+            @if (groupFormGroup.controls.location.invalid) {
+                <mat-error>{{ "common.errors.required" | translate }}</mat-error>
+            }
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions [align]="'end'">
+    <button mat-flat-button color="warn" (click)="closeDialog()">{{ "common.cancel" | translate }}</button>
+    <button mat-flat-button color="primary" (click)="saveGroup()">{{ "common.save" | translate }}</button>
+</mat-dialog-actions>

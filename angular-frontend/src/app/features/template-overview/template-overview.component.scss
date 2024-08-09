@@ -3,14 +3,6 @@
   left: 85%;
 }
 
-#icons span{
-  visibility: hidden;
-}
-
-#icons:hover span{
-  visibility: visible;
-}
-
 .search-bar-input {
   margin-top: 20px;
   width: 450px;
@@ -75,4 +67,8 @@ mat-card-content{
 
 ::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0);
+}
+
+#icons {
+  width: 300px;
 }

@@ -99,7 +99,7 @@
                        (keyup.enter)="navigateTo('user-overview')"
                        [routerLink]="['/user-overview']">
                         <div class="sidenav__icon" *ngIf="isMobile">
-                            <app-ecmr-done-icon></app-ecmr-done-icon>
+                            <mat-icon color="primary" class="scale-icon">person</mat-icon>
                         </div>
                         {{ 'menu.user_overview' | translate }}
                     </a>
@@ -108,7 +108,7 @@
                        (keyup.enter)="navigateTo('group-overview')"
                        [routerLink]="['/group-overview']">
                         <div class="sidenav__icon" *ngIf="isMobile">
-                            <app-ecmr-done-icon></app-ecmr-done-icon>
+                            <mat-icon color="primary" class="scale-icon">groups</mat-icon>
                         </div>
                         {{ 'menu.group_overview' | translate }}
                     </a>
@@ -117,7 +117,7 @@
                        (keyup.enter)="navigateTo('location-overview')"
                        [routerLink]="['/location-overview']">
                         <div class="sidenav__icon" *ngIf="isMobile">
-                            <app-ecmr-done-icon></app-ecmr-done-icon>
+                            <mat-icon color="primary" class="scale-icon">location_on</mat-icon>
                         </div>
                         {{ 'menu.location_overview' | translate }}
                     </a>

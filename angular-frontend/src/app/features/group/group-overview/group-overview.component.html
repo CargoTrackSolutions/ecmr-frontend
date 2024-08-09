@@ -1,17 +1,45 @@
 <mat-toolbar>
     <mat-toolbar-row class="d-flex flex-row justify-content-between">
         <mat-label>{{ 'group_overview.title' | translate }}</mat-label>
+        <div class="d-flex flex-row gap-2 align-items-center">
+            <mat-form-field class="mt-4 search-field">
+                <mat-label>{{ 'group_overview.search' | translate }}</mat-label>
+                <input matInput (keyup)="applyFilter($event)">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+            <button mat-flat-button color="primary" (click)="createNewGroup()">
+                <mat-icon iconPositionEnd>add</mat-icon>
+                {{ 'group_overview.create_new' | translate }}
+            </button>
+        </div>
     </mat-toolbar-row>
 </mat-toolbar>
 <div class="table-container d-flex flex-column">
-    <table mat-table [dataSource]="dataSource">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element" class="ps-3 icons-short" id="icons">
+                <button mat-icon-button color="warn" matTooltip="{{'group_overview.delete_group' | translate}}"
+                        (click)="$event.stopPropagation()">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="{{'user_overview.edit_user' | translate}}"
+                        (click)="editGroup(element); $event.stopPropagation()">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </td>
+        </ng-container>
         <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>{{ "group_overview.name" | translate }}</th>
-            <td *matCellDef="let element" class="ps-3">{{ element.name }}</td>
+            <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ "group_overview.name" | translate }}</th>
+            <td mat-cell *matCellDef="let element" class="ps-3">{{ element.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="location">
+            <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ "group_overview.location_name" | translate }}</th>
+            <td mat-cell *matCellDef="let element" class="ps-3">{{ element.location.name }}</td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openGroup(row.id)"></tr>
     </table>
 </div>
-<mat-paginator showFirstLastButtons [pageSizeOptions]="[5,10,20]" class="mat-paginator-sticky"></mat-paginator>
+<mat-paginator showFirstLastButtons [pageSize]="10" [pageSizeOptions]="[5,10,20]" class="mat-paginator-sticky"></mat-paginator>

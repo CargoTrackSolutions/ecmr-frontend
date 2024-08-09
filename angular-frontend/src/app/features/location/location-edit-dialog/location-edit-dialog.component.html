@@ -1,0 +1,33 @@
+<mat-dialog-content [formGroup]="locationEditFormGroup">
+    <mat-card class="flex-grow-1">
+        <mat-card-header>
+            <mat-card-title class="h1">
+                {{ !isEdit ? 'location.create' : 'location.edit' | translate }}
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="flex-grow-1">
+                <div class="row">
+                    <mat-form-field class="col">
+                        <mat-label>{{ 'location.name' | translate }}</mat-label>
+                        <input formControlName="name" required matInput>
+                    </mat-form-field>
+                    <mat-form-field class="col">
+                        <mat-label>{{ 'location.officeNumber' | translate }}</mat-label>
+                        <input formControlName="officeNumber" required matInput>
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-flat-button color="warn" (click)="closeDialog()">
+        {{ 'common.cancel' | translate }}
+        <mat-icon>close</mat-icon>
+    </button>
+    <button mat-flat-button color="primary" (click)="saveLocation()" [disabled]="!this.locationEditFormGroup.valid">
+        {{ 'common.save' | translate }}
+        <mat-icon>save</mat-icon>
+    </button>
+</mat-dialog-actions>

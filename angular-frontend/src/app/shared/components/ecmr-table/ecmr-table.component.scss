@@ -1,15 +1,7 @@
 @use "../../../../custom-theme" as custom-theme;
 
-#icons span{
-  visibility: hidden;
-}
-
 #icons {
   width: 300px;
-}
-
-#icons:hover span{
-  visibility: visible;
 }
 
 .icon-button {

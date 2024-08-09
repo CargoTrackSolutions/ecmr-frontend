@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef} from "@angular/material/dialog";
-import {MatButton} from "@angular/material/button";
-import {TranslateModule} from "@ngx-translate/core";
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { MatButton } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 export interface ConfirmationDialogData {
   text: string;
@@ -18,12 +18,13 @@ export interface ConfirmationDialogData {
 @Component({
   selector: 'app-confirmation-dialog',
   standalone: true,
-  imports: [
-    MatDialogContent,
-    MatDialogActions,
-    MatButton,
-    TranslateModule
-  ],
+    imports: [
+        MatDialogContent,
+        MatDialogActions,
+        MatButton,
+        TranslateModule,
+        MatDialogTitle
+    ],
   templateUrl: './confirmation-dialog.component.html',
   styleUrl: './confirmation-dialog.component.scss'
 })

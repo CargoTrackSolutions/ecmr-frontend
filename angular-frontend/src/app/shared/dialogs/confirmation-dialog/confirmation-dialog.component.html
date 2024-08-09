@@ -1,12 +1,10 @@
-<section>
-    <h2> {{ 'confirmation.title' | translate }} </h2>
+<h2 mat-dialog-title> {{ 'confirmation.title' | translate }} </h2>
+<mat-dialog-content>
+    <p class="mt-3">{{ data.text }}</p>
+</mat-dialog-content>
 
-    <mat-dialog-content>
-        <p>{{ data.text }}</p>
-    </mat-dialog-content>
+<mat-dialog-actions [align]="'center'">
+    <button mat-flat-button (click)="close(false)" color="warn">{{ 'confirmation.cancel' | translate }}</button>
+    <button mat-flat-button (click)="close(true)" color="primary">{{ 'confirmation.accept' | translate }}</button>
+</mat-dialog-actions>
 
-    <mat-dialog-actions>
-        <button mat-flat-button (click)="close(false)" color="primary">{{ 'confirmation.cancel' | translate }}</button>
-        <button mat-flat-button (click)="close(true)" color="warn">{{ 'confirmation.accept' | translate }}</button>
-    </mat-dialog-actions>
-</section>

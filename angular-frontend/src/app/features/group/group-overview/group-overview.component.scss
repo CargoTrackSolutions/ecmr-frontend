@@ -14,13 +14,17 @@ table {
 }
 
 .mat-mdc-row, .cdk-row, .mdc-data-table__row {
-  height: calc((100vh - 240px) / 10) !important;
-  max-height: calc((100vh - 240px) / 10) !important;
+  height: calc((100vh - 240px) / 15) !important;
+  max-height: calc((100vh - 240px) / 15) !important;
 }
 
 .mat-mdc-row:hover {
   background-color: rgba(196, 196, 196, 0.08) !important;
   cursor: pointer;
+}
+
+.search-field {
+  width: 400px;
 }
 
 ::-webkit-scrollbar {
@@ -29,4 +33,28 @@ table {
 
 ::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0);
+}
+
+@media screen and (max-width: 600px) {
+  .table-container {
+    height: calc(100vh - 168px);
+    overflow: auto;
+  }
+
+  .mat-mdc-row, .cdk-row, .mdc-data-table__row {
+    height: calc((100vh - 224px) / 15) !important;
+    max-height: calc((100vh - 224px) / 15) !important;
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .table-container {
+    height: calc(100vh - 201px);
+    overflow: auto;
+  }
+
+  .mat-mdc-row, .cdk-row, .mdc-data-table__row {
+    height: calc((100vh - 257px) / 15) !important;
+    max-height: calc((100vh - 257px) / 15) !important;
+  }
 }

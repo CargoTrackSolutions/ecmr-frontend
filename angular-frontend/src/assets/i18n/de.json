@@ -12,7 +12,10 @@
     "edit": "Bearbeiten",
     "close": "Schließen",
     "share": "Teilen",
-    "copy": "Kopieren"
+    "copy": "Kopieren",
+    "errors": {
+      "required": "Feld darf nicht leer sein"
+    }
   },
   "menu": {
     "overview": "eCMR Übersicht",
@@ -227,6 +230,51 @@
   },
   "group_overview": {
     "name": "Name",
-    "title": "Gruppenverwaltung"
+    "title": "Gruppenverwaltung",
+    "create_new": "Neue Gruppe erstellen",
+    "delete_group": "Gruppe löschen",
+    "search": "Suchen",
+    "location_name": "Standort"
+  },
+  "group_detail": {
+    "title": "Benutzerverwaltung",
+    "remove_user": "Nutzer entfernen"
+  },
+  "group_edit_dialog": {
+    "edit": "Gruppe bearbeiten",
+    "create": "Gruppe erstellen",
+    "name": "Name",
+    "location": "Standort"
+  },
+  "user_overview": {
+    "title": "Benutzerverwaltung",
+    "create_user": "Neuen Nutzer erstellen",
+    "edit_user": "User bearbeiten",
+    "delete_user": "User löschen"
+  },
+  "edit_user_dialog": {
+    "edit": "Benutzer bearbeiten",
+    "create": "Benutzer erstellen",
+    "group": "Gruppe",
+    "location": "Standort",
+    "user_information": "Benutzerinformationen",
+    "locations_and_groups": "Standorte und Gruppen"
+  },
+  "user": {
+    "first_name": "Vorname",
+    "last_name": "Nachname",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "role": "Rolle"
+  },
+  "location": {
+    "title": "Standortverwaltung",
+    "name": "Name",
+    "street": "Straße",
+    "postcode": "PLZ",
+    "city": "Stadt",
+    "countryCode": "Länderkürzel",
+    "officeNumber": "Büronummer",
+    "clear_filter": "Filter löschen"
   }
 }

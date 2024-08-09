@@ -35,6 +35,10 @@ body {
   color: $primary-color;
 }
 
+.mat-background-primary {
+  background-color: $primary-color !important;
+}
+
 .active .mat-icon {
   color: white;
 }
@@ -62,8 +66,21 @@ body {
   background-color: mat.get-color-from-palette($my-primary, 500);
 }
 
+.container-header {
+  width: 100%;
+  border-bottom: $primary-color 2px solid;
+}
+
+.mat-mdc-dialog-title {
+  background-color: $primary-color;
+  color: white !important;
+  font-weight: bold !important;
+}
+
 app-ecmr-editor ::-webkit-scrollbar-thumb,
 app-group-overview ::-webkit-scrollbar-thumb,
+app-group-detail-view ::-webkit-scrollbar-thumb,
+app-edit-user-dialog ::-webkit-scrollbar-thumb,
 app-ecmr-overview-details ::-webkit-scrollbar-thumb,
 app-template-overview ::-webkit-scrollbar-thumb,
 app-ecmr-table ::-webkit-scrollbar-thumb {
@@ -74,6 +91,8 @@ app-ecmr-table ::-webkit-scrollbar-thumb {
 
 app-ecmr-editor ::-webkit-scrollbar-thumb:hover,
 app-ecmr-overview-details ::-webkit-scrollbar-thumb:hover,
+app-group-detail-view ::-webkit-scrollbar-thumb:hover,
+app-edit-user-dialog ::-webkit-scrollbar-thumb:hover,
 app-group-overview ::-webkit-scrollbar-thumb:hover,
 app-template-overview ::-webkit-scrollbar-thumb:hover,
 app-ecmr-table ::-webkit-scrollbar-thumb:hover {
@@ -108,4 +127,46 @@ $logo-multiplier: 0.75;
   -webkit-box-shadow: 0px 2px 2px 0px rgba(184, 184, 184, 0.5);
   box-shadow: 0px 2px 2px 0px rgba(184, 184, 184, 0.5);;
   z-index: 5000;
+}
+
+:root {
+  --transition-times: 0.05s, 0.1s, 0.15s, 0.2s, 0.25s;
+}
+
+#icons {
+  width: 300px;
+}
+
+#icons.icons-short {
+  width: 150px;
+}
+
+tr #icons button {
+  opacity: 0;
+  transition: opacity var(--transition-times);
+}
+
+tr:hover #icons button {
+  opacity: 1;
+  transition: opacity var(--transition-times);
+}
+
+tr #icons button:nth-child(1) {
+  transition-delay: 0s;
+}
+
+tr #icons button:nth-child(2) {
+  transition-delay: 0.05s;
+}
+
+tr #icons button:nth-child(3) {
+  transition-delay: 0.1s;
+}
+
+tr #icons button:nth-child(4) {
+  transition-delay: 0.15s;
+}
+
+tr #icons button:nth-child(5) {
+  transition-delay: 0.2s;
 }

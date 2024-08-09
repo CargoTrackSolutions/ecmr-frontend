@@ -1,5 +1,7 @@
 <mat-drawer-container [hasBackdrop]="false" class="h-100">
-    <mat-drawer [position]="'end'" [opened]="selectedEcmr !== null" class="detail-view" [mode]="'side'">
+    <mat-drawer [position]="'end'" [opened]="selectedEcmr !== null" class="detail-view" [ngClass]="isMobile?'detail-view-mobile' :
+    'detail-view'"
+                [mode]="'side'">
         @if (selectedEcmr) {
             <app-ecmr-overview-details (closeDetails)="closeDetailView($event)"
                                        [quickViewButtons]="quickViewButtons"

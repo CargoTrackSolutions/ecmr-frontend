@@ -1,0 +1,13 @@
+<div class="w-100 d-flex flex-column gap-2">
+    <div class="custom-snackbar {{type}} d-flex align-items-center gap-2">
+        @if (type === "success") {
+            <mat-icon class="text-white">done</mat-icon>
+        } @else if (type === "error") {
+            <mat-icon class="text-white">warning</mat-icon>
+        } @else {
+            <mat-icon class="text-white">info</mat-icon>
+        }
+        <span class="text-white">{{ message | translate }}</span>
+    </div>
+    <mat-progress-bar mode="determinate" [value]="progress" color="accent"></mat-progress-bar>
+</div>

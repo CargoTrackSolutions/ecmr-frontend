@@ -12,7 +12,10 @@
     "edit": "Edit",
     "close": "Close",
     "share": "Share",
-    "copy": "Copy"
+    "copy": "Copy",
+    "errors": {
+      "required": "Required"
+    }
   },
   "error": {
     "required": "Field must not be empty"
@@ -245,6 +248,54 @@
   },
   "group_overview": {
     "name": "Name",
-    "title": "Group management"
+    "title": "Group management",
+    "create_new": "Create new group",
+    "delete_group": "Delete group",
+    "search": "Search",
+    "location_name": "Location"
+  },
+  "group_detail": {
+    "title": "User management",
+    "remove_user": "Remove user"
+  },
+  "group_edit_dialog": {
+    "edit": "Edit group",
+    "create": "Create group",
+    "name": "Name",
+    "location": "Location"
+  },
+  "user_overview": {
+    "title": "User management",
+    "create_user": "Create new user",
+    "edit_user": "Edit User",
+    "delete_user": "Delete User"
+  },
+  "edit_user_dialog": {
+    "edit": "Edit user",
+    "create": "Create user",
+    "group": "Group",
+    "location": "Location",
+    "user_information": "User information",
+    "locations_and_groups": "Locations and Groups"
+  },
+  "user": {
+    "first_name": "First name",
+    "last_name": "Last name",
+    "email": "E-Mail",
+    "phone": "Phone",
+    "role": "Role"
+  },
+  "location": {
+    "title": "Location Management",
+    "name": "Name",
+    "street": "Street",
+    "postcode": "Postcode",
+    "city": "City",
+    "countryCode": "Country Code",
+    "officeNumber": "Office Number",
+    "delete": "Delete Location",
+    "edit": "Edit Location",
+    "create": "Create Location",
+    "clear_filter": "Clear Filter"
   }
 }
