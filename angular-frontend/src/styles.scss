@@ -170,3 +170,23 @@ tr #icons button:nth-child(4) {
 tr #icons button:nth-child(5) {
   transition-delay: 0.2s;
 }
+
+.custom-snackbar.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  color: #fff !important;
+}
+
+.custom-snackbar.mat-mdc-snack-bar-container.success .mdc-snackbar__surface {
+  background-color: #66d72f !important;
+}
+
+.custom-snackbar.mat-mdc-snack-bar-container.error .mdc-snackbar__surface {
+  background-color: #DC3545FF !important;
+}
+
+.custom-snackbar.mat-mdc-snack-bar-container.info .mdc-snackbar__surface {
+  background-color: #FABB00FF !important;
+}
+
+.mdc-linear-progress__bar-inner {
+  border-color: white !important;
+}

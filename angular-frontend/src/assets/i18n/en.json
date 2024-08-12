@@ -293,9 +293,21 @@
     "city": "City",
     "countryCode": "Country Code",
     "officeNumber": "Office Number",
-    "delete": "Delete Location",
-    "edit": "Edit Location",
+    "clear_filter": "Clear Filter",
     "create": "Create Location",
-    "clear_filter": "Clear Filter"
+    "edit": "Edit Location",
+    "delete": "Delete Location",
+    "success": {
+      "created": "Location successfully created",
+      "updated": "Location successfully updated"
+    },
+    "error": {
+      "not_created": "Location could not be created",
+      "not_found": "Location not found"
+    }
+  },
+  "errors": {
+    "required": "Required",
+    "invalid_countryCode": "Invalid CountryCode"
   }
 }

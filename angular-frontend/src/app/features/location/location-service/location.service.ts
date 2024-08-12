@@ -23,15 +23,15 @@ export class LocationService {
     return this.http.get<Location[]>(`${environment.backendUrl}/location`)
   }
 
-  createLocation() {
+  createLocation(location: Location) {
+    return this.http.post<Location>(`${environment.backendUrl}/location`,location)
+  }
 
+  updateLocation(location: Location) {
+    return this.http.post<Location>(`${environment.backendUrl}/location/${location.id}`, location);
   }
 
   deleteLocation() {
 
-  }
-
-  updateLocation(location: Location) {
-    return this.http.patch<Location>(`${environment.backendUrl}/location/${location.id}`, location);
   }
 }

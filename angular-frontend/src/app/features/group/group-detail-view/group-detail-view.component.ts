@@ -78,7 +78,7 @@ export class GroupDetailViewComponent implements OnInit {
 
     @ViewChild(MatSort) sort: MatSort;
 
-    selectedGroup: Group;
+    selectedGroup: Group | null;
     groupId: number;
 
     sub: Subscription;

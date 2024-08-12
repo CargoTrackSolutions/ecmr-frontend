@@ -12,12 +12,14 @@
             <span class="text-white">{{'title' | translate }}</span>
         </div>
         <span style="margin-left: auto; margin-right: 0;"></span>
-        <button (click)="changeLanguage()" mat-icon-button>
-            <div style="font-size: medium">{{actualLanguage}}</div>
-        </button>
         <button mat-icon-button (click)="toggleTheme()">
             <mat-icon class="text-white">{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
         </button>
+        <div class="language-picker">
+            <select [(ngModel)]="selectedLanguage" (change)="switchLanguage($event)">
+                <option *ngFor="let lang of languages" [value]="lang">{{ lang | uppercase }}</option>
+            </select>
+        </div>
     </mat-toolbar-row>
 </mat-toolbar>
 <mat-drawer-container class="sidenav-container" autosize>

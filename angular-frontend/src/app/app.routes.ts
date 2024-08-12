@@ -18,7 +18,6 @@ import { GroupDetailViewComponent } from './features/group/group-detail-view/gro
 import { UserOverviewComponent } from './features/user/user-overview/user-overview.component';
 import { LocationOverviewComponent } from './features/location/location-overview/location-overview.component';
 
-
 export const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'ecmr-overview'},
     {path: 'login-callback', component: LoginCallbackComponent, canActivate: []},

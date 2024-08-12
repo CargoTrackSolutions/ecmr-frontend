@@ -28,12 +28,12 @@ import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { CountryCode } from '../../../core/enums/CountryCode';
 import { MatTooltip } from '@angular/material/tooltip';
 import { NgIf } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TemplateNameDialogComponent } from '../../template-overview/template-name-dialog/template-name-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { LocationEditDialogComponent } from '../location-edit-dialog/location-edit-dialog.component';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-location-admin',
@@ -98,122 +98,11 @@ export class LocationOverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.locationService.getAllLocations().subscribe(locations => {
-    //  this.dataSource.data = locations;
-    //  this.allLocations = {...locations};
-    //})
-    this.allLocations.push(
-        {id: 0,
-        city: 'Howi',
-        name: 'Test', officeNumber: '213', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '213', postcode: '44263', street: 'Street 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '213', postcode: '122', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'AllesKLAR', officeNumber: '09212', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.BR
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '213', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.BR
-        },
-        {id: 0,
-          city: 'Irgendwas',
-          name: 'Test', officeNumber: '213', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '213', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '213', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '213', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '213', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '213', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '213', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '213', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '213', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '213', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '213', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '213', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '213', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '213', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '3', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '2', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        },
-        {id: 0,
-          city: 'Howi',
-          name: 'Test', officeNumber: '1', postcode: '44263', street: 'Rhenus-Platz 1',
-          countryCode: CountryCode.DE
-        })
-    this.dataSource.data = this.allLocations;
+    this.locationService.getAllLocations().subscribe(locations => {
+      this.dataSource.data = locations;
+      this.allLocations = {...locations};
+    })
+
     this.dataSource.filterPredicate = this.createFilter();
     this.filterFormGroup.valueChanges.subscribe(() => {
       this.applyFilter();
@@ -267,16 +156,40 @@ export class LocationOverviewComponent implements OnInit {
   }
 
   onCreateClick() {
-
+    this.matDialog.open(LocationEditDialogComponent)
+        .afterClosed()
+        .pipe(
+            switchMap(location => {
+              if (location) {
+                return this.updateTable();
+              }
+              return [];
+            })
+        )
+        .subscribe();
   }
 
   onEditClick(location: Location) {
-    this.matDialog.open(TemplateNameDialogComponent, {
-      minWidth: '350px',
-      data: {
-        location: location
-      }
-    });
+    this.matDialog.open(LocationEditDialogComponent, { data: location })
+        .afterClosed()
+        .pipe(
+            switchMap(updatedLocation => {
+              if (updatedLocation) {
+                return this.updateTable();
+              }
+              return [];
+            })
+        )
+        .subscribe();
+  }
+
+  private updateTable() {
+    return this.locationService.getAllLocations().pipe(
+        tap(locations => {
+          this.dataSource.data = locations;
+          this.allLocations = { ...locations };
+        })
+    );
   }
 
   onDeleteClick(location: Location) {

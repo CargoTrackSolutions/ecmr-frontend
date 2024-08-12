@@ -1,32 +1,70 @@
-<mat-dialog-content [formGroup]="locationEditFormGroup">
-    <mat-card class="flex-grow-1">
-        <mat-card-header>
-            <mat-card-title class="h1">
-                {{ !isEdit ? 'location.create' : 'location.edit' | translate }}
-            </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <div class="flex-grow-1">
-                <div class="row">
-                    <mat-form-field class="col">
-                        <mat-label>{{ 'location.name' | translate }}</mat-label>
-                        <input formControlName="name" required matInput>
-                    </mat-form-field>
-                    <mat-form-field class="col">
-                        <mat-label>{{ 'location.officeNumber' | translate }}</mat-label>
-                        <input formControlName="officeNumber" required matInput>
-                    </mat-form-field>
-                </div>
-            </div>
-        </mat-card-content>
-    </mat-card>
+<h1 mat-dialog-title class="h1">{{ (!isEdit ? 'location.create' : 'location.edit') | translate }}</h1>
+<mat-dialog-content [formGroup]="locationEditFormGroup" class="flex-grow-1">
+    <div class="row">
+        <mat-form-field class="col-8">
+            <mat-label>{{ 'location.name' | translate }}</mat-label>
+            <input formControlName="name" required matInput>
+            <mat-error *ngIf="locationEditFormGroup.get('name')!.hasError('required')">
+                {{ 'errors.required' | translate }}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-4">
+            <mat-label>{{ 'location.officeNumber' | translate }}</mat-label>
+            <input formControlName="officeNumber" required matInput>
+            <mat-error *ngIf="locationEditFormGroup.get('officeNumber')!.hasError('required')">
+                {{ 'errors.required' | translate }}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field class="col">
+            <mat-label>{{ 'location.street' | translate }}</mat-label>
+            <input formControlName="street" required matInput>
+            <mat-error *ngIf="locationEditFormGroup.get('street')!.hasError('required')">
+                {{ 'errors.required' | translate }}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col">
+            <mat-label>{{ 'location.city' | translate }}</mat-label>
+            <input formControlName="city" required matInput>
+            <mat-error *ngIf="locationEditFormGroup.get('city')!.hasError('required')">
+                {{ 'errors.required' | translate }}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col">
+            <mat-label>{{ 'location.postcode' | translate }}</mat-label>
+            <input formControlName="postcode" required matInput>
+            <mat-error *ngIf="locationEditFormGroup.get('postcode')!.hasError('required')">
+                {{ 'errors.required' | translate }}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col">
+            <mat-label>{{ 'location.countryCode' | translate }}</mat-label>
+            <input type="text"
+                   matInput
+                   formControlName="countryCode"
+                   [matAutocomplete]="auto"
+                   required>
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.code">
+                    {{ option.code }}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="locationEditFormGroup.get('countryCode')!.hasError('required')">
+                {{ 'errors.required' | translate }}
+            </mat-error>
+            <mat-error *ngIf="locationEditFormGroup.get('countryCode')!.hasError('invalidCountryCode')">
+                {{ 'errors.invalid_countryCode' | translate}}
+            </mat-error>
+        </mat-form-field>
+    </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-flat-button color="warn" (click)="closeDialog()">
         {{ 'common.cancel' | translate }}
         <mat-icon>close</mat-icon>
     </button>
-    <button mat-flat-button color="primary" (click)="saveLocation()" [disabled]="!this.locationEditFormGroup.valid">
+    <button mat-flat-button color="primary" (click)="saveLocation()" [disabled]="!locationEditFormGroup.valid || !hasChanges()">
         {{ 'common.save' | translate }}
         <mat-icon>save</mat-icon>
     </button>

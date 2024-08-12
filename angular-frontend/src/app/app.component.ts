@@ -43,7 +43,8 @@ export function HttpLoaderFactory(http: HttpClient) {
 })
 export class AppComponent implements OnInit, OnDestroy {
     title = 'angular-frontend';
-    actualLanguage = 'EN';
+    languages = ['en','de'];
+    selectedLanguage: string;
     isOpen = false;
 
     isMobile: boolean = false;
@@ -60,7 +61,8 @@ export class AppComponent implements OnInit, OnDestroy {
                 private themeService: ThemeService,
                 private loadingService: LoadingService,
                 private translate: TranslateService) {
-        translate.setDefaultLang('en');
+        this.selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+        this.translate.use(this.selectedLanguage);
         this.loading$ = this.loadingService.isLoading$;
     }
 
@@ -74,15 +76,15 @@ export class AppComponent implements OnInit, OnDestroy {
         });
     }
 
-  changeLanguage() {
-    if (this.actualLanguage === 'EN') {
-      this.translate.use('de');
-      this.actualLanguage = 'DE';
-    } else if (this.actualLanguage === 'DE') {
-      this.translate.use('en');
-      this.actualLanguage = 'EN';
+    switchLanguage(event: Event): void {
+        const selectElement = event.target as HTMLSelectElement;
+        const lang = selectElement.value;
+
+        this.selectedLanguage = lang;
+        this.translate.use(lang);
+        localStorage.setItem('selectedLanguage', lang);
     }
-  }
+
 
     ngOnDestroy() {
         if (this.breakpointSubscription) {

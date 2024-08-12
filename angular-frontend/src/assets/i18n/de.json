@@ -275,6 +275,17 @@
     "city": "Stadt",
     "countryCode": "Länderkürzel",
     "officeNumber": "Büronummer",
-    "clear_filter": "Filter löschen"
+    "clear_filter": "Filter löschen",
+    "create": "Standort erstellen",
+    "edit": "Standort bearbeiten",
+    "delete": "Standort löschen",
+    "success": {
+      "created": "Standort erfolgreich erstellt",
+      "updated": "Standort erfolgreich geändert"
+    },
+    "error": {
+      "not_created": "Standort konnte nicht erstellt werden",
+      "not_found": "Standort nicht gefunden"
+    }
   }
 }
