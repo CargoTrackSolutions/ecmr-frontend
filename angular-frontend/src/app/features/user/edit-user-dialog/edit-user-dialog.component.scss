@@ -1,14 +1,30 @@
-.group-line {
-  width: 20px;
-  height: 40px;
-  border-bottom: rgba(112, 112, 112, 0.63) 2px solid;
-  border-left: rgba(112, 112, 112, 0.63) 2px solid;;
+.tree-container,
+.list-container {
+  height: 300px;
+
+  .mat-tree-node {
+    border-bottom: 1px solid rgba(87, 87, 87, 0.24);
+  }
+
+  .mat-tree-node.selected {
+    background-color: rgba(0, 183, 42, 0.13);
+  }
+
+  .mat-tree-node:not(.selected):hover {
+    background-color: rgba(87, 87, 87, 0.24);
+    cursor: pointer;
+  }
 }
 
-.location-card {
-  min-width: 400px !important;
-  width: 400px !important;
-  max-width: 400px !important;
+.list-container {
+  .list-item {
+    height: 48.8px;
+    border-bottom: 1px solid rgba(87, 87, 87, 0.24);
+  }
+
+  .list-item:hover {
+    background-color: rgba(87, 87, 87, 0.24);
+  }
 }
 
 ::-webkit-scrollbar {

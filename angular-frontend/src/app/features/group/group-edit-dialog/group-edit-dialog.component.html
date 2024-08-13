@@ -9,13 +9,21 @@
             }
         </mat-form-field>
         <mat-form-field class="row">
-            <mat-label>{{ "group_edit_dialog.location" | translate }}</mat-label>
-            <mat-select formControlName="location" [compareWith]="compareLocationFn">
-                @for (location of locations; track location) {
-                    <mat-option [value]="location">{{ location.name }}</mat-option>
+            <mat-label>{{ "group_edit_dialog.description" | translate }}</mat-label>
+            <input matInput formControlName="description"/>
+            @if (groupFormGroup.controls.description.invalid) {
+                <mat-error>{{ "common.errors.required" | translate }}</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field class="row" [ngClass]="isEditMode? 'd-none' : ''">
+            <mat-label>{{ "group_edit_dialog.parent_group" | translate }}</mat-label>
+            <mat-select formControlName="parentId" [compareWith]="compareGroupFn">
+                <mat-option [value]="null"></mat-option>
+                @for (group of groups; track group) {
+                    <mat-option [value]="group">{{ group.name }}</mat-option>
                 }
             </mat-select>
-            @if (groupFormGroup.controls.location.invalid) {
+            @if (groupFormGroup.controls.parentId.invalid) {
                 <mat-error>{{ "common.errors.required" | translate }}</mat-error>
             }
         </mat-form-field>

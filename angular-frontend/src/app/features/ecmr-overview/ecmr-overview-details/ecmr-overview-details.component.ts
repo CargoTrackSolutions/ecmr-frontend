@@ -58,8 +58,10 @@ export class EcmrOverviewDetailsComponent {
   @Input() selectedEcmr!: Ecmr;
 
   @Input() quickViewButtons: TemplateRef<object>;
+    @Input() mobileQuickViewButtons!: TemplateRef<object>;
 
   @Output() closeDetails = new EventEmitter();
+    @Input() isMobile!: boolean;
 
   closeDetailsView() {
     this.closeDetails.emit(true);

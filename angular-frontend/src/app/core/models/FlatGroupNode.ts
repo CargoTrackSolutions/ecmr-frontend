@@ -6,14 +6,11 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { CountryCode } from '../enums/CountryCode';
+import { Group } from './Group';
 
-export interface Location {
-    id: number | null;
+export interface FlatGroupNode {
+    expandable: boolean;
     name: string;
-    street: string;
-    postcode: string;
-    city: string;
-    countryCode: CountryCode;
-    officeNumber: string | null;
+    group: Group;
+    level: number;
 }

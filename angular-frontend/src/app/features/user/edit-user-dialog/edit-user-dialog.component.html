@@ -61,52 +61,43 @@
     </div>
     @if (userFormGroup.controls.country.value) {
         <h5 class="container-header">{{ "edit_user_dialog.locations_and_groups" | translate }}</h5>
-        <form [formGroup]="locationsAndGroups" class="d-flex flex-row overflow-auto w-100">
-            <div formArrayName="locations" class="d-flex flex-row overflow-auto gap-3 w-100 p-3">
-                <ng-container *ngFor="let locationControl of locationsAndGroups.controls.locations.controls; let i = index" [formGroupName]="i">
-                    <mat-card class="w-25 p-3 location-card overflow-auto">
-                        <div class="d-flex flex-row w-100 gap-2">
-                            <mat-form-field class="flex-grow-1">
-                                <mat-label>{{ "edit_user_dialog.location" | translate }} {{ i + 1 }}</mat-label>
-                                <mat-select formControlName="location" [compareWith]="compareLocationFn" (selectionChange)="locationChange($event)">
-                                    @for (location of unusedLocations; track location) {
-                                        <mat-option [value]="location"
-                                                    [ngClass]="!isLocationUsed(location) ?
-                                            'visible' : 'invisible'">
-                                            {{ location.name }}
-                                        </mat-option>
-                                    }
-                                </mat-select>
-                            </mat-form-field>
-                            <button mat-icon-button color="warn" *ngIf="locationControl.controls.location.value !== null"
-                                    (click)="removeLocation(locationControl)">
-                                <mat-icon>remove</mat-icon>
-                            </button>
-                        </div>
-                        <div formArrayName="groups" class="flex-grow-1 d-flex flex-column">
-                            <ng-container *ngFor="let groupControl of locationControl.controls.groups.controls; let j = index" [formGroupName]="j">
-                                <div class="d-flex flex-row align-items-start gap-2">
-                                    <div class="group-line"></div>
-                                    <mat-form-field class="flex-grow-1">
-                                        <mat-label>{{ "edit_user_dialog.group" | translate }} {{ j + 1 }}</mat-label>
-                                        <mat-select formControlName="group" [compareWith]="compareGroupFn">
-                                            <mat-option *ngFor="let group of locationControl.controls.groupsList.value"
-                                                        [ngClass]="!isGroupUsed(group, locationControl.controls.groups) ?'visible' : 'invisible'"
-                                                        [value]="group">{{ group.name }}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                    <button mat-icon-button color="warn" *ngIf="groupControl.controls.group.value !== null"
-                                            (click)="removeGroup(locationControl, groupControl.controls.group.value)">
-                                        <mat-icon>remove</mat-icon>
-                                    </button>
-                                </div>
-                            </ng-container>
-                        </div>
-                    </mat-card>
-                </ng-container>
+        <div class="row">
+            <div class="col overflow-y-scroll tree-container">
+                <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding [ngClass]="isSelected(node)? 'selected' : ''">
+                        <button mat-icon-button disabled></button>
+                        {{ node.name }}
+                        <button mat-icon-button (click)="selectGroup(node); $event.stopPropagation()" color="primary" *ngIf="!isSelected(node)">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </mat-tree-node>
+                    <!-- This is the tree node template for expandable nodes -->
+                    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodeToggle
+                                   [ngClass]="isSelected(node)? 'selected' : ''">
+                        <button mat-icon-button matTreeNodeToggle
+                                [attr.aria-label]="'Toggle ' + node.name">
+                            <mat-icon class="mat-icon-rtl-mirror">
+                                {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+                            </mat-icon>
+                        </button>
+                        {{ node.name }}
+                        <button mat-icon-button (click)="selectGroup(node); $event.stopPropagation()" color="primary" *ngIf="!isSelected(node)">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </mat-tree-node>
+                </mat-tree>
             </div>
-        </form>
+            <div class="col overflow-y-scroll list-container">
+                @for (group of selectedGroups; track group) {
+                    <div class="list-item d-flex flex-row gap-2">
+                        <button mat-icon-button (click)="removeItem(group)" color="warn">
+                            <mat-icon>remove</mat-icon>
+                        </button>
+                        <div class="d-flex align-items-center">{{ group.name }}</div>
+                    </div>
+                }
+            </div>
+        </div>
     }
 </mat-dialog-content>
 <mat-dialog-actions [align]="'end'">

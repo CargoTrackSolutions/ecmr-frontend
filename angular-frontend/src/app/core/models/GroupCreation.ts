@@ -6,7 +6,8 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-export enum UserRole {
-    Admin = 'Admin',
-    User = 'User'
+export interface GroupCreation {
+    name: string;
+    description: string | null;
+    parentId: number | null | undefined;
 }

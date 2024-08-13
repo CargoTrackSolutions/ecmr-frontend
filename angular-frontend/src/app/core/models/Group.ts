@@ -6,10 +6,9 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Location } from './Location';
-
 export interface Group {
     id: number;
     name: string;
-    location: Location;
+    description: string | null;
+    children: Group[];
 }

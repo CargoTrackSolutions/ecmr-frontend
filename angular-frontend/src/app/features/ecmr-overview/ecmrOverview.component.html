@@ -5,6 +5,8 @@
         @if (selectedEcmr) {
             <app-ecmr-overview-details (closeDetails)="closeDetailView($event)"
                                        [quickViewButtons]="quickViewButtons"
+                                       [mobileQuickViewButtons]="mobileQuickViewButtons"
+                                       [isMobile]="isMobile"
                                        [selectedEcmr]="selectedEcmr"></app-ecmr-overview-details>
         }
     </mat-drawer>
@@ -14,49 +16,73 @@
                 <mat-toolbar-row class="d-flex flex-row justify-content-between">
                     <mat-label>{{ 'overview.title' | translate }}</mat-label>
                     <div class="search-bar-container">
-                      <button mat-flat-button class="search-bar-button" color="primary" (click)="createNewEcmr()">
-                          <mat-icon iconPositionEnd>add</mat-icon>
-                          {{ 'overview.create_new' | translate }}
-                      </button>
-                      @if(!isMobile) {
-                        <button mat-flat-button (click)="importEcmr()">{{ 'overview.import' | translate }}
-                          <mat-icon iconPositionEnd>download</mat-icon>
+                        <button mat-flat-button class="search-bar-button" color="primary" (click)="createNewEcmr()">
+                            <mat-icon iconPositionEnd>add</mat-icon>
+                            {{ 'overview.create_new' | translate }}
                         </button>
-                      } @else {
-                        <button mat-flat-button class="download-button-mobile" (click)="importEcmr()">
-                          <mat-icon>download</mat-icon>
-                        </button>
-                      }
+                        @if (!isMobile) {
+                            <button mat-flat-button (click)="importEcmr()">{{ 'overview.import' | translate }}
+                                <mat-icon iconPositionEnd>download</mat-icon>
+                            </button>
+                        } @else {
+                            <button mat-flat-button class="download-button-mobile" (click)="importEcmr()">
+                                <mat-icon>download</mat-icon>
+                            </button>
+                        }
                     </div>
                 </mat-toolbar-row>
             </mat-toolbar>
 
             <!-- Overview Table Container -->
-            <app-ecmr-table [actionButtons]="actionButtons" [ecmr]="ecmr" (selectedEcmr)="selectEcmr($event)"
+            <app-ecmr-table [actionButtons]="actionButtons" [mobileActionButtons]="mobileActionButtons" [ecmr]="ecmr"
+                            (selectedEcmr)="selectEcmr($event)"
                             class="h-100 overflow-x-auto overflow-y-hidden">
             </app-ecmr-table>
         </section>
     </article>
 
-<ng-template #quickViewButtons let-ecmr>
-    <div>
-        <button class="m-1" mat-flat-button color="primary" (click)="moveToArchive(ecmr.ecmrId)">Archive
-            <mat-icon iconPositionEnd>archive</mat-icon>
+    <ng-template #quickViewButtons let-ecmr>
+        <div>
+            <button class="m-1" mat-flat-button color="primary" (click)="moveToArchive(ecmr.ecmrId)">Archive
+                <mat-icon iconPositionEnd>archive</mat-icon>
+            </button>
+            <button class="m-1" mat-flat-button color="primary" (click)="downloadPdf(ecmr.ecmrId)">PDF
+                <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
+            </button>
+            <button class="m-1" mat-flat-button color="primary" (click)="editEcmr(ecmr.ecmrId)">Edit
+                <mat-icon iconPositionEnd>edit_note</mat-icon>
+            </button>
+            <button class="m-1" mat-stroked-button (click)="onCopyEcmr(ecmr.ecmrId)">Copy
+                <mat-icon iconPositionEnd>content_copy</mat-icon>
+            </button>
+            <button class="m-1" mat-stroked-button>Share
+                <mat-icon iconPositionEnd>share</mat-icon>
+            </button>
+        </div>
+    </ng-template>
+
+    <ng-template #mobileQuickViewButtons let-ecmr>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
         </button>
-        <button class="m-1" mat-flat-button color="primary" (click)="downloadPdf(ecmr.ecmrId)">PDF
-            <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
-        </button>
-        <button class="m-1" mat-flat-button color="primary" (click)="editEcmr(ecmr.ecmrId)">Edit
-            <mat-icon iconPositionEnd>edit_note</mat-icon>
-        </button>
-        <button class="m-1" mat-stroked-button (click)="onCopyEcmr(ecmr.ecmrId)">Copy
-            <mat-icon iconPositionEnd>content_copy</mat-icon>
-        </button>
-        <button class="m-1" mat-stroked-button>Share
-            <mat-icon iconPositionEnd>share</mat-icon>
-        </button>
-    </div>
-</ng-template>
+        <mat-menu #menu="matMenu">
+            <button class="m-1" mat-menu-item (click)="moveToArchive(ecmr.ecmrId)">Archive
+                <mat-icon>archive</mat-icon>
+            </button>
+            <button class="m-1" mat-menu-item (click)="downloadPdf(ecmr.ecmrId)">PDF
+                <mat-icon>picture_as_pdf</mat-icon>
+            </button>
+            <button class="m-1" mat-menu-item (click)="editEcmr(ecmr.ecmrId)">Edit
+                <mat-icon>edit_note</mat-icon>
+            </button>
+            <button class="m-1" mat-menu-item (click)="onCopyEcmr(ecmr.ecmrId)">Copy
+                <mat-icon>content_copy</mat-icon>
+            </button>
+            <button class="m-1" mat-menu-item>Share
+                <mat-icon>share</mat-icon>
+            </button>
+        </mat-menu>
+    </ng-template>
 
     <ng-template #actionButtons let-ecmr>
         <button mat-icon-button (click)="shareEcmr();$event.stopPropagation()" matTooltip="{{'overview.tooltips.share' | translate}}">
@@ -73,6 +99,20 @@
         </button>
         <button mat-icon-button (click)="deleteEcmr(ecmr.ecmrId);$event.stopPropagation()" matTooltip="{{'overview.tooltips.delete' | translate}}">
             <mat-icon color="warn">close</mat-icon>
+        </button>
+    </ng-template>
+    <ng-template #mobileActionButtons let-ecmr>
+        <button mat-icon-button class="my-3" (click)="shareEcmr()">
+            <mat-icon color="primary" style="transform: scale(1.4)">share</mat-icon>
+        </button>
+        <button mat-icon-button class="my-3" (click)="editEcmr(ecmr.ecmrId)">
+            <mat-icon color="primary" style="transform: scale(1.4)">edit_note</mat-icon>
+        </button>
+        <button mat-icon-button class="my-3" (click)="selectEcmr(ecmr)">
+            <mat-icon color="primary" style="transform: scale(1.4)">visibility</mat-icon>
+        </button>
+        <button mat-icon-button class="my-3" (click)="downloadPdf(ecmr.ecmrId);$event.stopPropagation()">
+            <mat-icon color="primary" style="transform: scale(1.4)">picture_as_pdf</mat-icon>
         </button>
     </ng-template>
 </mat-drawer-container>

@@ -6,17 +6,10 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatError, MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
-import {
-  AbstractControl,
-  FormArray,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInput } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,7 +17,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 import { CountryCode } from '../../core/enums/CountryCode';
 import { filter, map, Observable, startWith, Subscription, switchMap } from 'rxjs';
-import {AsyncPipe, NgClass, NgIf, NgTemplateOutlet} from '@angular/common';
+import { AsyncPipe, NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
@@ -32,7 +25,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { EcmrConsignment } from '../../core/models/EcmrConsignment';
-import {TranslateModule, TranslateService} from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Signature } from '../../core/models/areas/signature/Signature';
 import { EcmrEditorService } from './ecmr-editor-service/ecmr-editor.service';
 import { Ecmr } from '../../core/models/Ecmr';
@@ -43,50 +36,50 @@ import { TemplateNameDialogComponent } from '../template-overview/template-name-
 import { LoadFromTemplateDialogComponent } from '../template-overview/load-from-template-dialog/load-from-template-dialog.component';
 import { TemplateUser } from '../../core/models/TemplateUser';
 import { LoadingService } from '../../core/services/loading.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {DynamicDisableControlDirective} from './dynamic-disable-control.directive';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DynamicDisableControlDirective } from './dynamic-disable-control.directive';
 
 export enum EditorMode {
-  ECMR_EDIT ,
-  ECMR_COPY ,
-  ECMR_NEW,
-  TEMPLATE_EDIT,
-  TEMPLATE_NEW,
+    ECMR_EDIT,
+    ECMR_COPY,
+    ECMR_NEW,
+    TEMPLATE_EDIT,
+    TEMPLATE_NEW,
 }
 
 @Component({
     selector: 'app-ecmr-editor',
     standalone: true,
-  imports: [
-    MatCardModule,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatIconModule,
-    RouterLink,
-    MatAutocomplete,
-    MatOption,
-    MatAutocompleteTrigger,
-    AsyncPipe,
-    MatToolbar,
-    MatDatepicker,
-    MatDatepickerInput,
-    MatDatepickerToggle,
-    MatSuffix,
-    CdkTextareaAutosize,
-    MatMenuModule,
-    NgIf,
-    MatAccordion,
-    MatExpansionModule,
-    NgTemplateOutlet,
-    TranslateModule,
-    MatError,
-    MatSelect,
-    DynamicDisableControlDirective,
-    NgClass
-  ],
+    imports: [
+        MatCardModule,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatIconModule,
+        RouterLink,
+        MatAutocomplete,
+        MatOption,
+        MatAutocompleteTrigger,
+        AsyncPipe,
+        MatToolbar,
+        MatDatepicker,
+        MatDatepickerInput,
+        MatDatepickerToggle,
+        MatSuffix,
+        CdkTextareaAutosize,
+        MatMenuModule,
+        NgIf,
+        MatAccordion,
+        MatExpansionModule,
+        NgTemplateOutlet,
+        TranslateModule,
+        MatError,
+        MatSelect,
+        DynamicDisableControlDirective,
+        NgClass
+    ],
     templateUrl: './ecmr-editor.component.html',
     styleUrl: './ecmr-editor.component.scss'
 })
@@ -103,7 +96,8 @@ export class EcmrEditorComponent implements OnInit {
     @ViewChild(MatAccordion) accordion: MatAccordion;
 
     ecmrConsignment: EcmrConsignment;
-    ecmrId: string|null;
+    ecmrToEdit: Ecmr;
+    ecmrId: string | null;
     loadedTemplate: TemplateUser;
 
     payerType: PayerType[] = Object.values(PayerType);
@@ -322,30 +316,30 @@ export class EcmrEditorComponent implements OnInit {
         });
 
         this.sub = this.route.params.subscribe(params => {
-          this.id = params['id'];
-          if (this.id) {
-            this.editorMode = EditorMode.ECMR_EDIT;
-          } else {
-            this.editorMode = EditorMode.ECMR_NEW;
-          }
+            this.id = params['id'];
+            if (this.id) {
+                this.editorMode = EditorMode.ECMR_EDIT;
+            } else {
+                this.editorMode = EditorMode.ECMR_NEW;
+            }
         });
 
         if (this.route.snapshot.url.join('/').includes('template-editor')) {
-          this.editorMode = EditorMode.TEMPLATE_NEW;
-          this.sub = this.route.params.subscribe(params => {
-            this.id = params['id'];
-            if (this.id) {
-              this.editorMode = EditorMode.TEMPLATE_EDIT;
-            }
-          });
+            this.editorMode = EditorMode.TEMPLATE_NEW;
+            this.sub = this.route.params.subscribe(params => {
+                this.id = params['id'];
+                if (this.id) {
+                    this.editorMode = EditorMode.TEMPLATE_EDIT;
+                }
+            });
         }
 
 
         if (this.router.url.includes('copy')) {
-          this.editorMode = EditorMode.ECMR_COPY;
+            this.editorMode = EditorMode.ECMR_COPY;
         }
 
-    this.initializeForm();
+        this.initializeForm();
 
         // Initialize Country Autocomplete Form Fields
         const formGroupControl = this.ecmrConsignmentFormGroup.controls;
@@ -371,135 +365,134 @@ export class EcmrEditorComponent implements OnInit {
             );
     }
 
-  setFormConstraints(){
-      if(this.editorMode == EditorMode.ECMR_EDIT){
-        if(this.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature != null){
-          this.canFillConsignorFields = true;
-        } else if(this.ecmrConsignment.signatureOrStampOfTheSender.senderSignature != null){
-          this.canFillCarrierFields = true;
+    setFormConstraints() {
+        if (this.editorMode == EditorMode.ECMR_EDIT) {
+            if (this.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature != null) {
+                this.canFillConsignorFields = true;
+            } else if (this.ecmrConsignment.signatureOrStampOfTheSender.senderSignature != null) {
+                this.canFillCarrierFields = true;
+            } else {
+                this.canFillSenderFields = true;
+            }
+
         } else {
-          this.canFillSenderFields = true;
+            this.canFillSenderFields = true;
+        }
+    }
+
+    //TODO: update this method, it is currently for testing purposes only!
+    signSender() {
+        if (this.senderFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
+            console.log('sign sender')
+            const signature: Signature = {
+                type: 'signature',
+                userName: 'sender',
+                userCompany: 'the company',
+                userStreet: 'street',
+                userPostCode: '1234',
+                userCity: 'Bochum',
+                userCountry: 'DE',
+                timestamp: new Date(),
+                data: 'sender data'
+            }
+            this.ecmrConsignmentFormGroup.controls.signatureOrStampOfTheSender.controls.senderSignature.setValue(signature);
+
+            this.canFillSenderFields = false;
+            this.canFillCarrierFields = true;
+
+            this.cd.detectChanges();
+        } else {
+            this.ecmrConsignmentFormGroup.markAllAsTouched();
+            const action = this.translateService.instant('general.snackbar_action');
+            const message = this.translateService.instant('ecmr_editor.snackbar_error');
+            this.snackbar.open(message, action, {duration: 3000})
         }
 
-      } else {
-        this.canFillSenderFields = true;
-      }
-  }
+    }
 
-  //TODO: update this method, it is currently for testing purposes only!
-  signSender(){
-      if(this.senderFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
-        console.log("sign sender")
+    senderFieldsAreValid(): boolean {
+        const invalidFields: AbstractControl[] = []
+        invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.senderInformation, ['senderNamePerson', 'region']));
+        invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.consigneeInformation, ['consigneeNamePerson', 'region']));
+        invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.takingOverTheGoods, ['region']));
+        invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.carrierInformation, ['region']));
+        if (this.ecmrConsignmentFormGroup.controls.itemList.controls.length > 0) {
+            for (const itemGroup of this.itemList.controls) {
+                invalidFields.push(...this.checkControls(itemGroup, []))
+            }
+        }
+
+        invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.established, []));
+
+        for (const control of invalidFields) {
+            control.setErrors({'mandatoryForSigning': true});
+        }
+        return invalidFields.length == 0;
+    }
+
+    //TODO: update this method, it is currently for testing purposes only!
+    signCarrier() {
+        console.log('sign carrier')
         const signature: Signature = {
-          type: 'signature',
-          userName: 'sender',
-          userCompany: 'the company',
-          userStreet: 'street',
-          userPostCode: '1234',
-          userCity: 'Bochum',
-          userCountry: 'DE',
-          timestamp: new Date(),
-          data: 'sender data'
+            type: 'signature',
+            userName: 'carrier',
+            userCompany: 'the company',
+            userStreet: 'street',
+            userPostCode: '1234',
+            userCity: 'Bochum',
+            userCountry: 'DE',
+            timestamp: new Date(),
+            data: 'carrier data'
         }
-        this.ecmrConsignmentFormGroup.controls.signatureOrStampOfTheSender.controls.senderSignature.setValue(signature);
 
-        this.canFillSenderFields = false;
-        this.canFillCarrierFields = true;
+        this.ecmrConsignmentFormGroup.controls.signatureOrStampOfTheCarrier.controls.carrierSignature.setValue(signature);
+
+        this.canFillCarrierFields = false;
+        this.canFillConsignorFields = true;
 
         this.cd.detectChanges();
-      }
-      else {
-        this.ecmrConsignmentFormGroup.markAllAsTouched();
-        const action = this.translateService.instant('general.snackbar_action');
-        const message = this.translateService.instant('ecmr_editor.snackbar_error');
-        this.snackbar.open(message, action, {duration: 3000})
-      }
-
-  }
-
-  senderFieldsAreValid(): boolean {
-    const invalidFields: AbstractControl[] = []
-    invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.senderInformation, ['senderNamePerson', 'region']));
-    invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.consigneeInformation, ['consigneeNamePerson', 'region']));
-    invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.takingOverTheGoods, ['region']));
-    invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.carrierInformation, ['region']));
-    if(this.ecmrConsignmentFormGroup.controls.itemList.controls.length > 0){
-      for(const itemGroup of this.itemList.controls) {
-        invalidFields.push(...this.checkControls(itemGroup, []))
-      }
     }
 
-    invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.established, []));
-
-    for(const control of invalidFields){
-      control.setErrors({ 'mandatoryForSigning': true });
-    }
-    return invalidFields.length == 0;
-  }
-
-  //TODO: update this method, it is currently for testing purposes only!
-  signCarrier(){
-    console.log("sign carrier")
-    const signature: Signature = {
-      type: 'signature',
-      userName: 'carrier',
-      userCompany: 'the company',
-      userStreet: 'street',
-      userPostCode: '1234',
-      userCity: 'Bochum',
-      userCountry: 'DE',
-      timestamp: new Date(),
-      data: 'carrier data'
-    }
-
-    this.ecmrConsignmentFormGroup.controls.signatureOrStampOfTheCarrier.controls.carrierSignature.setValue(signature);
-
-    this.canFillCarrierFields = false;
-    this.canFillConsignorFields = true;
-
-    this.cd.detectChanges();
-  }
-
-  //TODO: update this method, it is currently for testing purposes only!
-  signConsignor(){
-    console.log("sign consignor");
-    if(this.consignorFieldsAreValid() && this.ecmrConsignmentFormGroup.valid){
-      this.canFillConsignorFields = false;
-    } else {
-      this.ecmrConsignmentFormGroup.markAllAsTouched();
-      const action = this.translateService.instant('general.snackbar_action');
-      const message = this.translateService.instant('ecmr_editor.snackbar_error');
-      this.snackbar.open(message, action, {duration: 3000})
-    }
-  }
-
-  consignorFieldsAreValid(): boolean {
-    const invalidFields: AbstractControl[] = this.checkControls(this.ecmrConsignmentFormGroup.controls.goodsReceived,
-      ['consigneeReservationsObservations', 'consigneeTimeOfArrival', 'consigneeTimeOfDeparture', 'consigneeSignature'])
-    for(const control of invalidFields){
-      control.setErrors({ 'mandatoryForSigning': true });
-    }
-    return invalidFields.length == 0;
-  }
-
-  checkControls(group: FormGroup, excludedElements: string[]): AbstractControl[]{
-    const invalidFields: AbstractControl[] = [];
-    for (const controlName in group.controls) {
-      const control = group.controls[controlName];
-      if (control instanceof FormGroup) {
-        // recursive call for subgroups
-        const subResult = this.checkControls(control, excludedElements)
-        if (subResult.length >= 0) {
-          invalidFields.push(...subResult);
+    //TODO: update this method, it is currently for testing purposes only!
+    signConsignor() {
+        console.log('sign consignor');
+        if (this.consignorFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
+            this.canFillConsignorFields = false;
+        } else {
+            this.ecmrConsignmentFormGroup.markAllAsTouched();
+            const action = this.translateService.instant('general.snackbar_action');
+            const message = this.translateService.instant('ecmr_editor.snackbar_error');
+            this.snackbar.open(message, action, {duration: 3000})
         }
-      } else {
-        if (!excludedElements.includes(controlName) && (control.value === null || control.value === '')) {
-          invalidFields.push(control)
-        }
-      }
     }
-    return invalidFields;
-  }
+
+    consignorFieldsAreValid(): boolean {
+        const invalidFields: AbstractControl[] = this.checkControls(this.ecmrConsignmentFormGroup.controls.goodsReceived,
+            ['consigneeReservationsObservations', 'consigneeTimeOfArrival', 'consigneeTimeOfDeparture', 'consigneeSignature'])
+        for (const control of invalidFields) {
+            control.setErrors({'mandatoryForSigning': true});
+        }
+        return invalidFields.length == 0;
+    }
+
+    checkControls(group: FormGroup, excludedElements: string[]): AbstractControl[] {
+        const invalidFields: AbstractControl[] = [];
+        for (const controlName in group.controls) {
+            const control = group.controls[controlName];
+            if (control instanceof FormGroup) {
+                // recursive call for subgroups
+                const subResult = this.checkControls(control, excludedElements)
+                if (subResult.length >= 0) {
+                    invalidFields.push(...subResult);
+                }
+            } else {
+                if (!excludedElements.includes(controlName) && (control.value === null || control.value === '')) {
+                    invalidFields.push(control)
+                }
+            }
+        }
+        return invalidFields;
+    }
 
     /**
      * Filter function for country autocomplete fields
@@ -515,40 +508,42 @@ export class EcmrEditorComponent implements OnInit {
         }
     }
 
-  private initializeForm() {
-    if (this.editorMode == EditorMode.ECMR_NEW || EditorMode.TEMPLATE_NEW) {
-      this.ecmrConsignment = this.ecmrEditorService.createEmptyEcmrConsignment();
-      this.setFormConstraints();
+    private initializeForm() {
+        if (this.editorMode == EditorMode.ECMR_NEW || EditorMode.TEMPLATE_NEW) {
+            this.ecmrConsignment = this.ecmrEditorService.createEmptyEcmrConsignment();
+            this.setFormConstraints();
+        }
+        if (this.editorMode == EditorMode.ECMR_EDIT) {
+            this.ecmrEditorService.getEcmr(this.id).subscribe(ecmr => {
+                this.loadEcmr(ecmr);
+            });
+        }
+        if (this.editorMode == EditorMode.ECMR_COPY) {
+            this.ecmrEditorService.getEcmr(this.id).subscribe(ecmr => {
+                this.loadEcmr(this.ecmrEditorService.copyEcmr(ecmr));
+            });
+        }
+        if (this.editorMode == EditorMode.TEMPLATE_EDIT) {
+            this.ecmrEditorService.getTemplate(Number.parseFloat(this.id)).subscribe(ecmr => {
+                this.loadedTemplate = ecmr;
+                this.loadEcmr(ecmr.ecmr);
+            });
+        }
     }
-    if (this.editorMode == EditorMode.ECMR_EDIT) {
-      this.ecmrEditorService.getEcmr(this.id).subscribe(ecmr => {
-        this.loadEcmr(ecmr);
-      });
+
+    private loadEcmr(data: Ecmr) {
+        this.ecmrToEdit = data;
+        this.ecmrConsignment = data.ecmrConsignment;
+        this.ecmrConsignmentFormGroup.controls.itemList.controls = [];
+        this.ecmrConsignment.itemList.forEach(() => {
+            this.addNewItem();
+        });
+        this.ecmrConsignmentFormGroup.patchValue(this.ecmrConsignment);
+        this.setFormConstraints();
     }
-    if (this.editorMode == EditorMode.ECMR_COPY) {
-      this.ecmrEditorService.getEcmr(this.id).subscribe(ecmr => {
-        this.loadEcmr(this.ecmrEditorService.copyEcmr(ecmr));
-      });
-    }
-    if (this.editorMode == EditorMode.TEMPLATE_EDIT) {
-      this.ecmrEditorService.getTemplate(Number.parseFloat(this.id)).subscribe(ecmr => {
-        this.loadedTemplate = ecmr;
-        this.loadEcmr(ecmr.ecmr);
-      });
-    }
-  }
-  private loadEcmr(data: Ecmr) {
-    this.ecmrConsignment = data.ecmrConsignment;
-    this.ecmrConsignmentFormGroup.controls.itemList.controls = [];
-    this.ecmrConsignment.itemList.forEach(() => {
-      this.addNewItem();
-    });
-    this.ecmrConsignmentFormGroup.patchValue(this.ecmrConsignment);
-    this.setFormConstraints();
-  }
 
     saveEcmr() {
-      this.ecmrConsignmentFormGroup.reset(this.ecmrConsignmentFormGroup.getRawValue())
+        this.ecmrConsignmentFormGroup.reset(this.ecmrConsignmentFormGroup.getRawValue())
         if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_NEW || this.editorMode == EditorMode.ECMR_COPY)) {
             const formValue: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
             const ecmr: Ecmr = {
@@ -560,22 +555,23 @@ export class EcmrEditorComponent implements OnInit {
                     this.returnToOverview()
                 })
         } else if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_EDIT)) {
-          const formValue: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
-          const ecmr: Ecmr = {
-            ecmrId: this.ecmrId,
-            ecmrConsignment: formValue
-          }
+            const formValue: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
+            this.ecmrToEdit.ecmrConsignment = formValue;
+            console.log(this.ecmrToEdit)
 
-          this.ecmrEditorService.updateEcmr(ecmr).subscribe({
-            next: () => { this.returnToOverview()},
-            error: error => {
-              const action = this.translateService.instant('general.snackbar_action');
-              const message = this.translateService.instant('general.snackbar_error');
-              this.snackbar.open(message, action, {duration: 3000})
-              console.error(error)}
-          })
+            this.ecmrEditorService.updateEcmr(this.ecmrToEdit).subscribe({
+                next: () => {
+                    this.returnToOverview()
+                },
+                error: error => {
+                    const action = this.translateService.instant('general.snackbar_action');
+                    const message = this.translateService.instant('general.snackbar_error');
+                    this.snackbar.open(message, action, {duration: 3000})
+                    console.error(error)
+                }
+            })
         } else {
-          this.ecmrConsignmentFormGroup.markAllAsTouched();
+            this.ecmrConsignmentFormGroup.markAllAsTouched();
         }
     }
 
@@ -597,7 +593,7 @@ export class EcmrEditorComponent implements OnInit {
                 this.returnToOverview()
             });
         }
-        if(this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.TEMPLATE_EDIT)){
+        if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.TEMPLATE_EDIT)) {
             this.loadedTemplate.ecmr.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
             this.ecmrEditorService.updateTemplate(this.loadedTemplate).subscribe(() => {
                 this.returnToOverview()
@@ -675,14 +671,14 @@ export class EcmrEditorComponent implements OnInit {
 
     }
 
-  protected readonly EditorMode = EditorMode;
+    protected readonly EditorMode = EditorMode;
 
 
-    isTemplate():boolean {
-      return (this.editorMode == EditorMode.TEMPLATE_NEW || this.editorMode == EditorMode.TEMPLATE_EDIT);
+    isTemplate(): boolean {
+        return (this.editorMode == EditorMode.TEMPLATE_NEW || this.editorMode == EditorMode.TEMPLATE_EDIT);
     }
 
-    isNotEdit():boolean{
-      return !(this.editorMode == EditorMode.ECMR_EDIT || this.editorMode == EditorMode.TEMPLATE_EDIT)
+    isNotEdit(): boolean {
+        return !(this.editorMode == EditorMode.ECMR_EDIT || this.editorMode == EditorMode.TEMPLATE_EDIT)
     }
 }

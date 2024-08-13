@@ -252,7 +252,13 @@
     "create_new": "Create new group",
     "delete_group": "Delete group",
     "search": "Search",
-    "location_name": "Location"
+    "location_name": "Location",
+    "tooltips": {
+      "create_new": "Create new group",
+      "edit_name": "Edit group",
+      "change_parent": "Change parent group",
+      "user": "Assigned users"
+    }
   },
   "group_detail": {
     "title": "User management",
@@ -262,7 +268,13 @@
     "edit": "Edit group",
     "create": "Create group",
     "name": "Name",
-    "location": "Location"
+    "location": "Location",
+    "description": "Description",
+    "parent_group": "Parent Group"
+  },
+  "group_change_parent": {
+    "title": "Change parent group",
+    "parent_group": "Parent Group"
   },
   "user_overview": {
     "title": "User management",

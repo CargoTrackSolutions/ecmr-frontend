@@ -64,6 +64,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { DateFormatService } from '../../services/date-format.service';
 
 @Component({
     selector: 'app-ecmr-table',
@@ -189,6 +190,7 @@ export class EcmrTableComponent implements OnInit {
 
   @Input() quickViewButtons: TemplateRef<object>;
   @Input() actionButtons: TemplateRef<object>;
+    @Input() mobileActionButtons: TemplateRef<object>;
   @Input() ecmr: Ecmr[];
   @Output() selectedEcmr = new EventEmitter<Ecmr>();
 
@@ -199,6 +201,7 @@ export class EcmrTableComponent implements OnInit {
               public snackbar: MatSnackBar,
               private ecmrService: EcmrService,
               private breakpointObserver: BreakpointObserver,
+              public dateFormatService: DateFormatService,
               private router: Router) {
   }
 

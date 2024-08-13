@@ -12,7 +12,6 @@ import { EcmrUser } from '../../core/models/EcmrUser';
 import { environment } from '../../../environments/environment';
 import { UserCreationAndUpdate } from '../../core/models/UserCreationAndUpdate';
 import { Group } from '../../core/models/Group';
-import { Location } from '../../core/models/Location';
 
 @Injectable({
     providedIn: 'root'
@@ -36,9 +35,5 @@ export class UserService {
 
     getGroupsForUser(userId: number) {
         return this.http.get<Group[]>(`${environment.backendUrl}/user/${userId}/groups`)
-    }
-
-    getLocationsForUser(userId: number) {
-        return this.http.get<Location[]>(`${environment.backendUrl}/user/${userId}/locations`)
     }
 }

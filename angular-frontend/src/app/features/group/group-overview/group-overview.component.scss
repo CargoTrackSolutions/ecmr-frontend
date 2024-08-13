@@ -1,30 +1,48 @@
-table {
-  overflow: auto;
+.search-field {
+  width: 400px;
 }
 
-.table-container {
-  height: calc(100vh - 184px);
-  overflow: auto;
+.tree-container {
+  width: 100%;
+  height: calc(100vh - 128px);
 }
 
-.mat-paginator-sticky {
-  position: sticky;
-  bottom: 0;
-  z-index: 1;
-}
-
-.mat-mdc-row, .cdk-row, .mdc-data-table__row {
-  height: calc((100vh - 240px) / 15) !important;
-  max-height: calc((100vh - 240px) / 15) !important;
-}
-
-.mat-mdc-row:hover {
-  background-color: rgba(196, 196, 196, 0.08) !important;
+.clickable {
   cursor: pointer;
 }
 
-.search-field {
-  width: 400px;
+.action-row {
+  padding-left: 10px;
+  padding-right: 10px;
+  flex-direction: row;
+  gap: 5px;
+  display: flex;
+}
+
+
+.mat-tree-node {
+  border-bottom: 1px solid rgba(87, 87, 87, 0.24);
+}
+
+.mat-tree-node:hover {
+  background-color: rgba(87, 87, 87, 0.24);
+  cursor: pointer;
+}
+
+.line-container {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+
+  .border-line {
+    width: 40px;
+    height: 25px;
+    margin: 5px;
+    border-bottom: 2px dashed rgba(87, 87, 87, 0.24);
+    border-left: 2px dashed rgba(87, 87, 87, 0.24);
+  }
 }
 
 ::-webkit-scrollbar {
@@ -33,28 +51,4 @@ table {
 
 ::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0);
-}
-
-@media screen and (max-width: 600px) {
-  .table-container {
-    height: calc(100vh - 168px);
-    overflow: auto;
-  }
-
-  .mat-mdc-row, .cdk-row, .mdc-data-table__row {
-    height: calc((100vh - 224px) / 15) !important;
-    max-height: calc((100vh - 224px) / 15) !important;
-  }
-}
-
-@media screen and (max-width: 530px) {
-  .table-container {
-    height: calc(100vh - 201px);
-    overflow: auto;
-  }
-
-  .mat-mdc-row, .cdk-row, .mdc-data-table__row {
-    height: calc((100vh - 257px) / 15) !important;
-    max-height: calc((100vh - 257px) / 15) !important;
-  }
 }

@@ -6,7 +6,6 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-export interface GroupCreationAndUpdate {
-    name: string;
-    locationId: number;
+export interface GroupParentUpdate {
+    parentId: number | null;
 }

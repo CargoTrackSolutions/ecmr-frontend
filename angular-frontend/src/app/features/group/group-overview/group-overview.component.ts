@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -23,7 +23,6 @@ import {
     MatRow,
     MatRowDef,
     MatTable,
-    MatTableDataSource
 } from '@angular/material/table';
 import { CdkColumnDef } from '@angular/cdk/table';
 import { Group } from '../../../core/models/Group';
@@ -34,8 +33,23 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { GroupEditDialogComponent } from '../group-edit-dialog/group-edit-dialog.component';
 import { MatInput } from '@angular/material/input';
-import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort';
 import { filter, switchMap } from 'rxjs';
+import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
+import {
+    MatTree,
+    MatTreeFlatDataSource,
+    MatTreeFlattener,
+    MatTreeNode,
+    MatTreeNodeDef,
+    MatTreeNodePadding,
+    MatTreeNodeToggle
+} from '@angular/material/tree';
+import { FlatTreeControl } from '@angular/cdk/tree';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { FlatGroupNode } from '../../../core/models/FlatGroupNode';
+import { FormsModule } from '@angular/forms';
+import { GroupChangeParentDialogComponent } from '../group-change-parent-dialog/group-change-parent-dialog.component';
 
 @Component({
     selector: 'app-group-overview',
@@ -65,22 +79,50 @@ import { filter, switchMap } from 'rxjs';
         MatPrefix,
         MatInput,
         MatSuffix,
-        MatSortModule
+        MatSortModule,
+        MatDrawerContainer,
+        MatDrawer,
+        MatTree,
+        MatTreeNode,
+        MatTreeNodeDef,
+        MatTreeNodePadding,
+        MatTreeNodeToggle,
+        NgTemplateOutlet,
+        FormsModule,
+        NgIf
     ],
     templateUrl: './group-overview.component.html',
     styleUrl: './group-overview.component.scss'
 })
 export class GroupOverviewComponent implements OnInit {
 
-    dataSource = new MatTableDataSource<Group>();
+    searchText: string = '';
 
-    @ViewChild(MatPaginator) set matPaginator(paginator: MatPaginator) {
-        this.dataSource.paginator = paginator;
-    }
+    private _transformer = (node: Group, level: number) => {
+        return {
+            expandable: !!node.children && node.children.length > 0,
+            name: node.name,
+            group: node,
+            level: level
+        };
+    };
 
-    @ViewChild(MatSort) sort: MatSort;
+    treeControl = new FlatTreeControl<FlatGroupNode>(
+        node => node.level,
+        node => node.expandable,
+    );
 
-    displayedColumns = ['actions', 'name', 'location'];
+    treeFlattener = new MatTreeFlattener(
+        this._transformer,
+        node => node.level,
+        node => node.expandable,
+        node => node.children,
+    );
+
+    dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+    originalData: Group[] = [];
+
+    hasChild = (_: number, node: FlatGroupNode) => node.expandable;
 
     constructor(private groupService: GroupService,
                 private matDialog: MatDialog,
@@ -89,46 +131,62 @@ export class GroupOverviewComponent implements OnInit {
 
     ngOnInit(): void {
         this.groupService.getAllGroups().subscribe(data => {
+            this.originalData = data;
             this.dataSource.data = data;
-        })
-
-        this.dataSource.filterPredicate = (data: Group, filter: string) => {
-            const dataStr = data.name.toLowerCase() + data.location.name.toLowerCase();
-            return dataStr.indexOf(filter) != -1;
-        };
-
-        this.dataSource.sort = this.sort;
-    }
-
-    sortData(sort: Sort) {
-        const data = this.dataSource.data;
-        this.dataSource.data = data.toSorted((a, b) => {
-            const isAsc = sort.direction === 'asc';
-            switch (sort.active) {
-                case 'name':
-                    return this.compare(a.name, b.name, isAsc);
-                case 'location':
-                    return this.compare(a.location.name, b.location.name, isAsc);
-                default:
-                    return 0;
-            }
         });
     }
 
-    compare(a: number | string | Date | null, b: number | string | Date | null, isAsc: boolean) {
-        if (a && b) {
-            return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+    getParentNode(node: FlatGroupNode): FlatGroupNode | null {
+        for (let i = 0; i < this.treeControl.dataNodes.length; i++) {
+            const currentNode = this.treeControl.dataNodes[i];
+            if (currentNode.expandable && currentNode.level === node.level - 1) {
+                const nextNode = this.treeControl.dataNodes[i + 1];
+                if (nextNode && nextNode.level === node.level) {
+                    return currentNode;
+                }
+            }
         }
-        return 0
+        return null;
     }
 
-    openGroup(id: number) {
-        this.router.navigateByUrl(`/group-detail/${id}`)
+    applyFilter() {
+        this.dataSource.data = this.filterTree(this.originalData, this.searchText);
     }
 
-    createNewGroup() {
+    filterTree(data: Group[], searchText: string): Group[] {
+        if (!searchText) {
+            return data;
+        }
+
+        return data
+            .map(node => ({...node}))
+            .filter(node => this.filterNode(node, searchText.toLowerCase()));
+    }
+
+    filterNode(node: Group, searchText: string): boolean {
+        if (node.name.toLowerCase().includes(searchText)) {
+            return true;
+        }
+
+        if (node.children) {
+            node.children = node.children
+                .map(child => ({...child}))
+                .filter(child => this.filterNode(child, searchText));
+
+            return node.children.length > 0;
+        }
+
+        return false;
+    }
+
+    openGroup(group: Group) {
+        this.router.navigateByUrl(`/group-detail/${group.id}`)
+    }
+
+    createNewGroup(group: Group | null) {
         this.matDialog.open(GroupEditDialogComponent, {
-            width: '600px'
+            width: '600px',
+            data: {parentGroup: group, groupToEdit: null},
         }).afterClosed().pipe(
             filter(result => !!result),
             switchMap(() => this.groupService.getAllGroups())
@@ -139,7 +197,7 @@ export class GroupOverviewComponent implements OnInit {
 
     editGroup(group: Group) {
         this.matDialog.open(GroupEditDialogComponent, {
-            data: group,
+            data: {parentGroup: null, groupToEdit: group},
             width: '600px'
         }).afterClosed().pipe(
             filter(result => !!result),
@@ -149,8 +207,15 @@ export class GroupOverviewComponent implements OnInit {
         })
     }
 
-    applyFilter(event: Event) {
-        const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-        this.dataSource.filter = filterValue;
+    changeParent(group: Group) {
+        this.matDialog.open(GroupChangeParentDialogComponent, {
+            data: group,
+            width: '600px'
+        }).afterClosed().pipe(
+            filter(result => !!result),
+            switchMap(() => this.groupService.getAllGroups())
+        ).subscribe(groups => {
+            this.dataSource.data = groups;
+        })
     }
 }

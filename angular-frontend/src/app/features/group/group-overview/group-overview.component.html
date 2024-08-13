@@ -1,45 +1,55 @@
-<mat-toolbar>
+<mat-toolbar class="sticky-top">
     <mat-toolbar-row class="d-flex flex-row justify-content-between">
         <mat-label>{{ 'group_overview.title' | translate }}</mat-label>
         <div class="d-flex flex-row gap-2 align-items-center">
             <mat-form-field class="mt-4 search-field">
                 <mat-label>{{ 'group_overview.search' | translate }}</mat-label>
-                <input matInput (keyup)="applyFilter($event)">
+                <input matInput placeholder="Suche" [(ngModel)]="searchText" (ngModelChange)="applyFilter()"/>
                 <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
-            <button mat-flat-button color="primary" (click)="createNewGroup()">
-                <mat-icon iconPositionEnd>add</mat-icon>
+            <button mat-flat-button (click)="createNewGroup(null)" color="primary">
                 {{ 'group_overview.create_new' | translate }}
+                <mat-icon matIconSuffix>add</mat-icon>
             </button>
         </div>
     </mat-toolbar-row>
 </mat-toolbar>
-<div class="table-container d-flex flex-column">
-    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
-        <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell *matCellDef="let element" class="ps-3 icons-short" id="icons">
-                <button mat-icon-button color="warn" matTooltip="{{'group_overview.delete_group' | translate}}"
-                        (click)="$event.stopPropagation()">
-                    <mat-icon>delete</mat-icon>
-                </button>
-                <button mat-icon-button matTooltip="{{'user_overview.edit_user' | translate}}"
-                        (click)="editGroup(element); $event.stopPropagation()">
-                    <mat-icon>edit</mat-icon>
-                </button>
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="name">
-            <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ "group_overview.name" | translate }}</th>
-            <td mat-cell *matCellDef="let element" class="ps-3">{{ element.name }}</td>
-        </ng-container>
-        <ng-container matColumnDef="location">
-            <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ "group_overview.location_name" | translate }}</th>
-            <td mat-cell *matCellDef="let element" class="ps-3">{{ element.location.name }}</td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openGroup(row.id)"></tr>
-    </table>
+<div class="tree-container overflow-y-scroll">
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+            <button mat-icon-button disabled></button>
+            <ng-container *ngTemplateOutlet="actionButtons; context: { $implicit: node  }"></ng-container>
+            {{ node.name }}: {{ node.description }}
+        </mat-tree-node>
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodeToggle>
+            <button mat-icon-button matTreeNodeToggle
+                    [attr.aria-label]="'Toggle ' + node.name">
+                <mat-icon class="mat-icon-rtl-mirror">
+                    {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+                </mat-icon>
+            </button>
+            <ng-container *ngTemplateOutlet="actionButtons; context: { $implicit: node  }"></ng-container>
+            {{ node.name }}: {{ node.group.description }}
+        </mat-tree-node>
+    </mat-tree>
 </div>
-<mat-paginator showFirstLastButtons [pageSize]="10" [pageSizeOptions]="[5,10,20]" class="mat-paginator-sticky"></mat-paginator>
+<ng-template #actionButtons let-node>
+    <div class="action-row">
+        <button mat-icon-button (click)="createNewGroup(node.group); $event.stopPropagation()"
+                matTooltip="{{'group_overview.tooltips.create_new' | translate}}">
+            <mat-icon>add</mat-icon>
+        </button>
+        <button mat-icon-button (click)="editGroup(node.group); $event.stopPropagation()"
+                matTooltip="{{'group_overview.tooltips.edit_name' | translate}}">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="changeParent(node.group); $event.stopPropagation()"
+                matTooltip="{{'group_overview.tooltips.change_parent' | translate}}">
+            <mat-icon>change_circle</mat-icon>
+        </button>
+        <button mat-icon-button (click)="openGroup(node.group); $event.stopPropagation()" matTooltip="{{'group_overview.tooltips.user' | translate}}">
+            <mat-icon>group</mat-icon>
+        </button>
+    </div>
+</ng-template>

@@ -43,8 +43,12 @@ export function HttpLoaderFactory(http: HttpClient) {
 })
 export class AppComponent implements OnInit, OnDestroy {
     title = 'angular-frontend';
-    languages = ['en','de'];
-    selectedLanguage: string;
+    languages = [
+        {flag: '🇩🇪', code: 'de'},
+        {flag: '🇬🇧', code: 'en'}
+    ];
+    selectedLanguage: { flag: string, code: string };
+    languagePickerExtended: boolean = false;
     isOpen = false;
 
     isMobile: boolean = false;
@@ -61,8 +65,11 @@ export class AppComponent implements OnInit, OnDestroy {
                 private themeService: ThemeService,
                 private loadingService: LoadingService,
                 private translate: TranslateService) {
-        this.selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
-        this.translate.use(this.selectedLanguage);
+
+        const storedLanguageCode = localStorage.getItem('selectedLanguage') || 'en';
+        this.selectedLanguage = this.languages.find(lang => lang.code === storedLanguageCode) || this.languages[1];
+        this.translate.use(this.selectedLanguage.code);
+
         this.loading$ = this.loadingService.isLoading$;
     }
 
@@ -75,16 +82,6 @@ export class AppComponent implements OnInit, OnDestroy {
             this.isMobile = result.matches;
         });
     }
-
-    switchLanguage(event: Event): void {
-        const selectElement = event.target as HTMLSelectElement;
-        const lang = selectElement.value;
-
-        this.selectedLanguage = lang;
-        this.translate.use(lang);
-        localStorage.setItem('selectedLanguage', lang);
-    }
-
 
     ngOnDestroy() {
         if (this.breakpointSubscription) {
@@ -105,5 +102,16 @@ export class AppComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(url);
         if (this.isOpen) this.toggleMenu();
         this.drawer.close();
+    }
+
+    toggleLanguagePicker(): void {
+        this.languagePickerExtended = !this.languagePickerExtended;
+    }
+
+    selectLanguage(language: { flag: string, code: string }): void {
+        this.selectedLanguage = language;
+        this.languagePickerExtended = false;
+        localStorage.setItem('selectedLanguage', this.selectedLanguage.code);
+        this.translate.use(this.selectedLanguage.code);
     }
 }

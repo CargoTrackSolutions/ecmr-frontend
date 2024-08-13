@@ -92,25 +92,59 @@ a{
   scale: 1.25;
 }
 
+@font-face {
+  font-family: 'Twemoji Country Flags';
+  unicode-range: U+1F1E6-1F1FF, U+1F3F4, U+E0062-E0063, U+E0065, U+E0067, U+E006C, U+E006E, U+E0073-E0074, U+E0077, U+E007F;
+  src: url('https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1/dist/TwemojiCountryFlags.woff2') format('woff2');
+}
+
+.language-container {
+  width: 40px;
+  height: 40px;
+}
 .language-picker {
   position: relative;
-  display: inline-block;
+  z-index: 5000;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border-radius: 15px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: height 0.3s ease;
 
-  select {
-    appearance: none;
-    background: #fff6f6;
-    border: 1px solid #fff6f6;
-    border-radius: 5px 0 0 5px;
-    padding: 5px 15px;
-    font-size: 14px;
-    color: #333;
-    cursor: pointer;
-    outline: none;
-    transition: border-color 0.3s, background-color 0.3s ease-in, border-left-width 0.3s ease-in, border-top-width 0.3s ease-in, border-bottom-width 0.3s ease-in;
-
-    &:hover {
-      border-color: #6485f8;
-      border-width: 3px 0 3px 3px;
-    }
+  div {
+    font-family: 'Twemoji Country Flags', sans-serif;
   }
+}
+
+.selected-language {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 40px;
+  font-size: 20px;
+}
+
+.language-picker.extended {
+  height: 80px;
+}
+
+.language-picker div:not(.selected-language) {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.language-picker div:not(.selected-language):hover {
+  background-color: #f0f0f0;
+}
+
+.theme-switcher {
+  z-index: 5000;
 }

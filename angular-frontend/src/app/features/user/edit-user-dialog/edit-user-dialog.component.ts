@@ -14,25 +14,33 @@ import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AsyncPipe, KeyValuePipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, KeyValuePipe, NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { MatOption, MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicDisableControlDirective } from '../../ecmr-editor/dynamic-disable-control.directive';
 import { CountryCode } from '../../../core/enums/CountryCode';
-import { LocationService } from '../../location/location-service/location.service';
-import { Location } from '../../../core/models/Location';
 import { GroupService } from '../../group/group.service';
 import { catchError, combineLatest, filter, map, Observable, of, startWith, switchMap } from 'rxjs';
 import { Group } from '../../../core/models/Group';
-import { LocationFormGroup } from '../../group/LocationFormGroup';
 import { GroupFormGroup } from '../../group/GroupFormGroup';
 import { UserRole } from '../../../core/enums/UserRole';
 import { EcmrUser } from '../../../core/models/EcmrUser';
 import { UserService } from '../../../shared/services/user.service';
 import { UserCreationAndUpdate } from '../../../core/models/UserCreationAndUpdate';
 import { LoadingService } from '../../../core/services/loading.service';
+import {
+    MatTree,
+    MatTreeFlatDataSource,
+    MatTreeFlattener,
+    MatTreeNode,
+    MatTreeNodeDef,
+    MatTreeNodePadding,
+    MatTreeNodeToggle
+} from '@angular/material/tree';
+import { FlatTreeControl } from '@angular/cdk/tree';
+import { FlatGroupNode } from '../../../core/models/FlatGroupNode';
 
 @Component({
     selector: 'app-edit-user-dialog',
@@ -62,12 +70,18 @@ import { LoadingService } from '../../../core/services/loading.service';
         NgClass,
         MatIconButton,
         KeyValuePipe,
-        MatError
+        MatError,
+        MatTree,
+        MatTreeNode,
+        MatTreeNodeDef,
+        MatTreeNodePadding,
+        MatTreeNodeToggle,
+        NgTemplateOutlet
     ],
     templateUrl: './edit-user-dialog.component.html',
     styleUrl: './edit-user-dialog.component.scss',
 })
-export class EditUserDialogComponent implements OnInit, AfterViewInit {
+export class EditUserDialogComponent implements OnInit {
 
     filteredCountries: Observable<string[]>;
     countries = Object.keys(CountryCode);
@@ -81,28 +95,32 @@ export class EditUserDialogComponent implements OnInit, AfterViewInit {
         role: new FormControl<UserRole | null>(null, Validators.required),
     })
 
-    locationsAndGroups = new FormGroup({
-        locations: new FormArray<FormGroup<LocationFormGroup>>([]),
-    });
+    private _transformer = (node: Group, level: number) => {
+        return {
+            expandable: !!node.children && node.children.length > 0,
+            name: node.name,
+            group: node,
+            level: level,
+        };
+    };
 
-    locationsFormGroup = new FormArray([
-        new FormGroup<LocationFormGroup>({
-            location: new FormControl<Location | null>(null),
-            groupsList: new FormControl<Group[]>([]),
-            groups: new FormArray<FormGroup<GroupFormGroup>>([]),
-        })
-    ]);
+    treeControl = new FlatTreeControl<FlatGroupNode>(
+        node => node.level,
+        node => node.expandable,
+    );
 
-    groupFormGroup = new FormArray([
-        new FormGroup<GroupFormGroup>({
-            group: new FormControl<Group | null>(null),
-        })
-    ]);
+    treeFlattener = new MatTreeFlattener(
+        this._transformer,
+        node => node.level,
+        node => node.expandable,
+        node => node.children,
+    );
 
-    originalLocations: Location[] = [];
-    unusedLocations: Location[] = [];
+    dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+    hasChild = (_: number, node: FlatGroupNode) => node.expandable;
 
     user: EcmrUser;
+    selectedGroups: Group[] = [];
 
     isEditMode: boolean = false;
 
@@ -110,8 +128,7 @@ export class EditUserDialogComponent implements OnInit, AfterViewInit {
                 private groupService: GroupService,
                 private userService: UserService,
                 private loadingService: LoadingService,
-                @Inject(MAT_DIALOG_DATA) public data: EcmrUser,
-                private locationService: LocationService) {
+                @Inject(MAT_DIALOG_DATA) public data: EcmrUser) {
         if (data?.id) {
             this.user = data;
             this.isEditMode = true;
@@ -130,36 +147,17 @@ export class EditUserDialogComponent implements OnInit, AfterViewInit {
                 map(value => this._filter(value ?? ''))
             );
 
-        this.loadingService.showLoaderUntilCompleted(this.locationService.getAllLocations()).subscribe(locs => {
-            this.originalLocations = locs;
-            this.unusedLocations = locs;
+        this.loadingService.showLoaderUntilCompleted(this.groupService.getAllGroups()).subscribe(groups => {
+            this.dataSource.data = groups;
         })
-        this.addLocation();
-    }
 
-    ngAfterViewInit() {
-        if (this.user?.id) {
-            this.userService.getLocationsForUser(this.user.id).pipe(
-                switchMap(location => {
-                    return combineLatest([of(location), this.userService.getGroupsForUser(this.user.id!)]);
-                })
-            ).subscribe(([locationResponse, groupResponse]) => {
-                for (let i = 0; i < locationResponse.length; i++) {
-                    this.addLocation();
-                    this.locationsAndGroups.controls.locations.controls[i].controls.location.setValue(locationResponse[i])
-                }
-                for (const element of groupResponse) {
-                    const locationFormGroup = this.locationsAndGroups.controls.locations.controls.find(loc =>
-                        loc.controls.location.getRawValue()?.id === element.location.id)
-                    if (locationFormGroup) {
-                        this.addGroup(locationFormGroup);
-                        const groupForm = locationFormGroup.controls.groups.controls.at(locationFormGroup.controls.groups.controls.length - 1)
-                        if (groupForm) groupForm.controls.group.setValue(element);
-                    }
-                }
+        if (this.isEditMode && this.user?.id) {
+            this.loadingService.showLoaderUntilCompleted(this.userService.getGroupsForUser(this.user.id)).subscribe(groups => {
+                this.selectedGroups = groups;
             })
         }
     }
+
 
     /**
      * Filter function for country autocomplete fields
@@ -175,118 +173,31 @@ export class EditUserDialogComponent implements OnInit, AfterViewInit {
         }
     }
 
-    createLocationFormGroup(): FormGroup<LocationFormGroup> {
-        return new FormGroup<LocationFormGroup>({
-            location: new FormControl<Location | null>(null),
-            groupsList: new FormControl<Group[] | null>([]),
-            groups: new FormArray<FormGroup<GroupFormGroup>>([])
-        });
+    closeDialog() {
+        this.dialogRef.close();
     }
 
-    createGroupFormGroup(): FormGroup<GroupFormGroup> {
-        return new FormGroup<GroupFormGroup>({
-            group: new FormControl<Group | null>(null)
-        });
+    protected readonly UserRole = UserRole;
+
+    selectGroup(node: FlatGroupNode) {
+        this.selectedGroups.push(node.group);
     }
 
-    addLocation() {
-        const locationFormGroup = this.createLocationFormGroup();
-        this.locationsAndGroups.controls.locations.push(locationFormGroup);
-        this.addLocationChangeListener(locationFormGroup);
+    isSelected(node: FlatGroupNode) {
+        return this.selectedGroups.some(group => group.id === node.group.id)
     }
 
-    locationChange(event: MatSelectChange) {
-        const locationForm = this.locationsAndGroups.controls.locations.controls.find(location => location.controls.location.getRawValue()?.id === event.value.id)
-        if (locationForm) locationForm.controls.groups.clear();
-    }
-
-    addLocationChangeListener(locationFormGroup: FormGroup<LocationFormGroup>) {
-        locationFormGroup.controls.location.valueChanges.pipe(
-            switchMap(value => {
-                if (value?.id) {
-                    return combineLatest([of(value), this.groupService.getGroupsWithLocationId(value.id)]);
-                } else {
-                    return of([null, null]);
-                }
-            })
-        ).subscribe(([value, groups]) => {
-            const locationsLength = this.locationsAndGroups.controls.locations.controls.length;
-            if (value && this.locationsAndGroups.controls.locations.controls.length < this.originalLocations.length &&
-                this.locationsAndGroups.controls.locations.controls[locationsLength - 1].getRawValue().location != null) {
-                locationFormGroup.controls.groupsList.setValue(groups);
-                this.addLocation();
-                this.addGroup(locationFormGroup);
-            } else if (value) {
-                locationFormGroup.controls.groupsList.setValue(groups);
-                this.addGroup(locationFormGroup);
-            }
-        });
-    }
-
-    addGroupChangeListener(groupFormGroup: FormGroup<GroupFormGroup>, locationFormGroup: FormGroup<LocationFormGroup>) {
-        groupFormGroup.controls.group.valueChanges.subscribe(nextGroup => {
-            const groupsLength = locationFormGroup.controls.groups.controls.length;
-            const groupsListValue = locationFormGroup.controls.groupsList.value;
-            if (nextGroup && groupsListValue && groupsLength < groupsListValue.length && groupsLength > 0 && locationFormGroup.controls.groups.controls[groupsLength - 1].getRawValue().group != null) {
-                this.addGroup(locationFormGroup);
-            }
-        });
-    }
-
-    addGroup(locationFormGroup: FormGroup<LocationFormGroup>) {
-        const groupFormGroup = this.createGroupFormGroup();
-        locationFormGroup.controls.groups.push(groupFormGroup);
-        this.addGroupChangeListener(groupFormGroup, locationFormGroup);
-    }
-
-    isLocationUsed(location: Location): boolean {
-        return this.locationsAndGroups.controls.locations.controls.some(loc => {
-            const locationFormValue: Location | null = loc.controls.location.value;
-            return locationFormValue ? locationFormValue.id === location.id : false;
-        });
-    }
-
-    isGroupUsed(group: Group, groups: FormArray<FormGroup<GroupFormGroup>>) {
-        return groups.controls.some(gro => {
-            const groupFormValue: Group | null = gro.controls.group.value;
-            return groupFormValue ? groupFormValue.id === group.id : false;
-        });
-    }
-
-    removeLocation(locationControl: FormGroup<LocationFormGroup>) {
-        const locationIndex = this.locationsAndGroups.controls.locations.controls.findIndex(loc => loc.controls.location.value?.id === locationControl.controls.location.value?.id);
-        this.locationsAndGroups.controls.locations.removeAt(locationIndex);
-        const length = this.locationsAndGroups.controls.locations.controls.length - 1
-        if (this.locationsAndGroups.controls.locations.controls[length].value.location != null) {
-            this.addLocation();
-        }
-    }
-
-    removeGroup(locationControl: FormGroup<LocationFormGroup>, group: Group) {
-        const groupIndex = locationControl.controls.groups.controls.findIndex(gro => gro.controls.group.value?.id === group.id);
-        locationControl.controls.groups.removeAt(groupIndex);
-        const length = locationControl.controls.groups.controls.length - 1
-        if (locationControl.controls.groups.controls.length == 0 || locationControl.controls.groups.controls[length].value.group != null) {
-            this.addGroup(locationControl);
-        }
+    removeItem(group: Group) {
+        const index = this.selectedGroups.findIndex(gro => gro.id === group.id);
+        this.selectedGroups.splice(index, 1);
     }
 
     saveUser() {
         this.userFormGroup.markAllAsTouched();
         if (this.userFormGroup.valid) {
-            const locationIds: number[] = [];
             const groupIds: number[] = [];
-            this.locationsAndGroups.controls.locations.controls.forEach(location => {
-                const locationId: number | null | undefined = location.controls.location.getRawValue()?.id;
-                if (location.controls.location && locationId) {
-                    locationIds.push(locationId)
-                }
-                location.controls.groups.controls.forEach(group => {
-                    const groupId: number | null | undefined = group.controls.group.getRawValue()?.id;
-                    if (group.controls.group && groupId) {
-                        groupIds.push(groupId)
-                    }
-                })
+            this.selectedGroups.forEach(group => {
+                if (group.id) groupIds.push(group.id);
             })
             const user: UserCreationAndUpdate = {
                 firstName: this.userFormGroup.controls.firstName.value!,
@@ -296,7 +207,6 @@ export class EditUserDialogComponent implements OnInit, AfterViewInit {
                 role: this.userFormGroup.controls.role.value!,
                 country: this.userFormGroup.controls.country.value!,
                 groupIds: groupIds,
-                locationIds: locationIds
             }
             if (this.isEditMode && this.user?.id) {
                 this.userService.updateUser(user, this.user.id).pipe(
@@ -325,18 +235,4 @@ export class EditUserDialogComponent implements OnInit, AfterViewInit {
             }
         }
     }
-
-    compareLocationFn(c1: Location, c2: Location): boolean {
-        return c1 && c2 ? c1.id === c2.id : c1 === c2;
-    }
-
-    compareGroupFn(c1: Group, c2: Group): boolean {
-        return c1 && c2 ? c1.id === c2.id : c1 === c2;
-    }
-
-    closeDialog() {
-        this.dialogRef.close();
-    }
-
-    protected readonly UserRole = UserRole;
 }

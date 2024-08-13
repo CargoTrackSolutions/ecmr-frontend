@@ -234,7 +234,13 @@
     "create_new": "Neue Gruppe erstellen",
     "delete_group": "Gruppe löschen",
     "search": "Suchen",
-    "location_name": "Standort"
+    "location_name": "Standort",
+    "tooltips": {
+      "create_new": "Erstelle neue Gruppe",
+      "edit_name": "Gruppe bearbeiten",
+      "change_parent": "Wechsel übergeordnete Gruppe",
+      "user": "Zugeordnete Benutzer"
+    }
   },
   "group_detail": {
     "title": "Benutzerverwaltung",
@@ -244,7 +250,13 @@
     "edit": "Gruppe bearbeiten",
     "create": "Gruppe erstellen",
     "name": "Name",
-    "location": "Standort"
+    "location": "Standort",
+    "description": "Beschreibung",
+    "parent_group": "Übergeordnete Gruppe"
+  },
+  "group_change_parent": {
+    "title": "Wechsel übergeordnete Gruppe",
+    "parent_group": "Übergeordnete Gruppe"
   },
   "user_overview": {
     "title": "Benutzerverwaltung",

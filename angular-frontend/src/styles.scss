@@ -86,7 +86,7 @@ app-template-overview ::-webkit-scrollbar-thumb,
 app-ecmr-table ::-webkit-scrollbar-thumb {
   border-radius: 5px;
   cursor: pointer;
-  background: mat.get-color-from-palette($my-primary, 500);
+  background: mat.get-color-from-palette($my-primary, 500) !important;
 }
 
 app-ecmr-editor ::-webkit-scrollbar-thumb:hover,
@@ -96,7 +96,7 @@ app-edit-user-dialog ::-webkit-scrollbar-thumb:hover,
 app-group-overview ::-webkit-scrollbar-thumb:hover,
 app-template-overview ::-webkit-scrollbar-thumb:hover,
 app-ecmr-table ::-webkit-scrollbar-thumb:hover {
-  background: mat.get-color-from-palette($my-accent, 500);
+  background: mat.get-color-from-palette($my-accent, 500) !important;
 }
 
 .mat-mdc-unelevated-button.mat-primary {
@@ -168,6 +168,36 @@ tr #icons button:nth-child(4) {
 }
 
 tr #icons button:nth-child(5) {
+  transition-delay: 0.2s;
+}
+
+mat-tree-node .action-row button {
+  opacity: 0;
+  transition: opacity var(--transition-times);
+}
+
+mat-tree-node:hover .action-row button {
+  opacity: 1;
+  transition: opacity var(--transition-times);
+}
+
+mat-tree-node .action-row button:nth-child(1) {
+  transition-delay: 0s;
+}
+
+mat-tree-node .action-row button:nth-child(2) {
+  transition-delay: 0.05s;
+}
+
+mat-tree-node .action-row button:nth-child(3) {
+  transition-delay: 0.1s;
+}
+
+mat-tree-node .action-row button:nth-child(4) {
+  transition-delay: 0.15s;
+}
+
+mat-tree-node .action-row button:nth-child(5) {
   transition-delay: 0.2s;
 }
 

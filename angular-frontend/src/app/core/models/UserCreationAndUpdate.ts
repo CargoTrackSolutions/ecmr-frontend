@@ -16,6 +16,5 @@ export interface UserCreationAndUpdate {
     email: string,
     phone: string | null,
     role: UserRole,
-    locationIds: number[],
     groupIds: number[],
 }
