@@ -31,6 +31,12 @@
     "privacy": "Privacy",
     "imprint_legal": "Imprint, Legal Matter"
   },
+  "privacy": {
+    "title": "Privacy Disclaimer"
+  },
+  "imprint_legal_matter": {
+    "title": "Imprint and Legal Matter"
+  },
   "overview": {
     "title": "Overview",
     "search": "Search",

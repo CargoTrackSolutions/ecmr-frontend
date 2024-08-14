@@ -1,0 +1,15 @@
+<article  class="d-flex flex-column h-100 overflow-hidden">
+  <section>
+    <mat-toolbar class="action-bar-shadow">
+      <mat-toolbar-row class="d-flex flex-row justify-content-between">
+        <mat-label>{{ "imprint_legal_matter.title" | translate }}</mat-label>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+  </section>
+
+  <section class="m-3">
+    <div [innerHTML]="imprintText"></div>
+  </section>
+
+</article>

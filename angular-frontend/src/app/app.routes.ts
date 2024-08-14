@@ -16,6 +16,8 @@ import { LoginCallbackComponent } from './features/login-callback/login-callback
 import { GroupOverviewComponent } from './features/group/group-overview/group-overview.component';
 import { GroupDetailViewComponent } from './features/group/group-detail-view/group-detail-view.component';
 import { UserOverviewComponent } from './features/user/user-overview/user-overview.component';
+import {PrivacyComponent} from "./features/privacy/privacy.component";
+import {LegalMatterComponent} from "./features/legal-matter/legal-matter.component";
 
 export const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'ecmr-overview'},
@@ -31,6 +33,6 @@ export const routes: Routes = [
     {path: 'group-overview', component: GroupOverviewComponent, canActivate: [AuthGuard]},
     {path: 'group-detail/:id', component: GroupDetailViewComponent, canActivate: [AuthGuard]},
     {path: 'user-overview', component: UserOverviewComponent, canActivate: [AuthGuard]},
-    // { path: 'privacy', component: privacy },
-    // { path: 'imprint-legal-matter', component: imprintLegalMatter },
+    {path: 'privacy', component: PrivacyComponent},
+    {path: 'imprint-legal-matter', component: LegalMatterComponent},
 ];

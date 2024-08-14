@@ -28,6 +28,12 @@
     "privacy": "Datenschutz",
     "imprint_legal": "Impressum, Rechtliches"
   },
+  "privacy": {
+    "title": "Datenschutzhinweis"
+  },
+  "imprint_legal_matter": {
+    "title": "Impressum und rechtliche Hinweise"
+  },
   "overview": {
     "title": "Übersicht",
     "search" : "Suchen",

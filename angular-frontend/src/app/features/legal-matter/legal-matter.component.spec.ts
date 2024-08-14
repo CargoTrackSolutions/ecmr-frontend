@@ -1,0 +1,45 @@
+/**
+ * Copyright Open Logistics Foundation
+ *
+ * Licensed under the Open Logistics Foundation License 1.3.
+ * For details on the licensing terms, see the LICENSE file.
+ * SPDX-License-Identifier: OLFL-1.3
+ */
+
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { LegalMatterComponent } from './legal-matter.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {HttpLoaderFactory} from "../../app.component";
+import {HttpClient} from "@angular/common/http";
+
+describe('LegalMatterComponent', () => {
+  let component: LegalMatterComponent;
+  let fixture: ComponentFixture<LegalMatterComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
+        LegalMatterComponent,
+        HttpClientTestingModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient]
+          }
+        })
+      ]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(LegalMatterComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

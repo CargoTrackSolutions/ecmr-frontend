@@ -20,6 +20,14 @@ This project was generated with Angular CLI version 17.3.3.
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
+## Adding texts to the privacy disclaimer and imprint components
+
+Add texts as html files to the assets/texts folders in the following scheme:
+- privacy disclaimer: privacy.\[language].html
+  - example: privacy.de.html
+- imprint and legal matter: imprint.\[language].html
+  - example: imprint.de.html
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io). Use the `--code-coverage` flag to analyze code coverage.
