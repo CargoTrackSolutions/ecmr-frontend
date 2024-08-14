@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>{{ ("share_create_dialog.title") | translate }}</h2>
+<mat-dialog-content class="overflow-auto">
+    <div class="d-flex flex-column overflow-y-scroll mt-3">
+        @for (group of selectableGroups; track group) {
+            <div class="group-item d-flex align-items-center flex-row justify-content-between ps-2 pe-2">
+                <mat-checkbox (change)="checkboxChange($event, group)">{{ group.name }}</mat-checkbox>
+            </div>
+        }
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions [align]="'end'">
+    <button mat-flat-button color="warn" (click)="closeDialog()">{{ "common.cancel" | translate }}</button>
+    <button mat-flat-button color="primary" [disabled]="selectedGroups.length === 0" (click)="selectGroup()">{{ "common.save" | translate }}</button>
+</mat-dialog-actions>

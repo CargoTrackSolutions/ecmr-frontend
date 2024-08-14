@@ -6,25 +6,24 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatDrawerContent } from '@angular/material/sidenav';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AsyncPipe, KeyValuePipe, NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
-import { MatOption, MatSelect, MatSelectChange } from '@angular/material/select';
+import { MatOption, MatSelect } from '@angular/material/select';
 import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicDisableControlDirective } from '../../ecmr-editor/dynamic-disable-control.directive';
 import { CountryCode } from '../../../core/enums/CountryCode';
 import { GroupService } from '../../group/group.service';
-import { catchError, combineLatest, filter, map, Observable, of, startWith, switchMap } from 'rxjs';
+import { catchError, filter, map, Observable, of, startWith } from 'rxjs';
 import { Group } from '../../../core/models/Group';
-import { GroupFormGroup } from '../../group/GroupFormGroup';
 import { UserRole } from '../../../core/enums/UserRole';
 import { EcmrUser } from '../../../core/models/EcmrUser';
 import { UserService } from '../../../shared/services/user.service';
@@ -147,7 +146,7 @@ export class EditUserDialogComponent implements OnInit {
                 map(value => this._filter(value ?? ''))
             );
 
-        this.loadingService.showLoaderUntilCompleted(this.groupService.getAllGroups()).subscribe(groups => {
+        this.loadingService.showLoaderUntilCompleted(this.groupService.getAllGroups(true)).subscribe(groups => {
             this.dataSource.data = groups;
         })
 

@@ -14,6 +14,7 @@ import { GroupCreation } from '../../core/models/GroupCreation';
 import { EcmrUser } from '../../core/models/EcmrUser';
 import { GroupUpdate } from '../../core/models/GroupUpdate';
 import { GroupParentUpdate } from '../../core/models/GroupParentUpdate';
+import { GroupFlat } from '../../core/models/GroupFlat';
 
 @Injectable({
     providedIn: 'root'
@@ -23,16 +24,13 @@ export class GroupService {
     constructor(private http: HttpClient) {
     }
 
-    getAllGroups() {
-        return this.http.get<Group[]>(`${environment.backendUrl}/group`)
+    getAllGroups(currentUserGroupsOnly: boolean) {
+        const params = {'currentUserGroupsOnly': currentUserGroupsOnly}
+        return this.http.get<Group[]>(`${environment.backendUrl}/group`, {params: params});
     }
 
     getGroupWithId(id: number) {
         return this.http.get<Group>(`${environment.backendUrl}/group/${id}`)
-    }
-
-    getGroupsWithLocationId(id: number) {
-        return this.http.get<Group[]>(`${environment.backendUrl}/location/${id}/groups`)
     }
 
     createGroup(group: GroupCreation) {
@@ -49,5 +47,10 @@ export class GroupService {
 
     updateGroupParent(groupParentUpdate: GroupParentUpdate, groupId: number) {
         return this.http.post<Group>(`${environment.backendUrl}/group/${groupId}/update-parent`, groupParentUpdate)
+    }
+
+    getAllGroupsAsFlatList(currentUserGroupsOnly: boolean) {
+        const params = {'currentUserGroupsOnly': currentUserGroupsOnly}
+        return this.http.get<GroupFlat[]>(`${environment.backendUrl}/group/flat-list`, {params: params});
     }
 }

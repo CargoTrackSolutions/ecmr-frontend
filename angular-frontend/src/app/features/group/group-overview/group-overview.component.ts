@@ -130,7 +130,7 @@ export class GroupOverviewComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.groupService.getAllGroups().subscribe(data => {
+        this.groupService.getAllGroups(true).subscribe(data => {
             this.originalData = data;
             this.dataSource.data = data;
         });
@@ -189,7 +189,7 @@ export class GroupOverviewComponent implements OnInit {
             data: {parentGroup: group, groupToEdit: null},
         }).afterClosed().pipe(
             filter(result => !!result),
-            switchMap(() => this.groupService.getAllGroups())
+            switchMap(() => this.groupService.getAllGroups(true))
         ).subscribe(groups => {
             this.dataSource.data = groups;
         })
@@ -201,7 +201,7 @@ export class GroupOverviewComponent implements OnInit {
             width: '600px'
         }).afterClosed().pipe(
             filter(result => !!result),
-            switchMap(() => this.groupService.getAllGroups())
+            switchMap(() => this.groupService.getAllGroups(true))
         ).subscribe(groups => {
             this.dataSource.data = groups;
         })
@@ -213,7 +213,7 @@ export class GroupOverviewComponent implements OnInit {
             width: '600px'
         }).afterClosed().pipe(
             filter(result => !!result),
-            switchMap(() => this.groupService.getAllGroups())
+            switchMap(() => this.groupService.getAllGroups(true))
         ).subscribe(groups => {
             this.dataSource.data = groups;
         })

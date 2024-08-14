@@ -65,7 +65,7 @@ export class GroupEditDialogComponent {
             this.groupFormGroup.patchValue(data.groupToEdit);
             this.isEditMode = true;
         }
-        this.groupService.getAllGroups().subscribe(groups => {
+        this.groupService.getAllGroups(true).subscribe(groups => {
             if (data.parentGroup) {
                 this.groups = this.findGroup(groups, data.parentGroup)
             } else {

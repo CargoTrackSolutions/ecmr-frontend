@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 import { CountryCode } from '../../core/enums/CountryCode';
-import { filter, map, Observable, startWith, Subscription, switchMap } from 'rxjs';
+import { catchError, filter, map, Observable, of, startWith, Subscription, switchMap } from 'rxjs';
 import { AsyncPipe, NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
@@ -38,6 +38,9 @@ import { TemplateUser } from '../../core/models/TemplateUser';
 import { LoadingService } from '../../core/services/loading.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DynamicDisableControlDirective } from './dynamic-disable-control.directive';
+import { GroupService } from '../group/group.service';
+import { EcmrCreateShareDialogComponent } from './ecmr-create-share-dialog/ecmr-create-share-dialog.component';
+import { GroupFlat } from '../../core/models/GroupFlat';
 
 export enum EditorMode {
     ECMR_EDIT,
@@ -301,6 +304,7 @@ export class EcmrEditorComponent implements OnInit {
                 private ecmrEditorService: EcmrEditorService,
                 private route: ActivatedRoute,
                 private snackbar: MatSnackBar,
+                private groupService: GroupService,
                 private translateService: TranslateService,
                 private cd: ChangeDetectorRef,
                 private loadingService: LoadingService,
@@ -485,10 +489,8 @@ export class EcmrEditorComponent implements OnInit {
                 if (subResult.length >= 0) {
                     invalidFields.push(...subResult);
                 }
-            } else {
-                if (!excludedElements.includes(controlName) && (control.value === null || control.value === '')) {
-                    invalidFields.push(control)
-                }
+            } else if (!excludedElements.includes(controlName) && (control.value === null || control.value === '')) {
+                invalidFields.push(control)
             }
         }
         return invalidFields;
@@ -546,19 +548,41 @@ export class EcmrEditorComponent implements OnInit {
         this.ecmrConsignmentFormGroup.reset(this.ecmrConsignmentFormGroup.getRawValue())
         if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_NEW || this.editorMode == EditorMode.ECMR_COPY)) {
             const formValue: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
+
             const ecmr: Ecmr = {
                 ecmrId: null,
                 ecmrConsignment: formValue
             }
-            this.loadingService.showLoaderUntilCompleted(this.ecmrEditorService.saveEcmr(ecmr))
-                .subscribe(() => {
-                    this.returnToOverview()
-                })
-        } else if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_EDIT)) {
-            const formValue: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
-            this.ecmrToEdit.ecmrConsignment = formValue;
-            console.log(this.ecmrToEdit)
 
+            this.groupService.getAllGroupsAsFlatList(true).pipe(
+                switchMap(groups => {
+                    if (groups.length > 1) {
+                        return this.matDialog.open(EcmrCreateShareDialogComponent, {
+                            data: groups,
+                            width: '60vw',
+                            maxHeight: '800px'
+                        }).afterClosed()
+                    } else if (groups.length == 0) {
+                        return of([])
+                    } else {
+                        return of(groups)
+                    }
+                }),
+                map(groups => groups as GroupFlat[]),
+                switchMap(groups => {
+                    return this.loadingService.showLoaderUntilCompleted(this.ecmrEditorService.saveEcmr(ecmr, groups))
+                }),
+                catchError(err => {
+                    console.warn(err);
+                    return of(null)
+                })
+            ).subscribe(ecmr => {
+                if (ecmr) this.returnToOverview()
+            })
+
+
+        } else if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_EDIT)) {
+            this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
             this.ecmrEditorService.updateEcmr(this.ecmrToEdit).subscribe({
                 next: () => {
                     this.returnToOverview()

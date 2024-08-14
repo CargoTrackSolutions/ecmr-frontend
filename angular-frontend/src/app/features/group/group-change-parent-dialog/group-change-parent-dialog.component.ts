@@ -16,7 +16,6 @@ import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatOption } from '@angular/material/autocomplete';
 import { MatSelect } from '@angular/material/select';
 import { GroupService } from '../group.service';
-import { group } from '@angular/animations';
 import { GroupParentUpdate } from '../../../core/models/GroupParentUpdate';
 
 @Component({
@@ -49,7 +48,7 @@ export class GroupChangeParentDialogComponent {
                 @Inject(MAT_DIALOG_DATA) public data: Group) {
         this.groupToEdit = data
 
-        this.groupService.getAllGroups().subscribe(groups => {
+        this.groupService.getAllGroups(true).subscribe(groups => {
             this.groups = this.getAllGroups(groups, this.groupToEdit);
         })
     }

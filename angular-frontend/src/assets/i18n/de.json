@@ -299,5 +299,8 @@
       "not_created": "Standort konnte nicht erstellt werden",
       "not_found": "Standort nicht gefunden"
     }
+  },
+  "share_create_dialog": {
+    "title": "Gruppen zum Teilen auswählen"
   }
 }

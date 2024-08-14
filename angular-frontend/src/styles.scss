@@ -83,6 +83,7 @@ app-group-detail-view ::-webkit-scrollbar-thumb,
 app-edit-user-dialog ::-webkit-scrollbar-thumb,
 app-ecmr-overview-details ::-webkit-scrollbar-thumb,
 app-template-overview ::-webkit-scrollbar-thumb,
+app-ecmr-create-share-dialog ::-webkit-scrollbar-thumb,
 app-ecmr-table ::-webkit-scrollbar-thumb {
   border-radius: 5px;
   cursor: pointer;
@@ -95,6 +96,7 @@ app-group-detail-view ::-webkit-scrollbar-thumb:hover,
 app-edit-user-dialog ::-webkit-scrollbar-thumb:hover,
 app-group-overview ::-webkit-scrollbar-thumb:hover,
 app-template-overview ::-webkit-scrollbar-thumb:hover,
+app-ecmr-create-share-dialog ::-webkit-scrollbar-thumb:hover,
 app-ecmr-table ::-webkit-scrollbar-thumb:hover {
   background: mat.get-color-from-palette($my-accent, 500) !important;
 }
