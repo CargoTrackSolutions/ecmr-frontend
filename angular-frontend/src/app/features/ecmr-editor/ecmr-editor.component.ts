@@ -41,6 +41,9 @@ import { DynamicDisableControlDirective } from './dynamic-disable-control.direct
 import { GroupService } from '../group/group.service';
 import { EcmrCreateShareDialogComponent } from './ecmr-create-share-dialog/ecmr-create-share-dialog.component';
 import { GroupFlat } from '../../core/models/GroupFlat';
+import { SignaturePadDialogComponent } from '../signature-pad/signature-pad-dialog.component';
+import { Sign } from '../../core/models/Sign';
+import { Signer } from '../../core/enums/Signer';
 import { EcmrTanService } from './ecmr-editor-service/ecmr-tan.service';
 
 export enum EditorMode {
@@ -388,34 +391,37 @@ export class EcmrEditorComponent implements OnInit {
         }
     }
 
-    //TODO: update this method, it is currently for testing purposes only!
     signSender() {
         if (this.senderFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
-            console.log('sign sender')
-            const signature: Signature = {
-                type: 'signature',
-                userName: 'sender',
-                userCompany: 'the company',
-                userStreet: 'street',
-                userPostCode: '1234',
-                userCity: 'Bochum',
-                userCountry: 'DE',
-                timestamp: new Date(),
-                data: 'sender data'
-            }
-            this.ecmrConsignmentFormGroup.controls.signatureOrStampOfTheSender.controls.senderSignature.setValue(signature);
+            this.matDialog.open(SignaturePadDialogComponent)
+                .afterClosed()
+                .pipe(
+                    switchMap(result => {
+                        if (result) {
+                            const signature: Sign = {
+                                signer: Signer.Sender,
+                                data: result
+                            };
+                            return this.ecmrEditorService.signEcmr(signature, this.ecmrId!);
+                        } else {
+                            return of(null);
+                        }
+                    })
+                )
+                .subscribe(savedSignature => {
+                    this.ecmrConsignmentFormGroup.controls.signatureOrStampOfTheSender.controls.senderSignature.setValue(savedSignature);
 
-            this.canFillSenderFields = false;
-            this.canFillCarrierFields = true;
+                    this.canFillSenderFields = false;
+                    this.canFillCarrierFields = true;
 
-            this.cd.detectChanges();
+                    this.cd.detectChanges();
+                });
         } else {
             this.ecmrConsignmentFormGroup.markAllAsTouched();
             const action = this.translateService.instant('general.snackbar_action');
             const message = this.translateService.instant('ecmr_editor.snackbar_error');
             this.snackbar.open(message, action, {duration: 3000})
         }
-
     }
 
     senderFieldsAreValid(): boolean {
@@ -438,34 +444,54 @@ export class EcmrEditorComponent implements OnInit {
         return invalidFields.length == 0;
     }
 
-    //TODO: update this method, it is currently for testing purposes only!
     signCarrier() {
-        console.log('sign carrier')
-        const signature: Signature = {
-            type: 'signature',
-            userName: 'carrier',
-            userCompany: 'the company',
-            userStreet: 'street',
-            userPostCode: '1234',
-            userCity: 'Bochum',
-            userCountry: 'DE',
-            timestamp: new Date(),
-            data: 'carrier data'
-        }
+        this.matDialog.open(SignaturePadDialogComponent)
+            .afterClosed()
+            .pipe(
+                switchMap(result => {
+                    if (result) {
+                        const signature: Sign = {
+                            signer: Signer.Carrier,
+                            data: result
+                        }
+                        return this.ecmrEditorService.signEcmr(signature, this.ecmrId!);
+                    } else {
+                        return of(null);
+                    }
+                })
+            )
+            .subscribe(savedSignature => {
+                this.ecmrConsignmentFormGroup.controls.signatureOrStampOfTheCarrier.controls.carrierSignature.setValue(savedSignature);
 
-        this.ecmrConsignmentFormGroup.controls.signatureOrStampOfTheCarrier.controls.carrierSignature.setValue(signature);
+                this.canFillCarrierFields = false;
+                this.canFillConsignorFields = true;
 
-        this.canFillCarrierFields = false;
-        this.canFillConsignorFields = true;
-
-        this.cd.detectChanges();
+                this.cd.detectChanges();
+            });
     }
 
-    //TODO: update this method, it is currently for testing purposes only!
     signConsignor() {
-        console.log('sign consignor');
         if (this.consignorFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
-            this.canFillConsignorFields = false;
+            this.matDialog.open(SignaturePadDialogComponent)
+                .afterClosed()
+                .pipe(
+                    switchMap(result => {
+                        if (result) {
+                            const signature: Sign = {
+                                signer: Signer.Consignee,
+                                data: result
+                            }
+                            return this.ecmrEditorService.signEcmr(signature, this.ecmrId!);
+                        } else {
+                            return of(null);
+                        }
+                    })
+                )
+                .subscribe(savedSignature => {
+                    this.ecmrConsignmentFormGroup.controls.goodsReceived.controls.consigneeSignature.setValue(savedSignature);
+
+                    this.canFillConsignorFields = false;
+                });
         } else {
             this.ecmrConsignmentFormGroup.markAllAsTouched();
             const action = this.translateService.instant('general.snackbar_action');

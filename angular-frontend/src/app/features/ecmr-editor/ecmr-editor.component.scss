@@ -24,3 +24,20 @@
 .invalid-highlight {
   color: red;
 }
+
+.action-button-group {
+  display: inline-flex;
+  align-items: center;
+}
+
+.main-button {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.dropdown-button {
+  min-width: 36px;
+  padding: 0 8px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}

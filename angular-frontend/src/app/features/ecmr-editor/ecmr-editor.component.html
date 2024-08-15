@@ -664,18 +664,42 @@
                             <!-- Area 22 -->
 
                             <h6>{{ "ecmr_editor.title_22" | translate }}</h6>
-                            <button [disabled]="!canFillSenderFields" mat-flat-button color="primary" (click)="signSender()" *ngIf="!isTemplate()">
-                                Sign
-                                <mat-icon iconPositionEnd>sign</mat-icon>
-                            </button>
+                            <div class="action-button-group">
+                                <button [disabled]="!canFillSenderFields" mat-flat-button class="main-button" color="primary"
+                                        (click)="signSender()">
+                                    Sign on glass
+                                </button>
+                                <button [disabled]="!canFillSenderFields" mat-flat-button class="dropdown-button" color="primary"
+                                        [matMenuTriggerFor]="menu">
+                                    <mat-icon>arrow_drop_down</mat-icon>
+                                </button>
+                            </div>
+
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item>
+                                    E-Sign
+                                </button>
+                            </mat-menu>
 
                             <!-- Area 23 -->
 
                             <h6>{{ "ecmr_editor.title_23" | translate }}</h6>
-                            <button [disabled]="!canFillCarrierFields" mat-flat-button color="primary" (click)="signCarrier()" *ngIf="!isTemplate()">
-                                Sign
-                                <mat-icon iconPositionEnd>sign</mat-icon>
-                            </button>
+                            <div class="action-button-group">
+                                <button [disabled]="!canFillCarrierFields" mat-flat-button class="main-button" color="primary"
+                                        (click)="signCarrier()">
+                                    Sign on glass
+                                </button>
+                                <button [disabled]="!canFillCarrierFields" mat-flat-button class="dropdown-button" color="primary"
+                                        [matMenuTriggerFor]="menu">
+                                    <mat-icon>arrow_drop_down</mat-icon>
+                                </button>
+                            </div>
+
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item>
+                                    E-Sign
+                                </button>
+                            </mat-menu>
                         </div>
 
                         <!-- Area 24 -->
@@ -702,10 +726,22 @@
                                     }
                                 </mat-form-field>
                             </div>
-                            <button [disabled]="!canFillConsignorFields" (click)="signConsignor()" mat-flat-button color="primary" *ngIf="!isTemplate()">
-                                Sign
-                                <mat-icon iconPositionEnd>sign</mat-icon>
-                            </button>
+                            <div class="action-button-group">
+                                <button [disabled]="!canFillConsignorFields" mat-flat-button class="main-button" color="primary"
+                                        (click)="signConsignor()">
+                                    Sign on glass
+                                </button>
+                                <button [disabled]="!canFillConsignorFields" mat-flat-button class="dropdown-button" color="primary"
+                                        [matMenuTriggerFor]="menu">
+                                    <mat-icon>arrow_drop_down</mat-icon>
+                                </button>
+                            </div>
+
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item>
+                                    E-Sign
+                                </button>
+                            </mat-menu>
                         </div>
                     </div>
                 </mat-card-content>

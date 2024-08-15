@@ -886,6 +886,7 @@
 "side-channel@1.0.6","MIT","https://github.com/ljharb/side-channel"
 "signal-exit@3.0.7","ISC","https://github.com/tapjs/signal-exit"
 "signal-exit@4.1.0","ISC","https://github.com/tapjs/signal-exit"
+"signature_pad@5.0.2","MIT","https://github.com/szimek/signature_pad"
 "sigstore@2.3.0","Apache-2.0","https://github.com/sigstore/sigstore-js"
 "slash@3.0.0","MIT","https://github.com/sindresorhus/slash"
 "slash@4.0.0","MIT","https://github.com/sindresorhus/slash"

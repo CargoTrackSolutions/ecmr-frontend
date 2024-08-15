@@ -324,9 +324,9 @@
       "not_found": "Location not found"
     }
   },
-  "errors": {
-    "required": "Required",
-    "invalid_countryCode": "Invalid CountryCode"
+  "signature": {
+    "clear": "Clear Signature",
+    "confirm_text": "Are you sure? You will not be able to make changes to the eCMR anymore."
   },
   "share_create_dialog": {
     "title": "Selects groups to share"

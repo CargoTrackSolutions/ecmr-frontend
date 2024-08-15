@@ -316,5 +316,9 @@
     "phone": "Telefon",
     "company": "Unternehmen",
     "register": "Registrieren"
+  },
+  "signature": {
+    "clear": "Unterschrift löschen",
+    "confirm_text": "Sind Sie sicher? Sie können danach keine Änderungen mehr am eCMR vornehmen."
   }
 }

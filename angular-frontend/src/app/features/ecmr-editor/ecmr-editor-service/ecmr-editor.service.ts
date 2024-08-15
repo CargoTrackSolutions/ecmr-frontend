@@ -13,6 +13,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { TemplateUser } from '../../../core/models/TemplateUser';
 import { GroupFlat } from '../../../core/models/GroupFlat';
+import { Signature } from '../../../core/models/areas/signature/Signature';
+import { Sign } from '../../../core/models/Sign';
 
 @Injectable({
     providedIn: 'root'
@@ -45,6 +47,10 @@ export class EcmrEditorService {
 
     updateEcmr(ecmr: Ecmr) {
         return this.http.put<Ecmr>(`${environment.backendUrl}/ecmr`, ecmr)
+    }
+
+    signEcmr(signModel: Sign, ecmrId: string) {
+        return this.http.post<Signature>(`${environment.backendUrl}/ecmr/${ecmrId}/sign-on-glass`, signModel);
     }
 
     createEmptyEcmrConsignment(): EcmrConsignment {
