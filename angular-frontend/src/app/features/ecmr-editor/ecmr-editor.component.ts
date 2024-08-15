@@ -41,6 +41,7 @@ import { DynamicDisableControlDirective } from './dynamic-disable-control.direct
 import { GroupService } from '../group/group.service';
 import { EcmrCreateShareDialogComponent } from './ecmr-create-share-dialog/ecmr-create-share-dialog.component';
 import { GroupFlat } from '../../core/models/GroupFlat';
+import { EcmrTanService } from './ecmr-editor-service/ecmr-tan.service';
 
 export enum EditorMode {
     ECMR_EDIT,
@@ -298,6 +299,7 @@ export class EcmrEditorComponent implements OnInit {
 
     sub: Subscription;
     id: string;
+    tan: string;
 
     constructor(private breakpointObserver: BreakpointObserver,
                 private router: Router,
@@ -305,6 +307,7 @@ export class EcmrEditorComponent implements OnInit {
                 private route: ActivatedRoute,
                 private snackbar: MatSnackBar,
                 private groupService: GroupService,
+                private ecmrTanService: EcmrTanService,
                 private translateService: TranslateService,
                 private cd: ChangeDetectorRef,
                 private loadingService: LoadingService,
@@ -321,6 +324,7 @@ export class EcmrEditorComponent implements OnInit {
 
         this.sub = this.route.params.subscribe(params => {
             this.id = params['id'];
+            this.tan = params['tan'];
             if (this.id) {
                 this.editorMode = EditorMode.ECMR_EDIT;
             } else {
@@ -516,9 +520,15 @@ export class EcmrEditorComponent implements OnInit {
             this.setFormConstraints();
         }
         if (this.editorMode == EditorMode.ECMR_EDIT) {
-            this.ecmrEditorService.getEcmr(this.id).subscribe(ecmr => {
-                this.loadEcmr(ecmr);
-            });
+            if (this.tan != undefined) {
+                this.ecmrTanService.getEcmrWithTan(this.id, this.tan).subscribe(ecmr => {
+                    this.loadEcmr(ecmr);
+                })
+            } else {
+                this.ecmrEditorService.getEcmr(this.id).subscribe(ecmr => {
+                    this.loadEcmr(ecmr);
+                });
+            }
         }
         if (this.editorMode == EditorMode.ECMR_COPY) {
             this.ecmrEditorService.getEcmr(this.id).subscribe(ecmr => {

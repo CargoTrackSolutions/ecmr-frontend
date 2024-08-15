@@ -308,5 +308,13 @@
   },
   "share_create_dialog": {
     "title": "Gruppen zum Teilen auswählen"
+  },
+  "carrier_registration": {
+    "title": "Registrierung",
+    "first_name": "Vorname",
+    "last_name": "Nachname",
+    "phone": "Telefon",
+    "company": "Unternehmen",
+    "register": "Registrieren"
   }
 }

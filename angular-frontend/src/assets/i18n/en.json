@@ -330,5 +330,13 @@
   },
   "share_create_dialog": {
     "title": "Selects groups to share"
+  },
+  "carrier_registration": {
+    "title": "Registration",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "phone": "Phone",
+    "company": "Company",
+    "register": "Register"
   }
 }

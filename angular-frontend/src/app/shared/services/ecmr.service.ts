@@ -102,7 +102,7 @@ export class EcmrService {
     downloadPdf(ecmrId: string) {
         let headers = new HttpHeaders();
         headers = headers.set('Accept', 'application/pdf');
-        return this.http.get(`${environment.backendUrl}/ecmr/pdf/${ecmrId}`, {headers, responseType: 'blob', observe: 'response'});
+        return this.http.get(`${environment.backendUrl}/ecmr/${ecmrId}/pdf`, {headers, responseType: 'blob', observe: 'response'});
     }
 
     deleteEcmr(ecmrId: string) {

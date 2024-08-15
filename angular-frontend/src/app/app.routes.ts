@@ -16,8 +16,9 @@ import { LoginCallbackComponent } from './features/login-callback/login-callback
 import { GroupOverviewComponent } from './features/group/group-overview/group-overview.component';
 import { GroupDetailViewComponent } from './features/group/group-detail-view/group-detail-view.component';
 import { UserOverviewComponent } from './features/user/user-overview/user-overview.component';
-import {PrivacyComponent} from "./features/privacy/privacy.component";
-import {LegalMatterComponent} from "./features/legal-matter/legal-matter.component";
+import { PrivacyComponent } from './features/privacy/privacy.component';
+import { LegalMatterComponent } from './features/legal-matter/legal-matter.component';
+import { CarrierRegistrationComponent } from './features/carrier-registration/carrier-registration.component';
 
 export const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'ecmr-overview'},
@@ -25,6 +26,7 @@ export const routes: Routes = [
     {path: 'ecmr-overview', component: EcmrOverviewComponent, canActivate: [AuthGuard]},
     {path: 'ecmr-editor', component: EcmrEditorComponent, canActivate: [AuthGuard]},
     {path: 'ecmr-editor/:id', component: EcmrEditorComponent, canActivate: [AuthGuard]},
+    {path: 'ecmr-tan/:id/:tan', component: EcmrEditorComponent},
     {path: 'ecmr-archive', component: ArchiveComponent, canActivate: [AuthGuard]},
     {path: 'templates-overview', component: TemplateOverviewComponent, canActivate: [AuthGuard]},
     {path: 'template-editor', component: EcmrEditorComponent, canActivate: [AuthGuard]},
@@ -33,6 +35,7 @@ export const routes: Routes = [
     {path: 'group-overview', component: GroupOverviewComponent, canActivate: [AuthGuard]},
     {path: 'group-detail/:id', component: GroupDetailViewComponent, canActivate: [AuthGuard]},
     {path: 'user-overview', component: UserOverviewComponent, canActivate: [AuthGuard]},
+    {path: 'carrier-registration/:id', component: CarrierRegistrationComponent},
     {path: 'privacy', component: PrivacyComponent},
     {path: 'imprint-legal-matter', component: LegalMatterComponent},
 ];

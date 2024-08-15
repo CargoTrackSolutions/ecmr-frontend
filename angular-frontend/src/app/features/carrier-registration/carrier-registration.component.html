@@ -1,0 +1,28 @@
+<div class="w-100 h-100 d-flex justify-content-center align-items-center">
+    <mat-card [formGroup]="externalCarrier" class="d-flex flex-column gap-2 registration-container p-3">
+        <mat-card-header>
+            <mat-card-title>{{ 'carrier_registration.title' | translate }}</mat-card-title>
+        </mat-card-header>
+        <mat-form-field>
+            <mat-label>{{ 'carrier_registration.first_name' | translate }}</mat-label>
+            <input matInput formControlName="firstName">
+            <mat-icon matIconPrefix>badge</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>{{ 'carrier_registration.last_name' | translate }}</mat-label>
+            <input matInput formControlName="lastName">
+            <mat-icon matIconPrefix>badge</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>{{ 'carrier_registration.phone' | translate }}</mat-label>
+            <input matInput formControlName="phone">
+            <mat-icon matIconPrefix>call</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>{{ 'carrier_registration.company' | translate }}</mat-label>
+            <input matInput formControlName="company">
+            <mat-icon matIconPrefix>apartment</mat-icon>
+        </mat-form-field>
+        <button mat-flat-button color="primary" [disabled]="externalCarrier.invalid">{{ 'carrier_registration.register' | translate }}</button>
+    </mat-card>
+</div>

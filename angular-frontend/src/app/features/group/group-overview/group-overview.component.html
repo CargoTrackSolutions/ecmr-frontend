@@ -7,10 +7,6 @@
                 <input matInput placeholder="Suche" [(ngModel)]="searchText" (ngModelChange)="applyFilter()"/>
                 <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
-            <button mat-flat-button (click)="createNewGroup(null)" color="primary">
-                {{ 'group_overview.create_new' | translate }}
-                <mat-icon matIconSuffix>add</mat-icon>
-            </button>
         </div>
     </mat-toolbar-row>
 </mat-toolbar>
