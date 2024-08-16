@@ -41,7 +41,7 @@ export class SignaturePadDialogComponent implements AfterViewInit {
   @ViewChild('signaturePad', { static: false }) signaturePadElement!: ElementRef<HTMLCanvasElement>;
   signaturePad!: SignaturePad;
   private context!: CanvasRenderingContext2D;
-  isSignatureEmpty: boolean = true; // Track signature state
+  isSignatureEmpty: boolean = true;
 
   constructor(private dialogRef: MatDialogRef<SignaturePadDialogComponent>,
               private dialog: MatDialog,
@@ -55,10 +55,8 @@ export class SignaturePadDialogComponent implements AfterViewInit {
     });
     this.context = this.signaturePadElement.nativeElement.getContext('2d') as CanvasRenderingContext2D;
 
-    // Ensure the canvas is resized and cleared correctly
     this.resizeCanvas();
 
-    // Check signature pad state after initialization
     this.updateSignatureState();
   }
 
@@ -98,7 +96,7 @@ export class SignaturePadDialogComponent implements AfterViewInit {
 
   private updateSignatureState() {
     this.isSignatureEmpty = this.signaturePad.isEmpty();
-    this.cdr.detectChanges(); // Trigger change detection
+    this.cdr.detectChanges();
   }
 
   isNotSigned(): boolean {

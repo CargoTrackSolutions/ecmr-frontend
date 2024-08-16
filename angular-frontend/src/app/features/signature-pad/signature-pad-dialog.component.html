@@ -2,7 +2,7 @@
     <button mat-icon-button class="close-button" (click)="closePad()" tabindex="-1">
         <mat-icon>close</mat-icon>
     </button>
-    <canvas #signaturePad class="signature-pad"></canvas>
+    <canvas #signaturePad class="signature-pad" (click)="isSignatureEmpty = false"></canvas>
     <div class="button-container">
         <button mat-flat-button color="accent" (click)="clearPad()">
             <mat-icon>backspace</mat-icon>

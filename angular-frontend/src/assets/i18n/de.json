@@ -217,6 +217,7 @@
     "title_22": "22. Unterschrift oder Stempel des Absenders",
     "title_23": "23. Unterschrift oder Stempel des Transporteur",
     "title_24": "24. Waren erhalten",
+    "title_24_signature": "Unterschrift oder Stempel des Empfängers",
     "non_contractual_part_reserved_for_the_carrier": "Dem Beförderer vorbehaltener außervertraglicher Teil",
     "remarks": "Bemerkungen",
     "items": "Items"
@@ -323,6 +324,8 @@
   },
   "signature": {
     "clear": "Unterschrift löschen",
-    "confirm_text": "Sind Sie sicher? Sie können danach keine Änderungen mehr am eCMR vornehmen."
+    "confirm_text": "Sind Sie sicher? Sie können danach keine Änderungen mehr am eCMR vornehmen.",
+    "signed_on": "Unterschrieben am:",
+    "from": "Von:"
   }
 }

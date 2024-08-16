@@ -17,7 +17,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 import { CountryCode } from '../../core/enums/CountryCode';
 import { catchError, filter, map, Observable, of, startWith, Subscription, switchMap } from 'rxjs';
-import { AsyncPipe, NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, DatePipe, NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
@@ -45,6 +45,7 @@ import { SignaturePadDialogComponent } from '../signature-pad/signature-pad-dial
 import { Sign } from '../../core/models/Sign';
 import { Signer } from '../../core/enums/Signer';
 import { EcmrTanService } from './ecmr-editor-service/ecmr-tan.service';
+import { DateTimeService } from '../../shared/services/date-time.service';
 
 export enum EditorMode {
     ECMR_EDIT,
@@ -87,6 +88,7 @@ export enum EditorMode {
         DynamicDisableControlDirective,
         NgClass
     ],
+    providers: [DatePipe, DateTimeService],
     templateUrl: './ecmr-editor.component.html',
     styleUrl: './ecmr-editor.component.scss'
 })
@@ -99,6 +101,10 @@ export class EcmrEditorComponent implements OnInit {
     breakpointSubscription: Subscription | undefined;
 
     editorMode: EditorMode;
+
+    senderSignature: Signature | null;
+    carrierSignature: Signature | null;
+    consigneeSignature: Signature | null;
 
     @ViewChild(MatAccordion) accordion: MatAccordion;
 
@@ -314,6 +320,7 @@ export class EcmrEditorComponent implements OnInit {
                 private translateService: TranslateService,
                 private cd: ChangeDetectorRef,
                 private loadingService: LoadingService,
+                protected dateTimeService: DateTimeService,
                 public matDialog: MatDialog) {
     }
 
@@ -402,19 +409,23 @@ export class EcmrEditorComponent implements OnInit {
                                 signer: Signer.Sender,
                                 data: result
                             };
-                            return this.ecmrEditorService.signEcmr(signature, this.ecmrId!);
+
+                            return this.ecmrEditorService.signEcmr(signature, this.id!);
                         } else {
                             return of(null);
                         }
                     })
                 )
                 .subscribe(savedSignature => {
-                    this.ecmrConsignmentFormGroup.controls.signatureOrStampOfTheSender.controls.senderSignature.setValue(savedSignature);
+                    if(savedSignature) {
+                        this.ecmrConsignmentFormGroup.controls.signatureOrStampOfTheSender.controls.senderSignature.setValue(savedSignature);
+                        this.senderSignature = savedSignature;
 
-                    this.canFillSenderFields = false;
-                    this.canFillCarrierFields = true;
+                        this.canFillSenderFields = false;
+                        this.canFillCarrierFields = true;
 
-                    this.cd.detectChanges();
+                        this.cd.detectChanges();
+                    }
                 });
         } else {
             this.ecmrConsignmentFormGroup.markAllAsTouched();
@@ -454,19 +465,22 @@ export class EcmrEditorComponent implements OnInit {
                             signer: Signer.Carrier,
                             data: result
                         }
-                        return this.ecmrEditorService.signEcmr(signature, this.ecmrId!);
+                        return this.ecmrEditorService.signEcmr(signature, this.id!);
                     } else {
                         return of(null);
                     }
                 })
             )
             .subscribe(savedSignature => {
-                this.ecmrConsignmentFormGroup.controls.signatureOrStampOfTheCarrier.controls.carrierSignature.setValue(savedSignature);
+                if(savedSignature) {
+                    this.ecmrConsignmentFormGroup.controls.signatureOrStampOfTheCarrier.controls.carrierSignature.setValue(savedSignature);
+                    this.carrierSignature = savedSignature;
 
-                this.canFillCarrierFields = false;
-                this.canFillConsignorFields = true;
+                    this.canFillCarrierFields = false;
+                    this.canFillConsignorFields = true;
 
-                this.cd.detectChanges();
+                    this.cd.detectChanges();
+                }
             });
     }
 
@@ -481,16 +495,19 @@ export class EcmrEditorComponent implements OnInit {
                                 signer: Signer.Consignee,
                                 data: result
                             }
-                            return this.ecmrEditorService.signEcmr(signature, this.ecmrId!);
+                            return this.ecmrEditorService.signEcmr(signature, this.id!);
                         } else {
                             return of(null);
                         }
                     })
                 )
                 .subscribe(savedSignature => {
-                    this.ecmrConsignmentFormGroup.controls.goodsReceived.controls.consigneeSignature.setValue(savedSignature);
+                    if(savedSignature) {
+                        this.ecmrConsignmentFormGroup.controls.goodsReceived.controls.consigneeSignature.setValue(savedSignature);
+                        this.consigneeSignature = savedSignature;
 
-                    this.canFillConsignorFields = false;
+                        this.canFillConsignorFields = false;
+                    }
                 });
         } else {
             this.ecmrConsignmentFormGroup.markAllAsTouched();
@@ -578,6 +595,10 @@ export class EcmrEditorComponent implements OnInit {
         });
         this.ecmrConsignmentFormGroup.patchValue(this.ecmrConsignment);
         this.setFormConstraints();
+
+        this.senderSignature = this.ecmrConsignment.signatureOrStampOfTheSender.senderSignature;
+        this.carrierSignature = this.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature;
+        this.consigneeSignature = this.ecmrConsignment.goodsReceived.consigneeSignature;
     }
 
     saveEcmr() {
@@ -740,5 +761,10 @@ export class EcmrEditorComponent implements OnInit {
 
     isNotEdit(): boolean {
         return !(this.editorMode == EditorMode.ECMR_EDIT || this.editorMode == EditorMode.TEMPLATE_EDIT)
+    }
+
+    scrollToElement() {
+        const element = document.getElementById('ecmr-signature-scroll');
+        element?.scrollIntoView({behavior: 'smooth'});
     }
 }

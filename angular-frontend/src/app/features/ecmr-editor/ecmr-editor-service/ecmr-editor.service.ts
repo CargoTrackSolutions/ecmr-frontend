@@ -49,8 +49,8 @@ export class EcmrEditorService {
         return this.http.put<Ecmr>(`${environment.backendUrl}/ecmr`, ecmr)
     }
 
-    signEcmr(signModel: Sign, ecmrId: string) {
-        return this.http.post<Signature>(`${environment.backendUrl}/ecmr/${ecmrId}/sign-on-glass`, signModel);
+    signEcmr(signModel: Sign, id: string) {
+        return this.http.post<Signature>(`${environment.backendUrl}/ecmr/${id}/sign-on-glass`, signModel);
     }
 
     createEmptyEcmrConsignment(): EcmrConsignment {
