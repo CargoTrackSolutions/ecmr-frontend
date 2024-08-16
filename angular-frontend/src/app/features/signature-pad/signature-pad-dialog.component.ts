@@ -77,7 +77,7 @@ export class SignaturePadDialogComponent implements AfterViewInit {
         text: this.translateService.instant('signature.confirm_text')
       }
     }).afterClosed().subscribe(result => {
-      if (result) {
+      if (result.isConfirmed) {
         this.dialogRef.close(this.signaturePad.toDataURL());
       }
     });

@@ -230,14 +230,19 @@ export class EcmrOverviewComponent implements OnInit {
     }
 
     moveToArchive(ecmrId: string) {
-        const confirmationMessage = this.translateService.instant('overview.confirmation_message');
         const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-            data: {text: confirmationMessage}
-        })
+            data: {
+                text: 'overview.confirmation_message',
+                checkBoxText: 'confirmation.checkbox',
+            },
+        });
 
         dialogRef.afterClosed().pipe(
             switchMap(result => {
-                if (result) {
+                if (result.isConfirmed) {
+                    if (result.isCheckboxTicked) {
+                        this.onCopyEcmr(ecmrId);
+                    }
                     return this.ecmrService.moveToArchive(ecmrId);
                 } else {
                     return EMPTY;

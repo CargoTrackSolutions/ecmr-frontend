@@ -247,7 +247,8 @@
   "confirmation": {
     "title": "Confirmation",
     "accept": "Accept",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "checkbox": "Create an editable copy of this eCMR."
   },
   "item": {
     "empty": "Empty"

@@ -73,7 +73,7 @@ export class ArchiveComponent implements OnInit {
 
     dialogRef.afterClosed().pipe(
       switchMap(result =>{
-        if(result){
+        if(result.isConfirmed){
           return this.ecmrService.moveOutOfArchive(ecmrId);
         } else {
           return EMPTY;

@@ -229,7 +229,8 @@
   "confirmation": {
     "title": "Bestätigung",
     "accept": "Bestätigen",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "checkbox": "Eine editierbare Kopie dieses eCMRs erstellen."
   },
   "item": {
     "empty": "Leer"

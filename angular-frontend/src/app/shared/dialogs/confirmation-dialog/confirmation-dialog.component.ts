@@ -10,10 +10,17 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 export interface ConfirmationDialogData {
   text: string;
+  checkBoxText?: string;
 }
+
+export interface ConfirmationDialogResult {
+  isConfirmed: boolean;
+  isCheckboxTicked: boolean;
+  }
 
 @Component({
   selector: 'app-confirmation-dialog',
@@ -23,16 +30,28 @@ export interface ConfirmationDialogData {
         MatDialogActions,
         MatButton,
         TranslateModule,
-        MatDialogTitle
+        MatDialogTitle,
+        MatCheckbox
     ],
   templateUrl: './confirmation-dialog.component.html',
   styleUrl: './confirmation-dialog.component.scss'
 })
 export class ConfirmationDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: ConfirmationDialogData, public dialogRef: MatDialogRef<ConfirmationDialogComponent>) {}
 
-  close(result: boolean){
-    this.dialogRef.close(result);
+  dialogResult: ConfirmationDialogResult = {
+    isConfirmed: false,
+    isCheckboxTicked: false
+  };
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: ConfirmationDialogData, public dialogRef: MatDialogRef<ConfirmationDialogComponent>) {
   }
 
+  toggleCreateCopy() {
+    this.dialogResult.isCheckboxTicked = !this.dialogResult.isCheckboxTicked;
+  }
+
+  close(isConfirmed: boolean){
+    this.dialogResult.isConfirmed = isConfirmed;
+    this.dialogRef.close(this.dialogResult);
+  }
 }

@@ -1,10 +1,17 @@
+
 <h2 mat-dialog-title> {{ 'confirmation.title' | translate }} </h2>
-<mat-dialog-content>
-    <p class="mt-3">{{ data.text }}</p>
-</mat-dialog-content>
+<section>
+    <mat-dialog-content class="py-0 overflow-hidden">
+        <h5 class="content">{{ data.text  | translate }}</h5>
+        @if (data.checkBoxText) {
+          <mat-checkbox class="text-start"[checked]="dialogResult.isCheckboxTicked" (change)="toggleCreateCopy()">{{ data.checkBoxText | translate }}</mat-checkbox>
+        }
+    </mat-dialog-content>
 
-<mat-dialog-actions [align]="'center'">
-    <button mat-flat-button (click)="close(false)" color="warn">{{ 'confirmation.cancel' | translate }}</button>
-    <button mat-flat-button (click)="close(true)" color="primary">{{ 'confirmation.accept' | translate }}</button>
-</mat-dialog-actions>
-
+    <mat-dialog-actions>
+      <div class="button-box">
+        <button mat-flat-button (click)="close(false)" color="primary">{{ 'confirmation.cancel' | translate }}</button>
+        <button mat-flat-button class="m-0" (click)="close(true)" color="warn">{{ 'confirmation.accept' | translate }}</button>
+      </div>
+    </mat-dialog-actions>
+</section>
