@@ -67,7 +67,8 @@
                     <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding [ngClass]="isSelected(node)? 'selected' : ''">
                         <button mat-icon-button disabled></button>
                         {{ node.name }}
-                        <button mat-icon-button (click)="selectGroup(node); $event.stopPropagation()" color="primary" *ngIf="!isSelected(node)">
+                        <button [disabled]="isAuthenticatedUser" mat-icon-button (click)="selectGroup(node); $event.stopPropagation()" color="primary"
+                                *ngIf="!isSelected(node)">
                             <mat-icon>add</mat-icon>
                         </button>
                     </mat-tree-node>
@@ -81,7 +82,7 @@
                             </mat-icon>
                         </button>
                         {{ node.name }}
-                        <button mat-icon-button (click)="selectGroup(node); $event.stopPropagation()" color="primary" *ngIf="!isSelected(node)">
+                        <button [disabled]="isAuthenticatedUser" mat-icon-button (click)="selectGroup(node); $event.stopPropagation()" color="primary" *ngIf="!isSelected(node)">
                             <mat-icon>add</mat-icon>
                         </button>
                     </mat-tree-node>
@@ -90,7 +91,7 @@
             <div class="col overflow-y-scroll list-container">
                 @for (group of selectedGroups; track group) {
                     <div class="list-item d-flex flex-row gap-2">
-                        <button mat-icon-button (click)="removeItem(group)" color="warn">
+                        <button [disabled]="isAuthenticatedUser" mat-icon-button (click)="removeItem(group)" color="warn">
                             <mat-icon>remove</mat-icon>
                         </button>
                         <div class="d-flex align-items-center">{{ group.name }}</div>

@@ -7,18 +7,23 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { from, Observable, of } from 'rxjs';
+import { BehaviorSubject, catchError, from, map, Observable, of, tap } from 'rxjs';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { AuthenticatedUser } from '../models/AuthenticatedUser';
+import { UserService } from '../../shared/services/user.service';
+import { UserRole } from '../enums/UserRole';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    constructor(private oauthService: OAuthService, private httpClient: HttpClient, private router: Router) {
+    private authenticatedUserSubject = new BehaviorSubject<AuthenticatedUser | null>(null);
+
+    constructor(private oauthService: OAuthService, private httpClient: HttpClient, private userService: UserService, private router: Router) {
         this.oauthService.setStorage(localStorage);
         this.oauthService.configure(environment.authConfig);
         this.oauthService.loadDiscoveryDocument()
@@ -47,7 +52,50 @@ export class AuthService {
             return of(false);
         }
 
-        return of(true);
+        const requiredRole: UserRole | undefined | null = route.data['role'];
+        return this.getAuthenticatedUser().pipe(
+            map(authenticatedUser => {
+                if(authenticatedUser == null) {
+                    this.router.navigateByUrl('/no-user');
+                    return false;
+                }
+                if(requiredRole && !this.hasRole(authenticatedUser, requiredRole)) {
+                    this.router.navigateByUrl('/no-permission');
+                    return false;
+                }
+                return true;
+            })
+        );
+    }
+
+    public hasRole(authenticatedUser: AuthenticatedUser | null, role: UserRole):boolean {
+        if(!authenticatedUser) {
+            return false;
+        }
+        return this.getCompositeRoles(authenticatedUser.user.role).includes(role);
+    }
+
+    private getCompositeRoles(role: UserRole): UserRole[] {
+        if (role == UserRole.User) {
+            return [UserRole.User];
+        } else if(role == UserRole.Admin) {
+            return [UserRole.Admin, UserRole.User];
+        }
+        return [];
+    }
+
+    public getAuthenticatedUser(): Observable<AuthenticatedUser | null> {
+        if (!this.isAuthenticated()) {
+            return of(null);
+        }
+
+        if (this.authenticatedUserSubject.value == null) {
+            return this.userService.getCurrentUser().pipe(
+                tap(authenticatedUser => this.authenticatedUserSubject.next(authenticatedUser)),
+                catchError(() => of(null))
+            );
+        }
+        return of(this.authenticatedUserSubject.value);
     }
 }
 

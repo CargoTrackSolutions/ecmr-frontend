@@ -19,22 +19,23 @@ import { UserOverviewComponent } from './features/user/user-overview/user-overvi
 import { PrivacyComponent } from './features/privacy/privacy.component';
 import { LegalMatterComponent } from './features/legal-matter/legal-matter.component';
 import { CarrierRegistrationComponent } from './features/carrier-registration/carrier-registration.component';
+import { UserRole } from './core/enums/UserRole';
 
 export const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'ecmr-overview'},
     {path: 'login-callback', component: LoginCallbackComponent, canActivate: []},
-    {path: 'ecmr-overview', component: EcmrOverviewComponent, canActivate: [AuthGuard]},
-    {path: 'ecmr-editor', component: EcmrEditorComponent, canActivate: [AuthGuard]},
-    {path: 'ecmr-editor/:id', component: EcmrEditorComponent, canActivate: [AuthGuard]},
+    {path: 'ecmr-overview', component: EcmrOverviewComponent, canActivate: [AuthGuard], data: {role: UserRole.User}},
+    {path: 'ecmr-editor', component: EcmrEditorComponent, canActivate: [AuthGuard], data: {role: UserRole.User}},
+    {path: 'ecmr-editor/:id', component: EcmrEditorComponent, canActivate: [AuthGuard], data: {role: UserRole.User}},
     {path: 'ecmr-tan/:id/:tan', component: EcmrEditorComponent},
-    {path: 'ecmr-archive', component: ArchiveComponent, canActivate: [AuthGuard]},
-    {path: 'templates-overview', component: TemplateOverviewComponent, canActivate: [AuthGuard]},
-    {path: 'template-editor', component: EcmrEditorComponent, canActivate: [AuthGuard]},
-    {path: 'template-editor/:id', component: EcmrEditorComponent, canActivate: [AuthGuard]},
-    {path: 'ecmr-editor/:id/copy', component: EcmrEditorComponent, canActivate: [AuthGuard]},
-    {path: 'group-overview', component: GroupOverviewComponent, canActivate: [AuthGuard]},
-    {path: 'group-detail/:id', component: GroupDetailViewComponent, canActivate: [AuthGuard]},
-    {path: 'user-overview', component: UserOverviewComponent, canActivate: [AuthGuard]},
+    {path: 'ecmr-archive', component: ArchiveComponent, canActivate: [AuthGuard], data: {role: UserRole.User}},
+    {path: 'templates-overview', component: TemplateOverviewComponent, canActivate: [AuthGuard], data: {role: UserRole.User}},
+    {path: 'template-editor', component: EcmrEditorComponent, canActivate: [AuthGuard], data: {role: UserRole.User}},
+    {path: 'template-editor/:id', component: EcmrEditorComponent, canActivate: [AuthGuard], data: {role: UserRole.User}},
+    {path: 'ecmr-editor/:id/copy', component: EcmrEditorComponent, canActivate: [AuthGuard], data: {role: UserRole.User}},
+    {path: 'group-overview', component: GroupOverviewComponent, canActivate: [AuthGuard], data: {role: UserRole.Admin}},
+    {path: 'group-detail/:id', component: GroupDetailViewComponent, canActivate: [AuthGuard], data: {role: UserRole.Admin}},
+    {path: 'user-overview', component: UserOverviewComponent, canActivate: [AuthGuard], data: {role: UserRole.Admin}},
     {path: 'carrier-registration/:id', component: CarrierRegistrationComponent},
     {path: 'privacy', component: PrivacyComponent},
     {path: 'imprint-legal-matter', component: LegalMatterComponent},

@@ -294,7 +294,10 @@
     "group": "Group",
     "location": "Location",
     "user_information": "User information",
-    "locations_and_groups": "Locations and Groups"
+    "locations_and_groups": "Locations and Groups",
+    "successfully_saved": "User successfully saved.",
+    "successfully_created": "User successfully created.",
+    "error_saving": "Error while saving the user!"
   },
   "user": {
     "first_name": "First name",

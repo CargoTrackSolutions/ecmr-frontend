@@ -18,7 +18,7 @@ export class SnackbarService {
     constructor(private _snackBar: MatSnackBar) {
     }
 
-    openErrorSnackbar(message: string, duration: number): void {
+    openErrorSnackbarWithDuration(message: string, duration: number): void {
         this._snackBar.openFromComponent(CustomSnackbarComponent, {
             data: {message: message, type: 'error', duration: duration},
             duration: duration,
@@ -26,7 +26,11 @@ export class SnackbarService {
         });
     }
 
-    openInfoSnackbar(message: string, duration: number): void {
+    openErrorSnackbar(message: string): void {
+        this.openErrorSnackbarWithDuration(message, 3000);
+    }
+
+    openInfoSnackbarWithDuration(message: string, duration: number): void {
         this._snackBar.openFromComponent(CustomSnackbarComponent, {
             data: {message: message, type: 'info', duration: duration},
             duration: duration,
@@ -34,11 +38,19 @@ export class SnackbarService {
         });
     }
 
-    openSuccessSnackbar(message: string, duration: number): void {
+    openInfoSnackbar(message: string): void {
+        this.openInfoSnackbarWithDuration(message, 3000);
+    }
+
+    openSuccessSnackbarWithDuration(message: string, duration: number): void {
         this._snackBar.openFromComponent(CustomSnackbarComponent, {
             data: {message: message, type: 'success', duration: duration},
             duration: duration,
             panelClass: ['custom-snackbar', 'success']
         });
+    }
+
+    openSuccessSnackbar(message: string): void {
+        this.openSuccessSnackbarWithDuration(message, 3000);
     }
 }

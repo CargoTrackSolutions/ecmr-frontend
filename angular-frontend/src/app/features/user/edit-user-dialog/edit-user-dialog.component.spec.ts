@@ -15,12 +15,22 @@ import { HttpLoaderFactory } from '../../../app.component';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OAuthService, OAuthSuccessEvent } from 'angular-oauth2-oidc';
 
 describe('EditUserDialogComponent', () => {
     let component: EditUserDialogComponent;
     let fixture: ComponentFixture<EditUserDialogComponent>;
+    let oauthServiceMock: jasmine.SpyObj<OAuthService>;
 
     beforeEach(async () => {
+        const mockOAuthSuccessEvent: OAuthSuccessEvent = {
+            type: 'discovery_document_loaded',
+            info: null
+        };
+
+        oauthServiceMock = jasmine.createSpyObj('AuthService', ['isAuthenticated', 'configure', 'loadDiscoveryDocument', 'hasValidAccessToken', 'setupAutomaticSilentRefresh', 'initLogin', 'login', 'hasRole', 'setStorage', 'getCompositeRoles', 'getAuthenticatedUser']);
+        oauthServiceMock.loadDiscoveryDocument.and.returnValue(Promise.resolve(mockOAuthSuccessEvent));
+
         await TestBed.configureTestingModule({
             imports: [EditUserDialogComponent,
                 MatDialogModule,
@@ -36,7 +46,8 @@ describe('EditUserDialogComponent', () => {
             ],
             providers: [
                 {provide: MAT_DIALOG_DATA, useValue: {}},
-                {provide: MatDialogRef, useValue: {}}
+                {provide: MatDialogRef, useValue: {}},
+                {provide: OAuthService, useValue: oauthServiceMock},
             ]
         })
             .compileComponents();

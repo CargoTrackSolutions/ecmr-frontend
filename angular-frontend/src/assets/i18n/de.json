@@ -276,7 +276,10 @@
     "group": "Gruppe",
     "location": "Standort",
     "user_information": "Benutzerinformationen",
-    "locations_and_groups": "Standorte und Gruppen"
+    "locations_and_groups": "Standorte und Gruppen",
+    "successfully_saved": "User erfolgreich gespeichert.",
+    "successfully_created": "User erfolgreich angelegt.",
+    "error_saving": "Fehler beim Speichern des Users!"
   },
   "user": {
     "first_name": "Vorname",

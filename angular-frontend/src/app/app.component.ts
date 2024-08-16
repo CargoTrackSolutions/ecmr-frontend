@@ -27,16 +27,20 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LoadingOverlayComponent } from './shared/components/loading-overlay/loading-overlay.component';
 import { LoadingService } from './core/services/loading.service';
+import { AuthenticatedUser } from './core/models/AuthenticatedUser';
+import { AuthService } from './core/services/auth.service';
+import { UserRole } from './core/enums/UserRole';
+import { MatTooltip } from '@angular/material/tooltip';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
+    return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
 }
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [RouterOutlet, MatToolbarModule, MatDrawerContainer, MatDrawer, MatButtonModule, MatSidenavModule, FormsModule, MatCheckboxModule, MatIconModule, EcmrIconComponent, EcmrDoneIconComponent, EcmrTemplateIconComponent, RouterLink, RouterLinkActive, CommonModule, MatRipple, TranslateModule, HttpClientModule, LoadingOverlayComponent],
+    imports: [RouterOutlet, MatToolbarModule, MatDrawerContainer, MatDrawer, MatButtonModule, MatSidenavModule, FormsModule, MatCheckboxModule, MatIconModule, EcmrIconComponent, EcmrDoneIconComponent, EcmrTemplateIconComponent, RouterLink, RouterLinkActive, CommonModule, MatRipple, TranslateModule, HttpClientModule, LoadingOverlayComponent, MatTooltip],
     providers: [HttpClientModule],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
@@ -59,11 +63,13 @@ export class AppComponent implements OnInit, OnDestroy {
     loading$: Observable<boolean>;
 
     @ViewChild('drawer') drawer: MatDrawer;
+    authenticatedUser: AuthenticatedUser | null;
 
     constructor(private breakpointObserver: BreakpointObserver,
                 private router: Router,
                 private themeService: ThemeService,
                 private loadingService: LoadingService,
+                public authService: AuthService,
                 private translate: TranslateService) {
 
         const storedLanguageCode = localStorage.getItem('selectedLanguage') || 'en';
@@ -71,16 +77,17 @@ export class AppComponent implements OnInit, OnDestroy {
         this.translate.use(this.selectedLanguage.code);
 
         this.loading$ = this.loadingService.isLoading$;
+        this.authService.getAuthenticatedUser().subscribe(authenticatedUser => this.authenticatedUser = authenticatedUser);
     }
 
     ngOnInit() {
-      this.isDarkMode = this.themeService.isDarkMode();
+        this.isDarkMode = this.themeService.isDarkMode();
 
         this.breakpointSubscription = this.breakpointObserver
-        .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium])
-        .subscribe(result => {
-            this.isMobile = result.matches;
-        });
+            .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium])
+            .subscribe(result => {
+                this.isMobile = result.matches;
+            });
     }
 
     ngOnDestroy() {
@@ -114,4 +121,31 @@ export class AppComponent implements OnInit, OnDestroy {
         localStorage.setItem('selectedLanguage', this.selectedLanguage.code);
         this.translate.use(this.selectedLanguage.code);
     }
+
+    stringToColor(str: string): string {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const h = Math.abs((hash % 360) + (hash >> 3) % 60);
+        const s = Math.abs(((hash >> 8) % 30) + 70);
+        const l = Math.abs(((hash >> 16) % 20) + 50);
+        return `hsl(${h % 360}, ${s}%, ${l}%)`;
+    }
+
+    getInitialsOfAuthenticatedUser() {
+        if (this.authenticatedUser?.user) {
+            return this.authenticatedUser.user.firstName.charAt(0).toUpperCase() + this.authenticatedUser.user.lastName.charAt(0).toUpperCase();
+        }
+        return 'XX';
+    }
+
+    getNameOfAuthenticatedUser() {
+        if (this.authenticatedUser?.user) {
+            return this.authenticatedUser.user.firstName + " " + this.authenticatedUser.user.lastName;
+        }
+        return 'Xxxxx Xxxxxx';
+    }
+
+    protected readonly UserRole = UserRole;
 }

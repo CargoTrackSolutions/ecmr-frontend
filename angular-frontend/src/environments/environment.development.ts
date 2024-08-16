@@ -22,7 +22,6 @@ const authConfig: AuthConfig = {
   skipIssuerCheck: true
 };
 
-
 export const environment = {
   production: false,
   backendUrl: "http://localhost:8080/api",

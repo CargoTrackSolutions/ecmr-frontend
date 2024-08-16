@@ -40,6 +40,8 @@ import {
 } from '@angular/material/tree';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { FlatGroupNode } from '../../../core/models/FlatGroupNode';
+import { AuthService } from '../../../core/services/auth.service';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
     selector: 'app-edit-user-dialog',
@@ -122,17 +124,23 @@ export class EditUserDialogComponent implements OnInit {
     selectedGroups: Group[] = [];
 
     isEditMode: boolean = false;
+    isAuthenticatedUser: boolean;
 
     constructor(public dialogRef: MatDialogRef<EditUserDialogComponent>,
                 private groupService: GroupService,
                 private userService: UserService,
                 private loadingService: LoadingService,
+                authService: AuthService,
+                private snackbarService: SnackbarService,
                 @Inject(MAT_DIALOG_DATA) public data: EcmrUser) {
         if (data?.id) {
             this.user = data;
             this.isEditMode = true;
             this.initializeForm(data);
         }
+        authService.getAuthenticatedUser().subscribe(authenticatedUser => {
+            this.isAuthenticatedUser = this.user.id === authenticatedUser?.user.id;
+        })
     }
 
     initializeForm(user: EcmrUser) {
@@ -211,24 +219,28 @@ export class EditUserDialogComponent implements OnInit {
                 this.userService.updateUser(user, this.user.id).pipe(
                     filter(result => !!result),
                     catchError(err => {
-                        console.warn(err)
-                        return of(null)
+                        console.warn(err);
+                        this.snackbarService.openErrorSnackbar("edit_user_dialog.error_saving");
+                        return of(null);
                     })
                 ).subscribe(result => {
                     if (result) {
-                        this.dialogRef.close(result)
+                        this.dialogRef.close(result);
+                        this.snackbarService.openSuccessSnackbar("edit_user_dialog.successfully_saved");
                     }
                 });
             } else {
                 this.userService.createUser(user).pipe(
                     filter(result => !!result),
                     catchError(err => {
-                        console.warn(err)
-                        return of(null)
+                        console.warn(err);
+                        this.snackbarService.openErrorSnackbar("edit_user_dialog.error_saving");
+                        return of(null);
                     })
                 ).subscribe(result => {
                     if (result) {
-                        this.dialogRef.close(result)
+                        this.dialogRef.close(result);
+                        this.snackbarService.openSuccessSnackbar("edit_user_dialog.successfully_created");
                     }
                 });
             }
