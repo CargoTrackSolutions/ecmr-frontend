@@ -13,6 +13,9 @@ import { Ecmr } from '../../core/models/Ecmr';
 import { ShowColumns } from '../../features/ecmr-overview/show-columns';
 import { FilterRequest } from '../../features/ecmr-overview/filter-request';
 import { environment } from '../../../environments/environment';
+import { EcmrRole } from '../../core/enums/EcmrRole';
+import { EcmrShareResponse } from '../../core/models/EcmrShareResponse';
+import { EcmrShare } from '../../core/models/EcmrShare';
 
 @Injectable({
     providedIn: 'root'
@@ -26,6 +29,10 @@ export class EcmrService {
 
     getAllEcmr() {
         return this.http.get<Ecmr[]>(`${environment.backendUrl}/ecmr`)
+    }
+
+    getShareToken(ecmrId: string, role: EcmrRole) {
+        return this.http.get(`${environment.backendUrl}/ecmr/${ecmrId}/share-token`, {params: {'ecmrRole': role}, responseType: 'text'});
     }
 
     saveDisplayedColumns(columns: string[]) {
@@ -108,6 +115,10 @@ export class EcmrService {
     deleteEcmr(ecmrId: string) {
     const params = {'type':  EcmrType[EcmrType.ECMR]}
     return this.http.delete(`${environment.backendUrl}/ecmr/${ecmrId}`, {params: params});
+    }
+
+    shareEcmr(ecmrShare: EcmrShare, ecmrId: string) {
+        return this.http.patch<EcmrShareResponse>(`${environment.backendUrl}/ecmr/${ecmrId}/share`, ecmrShare);
     }
 }
 

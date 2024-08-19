@@ -29,5 +29,7 @@ export const environment = {
   production: true,
   // @ts-expect-error: .
   backendUrl: window["env"]["BACKEND_API_URL"] || "https://BACKEND_API_URL.environment-variable.not-set",
+  // @ts-expect-error: .
+  frontendUrl: window['env']['FRONTEND_API_URL'] || 'https://FRONTEND_API_URL.environment-variable.not-set',
   authConfig
 };

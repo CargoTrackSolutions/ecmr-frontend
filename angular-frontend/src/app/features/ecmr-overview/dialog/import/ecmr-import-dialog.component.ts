@@ -6,15 +6,18 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {Component, Inject} from "@angular/core";
-import {
-  MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogTitle
-} from "@angular/material/dialog";
-import {MatButton} from "@angular/material/button";
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { ZXingScannerComponent, ZXingScannerModule } from '@zxing/ngx-scanner';
+import { BarcodeFormat } from '@zxing/library';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 
 interface DialogData {
 }
@@ -29,9 +32,103 @@ interface DialogData {
 @Component({
   selector: 'app-ecmr-import-dialog.component',
   templateUrl: 'ecmr-import-dialog.component.html',
+    styleUrl: './ecmr-import-dialog.component.scss',
   standalone: true,
-  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatButton, MatDialogClose],
+    imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatButton, MatLabel, MatDialogClose, ZXingScannerModule, NgIf, MatFormField, MatInput, ReactiveFormsModule, MatSelect, MatOption, NgForOf, MatIconButton, MatIcon, MatSuffix, MatTooltip, NgClass],
 })
-export class EcmrImportDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+export class EcmrImportDialogComponent implements OnInit {
+
+    @ViewChild('scanner', {static: false})
+    scanner: ZXingScannerComponent;
+
+    allowedFormats = [BarcodeFormat.QR_CODE];
+
+    cameras: MediaDeviceInfo[] = [];
+    selectedCameraIndex: number = 0;
+    selectedCamera: MediaDeviceInfo;
+    cameraActive = false;
+
+    cameraResolution: string;
+    cameraAspectRatio: string;
+    cameraCssClass: string;
+
+    tokenFormControl = new FormControl<string>('', [Validators.required]);
+
+    constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    }
+
+    ngOnInit() {
+        // this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => this.onCamerasFound(devices));
+        // this.scanner.scanSuccess.subscribe((result: string) => this.handleQrCodeResult(result));
+    }
+
+    handleQrCodeResult(resultString: string) {
+        console.log('QR-Code-Ergebnis:', resultString);
+        this.tokenFormControl.setValue(resultString);
+    }
+
+    async pasteFromClipboard() {
+        try {
+            const text = await navigator.clipboard.readText();
+            this.tokenFormControl.setValue(text);
+        } catch (err) {
+            console.error('Failed to read clipboard contents: ', err);
+        }
+    }
+
+    onCamerasFound(devices: MediaDeviceInfo[]): void {
+        this.cameras = devices;
+        if (this.cameras.length > 0 && this.selectedCameraIndex === null) {
+            this.selectedCameraIndex = 0;
+        }
+        this.getCameraResolution().then(() => {
+            this.selectedCamera = this.cameras[this.selectedCameraIndex];
+        });
+    }
+
+    toggleCamera() {
+        this.cameraActive = !this.cameraActive;
+    }
+
+    switchCamera() {
+        if (this.cameras.length > 0) {
+            this.selectedCameraIndex = (this.selectedCameraIndex + 1) % this.cameras.length;
+            this.getCameraResolution().then(() => {
+                this.selectedCamera = this.cameras[this.selectedCameraIndex];
+            });
+        }
+    }
+
+    async getCameraResolution() {
+        try {
+            if (this.selectedCamera) {
+                const stream = await navigator.mediaDevices.getUserMedia({video: {deviceId: {exact: this.selectedCamera.deviceId}}});
+                const track = stream.getVideoTracks()[0];
+                const settings = track.getSettings();
+
+                this.cameraResolution = `${settings.width} x ${settings.height}`;
+                if (settings.width && settings.height) {
+                    this.cameraAspectRatio = (settings.width / settings.height).toFixed(2);
+                    this.updateCameraCssClass();
+                }
+                track.stop();
+            }
+        } catch (error) {
+            console.error('Error accessing camera', error);
+            this.cameraResolution = 'Unable to access camera';
+            this.cameraAspectRatio = 'N/A';
+        }
+    }
+
+    updateCameraCssClass() {
+        if (this.cameraAspectRatio) {
+            if (parseFloat(this.cameraAspectRatio) > 1) {
+                this.cameraCssClass = 'landscape';
+            } else {
+                this.cameraCssClass = 'portrait';
+            }
+        } else {
+            this.cameraCssClass = '';
+        }
+    }
 }

@@ -85,11 +85,8 @@
     </ng-template>
 
     <ng-template #actionButtons let-ecmr>
-        <button mat-icon-button (click)="shareEcmr();$event.stopPropagation()" matTooltip="{{'overview.tooltips.share' | translate}}">
+        <button mat-icon-button (click)="shareEcmr(ecmr);$event.stopPropagation()" matTooltip="{{'overview.tooltips.share' | translate}}">
             <mat-icon>share</mat-icon>
-        </button>
-        <button mat-icon-button (click)="guestAccessToEcmr();$event.stopPropagation()" matTooltip="{{'overview.tooltips.guest_access' | translate}}">
-            <mat-icon>qr_code2</mat-icon>
         </button>
         <button mat-icon-button (click)="editEcmr(ecmr.ecmrId);$event.stopPropagation()" matTooltip="{{'overview.tooltips.edit' | translate}}">
             <mat-icon>edit_note</mat-icon>
@@ -102,7 +99,7 @@
         </button>
     </ng-template>
     <ng-template #mobileActionButtons let-ecmr>
-        <button mat-icon-button class="my-3" (click)="shareEcmr()">
+        <button mat-icon-button class="my-3" (click)="shareEcmr(ecmr)">
             <mat-icon color="primary" style="transform: scale(1.4)">share</mat-icon>
         </button>
         <button mat-icon-button class="my-3" (click)="editEcmr(ecmr.ecmrId)">

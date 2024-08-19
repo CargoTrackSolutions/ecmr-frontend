@@ -28,6 +28,7 @@ export class CustomSnackbarComponent {
     message: string;
     type: string;
     duration: number;
+    translateValue: string;
 
     progress = 0;
 
@@ -35,6 +36,7 @@ export class CustomSnackbarComponent {
         this.message = data.message;
         this.type = data.type;
         this.duration = data.duration;
+        if (data.translateValue) this.translateValue = data.translateValue;
         this.animateProgress();
     }
 

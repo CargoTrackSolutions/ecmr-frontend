@@ -7,22 +7,44 @@
             <mat-label>{{ 'carrier_registration.first_name' | translate }}</mat-label>
             <input matInput formControlName="firstName">
             <mat-icon matIconPrefix>badge</mat-icon>
+            @if (externalCarrier.controls.firstName.hasError('required')) {
+                <mat-error>{{ "error.required" | translate }}</mat-error>
+            }
         </mat-form-field>
         <mat-form-field>
             <mat-label>{{ 'carrier_registration.last_name' | translate }}</mat-label>
             <input matInput formControlName="lastName">
             <mat-icon matIconPrefix>badge</mat-icon>
+            @if (externalCarrier.controls.lastName.hasError('required')) {
+                <mat-error>{{ "error.required" | translate }}</mat-error>
+            }
         </mat-form-field>
         <mat-form-field>
             <mat-label>{{ 'carrier_registration.phone' | translate }}</mat-label>
             <input matInput formControlName="phone">
             <mat-icon matIconPrefix>call</mat-icon>
+            @if (externalCarrier.controls.phone.hasError('required')) {
+                <mat-error>{{ "error.required" | translate }}</mat-error>
+            }
+            @if (externalCarrier.controls.phone.hasError('pattern')) {
+                <mat-error>{{ "error.pattern" | translate }}</mat-error>
+            }
         </mat-form-field>
         <mat-form-field>
             <mat-label>{{ 'carrier_registration.company' | translate }}</mat-label>
             <input matInput formControlName="company">
             <mat-icon matIconPrefix>apartment</mat-icon>
+            @if (externalCarrier.controls.company.hasError('required')) {
+                <mat-error>{{ "error.required" | translate }}</mat-error>
+            }
         </mat-form-field>
-        <button mat-flat-button color="primary" [disabled]="externalCarrier.invalid">{{ 'carrier_registration.register' | translate }}</button>
+        <button mat-flat-button color="primary" [disabled]="externalCarrier.invalid" (click)="sendRegistration()">
+            {{ 'carrier_registration.register' | translate }}
+        </button>
+        <div class="d-flex justify-content-center align-items-center w-100 mt-3">
+            <div class="ecmr-cmr-logo">
+                <div>CMR</div>
+            </div>
+        </div>
     </mat-card>
 </div>

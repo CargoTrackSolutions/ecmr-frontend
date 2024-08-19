@@ -64,6 +64,7 @@ import { LoadingService } from '../../core/services/loading.service';
 import { HttpResponse } from '@angular/common/http';
 import { MatDrawer, MatDrawerContainer, MatSidenavContainer } from '@angular/material/sidenav';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { ShareEcmrDialogComponent } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component';
 
 @Component({
     selector: 'app-overview',
@@ -205,8 +206,12 @@ export class EcmrOverviewComponent implements OnInit {
     }
 
     // TODO: implement Share-function for eCMR
-    shareEcmr() {
-        this.snackbar.open('Not implemented yet.', '', {duration: 3000});
+    shareEcmr(ecmr: Ecmr) {
+        this.dialog.open(ShareEcmrDialogComponent, {
+            width: '800px',
+            maxWidth: '90vw',
+            data: ecmr
+        });
     }
 
     editEcmr(ecmrId: string) {

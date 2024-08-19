@@ -137,15 +137,19 @@ export class AppComponent implements OnInit, OnDestroy {
         if (this.authenticatedUser?.user) {
             return this.authenticatedUser.user.firstName.charAt(0).toUpperCase() + this.authenticatedUser.user.lastName.charAt(0).toUpperCase();
         }
-        return 'XX';
+        return 'EU';
     }
 
     getNameOfAuthenticatedUser() {
         if (this.authenticatedUser?.user) {
             return this.authenticatedUser.user.firstName + " " + this.authenticatedUser.user.lastName;
         }
-        return 'Xxxxx Xxxxxx';
+        return 'External User';
     }
 
     protected readonly UserRole = UserRole;
+
+    logout() {
+        this.authService.logout();
+    }
 }

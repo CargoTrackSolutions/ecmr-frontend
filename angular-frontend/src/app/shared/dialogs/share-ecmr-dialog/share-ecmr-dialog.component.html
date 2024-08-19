@@ -1,0 +1,70 @@
+<h2 mat-dialog-title> {{ 'share_ecmr_dialog.title' | translate }} </h2>
+<mat-dialog-content>
+    <div class="d-flex flex-column w-100 mt-2 gap-2">
+
+        <mat-button-toggle-group name="Ecmr Role" aria-label="Ecmr Role" #buttonToggle>
+            <mat-button-toggle [value]="EcmrRole.Sender" [checked]="true" class="flex-grow-1" (change)="changeRole(EcmrRole.Sender)">
+                {{ 'share_ecmr_dialog.sender' | translate }}
+            </mat-button-toggle>
+            <mat-button-toggle [value]="EcmrRole.Carrier" class="flex-grow-1" (change)="changeRole(EcmrRole.Carrier)">
+                {{ 'share_ecmr_dialog.carrier' | translate }}
+            </mat-button-toggle>
+            <mat-button-toggle [value]="EcmrRole.Consignee" class="flex-grow-1" (change)="changeRole(EcmrRole.Consignee)">
+                {{ 'share_ecmr_dialog.consignee' | translate }}
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+
+        <div class="d-flex w-100 flex-wrap flex-column align-items-center mt-2">
+
+            <mat-form-field class="w-100">
+                <mat-label>{{ 'share_ecmr_dialog.email' | translate }}</mat-label>
+                <mat-icon matIconPrefix>email</mat-icon>
+                <input matInput [formControl]="emailFormControl" [matAutocomplete]="emailAutoComplete">
+                <mat-autocomplete #emailAutoComplete="matAutocomplete">
+                    @for (user of filteredUserList; track user) {
+                        <mat-option [value]="user.email">{{ user.email }}</mat-option>
+                    }
+                </mat-autocomplete>
+                @if (emailFormControl.hasError('required')) {
+                    <mat-error>{{ "error.required" | translate }}</mat-error>
+                }
+            </mat-form-field>
+
+            <button mat-flat-button color="primary" class="w-100" (click)="share()">{{ 'common.share' | translate }}</button>
+        </div>
+        <div *ngIf="currentRole === EcmrRole.Carrier">
+            <div class="w-100 divide-container d-flex flex-row gap-3 align-items-center">
+                <div class="divider flex-grow-1"></div>
+                <div class="divide-text">{{ 'share_ecmr_dialog.share_via_qr' | translate }}</div>
+                <div class="divider flex-grow-1"></div>
+            </div>
+            <div class="d-flex w-100 justify-content-center">
+                <qrcode #qrcodeElement
+                        [qrdata]="shareString"
+                        [allowEmptyString]="true"
+                        [elementType]="'canvas'"
+                        [errorCorrectionLevel]="'H'"
+                        [margin]="2"
+                        [scale]="1"
+                        [width]="300"></qrcode>
+            </div>
+            <div class="d-flex flex-row w-100 justify-content-center gap-2">
+                <button mat-icon-button color="accent" aria-label="Copy Qr-Code"
+                        (click)="copyQRCode(qrcodeElement)">
+                    <mat-icon>file_copy</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" aria-label="Download Qr-Code"
+                        (click)="downloadQRCode(qrcodeElement)">
+                    <mat-icon>download</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" aria-label="Copy Link"
+                        (click)="copyLink()">
+                    <mat-icon>content_copy</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions [align]="'end'">
+    <button mat-flat-button color="warn" (click)="closeDialog()">{{ 'common.close' | translate }}</button>
+</mat-dialog-actions>

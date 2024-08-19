@@ -40,8 +40,8 @@ import {
 } from '@angular/material/tree';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { FlatGroupNode } from '../../../core/models/FlatGroupNode';
-import { AuthService } from '../../../core/services/auth.service';
 import { SnackbarService } from '../../../core/services/snackbar.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
     selector: 'app-edit-user-dialog',
@@ -87,6 +87,8 @@ export class EditUserDialogComponent implements OnInit {
     filteredCountries: Observable<string[]>;
     countries = Object.keys(CountryCode);
 
+    defaultGroupId: number | null = null;
+
     userFormGroup = new FormGroup({
         country: new FormControl<CountryCode | null>(null, Validators.required),
         firstName: new FormControl<string>('', Validators.required),
@@ -129,13 +131,14 @@ export class EditUserDialogComponent implements OnInit {
     constructor(public dialogRef: MatDialogRef<EditUserDialogComponent>,
                 private groupService: GroupService,
                 private userService: UserService,
+                private snackbarService: SnackbarService,
                 private loadingService: LoadingService,
                 authService: AuthService,
-                private snackbarService: SnackbarService,
                 @Inject(MAT_DIALOG_DATA) public data: EcmrUser) {
         if (data?.id) {
             this.user = data;
             this.isEditMode = true;
+            this.defaultGroupId = this.user.defaultGroupId;
             this.initializeForm(data);
         }
         authService.getAuthenticatedUser().subscribe(authenticatedUser => {
@@ -201,7 +204,7 @@ export class EditUserDialogComponent implements OnInit {
 
     saveUser() {
         this.userFormGroup.markAllAsTouched();
-        if (this.userFormGroup.valid) {
+        if (this.userFormGroup.valid && this.defaultGroupId) {
             const groupIds: number[] = [];
             this.selectedGroups.forEach(group => {
                 if (group.id) groupIds.push(group.id);
@@ -214,6 +217,7 @@ export class EditUserDialogComponent implements OnInit {
                 role: this.userFormGroup.controls.role.value!,
                 country: this.userFormGroup.controls.country.value!,
                 groupIds: groupIds,
+                defaultGroupId: this.defaultGroupId
             }
             if (this.isEditMode && this.user?.id) {
                 this.userService.updateUser(user, this.user.id).pipe(
@@ -244,6 +248,12 @@ export class EditUserDialogComponent implements OnInit {
                     }
                 });
             }
+        } else if (this.defaultGroupId == null) {
+            this.snackbarService.openErrorSnackbar('error.default_group_required')
         }
+    }
+
+    setDefaultGroupId(id: number | null) {
+        this.defaultGroupId = id;
     }
 }

@@ -16,9 +16,11 @@
                 <mat-icon class="text-white">{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
             </button>
             <div class="position-relative language-container">
-                <div class="language-picker position-absolute"
+                <div class="language-picker position-relative top-0 overflow-hidden bg-white"
                      [ngClass]="{'extended': languagePickerExtended}">
-                    <div class="selected-language" (click)="toggleLanguagePicker()">{{ selectedLanguage.flag }}</div>
+                    <div class="selected-language d-flex justify-content-center align-items-center w-100"
+                         (click)="toggleLanguagePicker()">{{ selectedLanguage.flag }}
+                    </div>
                     @for (language of languages; track language) {
                         <div (click)="selectLanguage(language)"
                              [ngClass]="{'d-none': !languagePickerExtended}"
@@ -133,7 +135,8 @@
                     }
                 </div>
                 <div class="d-flex flex-column gap-1 ps-1 pe-1 mb-4">
-                    <div class="footer-line">
+                    <div class="footer-line" (click)="logout()"
+                         (keyup.enter)="logout()">
                         <mat-icon color="primary">logout</mat-icon>
                         <span>{{ 'menu.logout' | translate }}</span>
                     </div>

@@ -18,7 +18,10 @@
     }
   },
   "error": {
-    "required": "Field must not be empty"
+    "required": "Field must not be empty",
+    "pattern": "Invalid number",
+    "default_group_required": "At least one group must be favored",
+    "not_implemented": "Not implemented"
   },
   "menu": {
     "overview": "eCMR Overview",
@@ -329,7 +332,12 @@
       "not_found": "Location not found"
     }
   },
-  "signature": {
+  "errors": {
+    "required": "Required",
+    "invalid_countryCode": "Invalid CountryCode",
+    "default_group_required": "At least one group must be favored",
+    "clear": "Clear Signature",
+    "confirm_text": "Are you sure? You will not be able to make changes to the eCMR anymore.",
     "clear": "Clear Signature",
     "confirm_text": "Are you sure? You will not be able to make changes to the eCMR anymore.",
     "signed_on": "Signed on:",
@@ -344,6 +352,24 @@
     "last_name": "Last name",
     "phone": "Phone",
     "company": "Company",
-    "register": "Register"
+    "register": "Register",
+    "authentication": "Authentication",
+    "tan": "Tan",
+    "tan_message": "Tan will be sent by SMS shortly",
+    "authenticate": "Authenticate"
+  },
+  "share_ecmr_dialog": {
+    "title": "Share eCMR",
+    "sender": "Sender",
+    "carrier": "Carrier",
+    "consignee": "Consignee",
+    "email": "E-Mail",
+    "share_via_qr": "Or share via QR-Code",
+    "link_copied": "Link copied to clipboard",
+    "qr_copied": "QR-Code copied to clipboard",
+    "no_qr_code_found": "No QR-Code found",
+    "shared_external": "Shared with external user",
+    "shared_internal": "Shared with internal user in Group {{ translateValue }}",
+    "user_has_no_group": "User has no group"
   }
 }

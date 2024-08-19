@@ -15,7 +15,7 @@
         <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
             <button mat-icon-button disabled></button>
             <ng-container *ngTemplateOutlet="actionButtons; context: { $implicit: node  }"></ng-container>
-            {{ node.name }}: {{ node.description }}
+            {{ node.name }}: {{ node.group.description }}
         </mat-tree-node>
         <!-- This is the tree node template for expandable nodes -->
         <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodeToggle>
@@ -33,18 +33,23 @@
 <ng-template #actionButtons let-node>
     <div class="action-row">
         <button mat-icon-button (click)="createNewGroup(node.group); $event.stopPropagation()"
+                color="primary"
                 matTooltip="{{'group_overview.tooltips.create_new' | translate}}">
             <mat-icon>add</mat-icon>
         </button>
         <button mat-icon-button (click)="editGroup(node.group); $event.stopPropagation()"
+                color="primary"
                 matTooltip="{{'group_overview.tooltips.edit_name' | translate}}">
             <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button (click)="changeParent(node.group); $event.stopPropagation()"
+                color="primary"
                 matTooltip="{{'group_overview.tooltips.change_parent' | translate}}">
             <mat-icon>change_circle</mat-icon>
         </button>
-        <button mat-icon-button (click)="openGroup(node.group); $event.stopPropagation()" matTooltip="{{'group_overview.tooltips.user' | translate}}">
+        <button mat-icon-button (click)="openGroup(node.group); $event.stopPropagation()"
+                color="primary"
+                matTooltip="{{'group_overview.tooltips.user' | translate}}">
             <mat-icon>group</mat-icon>
         </button>
     </div>

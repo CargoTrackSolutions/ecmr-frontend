@@ -1,0 +1,24 @@
+.registration-container {
+  width: 600px;
+  max-width: 90vw;
+}
+
+.success-message {
+  color: #66d72f;
+}
+
+.load-animation {
+  animation: scale-animation 1s infinite;
+}
+
+@keyframes scale-animation {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.25;
+  }
+  100% {
+    scale: 1;
+  }
+}

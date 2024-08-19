@@ -1,7 +1,51 @@
-<h2 mat-dialog-title>Import eCMR</h2>
-<mat-dialog-content>
-  Not yet implemented.
+<div mat-dialog-title class="d-flex flex-row align-items-center gap-3 mt-2 p-0">
+    <button mat-icon-button>
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    Import eCMR
+</div>
+<mat-dialog-content class="d-flex flex-column gap-3 justify-content-center align-items-center">
+    <div class="scanner-container" [ngClass]="cameraCssClass">
+        <zxing-scanner
+            #scanner
+            class="scanner"
+            [formats]="allowedFormats"
+            [device]="selectedCamera"
+            [enable]="cameraActive"
+            (camerasFound)="onCamerasFound($event)"
+            (scanSuccess)="handleQrCodeResult($event)">
+        </zxing-scanner>
+    </div>
+    <div class="w-100 d-flex flex-row align-items-center gap-3">
+        <button mat-flat-button (click)="switchCamera()" color="accent" class="flex-grow-1" [disabled]="!cameraActive">
+            Switch Camera
+            <mat-icon iconPositionEnd>cameraswitch</mat-icon>
+        </button>
+        <button mat-icon-button (click)="toggleCamera()">
+            <mat-icon [color]="cameraActive ? 'warn' : 'primary'">{{ cameraActive ? 'no_photography' : 'photo_camera' }}</mat-icon>
+        </button>
+    </div>
+    <mat-form-field class="w-100">
+        <mat-label>E-Token</mat-label>
+        <input matInput [formControl]="tokenFormControl">
+        <button mat-icon-button matIconSuffix (click)="pasteFromClipboard()"
+                *ngIf="tokenFormControl.invalid" color="accent"
+                #tooltip="matTooltip"
+                matTooltip="Paste E-Token"
+                [matTooltipPosition]="'below'"
+                matTooltipHideDelay="200">
+            <mat-icon>content_paste</mat-icon>
+        </button>
+        <button mat-icon-button matIconSuffix (click)="tokenFormControl.reset()"
+                *ngIf="tokenFormControl.valid" color="warn"
+                #tooltip="matTooltip"
+                matTooltip="Reset E-Token"
+                [matTooltipPosition]="'below'"
+                matTooltipHideDelay="200">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
 </mat-dialog-content>
-<mat-dialog-actions class="mx-auto" style>
-  <button mat-button [mat-dialog-close]="" cdkFocusInitial>Ok</button>
+<mat-dialog-actions [align]="'end'">
+    <button mat-flat-button color="primary" [disabled]="tokenFormControl.invalid">eCmr Importieren</button>
 </mat-dialog-actions>

@@ -7,7 +7,7 @@
         } @else {
             <mat-icon class="text-white">info</mat-icon>
         }
-        <span class="text-white">{{ message | translate }}</span>
+        <span class="text-white">{{ message | translate: {translateValue: translateValue} }}</span>
     </div>
     <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
 </div>

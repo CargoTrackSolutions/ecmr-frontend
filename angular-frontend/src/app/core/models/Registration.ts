@@ -6,16 +6,12 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { CountryCode } from '../enums/CountryCode';
-import { UserRole } from '../enums/UserRole';
-
-export interface EcmrUser {
-    id: number | null,
+export interface Registration {
     firstName: string,
     lastName: string,
-    country: CountryCode,
-    email: string,
     phone: string | null,
-    role: UserRole,
-    defaultGroupId: number | null
+    email: string | null,
+    company: string,
+    ecmrId: string,
+    shareToken: string
 }

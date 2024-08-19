@@ -19,6 +19,9 @@ import { UserOverviewComponent } from './features/user/user-overview/user-overvi
 import { PrivacyComponent } from './features/privacy/privacy.component';
 import { LegalMatterComponent } from './features/legal-matter/legal-matter.component';
 import { CarrierRegistrationComponent } from './features/carrier-registration/carrier-registration.component';
+import {
+    CarrierRegistrationSuccessComponent
+} from './features/carrier-registration/carrier-registration-success/carrier-registration-success.component';
 import { UserRole } from './core/enums/UserRole';
 
 export const routes: Routes = [
@@ -36,7 +39,8 @@ export const routes: Routes = [
     {path: 'group-overview', component: GroupOverviewComponent, canActivate: [AuthGuard], data: {role: UserRole.Admin}},
     {path: 'group-detail/:id', component: GroupDetailViewComponent, canActivate: [AuthGuard], data: {role: UserRole.Admin}},
     {path: 'user-overview', component: UserOverviewComponent, canActivate: [AuthGuard], data: {role: UserRole.Admin}},
-    {path: 'carrier-registration/:id', component: CarrierRegistrationComponent},
+    {path: 'carrier-registration/:id/:token', component: CarrierRegistrationComponent},
+    {path: 'carrier-registration-success/:id', component: CarrierRegistrationSuccessComponent},
     {path: 'privacy', component: PrivacyComponent},
     {path: 'imprint-legal-matter', component: LegalMatterComponent},
 ];

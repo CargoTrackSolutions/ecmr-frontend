@@ -17,6 +17,12 @@
       "required": "Feld darf nicht leer sein"
     }
   },
+  "error": {
+    "required": "Feld darf nicht leer sein",
+    "pattern": "Ungültige Telefonnummer",
+    "default_group_required": "Es muss mindestens eine Gruppe favorisiert werden",
+    "not_implemented": "Nicht Implementiert"
+  },
   "menu": {
     "overview": "eCMR Übersicht",
     "templates": "Vorlagen",
@@ -320,12 +326,30 @@
     "last_name": "Nachname",
     "phone": "Telefon",
     "company": "Unternehmen",
-    "register": "Registrieren"
+    "register": "Registrieren",
+    "authentication": "Authentifizierung",
+    "tan": "Tan",
+    "tan_message": "Tan wird in kürze per SMS zugestellt",
+    "authenticate": "Authentifizieren"
   },
   "signature": {
     "clear": "Unterschrift löschen",
     "confirm_text": "Sind Sie sicher? Sie können danach keine Änderungen mehr am eCMR vornehmen.",
     "signed_on": "Unterschrieben am:",
     "from": "Von:"
+  },
+  "share_ecmr_dialog": {
+    "title": "eCMR Teilen",
+    "sender": "Sender",
+    "carrier": "Beförderer",
+    "consignee": "Empfänger",
+    "email": "E-Mail",
+    "share_via_qr": "Oder teile mit dem QR-Code",
+    "link_copied": "Link wurde in die Zwischenablage kopiert",
+    "qr_copied": "QR-Code wurde in die Zwischenablage kopiert",
+    "no_qr_code_found": "Kein QR-Code gefunden",
+    "shared_external": "Mit extenem User geteilt",
+    "shared_internal": "Mit internem Benutzer in Gruppe {{ translateValue }} geteilt.",
+    "user_has_no_group": "Benutzer hat keine Gruppe"
   }
 }

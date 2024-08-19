@@ -17,4 +17,5 @@ export interface UserCreationAndUpdate {
     phone: string | null,
     role: UserRole,
     groupIds: number[],
+    defaultGroupId: number
 }

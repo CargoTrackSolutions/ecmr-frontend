@@ -7,7 +7,7 @@
  */
 
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,6 +16,8 @@ import { MatInput } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatCardHeader, MatCardModule } from '@angular/material/card';
 import { MatButton } from '@angular/material/button';
+import { Registration } from '../../core/models/Registration';
+import { CarrierRegistrationService } from './carrier-registration.service';
 
 @Component({
     selector: 'app-carrier-registration',
@@ -37,17 +39,45 @@ export class CarrierRegistrationComponent {
 
     sub: Subscription;
     ecmrId: string;
+    ecmrToken: string;
 
     externalCarrier = new FormGroup({
         firstName: new FormControl<string>('', [Validators.required]),
         lastName: new FormControl<string>('', [Validators.required]),
-        phone: new FormControl<string>('', [Validators.required]),
+        phone: new FormControl<string>('', [Validators.required, Validators.pattern(/^\+?[0-9\s\-().]{7,20}$/)]),
         company: new FormControl<string>('', [Validators.required]),
     })
 
-    constructor(private route: ActivatedRoute) {
+    constructor(private route: ActivatedRoute,
+                private carrierRegistrationService: CarrierRegistrationService,
+                private router: Router) {
         this.sub = this.route.params.subscribe(params => {
             this.ecmrId = params['id'];
+            this.ecmrToken = params['token'];
         });
     }
+
+    sendRegistration() {
+        if (this.externalCarrier.valid && this.ecmrId && this.ecmrToken) {
+            const registration: Registration = {
+                firstName: this.externalCarrier.controls.firstName.value!,
+                lastName: this.externalCarrier.controls.lastName.value!,
+                phone: this.externalCarrier.controls.phone.value!,
+                company: this.externalCarrier.controls.company.value!,
+                email: null,
+                ecmrId: this.ecmrId,
+                shareToken: this.ecmrToken
+            }
+
+            this.carrierRegistrationService.sendRegistration(registration).subscribe({
+                next: () => {
+                    this.router.navigateByUrl(`/carrier-registration-success/${this.ecmrId}`)
+                },
+                error: () => {
+                }
+            })
+        }
+
+    }
+
 }

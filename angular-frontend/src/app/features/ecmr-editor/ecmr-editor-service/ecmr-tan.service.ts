@@ -21,6 +21,10 @@ export class EcmrTanService {
     }
 
     getEcmrWithTan(ecmrId: string, tan: string) {
-        return this.http.get<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}/external`, {params: {'tan': tan}});
+        return this.http.get<Ecmr>(`${environment.backendUrl}/anonymous/ecmr/${ecmrId}`, {params: {'tan': tan}});
+    }
+
+    isTanValid(ecmrId: string, tan: string) {
+        return this.http.get<Ecmr>(`${environment.backendUrl}/anonymous/is-tan-valid`, {params: {'ecmrId': ecmrId, 'tan': tan}});
     }
 }

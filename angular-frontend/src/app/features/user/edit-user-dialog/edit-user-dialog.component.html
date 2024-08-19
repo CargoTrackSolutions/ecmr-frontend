@@ -82,7 +82,8 @@
                             </mat-icon>
                         </button>
                         {{ node.name }}
-                        <button [disabled]="isAuthenticatedUser" mat-icon-button (click)="selectGroup(node); $event.stopPropagation()" color="primary" *ngIf="!isSelected(node)">
+                        <button [disabled]="isAuthenticatedUser" mat-icon-button (click)="selectGroup(node); $event.stopPropagation()" color="primary"
+                                *ngIf="!isSelected(node)">
                             <mat-icon>add</mat-icon>
                         </button>
                     </mat-tree-node>
@@ -90,11 +91,20 @@
             </div>
             <div class="col overflow-y-scroll list-container">
                 @for (group of selectedGroups; track group) {
-                    <div class="list-item d-flex flex-row gap-2">
-                        <button [disabled]="isAuthenticatedUser" mat-icon-button (click)="removeItem(group)" color="warn">
-                            <mat-icon>remove</mat-icon>
-                        </button>
-                        <div class="d-flex align-items-center">{{ group.name }}</div>
+                    <div class="list-item d-flex flex-row gap-2 justify-content-between align-items-center">
+                        <div class="d-flex flex-row justify-content-center align-items-center">
+                            <button [disabled]="isAuthenticatedUser" mat-icon-button (click)="removeItem(group)" color="warn">
+                                <mat-icon>remove</mat-icon>
+                            </button>
+                            <div class="d-flex align-items-center">
+                                {{ group.name }}
+                            </div>
+                        </div>
+                        @if (defaultGroupId === group.id) {
+                            <mat-icon class="favourite-button" (click)="setDefaultGroupId(null)"> {{ 'star' }}</mat-icon>
+                        } @else {
+                            <mat-icon class="favourite-button" (click)="setDefaultGroupId(group.id)"> {{ 'star_outline' }}</mat-icon>
+                        }
                     </div>
                 }
             </div>

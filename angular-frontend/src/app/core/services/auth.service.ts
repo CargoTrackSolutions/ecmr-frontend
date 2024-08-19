@@ -45,6 +45,10 @@ export class AuthService {
         return from(this.oauthService.loadDiscoveryDocumentAndTryLogin());
     }
 
+    public logout() {
+        this.oauthService.logOut();
+    }
+
     // eslint-disable-next-line
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         if (!this.isAuthenticated()) {

@@ -41,10 +41,10 @@ import { DynamicDisableControlDirective } from './dynamic-disable-control.direct
 import { GroupService } from '../group/group.service';
 import { EcmrCreateShareDialogComponent } from './ecmr-create-share-dialog/ecmr-create-share-dialog.component';
 import { GroupFlat } from '../../core/models/GroupFlat';
+import { EcmrTanService } from './ecmr-editor-service/ecmr-tan.service';
 import { SignaturePadDialogComponent } from '../signature-pad/signature-pad-dialog.component';
 import { Sign } from '../../core/models/Sign';
 import { Signer } from '../../core/enums/Signer';
-import { EcmrTanService } from './ecmr-editor-service/ecmr-tan.service';
 import { DateTimeService } from '../../shared/services/date-time.service';
 
 export enum EditorMode {

@@ -50,6 +50,14 @@ export class SnackbarService {
         });
     }
 
+    openSuccessSnackbarWithTranslationValue(message: string, translateValue: any): void {
+        this._snackBar.openFromComponent(CustomSnackbarComponent, {
+            data: {message: message, type: 'success', translateValue: translateValue, duration: 3000},
+            duration: 3000,
+            panelClass: ['custom-snackbar', 'success']
+        });
+    }
+
     openSuccessSnackbar(message: string): void {
         this.openSuccessSnackbarWithDuration(message, 3000);
     }
