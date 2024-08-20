@@ -202,7 +202,13 @@ export class EcmrOverviewComponent implements OnInit {
 
     // TODO: implement Import-function for eCMR
     importEcmr() {
-        this.dialog.open(EcmrImportDialogComponent);
+        this.dialog.open(EcmrImportDialogComponent).afterClosed().subscribe(result => {
+            if (result) {
+                this.loadData().subscribe(data => {
+                    this.updateTableData(data);
+                });
+            }
+        });
     }
 
     // TODO: implement Share-function for eCMR

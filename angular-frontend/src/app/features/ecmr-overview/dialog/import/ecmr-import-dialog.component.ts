@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import { Component, Inject, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { ZXingScannerComponent, ZXingScannerModule } from '@zxing/ngx-scanner';
 import { BarcodeFormat } from '@zxing/library';
@@ -18,6 +18,10 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
+import { EcmrService } from '../../../../shared/services/ecmr.service';
+import { catchError, of } from 'rxjs';
+import { SnackbarService } from '../../../../core/services/snackbar.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 interface DialogData {
 }
@@ -34,9 +38,9 @@ interface DialogData {
   templateUrl: 'ecmr-import-dialog.component.html',
     styleUrl: './ecmr-import-dialog.component.scss',
   standalone: true,
-    imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatButton, MatLabel, MatDialogClose, ZXingScannerModule, NgIf, MatFormField, MatInput, ReactiveFormsModule, MatSelect, MatOption, NgForOf, MatIconButton, MatIcon, MatSuffix, MatTooltip, NgClass],
+    imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatButton, MatLabel, MatDialogClose, ZXingScannerModule, NgIf, MatFormField, MatInput, ReactiveFormsModule, MatSelect, MatOption, NgForOf, MatIconButton, MatIcon, MatSuffix, MatTooltip, NgClass, TranslateModule],
 })
-export class EcmrImportDialogComponent implements OnInit {
+export class EcmrImportDialogComponent {
 
     @ViewChild('scanner', {static: false})
     scanner: ZXingScannerComponent;
@@ -54,12 +58,10 @@ export class EcmrImportDialogComponent implements OnInit {
 
     tokenFormControl = new FormControl<string>('', [Validators.required]);
 
-    constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
-    }
-
-    ngOnInit() {
-        // this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => this.onCamerasFound(devices));
-        // this.scanner.scanSuccess.subscribe((result: string) => this.handleQrCodeResult(result));
+    constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData,
+                private snackbarService: SnackbarService,
+                private matDialogRef: MatDialogRef<EcmrImportDialogComponent>,
+                private ecmrService: EcmrService) {
     }
 
     handleQrCodeResult(resultString: string) {
@@ -130,5 +132,24 @@ export class EcmrImportDialogComponent implements OnInit {
         } else {
             this.cameraCssClass = '';
         }
+    }
+
+    importEcmr() {
+        if (this.tokenFormControl.valid && this.tokenFormControl.value) {
+            this.ecmrService.importEcmr(this.tokenFormControl.value).pipe(
+                catchError(() => {
+                    this.snackbarService.openErrorSnackbar('error.ecmr_not_found')
+                    return of(null)
+                })
+            ).subscribe(result => {
+                if (result) {
+                    this.matDialogRef.close(result)
+                }
+            })
+        }
+    }
+
+    close() {
+        this.matDialogRef.close()
     }
 }

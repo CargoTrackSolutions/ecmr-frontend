@@ -11,6 +11,8 @@ import { Group } from './Group';
 export interface FlatGroupNode {
     expandable: boolean;
     name: string;
-    group: Group;
+    description: string | null;
+    id: number;
+    children: Group[];
     level: number;
 }

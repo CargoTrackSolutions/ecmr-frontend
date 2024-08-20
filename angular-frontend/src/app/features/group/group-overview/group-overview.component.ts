@@ -98,11 +98,15 @@ export class GroupOverviewComponent implements OnInit {
 
     searchText: string = '';
 
+    private expandedNodeIds: Set<number> = new Set();
+
     private _transformer = (node: Group, level: number) => {
         return {
             expandable: !!node.children && node.children.length > 0,
             name: node.name,
-            group: node,
+            description: node.description,
+            id: node.id,
+            children: node.children,
             level: level
         };
     };
@@ -136,28 +140,15 @@ export class GroupOverviewComponent implements OnInit {
         });
     }
 
-    getParentNode(node: FlatGroupNode): FlatGroupNode | null {
-        for (let i = 0; i < this.treeControl.dataNodes.length; i++) {
-            const currentNode = this.treeControl.dataNodes[i];
-            if (currentNode.expandable && currentNode.level === node.level - 1) {
-                const nextNode = this.treeControl.dataNodes[i + 1];
-                if (nextNode && nextNode.level === node.level) {
-                    return currentNode;
-                }
-            }
-        }
-        return null;
-    }
-
     applyFilter() {
         this.dataSource.data = this.filterTree(this.originalData, this.searchText);
+        this.treeControl.expandAll();
     }
 
     filterTree(data: Group[], searchText: string): Group[] {
         if (!searchText) {
             return data;
         }
-
         return data
             .map(node => ({...node}))
             .filter(node => this.filterNode(node, searchText.toLowerCase()));
@@ -183,7 +174,25 @@ export class GroupOverviewComponent implements OnInit {
         this.router.navigateByUrl(`/group-detail/${group.id}`)
     }
 
+    private saveExpandedState() {
+        this.expandedNodeIds.clear();
+        this.treeControl.dataNodes.forEach(node => {
+            if (this.treeControl.isExpanded(node)) {
+                this.expandedNodeIds.add(node.id);
+            }
+        });
+    }
+
+    private restoreExpandedState() {
+        this.treeControl.dataNodes.forEach(node => {
+            if (this.expandedNodeIds.has(node.id)) {
+                this.treeControl.expand(node);
+            }
+        });
+    }
+
     createNewGroup(group: Group | null) {
+        this.saveExpandedState();
         this.matDialog.open(GroupEditDialogComponent, {
             width: '600px',
             data: {parentGroup: group, groupToEdit: null},
@@ -192,10 +201,12 @@ export class GroupOverviewComponent implements OnInit {
             switchMap(() => this.groupService.getAllGroups(true))
         ).subscribe(groups => {
             this.dataSource.data = groups;
+            this.restoreExpandedState();
         })
     }
 
     editGroup(group: Group) {
+        this.saveExpandedState();
         this.matDialog.open(GroupEditDialogComponent, {
             data: {parentGroup: null, groupToEdit: group},
             width: '600px'
@@ -204,10 +215,12 @@ export class GroupOverviewComponent implements OnInit {
             switchMap(() => this.groupService.getAllGroups(true))
         ).subscribe(groups => {
             this.dataSource.data = groups;
+            this.restoreExpandedState();
         })
     }
 
     changeParent(group: Group) {
+        this.saveExpandedState();
         this.matDialog.open(GroupChangeParentDialogComponent, {
             data: group,
             width: '600px'
@@ -216,6 +229,7 @@ export class GroupOverviewComponent implements OnInit {
             switchMap(() => this.groupService.getAllGroups(true))
         ).subscribe(groups => {
             this.dataSource.data = groups;
+            this.restoreExpandedState();
         })
     }
 }

@@ -21,7 +21,8 @@
     "required": "Field must not be empty",
     "pattern": "Invalid number",
     "default_group_required": "At least one group must be favored",
-    "not_implemented": "Not implemented"
+    "not_implemented": "Not implemented",
+    "ecmr_not_found": "Ecmr couldn't be found"
   },
   "menu": {
     "overview": "eCMR Overview",
@@ -264,6 +265,8 @@
     "delete_group": "Delete group",
     "search": "Search",
     "location_name": "Location",
+    "expand_all": "Expand all",
+    "collapse_all": "Collapse all",
     "tooltips": {
       "create_new": "Create new group",
       "edit_name": "Edit group",

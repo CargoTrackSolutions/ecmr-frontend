@@ -102,8 +102,10 @@ export class EditUserDialogComponent implements OnInit {
         return {
             expandable: !!node.children && node.children.length > 0,
             name: node.name,
-            group: node,
-            level: level,
+            description: node.description,
+            id: node.id,
+            children: node.children,
+            level: level
         };
     };
 
@@ -190,11 +192,11 @@ export class EditUserDialogComponent implements OnInit {
     protected readonly UserRole = UserRole;
 
     selectGroup(node: FlatGroupNode) {
-        this.selectedGroups.push(node.group);
+        this.selectedGroups.push(node);
     }
 
     isSelected(node: FlatGroupNode) {
-        return this.selectedGroups.some(group => group.id === node.group.id)
+        return this.selectedGroups.some(group => group.id === node.id)
     }
 
     removeItem(group: Group) {

@@ -120,6 +120,10 @@ export class EcmrService {
     shareEcmr(ecmrShare: EcmrShare, ecmrId: string) {
         return this.http.patch<EcmrShareResponse>(`${environment.backendUrl}/ecmr/${ecmrId}/share`, ecmrShare);
     }
+
+    importEcmr(ecmrId: string) {
+        return this.http.get<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}/import`);
+    }
 }
 
 export interface EcmrElement {

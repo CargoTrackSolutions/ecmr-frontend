@@ -93,7 +93,9 @@
                 @for (group of selectedGroups; track group) {
                     <div class="list-item d-flex flex-row gap-2 justify-content-between align-items-center">
                         <div class="d-flex flex-row justify-content-center align-items-center">
-                            <button [disabled]="isAuthenticatedUser" mat-icon-button (click)="removeItem(group)" color="warn">
+                            <button [disabled]="isAuthenticatedUser" mat-icon-button
+                                    *ngIf="defaultGroupId !== group.id"
+                                    (click)="removeItem(group)" color="warn">
                                 <mat-icon>remove</mat-icon>
                             </button>
                             <div class="d-flex align-items-center">

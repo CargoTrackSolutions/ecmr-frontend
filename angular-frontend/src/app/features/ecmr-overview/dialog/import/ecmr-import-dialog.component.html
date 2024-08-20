@@ -1,4 +1,4 @@
-<div mat-dialog-title class="d-flex flex-row align-items-center gap-3 mt-2 p-0">
+<div mat-dialog-title class="d-flex flex-row align-items-center gap-3 p-0">
     <button mat-icon-button>
         <mat-icon>arrow_back</mat-icon>
     </button>
@@ -47,5 +47,7 @@
     </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions [align]="'end'">
-    <button mat-flat-button color="primary" [disabled]="tokenFormControl.invalid">eCmr Importieren</button>
+    <button mat-flat-button color="primary" [disabled]="tokenFormControl.invalid" (click)="importEcmr()">eCmr Importieren</button>
+    <button mat-flat-button color="warn" (click)="close()">{{ "common.cancel" | translate }}</button>
 </mat-dialog-actions>
+

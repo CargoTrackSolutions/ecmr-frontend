@@ -21,7 +21,8 @@
     "required": "Feld darf nicht leer sein",
     "pattern": "Ungültige Telefonnummer",
     "default_group_required": "Es muss mindestens eine Gruppe favorisiert werden",
-    "not_implemented": "Nicht Implementiert"
+    "not_implemented": "Nicht Implementiert",
+    "ecmr_not_found": "Ecmr konnte nicht gefunden werden"
   },
   "menu": {
     "overview": "eCMR Übersicht",
@@ -249,6 +250,8 @@
     "delete_group": "Gruppe löschen",
     "search": "Suchen",
     "location_name": "Standort",
+    "expand_all": "Alle ausklappen",
+    "collapse_all": "Alle einklappen",
     "tooltips": {
       "create_new": "Erstelle neue Gruppe",
       "edit_name": "Gruppe bearbeiten",

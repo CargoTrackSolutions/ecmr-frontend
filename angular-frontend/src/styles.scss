@@ -68,7 +68,7 @@ body {
 .sidenav-container__icon-container:hover,
 .sidenav__icon:hover:not(.active),
 .footer-line:hover {
-  background-color: mat.get-color-from-palette($my-accent, 400);
+  background-color: mat.get-color-from-palette($my-accent, 500);
   cursor: pointer;
 }
 
