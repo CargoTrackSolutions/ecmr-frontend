@@ -37,7 +37,7 @@
                 <mat-icon iconPositionEnd>upload_file</mat-icon>
                 {{ "ecmr_editor.load_from_template" | translate }}
             </button>
-            <button mat-flat-button color="primary" (click)="(isTemplate())  ? saveTemplate() : saveEcmr()">
+            <button mat-flat-button color="primary" (click)="(isTemplate())  ? saveTemplate() : saveEcmr(true)">
                 <mat-icon iconPositionEnd>save</mat-icon>
                 {{ "common.save" | translate }}
             </button>
@@ -62,7 +62,7 @@
                 <button mat-menu-item (click)="loadFromTemplate()" *ngIf="(isNotEdit() && isTemplate()) || !isTemplate()">
                     {{ "ecmr_editor.load_from_template" | translate }}
                 </button>
-                <button mat-menu-item (click)="isTemplate() ? saveTemplate() : saveEcmr()">
+                <button mat-menu-item (click)="isTemplate() ? saveTemplate() : saveEcmr(true)">
                     {{ "common.save" | translate }}
                 </button>
                 <button mat-menu-item *ngIf="!isTemplate()" (click)="saveTemplate()">
@@ -680,7 +680,7 @@
                                         class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
                                     <img [src]="senderSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
                                     <span class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(senderSignature.timestamp) }}</span>
-                                    <p class="text-center mt-2">{{ "signature.from" | translate }} {{ senderSignature.userName }}</p>
+                                    <p class="text-center mt-2">{{ "signature.by" | translate }} {{ senderSignature.userName }}</p>
                                 </div>
                             } @else {
                                 <div class="action-button-group">
@@ -711,7 +711,7 @@
                                 <div class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
                                     <img [src]="carrierSignature.data" alt="signature" class="img-fluid rounded mb-2" />
                                     <span class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(carrierSignature.timestamp) }}</span>
-                                    <p class="text-center mt-2">{{ "signature.from" | translate }} {{ carrierSignature.userName }}</p>
+                                    <p class="text-center mt-2">{{ "signature.by" | translate }} {{ carrierSignature.userName }}</p>
                                 </div>
                             } @else {
                                 <div class="action-button-group">
@@ -743,7 +743,7 @@
                             <div class="d-flex flex-row flex-wrap gap-2">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>In</mat-label>
-                                    <input [dynamicDisable]="!canFillConsignorFields" matInput type="text"
+                                    <input [dynamicDisable]="!canFillConsigneeFields" matInput type="text"
                                            formControlName="confirmedLogisticsLocationName">
                                     @if (ecmrConsignmentFormGroup.controls.goodsReceived.get('confirmedLogisticsLocationName')?.invalid) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
@@ -751,7 +751,7 @@
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>Date</mat-label>
-                                    <input [dynamicDisable]="!canFillConsignorFields" matInput formControlName="consigneeSignatureDate"
+                                    <input [dynamicDisable]="!canFillConsigneeFields" matInput formControlName="consigneeSignatureDate"
                                            [matDatepicker]="consigneeSignatureDatePicker">
                                     <mat-datepicker #consigneeSignatureDatePicker></mat-datepicker>
                                     <mat-datepicker-toggle matIconSuffix [for]="consigneeSignatureDatePicker"></mat-datepicker-toggle>
@@ -765,16 +765,16 @@
                                 <div class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
                                     <img [src]="consigneeSignature.data" alt="signature" class="img-fluid rounded mb-2" />
                                     <span class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(consigneeSignature.timestamp) }}</span>
-                                    <p class="text-center mt-2">{{ "signature.from" | translate }} {{ consigneeSignature.userName }}</p>
+                                    <p class="text-center mt-2">{{ "signature.by" | translate }} {{ consigneeSignature.userName }}</p>
                                 </div>
                             } @else {
                                 <div class="action-button-group">
-                                    <button [disabled]="!canFillConsignorFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
+                                    <button [disabled]="!canFillConsigneeFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
                                             class="main-button" color="primary"
                                             (click)="signConsignor()">
                                         Sign on glass
                                     </button>
-                                    <button [disabled]="!canFillConsignorFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
+                                    <button [disabled]="!canFillConsigneeFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
                                             class="dropdown-button" color="primary"
                                             [matMenuTriggerFor]="menu">
                                         <mat-icon>arrow_drop_down</mat-icon>

@@ -22,8 +22,7 @@
                             <button mat-stroked-button (click)="updateColumns()">{{ 'overview.columns_settings.configure_columns' | translate }}
                                 <mat-icon color="primary">close</mat-icon>
                             </button>
-                            <mat-checkbox [checked]="showColumns.referenceId"
-                                        (change)="toggleColumnAtKey('referenceId')">{{ 'overview.table_header.ref_id' | translate }}
+                            <mat-checkbox [checked]="showColumns.referenceId" (change)="toggleColumnAtKey('referenceId')">{{ 'overview.table_header.ref_id' | translate }}
                             </mat-checkbox>
                             <mat-checkbox [checked]="showColumns.from"
                                         (change)="toggleColumnAtKey('from')">{{ 'overview.table_header.from' | translate }}
@@ -97,7 +96,7 @@
                         <span class="float-start fw-bold">{{ 'overview.table_header.ref_id' | translate }}</span>
                         <br>
                         <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
-                            <input matInput formControlName="referenceId">
+                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="referenceId">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.referenceId.reset()">close</mat-icon>
                         </mat-form-field>
                     </div>
@@ -115,7 +114,7 @@
                         <span class="float-start fw-bold">{{ 'overview.table_header.from' | translate }}</span>
                         <br>
                         <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
-                            <input matInput formControlName="from">
+                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="from">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.from.reset()">close</mat-icon>
                         </mat-form-field>
                     </div>
@@ -133,7 +132,7 @@
                         <span class="float-start fw-bold">{{ 'overview.table_header.to' | translate }}</span>
                         <br>
                         <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
-                            <input matInput formControlName="to">
+                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="to">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.to.reset()">close</mat-icon>
                         </mat-form-field>
                     </div>
@@ -177,7 +176,7 @@
                         <span class="float-start fw-bold">{{ 'overview.table_header.last_editor' | translate }}</span>
                         <br>
                         <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
-                            <input matInput formControlName="lastEditor">
+                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="lastEditor">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.lastEditor.reset()">close</mat-icon>
                         </mat-form-field>
                     </div>
@@ -222,7 +221,7 @@
                         <span class="float-start fw-bold">{{ 'overview.table_header.last_edit_date' | translate }}</span>
                         <br>
                         <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
-                            <input matInput formControlName="lastEditorDate">
+                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="lastEditorDate">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.lastEditorDate.reset()">close</mat-icon>
                         </mat-form-field>
                     </div>
@@ -240,7 +239,7 @@
                         <span class="float-start fw-bold">{{ 'overview.table_header.creation_date' | translate }}</span>
                         <br>
                         <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
-                            <input matInput formControlName="lastCreationDate">
+                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="lastCreationDate">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.lastCreationDate.reset()">close</mat-icon>
                         </mat-form-field>
                     </div>
@@ -258,7 +257,7 @@
                         <span class="float-start fw-bold">{{ 'overview.table_header.license_plate' | translate }}</span>
                         <br>
                         <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
-                            <input matInput formControlName="licensePlate">
+                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="licensePlate">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.licensePlate.reset()">close</mat-icon>
                         </mat-form-field>
                     </div>
@@ -276,7 +275,7 @@
                         <span class="float-start fw-bold">{{ 'overview.table_header.carrier_name' | translate }}</span>
                         <br>
                         <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
-                            <input matInput formControlName="carrierName">
+                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="carrierName">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.carrierName.reset()">close</mat-icon>
                         </mat-form-field>
                     </div>
@@ -294,7 +293,7 @@
                         <span class="float-start fw-bold">{{ 'overview.table_header.carrier_post_code' | translate }}</span>
                         <br>
                         <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
-                            <input matInput formControlName="carrierPostCode">
+                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="carrierPostCode">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.carrierPostCode.reset()">close</mat-icon>
                         </mat-form-field>
                     </div>
@@ -312,7 +311,7 @@
                         <span class="float-start fw-bold">{{ 'overview.table_header.consignee_post_code' | translate }}</span>
                         <br>
                         <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
-                            <input matInput formControlName="consigneePostCode">
+                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="consigneePostCode">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.consigneePostCode.reset()">close</mat-icon>
                         </mat-form-field>
                     </div>

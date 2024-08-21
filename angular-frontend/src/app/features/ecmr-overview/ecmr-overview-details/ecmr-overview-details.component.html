@@ -478,21 +478,45 @@
                 <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_22' | translate }}</h6>
                 <!-- Signature -->
                 <span class="info-field-header">Signature</span>
-                <mat-card appearance="outlined">
-                    <mat-card-content>
-                        {{ selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature?.data }}
-                    </mat-card-content>
-                </mat-card>
-
+                @if (selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature) {
+                    <mat-card appearance="outlined">
+                        <mat-card-content>
+                            <div class="d-flex justify-content-center align-items-center flex-column">
+                                <img [src]="selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature?.data"
+                                     alt="signature" class="img-fluid"/>
+                                <span class="d-flex justify-content-center">
+                                    {{ "signature.signed_on" | translate }}
+                                    {{ selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature?.timestamp }}
+                                </span>
+                                <p class="text-center">
+                                    {{ "signature.by" | translate }}
+                                    {{ selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature?.userName }}
+                                </p>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                }
                 <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_23' | translate }}</h6>
                 <!-- Signature -->
                 <span class="info-field-header">Signature</span>
-                <mat-card appearance="outlined">
-                    <mat-card-content>
-                        {{ selectedEcmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature?.data }}
-                    </mat-card-content>
-                </mat-card>
-
+                @if (selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature) {
+                    <mat-card appearance="outlined">
+                        <mat-card-content>
+                            <div class="d-flex justify-content-center align-items-center flex-column">
+                                <img [src]="selectedEcmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature?.data"
+                                     alt="signature" class="img-fluid"/>
+                                <span class="d-flex justify-content-center">
+                                    {{ "signature.signed_on" | translate }}
+                                    {{ selectedEcmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature?.timestamp }}
+                                </span>
+                                <p class="text-center">
+                                    {{ "signature.by" | translate }}
+                                    {{ selectedEcmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature?.userName }}
+                                </p>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                }
                 <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_24' | translate }}</h6>
                 <div class="row">
                     <app-ecmr-display-information-field
@@ -510,7 +534,24 @@
                 <span class="info-field-header">Signature</span>
                 <mat-card appearance="outlined">
                     <mat-card-content>
-                        {{ selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature?.data }}
+                        @if (selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature) {
+                            <mat-card appearance="outlined">
+                                <mat-card-content>
+                                    <div class="d-flex justify-content-center align-items-center flex-column">
+                                        <img [src]="selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature?.data"
+                                             alt="signature" class="img-fluid"/>
+                                        <span class="d-flex justify-content-center">
+                                    {{ "signature.signed_on" | translate }}
+                                            {{ selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature?.timestamp }}
+                                </span>
+                                        <p class="text-center">
+                                            {{ "signature.by" | translate }}
+                                            {{ selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature?.userName }}
+                                        </p>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        }
                     </mat-card-content>
                 </mat-card>
 

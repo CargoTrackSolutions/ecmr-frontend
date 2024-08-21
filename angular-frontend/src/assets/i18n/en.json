@@ -335,17 +335,6 @@
       "not_found": "Location not found"
     }
   },
-  "errors": {
-    "required": "Required",
-    "invalid_countryCode": "Invalid CountryCode",
-    "default_group_required": "At least one group must be favored",
-    "clear": "Clear Signature",
-    "confirm_text": "Are you sure? You will not be able to make changes to the eCMR anymore.",
-    "clear": "Clear Signature",
-    "confirm_text": "Are you sure? You will not be able to make changes to the eCMR anymore.",
-    "signed_on": "Signed on:",
-    "from": "From:"
-  },
   "share_create_dialog": {
     "title": "Selects groups to share"
   },
@@ -359,7 +348,14 @@
     "authentication": "Authentication",
     "tan": "Tan",
     "tan_message": "Tan will be sent by SMS shortly",
-    "authenticate": "Authenticate"
+    "authenticate": "Authenticate",
+    "registered_user": "As registered user it is not possible to access the carrier registration."
+  },
+  "signature": {
+    "clear": "Clear Signature",
+    "confirm_text": "Are you sure? You will not be able to make changes to the eCMR anymore.",
+    "signed_on": "Signed on:",
+    "by": "By:"
   },
   "share_ecmr_dialog": {
     "title": "Share eCMR",
@@ -367,6 +363,9 @@
     "carrier": "Carrier",
     "consignee": "Consignee",
     "email": "E-Mail",
+    "copy_link": "Copy link",
+    "copy_qr": "Copy QR-Code",
+    "download_qr" : "Download QR-Code",
     "share_via_qr": "Or share via QR-Code",
     "link_copied": "Link copied to clipboard",
     "qr_copied": "QR-Code copied to clipboard",

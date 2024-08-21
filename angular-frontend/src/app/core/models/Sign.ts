@@ -11,4 +11,5 @@ import { Signer } from '../enums/Signer';
 export interface Sign {
     signer: Signer,
     data: string;
+    city: string | null;
 }

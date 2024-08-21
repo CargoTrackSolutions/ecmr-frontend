@@ -95,7 +95,7 @@ export enum EditorMode {
 export class EcmrEditorComponent implements OnInit {
     canFillSenderFields: boolean = false;
     canFillCarrierFields: boolean = false;
-    canFillConsignorFields: boolean = false;
+    canFillConsigneeFields: boolean = false;
 
     isMobile: boolean = false;
     breakpointSubscription: Subscription | undefined;
@@ -386,7 +386,7 @@ export class EcmrEditorComponent implements OnInit {
     setFormConstraints() {
         if (this.editorMode == EditorMode.ECMR_EDIT) {
             if (this.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature != null) {
-                this.canFillConsignorFields = true;
+                this.canFillConsigneeFields = true;
             } else if (this.ecmrConsignment.signatureOrStampOfTheSender.senderSignature != null) {
                 this.canFillCarrierFields = true;
             } else {
@@ -399,6 +399,7 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     signSender() {
+        this.saveEcmr(false);
         if (this.senderFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
             this.matDialog.open(SignaturePadDialogComponent)
                 .afterClosed()
@@ -407,7 +408,8 @@ export class EcmrEditorComponent implements OnInit {
                         if (result) {
                             const signature: Sign = {
                                 signer: Signer.Sender,
-                                data: result
+                                data: result,
+                                city: this.ecmrConsignmentFormGroup.controls.established.controls.customEstablishedIn.value
                             };
 
                             return this.ecmrEditorService.signEcmr(signature, this.id!);
@@ -456,6 +458,7 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     signCarrier() {
+        this.saveEcmr(false);
         this.matDialog.open(SignaturePadDialogComponent)
             .afterClosed()
             .pipe(
@@ -463,7 +466,8 @@ export class EcmrEditorComponent implements OnInit {
                     if (result) {
                         const signature: Sign = {
                             signer: Signer.Carrier,
-                            data: result
+                            data: result,
+                            city: null
                         }
                         return this.ecmrEditorService.signEcmr(signature, this.id!);
                     } else {
@@ -477,7 +481,7 @@ export class EcmrEditorComponent implements OnInit {
                     this.carrierSignature = savedSignature;
 
                     this.canFillCarrierFields = false;
-                    this.canFillConsignorFields = true;
+                    this.canFillConsigneeFields = true;
 
                     this.cd.detectChanges();
                 }
@@ -485,6 +489,7 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     signConsignor() {
+        this.saveEcmr(false);
         if (this.consignorFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
             this.matDialog.open(SignaturePadDialogComponent)
                 .afterClosed()
@@ -493,7 +498,8 @@ export class EcmrEditorComponent implements OnInit {
                         if (result) {
                             const signature: Sign = {
                                 signer: Signer.Consignee,
-                                data: result
+                                data: result,
+                                city: this.ecmrConsignmentFormGroup.controls.takingOverTheGoods.controls.takingOverTheGoodsPlace.value!
                             }
                             return this.ecmrEditorService.signEcmr(signature, this.id!);
                         } else {
@@ -506,7 +512,7 @@ export class EcmrEditorComponent implements OnInit {
                         this.ecmrConsignmentFormGroup.controls.goodsReceived.controls.consigneeSignature.setValue(savedSignature);
                         this.consigneeSignature = savedSignature;
 
-                        this.canFillConsignorFields = false;
+                        this.canFillConsigneeFields = false;
                     }
                 });
         } else {
@@ -599,9 +605,19 @@ export class EcmrEditorComponent implements OnInit {
         this.senderSignature = this.ecmrConsignment.signatureOrStampOfTheSender.senderSignature;
         this.carrierSignature = this.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature;
         this.consigneeSignature = this.ecmrConsignment.goodsReceived.consigneeSignature;
+
+        if(this.senderSignature) {
+            this.canFillSenderFields = false;
+        }
+        if(this.carrierSignature) {
+            this.canFillCarrierFields = false;
+        }
+        if(this.consigneeSignature){
+            this.canFillConsigneeFields = false;
+        }
     }
 
-    saveEcmr() {
+    saveEcmr(returnToOverview: boolean) {
         this.ecmrConsignmentFormGroup.reset(this.ecmrConsignmentFormGroup.getRawValue())
         if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_NEW || this.editorMode == EditorMode.ECMR_COPY)) {
             const formValue: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
@@ -634,7 +650,7 @@ export class EcmrEditorComponent implements OnInit {
                     return of(null)
                 })
             ).subscribe(ecmr => {
-                if (ecmr) this.returnToOverview()
+                if (ecmr && returnToOverview) this.returnToOverview()
             })
 
 
@@ -642,7 +658,7 @@ export class EcmrEditorComponent implements OnInit {
             this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
             this.ecmrEditorService.updateEcmr(this.ecmrToEdit).subscribe({
                 next: () => {
-                    this.returnToOverview()
+                    if (returnToOverview) this.returnToOverview()
                 },
                 error: error => {
                     const action = this.translateService.instant('general.snackbar_action');

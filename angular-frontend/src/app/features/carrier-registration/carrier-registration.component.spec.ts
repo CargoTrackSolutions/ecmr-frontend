@@ -16,12 +16,18 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
+import { AuthService } from '../../core/services/auth.service';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { UserService } from '../../shared/services/user.service';
 
 describe('CarrierRegistrationComponent', () => {
     let component: CarrierRegistrationComponent;
     let fixture: ComponentFixture<CarrierRegistrationComponent>;
+    let mockAuthService;
 
     beforeEach(async () => {
+        mockAuthService = jasmine.createSpyObj('AuthService', ['isAuthenticated', 'getAuthenticatedUser']);
+        mockAuthService.getAuthenticatedUser.and.returnValue(of(null));
         await TestBed.configureTestingModule({
             imports: [
                 CarrierRegistrationComponent,
@@ -36,6 +42,9 @@ describe('CarrierRegistrationComponent', () => {
                 BrowserAnimationsModule
             ],
             providers: [
+                {provide: AuthService, useValue: mockAuthService},
+                {provide: OAuthService, useValue: {}},
+                {provide: UserService, useValue: {}},
                 {
                     provide: ActivatedRoute,
                     useValue: {

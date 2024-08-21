@@ -29,6 +29,7 @@ import { catchError, filter, map, of, startWith } from 'rxjs';
 import { EcmrShare } from '../../../core/models/EcmrShare';
 import { environment } from '../../../../environments/environment';
 import { ShareEcmrResult } from '../../../core/enums/ShareEcmrResult';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-share-ecmr-dialog',
@@ -53,6 +54,7 @@ import { ShareEcmrResult } from '../../../core/enums/ShareEcmrResult';
         MatAutocomplete,
         MatAutocompleteTrigger,
         MatOption,
+        MatTooltip,
     ],
     templateUrl: './share-ecmr-dialog.component.html',
     styleUrl: './share-ecmr-dialog.component.scss'

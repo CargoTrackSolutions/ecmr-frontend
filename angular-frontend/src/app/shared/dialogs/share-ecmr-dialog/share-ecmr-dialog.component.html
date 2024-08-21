@@ -1,4 +1,4 @@
-<h2 mat-dialog-title> {{ 'share_ecmr_dialog.title' | translate }} </h2>
+<h2 mat-dialog-title> {{ 'share_ecmr_dialog.title' | translate }} - {{ ecmr.ecmrConsignment?.referenceIdentificationNumber?.value }} </h2>
 <mat-dialog-content>
     <div class="d-flex flex-column w-100 mt-2 gap-2">
 
@@ -49,15 +49,15 @@
                         [width]="300"></qrcode>
             </div>
             <div class="d-flex flex-row w-100 justify-content-center gap-2">
-                <button mat-icon-button color="accent" aria-label="Copy Qr-Code"
+                <button matTooltip="{{'share_ecmr_dialog.copy_qr' | translate}}" mat-icon-button color="accent" aria-label="Copy Qr-Code"
                         (click)="copyQRCode(qrcodeElement)">
                     <mat-icon>file_copy</mat-icon>
                 </button>
-                <button mat-icon-button color="accent" aria-label="Download Qr-Code"
+                <button matTooltip="{{'share_ecmr_dialog.download_qr' | translate}}" mat-icon-button color="accent" aria-label="Download Qr-Code"
                         (click)="downloadQRCode(qrcodeElement)">
                     <mat-icon>download</mat-icon>
                 </button>
-                <button mat-icon-button color="accent" aria-label="Copy Link"
+                <button matTooltip="{{'share_ecmr_dialog.copy_link' | translate}}" mat-icon-button color="accent" aria-label="Copy Link"
                         (click)="copyLink()">
                     <mat-icon>content_copy</mat-icon>
                 </button>

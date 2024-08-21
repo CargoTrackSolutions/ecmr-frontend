@@ -22,11 +22,11 @@
                         </button>
                         @if (!isMobile) {
                             <button mat-flat-button (click)="importEcmr()">{{ 'overview.import' | translate }}
-                                <mat-icon iconPositionEnd>download</mat-icon>
+                                <mat-icon iconPositionEnd>upload_file</mat-icon>
                             </button>
                         } @else {
                             <button mat-flat-button class="download-button-mobile" (click)="importEcmr()">
-                                <mat-icon>download</mat-icon>
+                                <mat-icon>upload_file</mat-icon>
                             </button>
                         }
                     </div>
@@ -94,9 +94,12 @@
         <button mat-icon-button (click)="historyOfEcmr();$event.stopPropagation()" matTooltip="{{'overview.tooltips.history' | translate}}">
             <mat-icon>history</mat-icon>
         </button>
-        <button mat-icon-button (click)="deleteEcmr(ecmr.ecmrId);$event.stopPropagation()" matTooltip="{{'overview.tooltips.delete' | translate}}">
-            <mat-icon color="warn">close</mat-icon>
-        </button>
+        @if(deleteButtonVisible(ecmr)) {
+            <button mat-icon-button (click)="deleteEcmr(ecmr.ecmrId);$event.stopPropagation()"
+                    matTooltip="{{'overview.tooltips.delete' | translate}}">
+                <mat-icon color="warn">delete</mat-icon>
+            </button>
+        }
     </ng-template>
     <ng-template #mobileActionButtons let-ecmr>
         <button mat-icon-button class="my-3" (click)="shareEcmr(ecmr)">

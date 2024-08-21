@@ -18,6 +18,8 @@ import { MatCardHeader, MatCardModule } from '@angular/material/card';
 import { MatButton } from '@angular/material/button';
 import { Registration } from '../../core/models/Registration';
 import { CarrierRegistrationService } from './carrier-registration.service';
+import { AuthService } from '../../core/services/auth.service';
+import { SnackbarService } from '../../core/services/snackbar.service';
 
 @Component({
     selector: 'app-carrier-registration',
@@ -50,7 +52,16 @@ export class CarrierRegistrationComponent {
 
     constructor(private route: ActivatedRoute,
                 private carrierRegistrationService: CarrierRegistrationService,
-                private router: Router) {
+                private router: Router,
+                authService: AuthService,
+                snackBarService: SnackbarService) {
+        authService.getAuthenticatedUser().subscribe(user => {
+            if (user) {
+                snackBarService.openInfoSnackbar('carrier_registration.registered_user');
+                this.router.navigateByUrl('/ecmr-overview');
+            }
+        });
+
         this.sub = this.route.params.subscribe(params => {
             this.ecmrId = params['id'];
             this.ecmrToken = params['token'];

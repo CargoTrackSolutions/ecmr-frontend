@@ -65,6 +65,7 @@ import { HttpResponse } from '@angular/common/http';
 import { MatDrawer, MatDrawerContainer, MatSidenavContainer } from '@angular/material/sidenav';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ShareEcmrDialogComponent } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component';
+import { EcmrStatus } from '../../core/models/EcmrStatus';
 
 @Component({
     selector: 'app-overview',
@@ -233,6 +234,11 @@ export class EcmrOverviewComponent implements OnInit {
                 this.updateTableData(data);
             });
         }
+    }
+
+    deleteButtonVisible(ecmr: Ecmr) {
+        return ecmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature === null
+            && ecmr.ecmrStatus === EcmrStatus.NEW
     }
 
     // TODO: implement

@@ -36,7 +36,7 @@
         {{'common.cancel' | translate}}
         <mat-icon>close</mat-icon>
     </button>
-    <button mat-flat-button color="primary" (click)="loadSelectedTemplate()">
+    <button mat-flat-button color="primary" [disabled]="!selectedTemplate" (click)="loadSelectedTemplate()">
         {{ 'template_overview.load_selected' | translate }}
         <mat-icon>upload_file</mat-icon>
     </button>
