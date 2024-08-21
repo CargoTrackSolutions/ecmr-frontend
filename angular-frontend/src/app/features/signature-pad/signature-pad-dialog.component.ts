@@ -51,7 +51,9 @@ export class SignaturePadDialogComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.signaturePad = new SignaturePad(this.signaturePadElement.nativeElement, {
-      backgroundColor: '#fff'
+      backgroundColor: '#fff',
+      minWidth: 50,
+      dotSize: 1
     });
     this.context = this.signaturePadElement.nativeElement.getContext('2d') as CanvasRenderingContext2D;
 

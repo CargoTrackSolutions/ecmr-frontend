@@ -11,13 +11,6 @@
             <mat-toolbar>
                 <mat-toolbar-row>
                     <mat-label>{{ 'archive.title' | translate }}</mat-label>
-                    <div class="search-bar-container">
-                        <mat-form-field class="search-bar-input">
-                            <input matInput placeholder="{{'archive.search' | translate}}">
-                            <mat-icon matSuffix>search</mat-icon>
-                        </mat-form-field>
-
-                    </div>
                 </mat-toolbar-row>
             </mat-toolbar>
 
@@ -31,14 +24,11 @@
             <button class="m-1" mat-flat-button color="primary" (click)="moveToOverview(ecmr.ecmrId)">Remove from archive
                 <mat-icon iconPositionEnd>archive</mat-icon>
             </button>
-            <button class="m-1" mat-flat-button color="primary">PDF
+            <button class="m-1" mat-flat-button color="primary" (click)="ecmrActionService.downloadPdf(ecmr.ecmrId)">PDF
                 <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
             </button>
-            <button class="m-1" mat-stroked-button>Copy
+            <button class="m-1" mat-stroked-button (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">Copy
                 <mat-icon iconPositionEnd>content_copy</mat-icon>
-            </button>
-            <button class="m-1" mat-stroked-button>Share
-                <mat-icon iconPositionEnd>share</mat-icon>
             </button>
         </div>
     </ng-template>

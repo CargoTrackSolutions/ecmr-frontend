@@ -23,6 +23,7 @@ import { EMPTY, switchMap } from 'rxjs';
 import { EcmrOverviewDetailsComponent } from '../ecmr-overview/ecmr-overview-details/ecmr-overview-details.component';
 import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
 import { Ecmr } from '../../core/models/Ecmr';
+import { EcmrActionService } from '../../shared/services/ecmr-action.service';
 
 @Component({
   selector: 'app-archive',
@@ -51,7 +52,7 @@ export class ArchiveComponent implements OnInit {
   selectedEcmr: Ecmr | null = null;
 
   constructor(public dialog: MatDialog, public snackbar: MatSnackBar, public ecmrService: EcmrService,
-              private translateService: TranslateService) {
+              private translateService: TranslateService, protected ecmrActionService: EcmrActionService) {
   }
 
   ngOnInit() {

@@ -11,12 +11,7 @@
             <mat-toolbar>
                 <mat-toolbar-row>
                     <mat-label>{{ 'template_overview.title' | translate }}</mat-label>
-                    <div class="search-bar-container">
-                        <mat-form-field class="search-bar-input">
-                            <input matInput placeholder="{{'overview.search' | translate}}">
-                            <mat-icon matSuffix>search</mat-icon>
-                        </mat-form-field>
-
+                    <div class="button-bar-container">
                         <button mat-flat-button class="search-bar-button" color="primary" (click)="createNewTemplate()">
                             <mat-icon iconPositionEnd>add</mat-icon>
                             {{ 'overview.create_new' | translate }}

@@ -46,13 +46,13 @@
             <button class="m-1" mat-flat-button color="primary" (click)="moveToArchive(ecmr.ecmrId)">Archive
                 <mat-icon iconPositionEnd>archive</mat-icon>
             </button>
-            <button class="m-1" mat-flat-button color="primary" (click)="downloadPdf(ecmr.ecmrId)">PDF
+            <button class="m-1" mat-flat-button color="primary" (click)="ecmrActionService.downloadPdf(ecmr.ecmrId)">PDF
                 <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
             </button>
             <button class="m-1" mat-flat-button color="primary" (click)="editEcmr(ecmr.ecmrId)">Edit
                 <mat-icon iconPositionEnd>edit_note</mat-icon>
             </button>
-            <button class="m-1" mat-stroked-button (click)="onCopyEcmr(ecmr.ecmrId)">Copy
+            <button class="m-1" mat-stroked-button (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">Copy
                 <mat-icon iconPositionEnd>content_copy</mat-icon>
             </button>
             <button class="m-1" mat-stroked-button>Share
@@ -69,13 +69,13 @@
             <button class="m-1" mat-menu-item (click)="moveToArchive(ecmr.ecmrId)">Archive
                 <mat-icon>archive</mat-icon>
             </button>
-            <button class="m-1" mat-menu-item (click)="downloadPdf(ecmr.ecmrId)">PDF
+            <button class="m-1" mat-menu-item (click)="ecmrActionService.downloadPdf(ecmr.ecmrId)">PDF
                 <mat-icon>picture_as_pdf</mat-icon>
             </button>
             <button class="m-1" mat-menu-item (click)="editEcmr(ecmr.ecmrId)">Edit
                 <mat-icon>edit_note</mat-icon>
             </button>
-            <button class="m-1" mat-menu-item (click)="onCopyEcmr(ecmr.ecmrId)">Copy
+            <button class="m-1" mat-menu-item (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">Copy
                 <mat-icon>content_copy</mat-icon>
             </button>
             <button class="m-1" mat-menu-item>Share
@@ -111,7 +111,7 @@
         <button mat-icon-button class="my-3" (click)="selectEcmr(ecmr)">
             <mat-icon color="primary" style="transform: scale(1.4)">visibility</mat-icon>
         </button>
-        <button mat-icon-button class="my-3" (click)="downloadPdf(ecmr.ecmrId);$event.stopPropagation()">
+        <button mat-icon-button class="my-3" (click)="ecmrActionService.downloadPdf(ecmr.ecmrId)">
             <mat-icon color="primary" style="transform: scale(1.4)">picture_as_pdf</mat-icon>
         </button>
     </ng-template>

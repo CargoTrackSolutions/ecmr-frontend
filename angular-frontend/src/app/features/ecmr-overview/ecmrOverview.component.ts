@@ -60,12 +60,11 @@ import { EcmrTableComponent } from '../../shared/components/ecmr-table/ecmr-tabl
 import { EMPTY, Observable, Subscription, switchMap } from 'rxjs';
 import { EcmrService } from '../../shared/services/ecmr.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { LoadingService } from '../../core/services/loading.service';
-import { HttpResponse } from '@angular/common/http';
 import { MatDrawer, MatDrawerContainer, MatSidenavContainer } from '@angular/material/sidenav';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ShareEcmrDialogComponent } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component';
 import { EcmrStatus } from '../../core/models/EcmrStatus';
+import { EcmrActionService } from '../../shared/services/ecmr-action.service';
 
 @Component({
     selector: 'app-overview',
@@ -163,8 +162,8 @@ export class EcmrOverviewComponent implements OnInit {
                 public ecmrService: EcmrService,
                 private router: Router,
                 private translateService: TranslateService,
-                private loadingService: LoadingService,
-                private breakpointObserver: BreakpointObserver,) {
+                private breakpointObserver: BreakpointObserver,
+                protected ecmrActionService: EcmrActionService) {
     }
 
     // ecmr selected
@@ -201,7 +200,6 @@ export class EcmrOverviewComponent implements OnInit {
         this.router.navigateByUrl('/ecmr-editor');
     }
 
-    // TODO: implement Import-function for eCMR
     importEcmr() {
         this.dialog.open(EcmrImportDialogComponent).afterClosed().subscribe(result => {
             if (result) {
@@ -212,7 +210,6 @@ export class EcmrOverviewComponent implements OnInit {
         });
     }
 
-    // TODO: implement Share-function for eCMR
     shareEcmr(ecmr: Ecmr) {
         this.dialog.open(ShareEcmrDialogComponent, {
             width: '800px',
@@ -290,29 +287,6 @@ export class EcmrOverviewComponent implements OnInit {
         if (ecmrId) {
             this.router.navigateByUrl(`/ecmr-editor/${ecmrId}/copy`);
         }
-    }
-
-    downloadPdf(ecmrId: string) {
-        this.loadingService.showLoaderUntilCompleted(this.ecmrService.downloadPdf(ecmrId)).subscribe((response: HttpResponse<Blob>) => {
-            const contentDisposition = response.headers.get('Content-Disposition');
-            let fileName = 'ecmr-report.pdf';
-
-            if (contentDisposition) {
-                const matches = /filename="([^"]*)"/.exec(contentDisposition);
-                if (matches?.[1]) {
-                    fileName = matches[1];
-                }
-            }
-            if (response.body) {
-                const file = new Blob([response.body], {type: 'application/pdf'});
-                const fileURL = URL.createObjectURL(file);
-                const link = document.createElement('a');
-                link.href = fileURL;
-                link.download = fileName;
-                link.target = '_blank';
-                link.click();
-            }
-        });
     }
 
     selectEcmr(ecmr: Ecmr | null) {
