@@ -83,13 +83,11 @@ export class EcmrService {
     }
 
     moveToArchive(ecmrId: string) {
-        const params = {'type': EcmrType[EcmrType.ARCHIVED]}
-        return this.http.patch<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}`, {}, {params: params})
+        return this.http.patch<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}/archive`, {}, {})
     }
 
     moveOutOfArchive(ecmrId: string) {
-        const params = {'type': EcmrType[EcmrType.ECMR]}
-        return this.http.patch<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}`, {}, {params: params})
+        return this.http.patch<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}/reactivate`, {}, {})
     }
 
     // EcmrToEcmrElement(Ecmr: Ecmr): EcmrElement {

@@ -267,7 +267,9 @@ export class EcmrOverviewComponent implements OnInit {
             })
         ).subscribe({
             next: () => {
-                this.loadData();
+                this.loadData().subscribe(data => {
+                    this.updateTableData(data);
+                });
                 this.selectedEcmr = null;
             },
             error: err => {
