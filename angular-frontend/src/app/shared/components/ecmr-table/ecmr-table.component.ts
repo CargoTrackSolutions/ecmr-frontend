@@ -430,6 +430,12 @@ export class EcmrTableComponent implements OnInit {
             ? EcmrTransportType.NATIONAL
             : EcmrTransportType.INTERNATIONAL;
     }
+
+    closeColumnSelection() {
+        const savedShowColumns: ShowColumns | null = this.ecmrService.getShowColumns();
+        if (savedShowColumns) this.showColumns = savedShowColumns;
+        this.showColumSelection = false;
+    }
 }
 
 function compare(a: number | string | Date | null, b: number | string | Date | null, isAsc: boolean) {

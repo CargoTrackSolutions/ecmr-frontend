@@ -57,7 +57,7 @@ import { EcmrOverviewDetailsComponent } from './ecmr-overview-details/ecmr-overv
 
 import { Ecmr } from '../../core/models/Ecmr';
 import { EcmrTableComponent } from '../../shared/components/ecmr-table/ecmr-table.component';
-import { EMPTY, Observable, Subscription, switchMap } from 'rxjs';
+import { EMPTY, filter, Observable, Subscription, switchMap } from 'rxjs';
 import { EcmrService } from '../../shared/services/ecmr.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatDrawer, MatDrawerContainer, MatSidenavContainer } from '@angular/material/sidenav';
@@ -224,13 +224,17 @@ export class EcmrOverviewComponent implements OnInit {
     }
 
     deleteEcmr(ecmrId: string) {
-        if (ecmrId) {
-            this.ecmrService.deleteEcmr(ecmrId).pipe(
-                switchMap(() => this.loadData())
-            ).subscribe(data => {
-                this.updateTableData(data);
-            });
-        }
+        this.dialog.open(ConfirmationDialogComponent, {
+            data: {
+                text: this.translateService.instant('overview.delete_ecmr_dialog_text')
+            }
+        }).afterClosed().pipe(
+            filter(dialogResult => dialogResult.isConfirmed === true && !!ecmrId),
+            switchMap(() => this.ecmrService.deleteEcmr(ecmrId)),
+            switchMap(() => this.loadData())
+        ).subscribe(data => {
+            this.updateTableData(data);
+        });
     }
 
     deleteButtonVisible(ecmr: Ecmr) {

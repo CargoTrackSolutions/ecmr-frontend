@@ -19,6 +19,7 @@
   width: 100%;
   height: 100%;
   position: relative;
+  overflow: auto;
 }
 
 #quick-view-container{
@@ -48,15 +49,6 @@ mat-card-content{
 .detail-view {
   height: 100%;
   width: 40vw;
-}
-
-::-webkit-scrollbar {
-  height: 5px;
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0);
 }
 
 #icons {

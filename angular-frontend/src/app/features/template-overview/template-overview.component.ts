@@ -132,15 +132,15 @@ export class TemplateOverviewComponent implements OnInit {
         text: this.translateService.instant('template_overview.delete_template_dialog_text')
       }
     }).afterClosed().pipe(
-        filter(result => result),
+        filter(result => result.isConfirmed === true),
         switchMap(() => this.templateOverviewService.deleteTemplate(templateUser.id))
     ).subscribe({
       next: () => {
-        this.dataSource.data = this.dataSource.data.filter(loc => loc.id != templateUser.id)
+        this.dataSource.data = this.dataSource.data.filter(loc => loc.id != templateUser.id);
       },
       error: () => {
       }
-    })
+    });
   }
 
   shareTemplate() {

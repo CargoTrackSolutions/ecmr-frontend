@@ -271,3 +271,12 @@ mat-tree-node .action-row button:nth-child(5) {
     fill: #464646 !important;
   }
 }
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0);
+}

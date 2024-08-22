@@ -7,7 +7,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, from, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
@@ -22,16 +22,24 @@ import { UserRole } from '../enums/UserRole';
 export class AuthService {
 
     private authenticatedUserSubject = new BehaviorSubject<AuthenticatedUser | null>(null);
+    private authStatus = new BehaviorSubject<boolean>(false);
 
     constructor(private oauthService: OAuthService, private httpClient: HttpClient, private userService: UserService, private router: Router) {
         this.oauthService.setStorage(localStorage);
         this.oauthService.configure(environment.authConfig);
         this.oauthService.loadDiscoveryDocument()
             .then(() => this.oauthService.setupAutomaticSilentRefresh())
+        this.isAuthenticated();
     }
 
     public isAuthenticated(): boolean {
-        return this.oauthService.hasValidAccessToken() && this.oauthService.hasValidIdToken();
+        const isValid = this.oauthService.hasValidAccessToken() && this.oauthService.hasValidIdToken();
+        this.authStatus.next(isValid);
+        return isValid;
+    }
+
+    public getAuthStatus$(): Observable<boolean> {
+        return this.authStatus.asObservable();
     }
 
     public initLogin(redirectUrl: string | null = null): void {
@@ -89,17 +97,21 @@ export class AuthService {
     }
 
     public getAuthenticatedUser(): Observable<AuthenticatedUser | null> {
-        if (!this.isAuthenticated()) {
-            return of(null);
-        }
+        return this.getAuthStatus$().pipe(
+            switchMap(isAuthenticated => {
+                if (!isAuthenticated) {
+                    return of(null);
+                }
 
-        if (this.authenticatedUserSubject.value == null) {
-            return this.userService.getCurrentUser().pipe(
-                tap(authenticatedUser => this.authenticatedUserSubject.next(authenticatedUser)),
-                catchError(() => of(null))
-            );
-        }
-        return of(this.authenticatedUserSubject.value);
+                if (this.authenticatedUserSubject.value == null) {
+                    return this.userService.getCurrentUser().pipe(
+                        tap(authenticatedUser => this.authenticatedUserSubject.next(authenticatedUser)),
+                        catchError(() => of(null))
+                    );
+                }
+                return of(this.authenticatedUserSubject.value);
+            })
+        );
     }
 }
 

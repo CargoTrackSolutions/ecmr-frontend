@@ -6,8 +6,8 @@
                                        [selectedEcmr]="selectedTemplate!.ecmr"></app-ecmr-overview-details>
         }
     </mat-drawer>
-    <article>
-        <section>
+    <article class="h-100">
+        <section class="d-flex flex-column h-100 overflow-hidden">
             <mat-toolbar>
                 <mat-toolbar-row>
                     <mat-label>{{ 'template_overview.title' | translate }}</mat-label>
@@ -19,7 +19,7 @@
                     </div>
                 </mat-toolbar-row>
             </mat-toolbar>
-            <div class="ecmr-overview-table-container overflow-x-auto overflow-y-hidden">
+            <div class="ecmr-overview-table-container">
                 <!-- Overview of eCMRs -->
                 <table class="ecmr-overview-table overflow-x-auto" mat-table [dataSource]="dataSource" matSort
                        (matSortChange)="sortData($event)"
@@ -68,13 +68,13 @@
                         </th>
                         <td id="icons" mat-cell *matCellDef="let templateUser; let i = index;">
           <span>
-          <button mat-icon-button (click)="shareTemplate()" matTooltip="{{'overview.tooltips.share' | translate}}">
+          <button mat-icon-button (click)="shareTemplate();$event.stopPropagation()" matTooltip="{{'overview.tooltips.share' | translate}}">
             <mat-icon>share</mat-icon>
           </button>
           <button mat-icon-button (click)="editTemplate(templateUser)" matTooltip="{{'overview.tooltips.edit' | translate}}">
             <mat-icon>edit_note</mat-icon>
           </button>
-          <button mat-icon-button (click)="deleteTemplate(templateUser)" matTooltip="{{'overview.tooltips.delete_template' | translate}}">
+          <button mat-icon-button (click)="deleteTemplate(templateUser);$event.stopPropagation()" matTooltip="{{'overview.tooltips.delete_template' | translate}}">
             <mat-icon color="warn">close</mat-icon>
           </button>
             </span>

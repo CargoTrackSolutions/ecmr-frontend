@@ -19,7 +19,8 @@
                     </button>
                     <ng-container *ngIf="showColumSelection">
                         <mat-card style="position: absolute; width: 250px; z-index: 5;">
-                            <button mat-stroked-button (click)="updateColumns()">{{ 'overview.columns_settings.configure_columns' | translate }}
+                            <button mat-stroked-button (click)="closeColumnSelection()">{{ 'overview.columns_settings.configure_columns' |
+                                translate }}
                                 <mat-icon color="primary">close</mat-icon>
                             </button>
                             <mat-checkbox [checked]="showColumns.referenceId" (change)="toggleColumnAtKey('referenceId')">{{ 'overview.table_header.ref_id' | translate }}

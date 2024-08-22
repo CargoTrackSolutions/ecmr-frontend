@@ -381,6 +381,12 @@ export class EcmrEditorComponent implements OnInit {
                 startWith(formGroupControl.carrierInformation.controls.carrierCountryCode.controls.value.value ?? ''),
                 map(value => this._filter(value ?? ''))
             );
+
+        this.filteredSuccessiveCarrierCountries = this.ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierCountryCode.controls.value.valueChanges
+            .pipe(
+                startWith(formGroupControl.successiveCarrierInformation.controls.successiveCarrierCountryCode.controls.value.value ?? ''),
+                map(value => this._filter(value ?? ''))
+            );
     }
 
     setFormConstraints() {
@@ -438,13 +444,21 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     senderFieldsAreValid(): boolean {
-        const invalidFields: AbstractControl[] = []
+        const invalidFields: AbstractControl[] = [];
+        const invalidVolumes: AbstractControl[] = [];
         invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.senderInformation, ['senderNamePerson', 'region']));
         invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.consigneeInformation, ['consigneeNamePerson', 'region']));
         invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.takingOverTheGoods, ['region']));
         invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.carrierInformation, ['region']));
         if (this.ecmrConsignmentFormGroup.controls.itemList.controls.length > 0) {
             for (const itemGroup of this.itemList.controls) {
+
+                const volumeControl = itemGroup.controls.volumeInM3.controls.supplyChainConsignmentItemGrossVolume;
+                if(volumeControl.value == 0) {
+                    volumeControl.setErrors({'minValue': true});
+                    invalidVolumes.push(volumeControl);
+                }
+                
                 invalidFields.push(...this.checkControls(itemGroup, []))
             }
         }
@@ -454,7 +468,7 @@ export class EcmrEditorComponent implements OnInit {
         for (const control of invalidFields) {
             control.setErrors({'mandatoryForSigning': true});
         }
-        return invalidFields.length == 0;
+        return invalidFields.length == 0 && invalidVolumes.length == 0;
     }
 
     signCarrier() {
@@ -708,9 +722,7 @@ export class EcmrEditorComponent implements OnInit {
                     this.loadedTemplate = dialogResult;
                     this.ecmrConsignment = dialogResult.ecmr.ecmrConsignment;
                     this.ecmrConsignmentFormGroup.controls.itemList.controls = []
-                    this.ecmrConsignment.itemList.forEach(() => {
-                        this.addNewItem();
-                    })
+                    this.addNewItem();
                     this.ecmrConsignmentFormGroup.patchValue(this.ecmrConsignment)
                 }
             });
@@ -720,6 +732,7 @@ export class EcmrEditorComponent implements OnInit {
         this.ecmrConsignmentFormGroup.reset();
         //Remove all items from itemList FormArray
         this.ecmrConsignmentFormGroup.controls.itemList.controls = [];
+        this.addNewItem();
     }
 
     /**

@@ -77,7 +77,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.translate.use(this.selectedLanguage.code);
 
         this.loading$ = this.loadingService.isLoading$;
-        this.authService.getAuthenticatedUser().subscribe(authenticatedUser => this.authenticatedUser = authenticatedUser);
+        this.authService.getAuthenticatedUser().subscribe(user => {
+            this.authenticatedUser = user;
+        });
     }
 
     ngOnInit() {

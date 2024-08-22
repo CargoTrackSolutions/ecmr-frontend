@@ -436,17 +436,22 @@
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="successiveCarrierCity">
                                 </mat-form-field>
                             </div>
-                            <mat-form-field class="flex-grow-1" formGroupName="successiveCarrierCountryCode">
-                                <mat-label>{{ "ecmr_editor.successive_carrier_information.country" | translate }}</mat-label>
-                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="value" maxlength="2"
-                                       class="text-uppercase"
-                                       [matAutocomplete]="successiveCarrierCountryAutocomplete">
-                                <mat-autocomplete #successiveCarrierCountryAutocomplete="matAutocomplete">
-                                    @for (country of filteredSuccessiveCarrierCountries | async; track country) {
-                                        <mat-option [value]="country">{{ country }}</mat-option>
+                            <ng-container formGroupName="successiveCarrierCountryCode">
+                                <mat-form-field class="flex-grow-1">
+                                    <mat-label>{{ "ecmr_editor.successive_carrier_information.country" | translate }}</mat-label>
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="value" maxlength="2"
+                                           class="text-uppercase"
+                                           [matAutocomplete]="successiveCarrierAutocomplete">
+                                    <mat-autocomplete #successiveCarrierAutocomplete="matAutocomplete">
+                                        @for (country of filteredSuccessiveCarrierCountries | async; track country) {
+                                            <mat-option [value]="country">{{ country }}</mat-option>
+                                        }
+                                    </mat-autocomplete>
+                                    @if (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierCountryCode.get('value')?.invalid) {
+                                        <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                     }
-                                </mat-autocomplete>
-                            </mat-form-field>
+                                </mat-form-field>
+                            </ng-container>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.successive_carrier_information.date" | translate }}</mat-label>
                                 <input [dynamicDisable]="!canFillSenderFields" matInput formControlName="successiveCarrierSignatureDate"
@@ -464,7 +469,6 @@
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone">
                                 </mat-form-field>
                             </div>
-                            <!--Todo implement Signature field formControlName="successiveCarrierSignature"-->
                         </div>
                     </div>
                 </mat-card-content>
@@ -930,9 +934,13 @@
                                         <mat-form-field>
                                             <mat-label>{{ "ecmr_editor.volume_in_m3.volume" | translate }}</mat-label>
                                             <input [dynamicDisable]="!canFillSenderFields" matInput type="number"
-                                                   formControlName="supplyChainConsignmentItemGrossVolume" [min]="0">
-                                            @if (item.controls.volumeInM3.get('supplyChainConsignmentItemGrossVolume')?.invalid) {
+                                                   formControlName="supplyChainConsignmentItemGrossVolume">
+                                            @if (item.controls.volumeInM3.get('supplyChainConsignmentItemGrossVolume')?.hasError('mandatoryForSigning')) {
                                                 <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                            }
+
+                                            @if (item.controls.volumeInM3.get('supplyChainConsignmentItemGrossVolume')?.hasError('minValue')) {
+                                                <mat-error>{{ "ecmr_editor.error_volume_min" | translate }}</mat-error>
                                             }
                                         </mat-form-field>
                                     </div>

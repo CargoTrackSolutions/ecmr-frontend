@@ -26,7 +26,7 @@
   },
   "menu": {
     "overview": "eCMR Übersicht",
-    "templates": "Vorlagen",
+    "templates": "Vorlagen Übersicht",
     "archive": "Archiv",
     "user_overview": "Benutzerverwaltung",
     "group_overview": "Gruppenverwaltung",
@@ -42,7 +42,7 @@
     "title": "Impressum und rechtliche Hinweise"
   },
   "overview": {
-    "title": "Übersicht",
+    "title": "eCMR Übersicht",
     "search" : "Suchen",
     "create_new": "Erstellen",
     "import": "Importieren",
@@ -55,7 +55,7 @@
         "national": "National",
         "international": "International"
       },
-      "last_editor": "zuletzt bearbeitet von",
+      "last_editor": "Zuletzt bearbeitet von",
       "status": "Status",
       "ecmr_status": {
         "new": "Neu",
@@ -63,11 +63,11 @@
         "in_transport": "Im Transport",
         "arrived_at_destination": "Am Zielort angekommen"
       },
-      "last_edit_date": "zuletzt bearbeitet am",
-      "creation_date": "erstellt am",
+      "last_edit_date": "Zuletzt bearbeitet am",
+      "creation_date": "Erstellt am",
       "license_plate": "Nummernschild",
-      "carrier_name": "Carrier Name",
-      "carrier_post_code": "Carrier PLZ",
+      "carrier_name": "Transporteur Name",
+      "carrier_post_code": "Transporteur PLZ",
       "consignee_post_code": "Empfänger PLZ"
     },
     "tooltips": {
@@ -81,7 +81,8 @@
     "columns_settings": {
       "configure_columns": "Spalten konfigurieren"
     },
-    "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR in das Archiv verschieben wollen?"
+    "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR in das Archiv verschieben wollen?",
+    "delete_ecmr_dialog_text": "Sind Sie sicher, dass Sie diesen eCMR löschen wollen? Dies kann nicht Rückgängig gemacht werden."
   },
   "template_overview": {
     "title": "Vorlagen Übersicht",
@@ -97,6 +98,7 @@
     "create_new_title": "Neuer eCMR",
     "edit_title": "Bearbeite eCMR",
     "error_mandatory": "Dieses Feld ist für die Signatur erforderlich.",
+    "error_volume_min": "Muss größer als 0 sein",
     "snackbar_error": "Bitte füllen Sie alle Pflichtfelder aus.",
     "load_from_template": "Aus Vorlage laden",
     "save_as_template": "Speichern als Vorlage",
@@ -231,7 +233,13 @@
     "title_24_signature": "Unterschrift oder Stempel des Empfängers",
     "non_contractual_part_reserved_for_the_carrier": "Dem Beförderer vorbehaltener außervertraglicher Teil",
     "remarks": "Bemerkungen",
-    "items": "Items"
+    "items": "Items",
+    "phone": "Telefon",
+    "email": "E-Mail",
+    "template": {
+      "edit_title": "Vorlage bearbeiten",
+      "create_new_title": "Vorlage erstellen"
+    }
   },
   "archive": {
     "title": "Archiv",

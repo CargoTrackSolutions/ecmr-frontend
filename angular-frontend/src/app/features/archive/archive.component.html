@@ -6,8 +6,8 @@
                                        [selectedEcmr]="selectedEcmr"></app-ecmr-overview-details>
         }
     </mat-drawer>
-    <article>
-        <section>
+    <article class="h-100">
+        <section class="d-flex flex-column h-100 overflow-hidden">
             <mat-toolbar>
                 <mat-toolbar-row>
                     <mat-label>{{ 'archive.title' | translate }}</mat-label>
@@ -15,7 +15,7 @@
             </mat-toolbar>
 
             <!-- Overview Table Container -->
-            <app-ecmr-table (selectedEcmr)="selectEcmr($event)"></app-ecmr-table>
+            <app-ecmr-table (selectedEcmr)="selectEcmr($event)" class="h-100 overflow-x-auto overflow-y-hidden"></app-ecmr-table>
         </section>
     </article>
 

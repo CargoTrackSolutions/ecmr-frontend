@@ -26,7 +26,7 @@
   },
   "menu": {
     "overview": "eCMR Overview",
-    "templates": "Templates",
+    "templates": "Templates Overview",
     "archive": "Archive",
     "user_overview": "User management",
     "group_overview": "Group management",
@@ -42,7 +42,7 @@
     "title": "Imprint and Legal Matter"
   },
   "overview": {
-    "title": "Overview",
+    "title": "eCMR Overview",
     "search": "Search",
     "create_new": "Create new",
     "import": "Import",
@@ -81,7 +81,8 @@
     "columns_settings": {
       "configure_columns": "Configure Columns"
     },
-    "confirmation_message": "Are you sure you want to move this eCMR to the archive?"
+    "confirmation_message": "Are you sure you want to move this eCMR to the archive?",
+    "delete_ecmr_dialog_text": "Are you sure you want to delete this eCMR? This cannot be undone."
   },
   "template_overview": {
     "title": "Templates Overview",
@@ -97,6 +98,7 @@
     "create_new_title": "Create new eCMR",
     "edit_title": "Edit eCMR",
     "error_mandatory": "This field is required for signing.",
+    "error_volume_min": "Must be greater than 0",
     "snackbar_error": "Please fill in all required fields.",
     "load_from_template": "Load From Template",
     "save_as_template": "Save as Template",
