@@ -458,7 +458,7 @@ export class EcmrEditorComponent implements OnInit {
                     volumeControl.setErrors({'minValue': true});
                     invalidVolumes.push(volumeControl);
                 }
-                
+
                 invalidFields.push(...this.checkControls(itemGroup, []))
             }
         }
@@ -687,7 +687,7 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     saveTemplate() {
-        if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.TEMPLATE_NEW)) {
+        if (this.ecmrConsignmentFormGroup.valid && this.editorMode !== EditorMode.TEMPLATE_EDIT) {
             this.matDialog.open(TemplateNameDialogComponent, {
                 minWidth: '350px'
             }).afterClosed().pipe(
