@@ -1,5 +1,6 @@
 #icons {
-  width: 300px;
+  width: 210px;
+  padding-right: 0px;
 }
 
 .icon-button {
@@ -44,9 +45,17 @@ mat-card-content{
   cursor:pointer
 }
 
+#rows:hover {
+  background-color: rgba(196, 196, 196, 0.08)
+}
+
 table {
   width: 100%;
   margin-bottom: 75px;
+}
+
+th {
+  min-width: 150px;
 }
 
 tr.expanded-row {

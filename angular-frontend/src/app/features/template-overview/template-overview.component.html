@@ -75,7 +75,7 @@
             <mat-icon>edit_note</mat-icon>
           </button>
           <button mat-icon-button (click)="deleteTemplate(templateUser);$event.stopPropagation()" matTooltip="{{'overview.tooltips.delete_template' | translate}}">
-            <mat-icon color="warn">close</mat-icon>
+            <mat-icon color="warn">delete</mat-icon>
           </button>
             </span>
                         </td>
@@ -87,8 +87,9 @@
                             <div class="my-3">
                                 <span class="float-start fw-bold">{{ 'template_overview.table_header.number' | translate }}</span>
                                 <br>
-                                <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                                <mat-form-field appearance="fill" *ngIf="this.showFilter">
                                     <input matInput>
+                                    <mat-icon matSuffix color="warn">close</mat-icon>
                                 </mat-form-field>
                             </div>
                         </th>
@@ -101,8 +102,9 @@
                             <div class="my-3">
                                 <span class="float-start fw-bold">{{ 'template_overview.table_header.name' | translate }}</span>
                                 <br>
-                                <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                                <mat-form-field appearance="fill" *ngIf="this.showFilter">
                                     <input matInput>
+                                    <mat-icon matSuffix color="warn">close</mat-icon>
                                 </mat-form-field>
                             </div>
                         </th>
@@ -116,8 +118,9 @@
                             <div class="my-3">
                                 <span class="float-start fw-bold">{{ 'overview.table_header.ref_id' | translate }}</span>
                                 <br>
-                                <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                                <mat-form-field appearance="fill" *ngIf="this.showFilter">
                                     <input matInput>
+                                    <mat-icon matSuffix color="warn">close</mat-icon>
                                 </mat-form-field>
                             </div>
                         </th>
@@ -132,8 +135,9 @@
                             <div class="my-3">
                                 <span class="float-start fw-bold">{{ 'overview.table_header.from' | translate }}</span>
                                 <br>
-                                <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                                <mat-form-field appearance="fill" *ngIf="this.showFilter">
                                     <input matInput>
+                                    <mat-icon matSuffix color="warn">close</mat-icon>
                                 </mat-form-field>
                             </div>
                         </th>
@@ -148,8 +152,9 @@
                             <div class="my-3">
                                 <span class="float-start fw-bold">{{ 'overview.table_header.to' | translate }}</span>
                                 <br>
-                                <mat-form-field appearance="outline" *ngIf="this.showFilter">
+                                <mat-form-field appearance="fill" *ngIf="this.showFilter">
                                     <input matInput>
+                                    <mat-icon matSuffix color="warn">close</mat-icon>
                                 </mat-form-field>
                             </div>
                         </th>

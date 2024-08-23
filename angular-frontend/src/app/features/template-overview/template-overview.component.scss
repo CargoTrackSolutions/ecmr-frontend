@@ -45,6 +45,9 @@ mat-card-content{
   cursor:pointer
 }
 
+#rows:hover {
+  background-color: rgba(196, 196, 196, 0.08)
+}
 
 .detail-view {
   height: 100%;
@@ -52,5 +55,10 @@ mat-card-content{
 }
 
 #icons {
-  width: 300px;
+  width: 170px;
+  padding-right: 0;
+}
+
+th {
+  min-width: 150px;
 }
