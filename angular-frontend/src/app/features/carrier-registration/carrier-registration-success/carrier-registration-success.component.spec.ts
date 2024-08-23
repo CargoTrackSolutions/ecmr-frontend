@@ -14,7 +14,7 @@ import { HttpLoaderFactory } from '../../../app.component';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EcmrTanService } from '../../ecmr-editor/ecmr-editor-service/ecmr-tan.service';
+import { ExternalUserService } from '../../ecmr-editor/ecmr-editor-service/external-user.service';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
@@ -37,7 +37,7 @@ describe('CarrierRegistrationSuccessComponent', () => {
                 BrowserAnimationsModule
             ],
             providers: [
-                {provide: EcmrTanService, useValue: {}},
+                {provide: ExternalUserService, useValue: {}},
                 {
                     provide: ActivatedRoute,
                     useValue: {

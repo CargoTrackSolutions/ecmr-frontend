@@ -14,7 +14,7 @@ import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
-import { EcmrTanService } from '../../ecmr-editor/ecmr-editor-service/ecmr-tan.service';
+import { ExternalUserService } from '../../ecmr-editor/ecmr-editor-service/external-user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -47,7 +47,7 @@ export class CarrierRegistrationSuccessComponent {
     ecmrId: string;
     sub: Subscription;
 
-    constructor(private ecmrTanService: EcmrTanService,
+    constructor(private ecmrTanService: ExternalUserService,
                 private router: Router,
                 private route: ActivatedRoute) {
         this.sub = this.route.params.subscribe(params => {

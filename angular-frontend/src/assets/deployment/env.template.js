@@ -7,7 +7,6 @@
 
 (function (window) {
   window['env'] = window["env"] || {}
-
   window['env']['BACKEND_API_URL'] = "${BACKEND_API_URL}";
   window['env']['OAUTH_ISSUER'] = "${OAUTH_ISSUER}";
   window['env']['OAUTH_CLIENT_ID'] = "${OAUTH_CLIENT_ID}";

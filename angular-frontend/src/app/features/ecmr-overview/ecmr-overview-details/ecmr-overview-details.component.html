@@ -482,15 +482,15 @@
                     <mat-card appearance="outlined">
                         <mat-card-content>
                             <div class="d-flex justify-content-center align-items-center flex-column">
-                                <img [src]="selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature?.data"
+                                <img [src]="selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.data"
                                      alt="signature" class="img-fluid"/>
                                 <span class="d-flex justify-content-center">
                                     {{ "sender_signature.signed_on" | translate }}
-                                    {{ selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature?.timestamp }}
+                                    {{ selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.timestamp }}
                                 </span>
                                 <p class="text-center">
                                     {{ "signature.by" | translate }}
-                                    {{ selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature?.userName }}
+                                    {{ selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.userName }}
                                 </p>
                             </div>
                         </mat-card-content>
@@ -538,15 +538,15 @@
                             <mat-card appearance="outlined">
                                 <mat-card-content>
                                     <div class="d-flex justify-content-center align-items-center flex-column">
-                                        <img [src]="selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature?.data"
+                                        <img [src]="selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature.data"
                                              alt="signature" class="img-fluid"/>
                                         <span class="d-flex justify-content-center">
                                     {{ "signature.signed_on" | translate }}
-                                            {{ selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature?.timestamp }}
+                                            {{ selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature.timestamp }}
                                 </span>
                                         <p class="text-center">
                                             {{ "signature.by" | translate }}
-                                            {{ selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature?.userName }}
+                                            {{ selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature.userName }}
                                         </p>
                                     </div>
                                 </mat-card-content>

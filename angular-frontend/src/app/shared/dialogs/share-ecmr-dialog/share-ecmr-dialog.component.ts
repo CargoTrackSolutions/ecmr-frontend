@@ -27,7 +27,6 @@ import { UserService } from '../../services/user.service';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 import { catchError, filter, map, of, startWith } from 'rxjs';
 import { EcmrShare } from '../../../core/models/EcmrShare';
-import { environment } from '../../../../environments/environment';
 import { ShareEcmrResult } from '../../../core/enums/ShareEcmrResult';
 import { MatTooltip } from '@angular/material/tooltip';
 
@@ -72,7 +71,7 @@ export class ShareEcmrDialogComponent implements OnInit {
     userList: EcmrUser[] = [];
     filteredUserList: EcmrUser[] = [];
 
-    carrierShareString = `${environment.frontendUrl}/carrier-registration`;
+    carrierShareString = `${location.origin}/carrier-registration`;
     shareString = '';
     currentRole: EcmrRole = EcmrRole.Sender;
 
