@@ -31,7 +31,7 @@
     "user_overview": "Benutzerverwaltung",
     "group_overview": "Gruppenverwaltung",
     "location_overview": "Standortverwaltung",
-    "logout": "Logout",
+    "logout": "Abmelden",
     "privacy": "Datenschutz",
     "imprint_legal": "Impressum, Rechtliches"
   },
@@ -114,7 +114,7 @@
       "post_code": "Postleitzahl",
       "city_name": "Stadtname",
       "country": "Land",
-      "email": "Email",
+      "email": "E-Mail",
       "phone": "Telefon"
     },
     "title_2": "2. Empfänger (Name, Adresse, Land)",
@@ -125,7 +125,7 @@
       "post_code": "Postleitzahl",
       "city_name": "Stadtname",
       "country": "Land",
-      "email": "Email",
+      "email": "E-Mail",
       "phone": "Telefon"
     },
     "title_3": "3. Übernahme der Güter",
@@ -153,7 +153,7 @@
       "country": "Land",
       "region": "Region",
       "license_plate": "Nummernschild",
-      "email": "Email",
+      "email": "E-Mail",
       "phone": "Telefon"
     },
     "title_7": "7. Nachfolgende Transporteure",
@@ -167,7 +167,7 @@
       "region": "Region",
       "date": "Datum",
       "signature": "Unterschrift",
-      "email": "Email",
+      "email": "E-Mail",
       "phone": "Telefon"
     },
     "title_8": "8. Vorbehalte und Bemerkungen des Frachtführers bei der Übernahme des Gutes",
@@ -209,8 +209,13 @@
       "special_agreements": "Besondere Vereinbarungen"
     },
     "title_17": "17. Zu zahlen von",
-    "carriers_reservation_on_taking_over": {
-
+    "to_be_paid_by": {
+      "carriage_charges": "Transportgebühren",
+      "currency": "Währung",
+      "payer": "Kostenträger",
+      "supplementary_charges": "Zusatzgebühren",
+      "custom_duties_charges": "Zollgebühren",
+      "other_charges": "Sonstige Gebühren"
     },
     "title_18": "18. Andere nützliche Angaben",
     "other_useful_particulars": {
@@ -228,8 +233,19 @@
       "on": "Am"
     },
     "title_22": "22. Unterschrift oder Stempel des Absenders",
+    "sender_signature": {
+      "signature": "Unterschrift"
+    },
     "title_23": "23. Unterschrift oder Stempel des Transporteur",
+    "carrier_signature": {
+      "signature": "Unterschrift"
+    },
     "title_24": "24. Waren erhalten",
+    "receival_signature": {
+      "date": "Datum",
+      "place": "Standort",
+      "signature": "Unterschrift"
+    },
     "title_24_signature": "Unterschrift oder Stempel des Empfängers",
     "non_contractual_part_reserved_for_the_carrier": "Dem Beförderer vorbehaltener außervertraglicher Teil",
     "remarks": "Bemerkungen",
@@ -352,7 +368,7 @@
     "clear": "Unterschrift löschen",
     "confirm_text": "Sind Sie sicher? Sie können danach keine Änderungen mehr am eCMR vornehmen.",
     "signed_on": "Unterschrieben am:",
-    "By": "Von:"
+    "by": "Von:"
   },
   "share_ecmr_dialog": {
     "title": "eCMR Teilen",
@@ -370,5 +386,12 @@
     "shared_external": "Mit extenem User geteilt",
     "shared_internal": "Mit internem Benutzer in Gruppe {{ translateValue }} geteilt.",
     "user_has_no_group": "Benutzer hat keine Gruppe"
+  },
+  "quick_view_buttons": {
+    "archive": "Archivieren",
+    "pdf": "PDF",
+    "edit": "Bearbeiten",
+    "copy": "Kopieren",
+    "share": "Teilen"
   }
 }

@@ -43,19 +43,19 @@
 
     <ng-template #quickViewButtons let-ecmr>
         <div>
-            <button class="m-1" mat-flat-button color="primary" (click)="moveToArchive(ecmr.ecmrId)">Archive
+            <button class="m-1" mat-flat-button color="primary" (click)="moveToArchive(ecmr.ecmrId)">{{ 'quick_view_buttons.archive' | translate }}
                 <mat-icon iconPositionEnd>archive</mat-icon>
             </button>
-            <button class="m-1" mat-flat-button color="primary" (click)="ecmrActionService.downloadPdf(ecmr.ecmrId)">PDF
+            <button class="m-1" mat-flat-button color="primary" (click)="ecmrActionService.downloadPdf(ecmr.ecmrId)">{{ 'quick_view_buttons.pdf' | translate }}
                 <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
             </button>
-            <button class="m-1" mat-flat-button color="primary" (click)="editEcmr(ecmr.ecmrId)">Edit
+            <button class="m-1" mat-flat-button color="primary" (click)="editEcmr(ecmr.ecmrId)">{{ 'quick_view_buttons.edit' | translate }}
                 <mat-icon iconPositionEnd>edit_note</mat-icon>
             </button>
-            <button class="m-1" mat-stroked-button (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">Copy
+            <button class="m-1" mat-stroked-button (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">{{ 'quick_view_buttons.copy' | translate }}
                 <mat-icon iconPositionEnd>content_copy</mat-icon>
             </button>
-            <button class="m-1" mat-stroked-button>Share
+            <button class="m-1" mat-stroked-button>{{ 'quick_view_buttons.share' | translate }}
                 <mat-icon iconPositionEnd>share</mat-icon>
             </button>
         </div>
@@ -66,19 +66,19 @@
             <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-            <button class="m-1" mat-menu-item (click)="moveToArchive(ecmr.ecmrId)">Archive
+            <button class="m-1" mat-menu-item (click)="moveToArchive(ecmr.ecmrId)">{{ 'quick_view_buttons.archive' | translate }}
                 <mat-icon>archive</mat-icon>
             </button>
-            <button class="m-1" mat-menu-item (click)="ecmrActionService.downloadPdf(ecmr.ecmrId)">PDF
+            <button class="m-1" mat-menu-item (click)="ecmrActionService.downloadPdf(ecmr.ecmrId)">{{ 'quick_view_buttons.pdf' | translate }}
                 <mat-icon>picture_as_pdf</mat-icon>
             </button>
-            <button class="m-1" mat-menu-item (click)="editEcmr(ecmr.ecmrId)">Edit
+            <button class="m-1" mat-menu-item (click)="editEcmr(ecmr.ecmrId)">{{ 'quick_view_buttons.edit' | translate }}
                 <mat-icon>edit_note</mat-icon>
             </button>
-            <button class="m-1" mat-menu-item (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">Copy
+            <button class="m-1" mat-menu-item (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">{{ 'quick_view_buttons.copy' | translate }}
                 <mat-icon>content_copy</mat-icon>
             </button>
-            <button class="m-1" mat-menu-item>Share
+            <button class="m-1" mat-menu-item>{{ 'quick_view_buttons.share' | translate }}
                 <mat-icon>share</mat-icon>
             </button>
         </mat-menu>

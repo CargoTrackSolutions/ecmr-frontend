@@ -182,7 +182,7 @@
 
                 <!--Name-->
                 <app-ecmr-display-information-field
-                        [label]="'ecmr_editor.successive_carrier_information.name'"
+                        [label]="'ecmr_editor.carrier_information.name'"
                         [displayedContent]="selectedEcmr.ecmrConsignment.carrierInformation.carrierNameCompany">
                 </app-ecmr-display-information-field>
 
@@ -307,7 +307,7 @@
 
                 <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_9' | translate }}</h6>
                 <app-ecmr-display-information-field
-                        [label]="'ecmr_editor.remarks'"
+                        [label]="'ecmr_editor.documents_handed_to_carrier.remarks'"
                         [displayedContent]="selectedEcmr.ecmrConsignment.documentsHandedToCarrier.documentsRemarks">
                 </app-ecmr-display-information-field>
 
@@ -448,7 +448,7 @@
 
                 <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_18' | translate }}</h6>
                 <app-ecmr-display-information-field
-                        [label]="'ecmr_editor.cash_on_delivery.particulars'"
+                        [label]="'ecmr_editor.other_useful_particulars.particulars'"
                         [displayedContent]="selectedEcmr.ecmrConsignment.otherUsefulParticulars.customParticulars">
                 </app-ecmr-display-information-field>
 
@@ -465,19 +465,19 @@
                 <div class="row">
                     <app-ecmr-display-information-field
                             class="col"
-                            [label]="'In'"
+                            [label]="'ecmr_editor.established.in'"
                             [displayedContent]="selectedEcmr.ecmrConsignment.established.customEstablishedIn">
                     </app-ecmr-display-information-field>
                     <app-ecmr-display-information-field
                             class="col"
-                            [label]="'On'"
+                            [label]="'ecmr_editor.established.on'"
                             [displayedContent]="toDateString(selectedEcmr.ecmrConsignment.established.customEstablishedDate)">
                     </app-ecmr-display-information-field>
                 </div>
 
                 <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_22' | translate }}</h6>
                 <!-- Signature -->
-                <span class="info-field-header">Signature</span>
+                <span class="info-field-header">{{ 'ecmr_editor.sender_signature.signature' | translate }}</span>
                 @if (selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature) {
                     <mat-card appearance="outlined">
                         <mat-card-content>
@@ -485,7 +485,7 @@
                                 <img [src]="selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature?.data"
                                      alt="signature" class="img-fluid"/>
                                 <span class="d-flex justify-content-center">
-                                    {{ "signature.signed_on" | translate }}
+                                    {{ "sender_signature.signed_on" | translate }}
                                     {{ selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature?.timestamp }}
                                 </span>
                                 <p class="text-center">
@@ -498,7 +498,7 @@
                 }
                 <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_23' | translate }}</h6>
                 <!-- Signature -->
-                <span class="info-field-header">Signature</span>
+                <span class="info-field-header">{{ 'ecmr_editor.carrier_signature.signature' | translate }}</span>
                 @if (selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature) {
                     <mat-card appearance="outlined">
                         <mat-card-content>
@@ -521,17 +521,17 @@
                 <div class="row">
                     <app-ecmr-display-information-field
                             class="col"
-                            [label]="'Date'"
+                            [label]="'ecmr_editor.receival_signature.date'"
                             [displayedContent]="selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignatureDate">
                     </app-ecmr-display-information-field>
                     <app-ecmr-display-information-field
                             class="col"
-                            [label]="'Place'"
+                            [label]="'ecmr_editor.receival_signature.place'"
                             [displayedContent]="selectedEcmr.ecmrConsignment.goodsReceived.confirmedLogisticsLocationName ">
                     </app-ecmr-display-information-field>
                 </div>
                 <!-- Signature -->
-                <span class="info-field-header">Signature</span>
+                <span class="info-field-header">{{ 'ecmr_editor.receival_signature.signature' | translate }}</span>
                 <mat-card appearance="outlined">
                     <mat-card-content>
                         @if (selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature) {

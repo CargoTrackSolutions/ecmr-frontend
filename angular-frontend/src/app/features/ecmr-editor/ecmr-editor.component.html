@@ -160,14 +160,14 @@
                             </ng-container>
                             <div formGroupName="senderContactInformation" class="d-flex flex-column">
                                 <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.email" | translate }}</mat-label>
+                                    <mat-label>{{ "ecmr_editor.sender.email" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="email">
                                     @if (ecmrConsignmentFormGroup.controls.senderInformation.controls.senderContactInformation.get('email')?.invalid) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.phone" | translate }}</mat-label>
+                                    <mat-label>{{ "ecmr_editor.sender.phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone">
                                     @if (ecmrConsignmentFormGroup.controls.senderInformation.controls.senderContactInformation.get('phone')?.invalid) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
@@ -232,14 +232,14 @@
                             </ng-container>
                             <div formGroupName="consigneeContactInformation" class="d-flex flex-column">
                                 <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.email" | translate }}</mat-label>
+                                    <mat-label>{{ "ecmr_editor.consignee.email" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="email">
                                     @if (ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeContactInformation.get('email')?.invalid) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.phone" | translate }}</mat-label>
+                                    <mat-label>{{ "ecmr_editor.consignee.phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone">
                                     @if (ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeContactInformation.get('phone')?.invalid) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
@@ -390,14 +390,14 @@
                             </mat-form-field>
                             <div formGroupName="carrierContactInformation" class="d-flex flex-column">
                                 <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.email" | translate }}</mat-label>
+                                    <mat-label>{{ "ecmr_editor.carrier_information.email" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="email">
                                     @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('email')?.invalid) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.phone" | translate }}</mat-label>
+                                    <mat-label>{{ "ecmr_editor.carrier_information.phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone">
                                     @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('phone')?.invalid) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
@@ -457,11 +457,11 @@
                             </mat-form-field>
                             <div formGroupName="successiveCarrierContactInformation" class="d-flex flex-column">
                                 <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.email" | translate }}</mat-label>
+                                    <mat-label>{{ "ecmr_editor.successive_carrier_information.email" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="email">
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.phone" | translate }}</mat-label>
+                                    <mat-label>{{ "ecmr_editor.successive_carrier_information.phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone">
                                 </mat-form-field>
                             </div>
@@ -742,7 +742,7 @@
                             <h6>{{ "ecmr_editor.title_24" | translate }}</h6>
                             <div class="d-flex flex-row flex-wrap gap-2">
                                 <mat-form-field class="flex-grow-1">
-                                    <mat-label>In</mat-label>
+                                    <mat-label>{{ "ecmr_editor.receival_signature.place" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillConsigneeFields" matInput type="text"
                                            formControlName="confirmedLogisticsLocationName">
                                     @if (ecmrConsignmentFormGroup.controls.goodsReceived.get('confirmedLogisticsLocationName')?.invalid) {
@@ -750,7 +750,7 @@
                                     }
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
-                                    <mat-label>Date</mat-label>
+                                    <mat-label>{{ "ecmr_editor.receival_signature.date" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillConsigneeFields" matInput formControlName="consigneeSignatureDate"
                                            [matDatepicker]="consigneeSignatureDatePicker">
                                     <mat-datepicker #consigneeSignatureDatePicker></mat-datepicker>

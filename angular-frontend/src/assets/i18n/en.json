@@ -233,8 +233,19 @@
       "on": "On"
     },
     "title_22": "22. Signature or Stamp of the sender",
+    "sender_signature": {
+      "signature": "Signature"
+    },
     "title_23": "23. Signature or Stamp of the carrier",
+    "carrier_signature": {
+      "signature": "Signature"
+    },
     "title_24": "24. Goods received",
+    "receival_signature": {
+      "date": "Date",
+      "place": "Place",
+      "signature": "Signature"
+    },
     "title_24_signature": "Signature or Stamp of the Consignor",
     "non_contractual_part_reserved_for_the_carrier": "Non-contractual part reserved for the carrier",
     "remarks": "Remarks",
@@ -375,5 +386,12 @@
     "shared_external": "Shared with external user",
     "shared_internal": "Shared with internal user in Group {{ translateValue }}",
     "user_has_no_group": "User has no group"
+  },
+  "quick_view_buttons": {
+    "archive": "Archive",
+    "pdf": "PDF",
+    "edit": "Edit",
+    "copy": "Copy",
+    "share": "Share"
   }
 }
