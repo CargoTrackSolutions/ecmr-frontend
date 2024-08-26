@@ -25,25 +25,35 @@
     </div>
     @if (!isMobile) {
         <div class="d-flex gap-2 align-items-center">
-            <button mat-flat-button color="warn" (click)="returnToOverview()">
-                <mat-icon>arrow_back</mat-icon>
-                {{ "common.cancel" | translate }}
-            </button>
-            <button mat-stroked-button color="warn" (click)="resetForm()" *ngIf="editorMode === EditorMode.ECMR_NEW">
-                <mat-icon>restart_alt</mat-icon>
-                {{ "common.reset" | translate }}
-            </button>
-            <button mat-stroked-button color="primary" (click)="loadFromTemplate()" *ngIf="!(editorMode === EditorMode.TEMPLATE_NEW)">
-                <mat-icon iconPositionEnd>upload_file</mat-icon>
-                {{ "ecmr_editor.load_from_template" | translate }}
-            </button>
-            <button mat-flat-button color="primary" (click)="(isTemplate())  ? saveTemplate() : saveEcmr(true)">
+            @if (!isExternalUser) {
+                <button mat-flat-button color="warn" (click)="returnToOverview()">
+                    <mat-icon>arrow_back</mat-icon>
+                    {{ "common.cancel" | translate }}
+                </button>
+                <button mat-stroked-button color="warn" (click)="resetForm()" *ngIf="editorMode === EditorMode.ECMR_NEW">
+                    <mat-icon>restart_alt</mat-icon>
+                    {{ "common.reset" | translate }}
+                </button>
+                <button mat-stroked-button color="primary" (click)="loadFromTemplate()" *ngIf="!(editorMode === EditorMode.TEMPLATE_NEW)">
+                    <mat-icon iconPositionEnd>upload_file</mat-icon>
+                    {{ "ecmr_editor.load_from_template" | translate }}
+                </button>
+                <button mat-flat-button color="primary" *ngIf="!(isTemplate())" (click)="saveTemplate()">
+                    <mat-icon iconPositionEnd>description</mat-icon>
+                    {{ "ecmr_editor.save_as_template" | translate }}
+                </button>
+            } @else {
+                <button mat-stroked-button (click)="shareEcmr(ecmrToEdit)">{{ 'quick_view_buttons.share' | translate }}
+                    <mat-icon iconPositionEnd>share</mat-icon>
+                </button>
+                <button mat-stroked-button color="primary" (click)="ecmrActionService.downloadPdf(ecmrToEdit.ecmrId!, tan)">
+                    {{ 'quick_view_buttons.pdf' | translate }}
+                    <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
+                </button>
+            }
+            <button mat-flat-button color="primary" (click)="(isTemplate())  ? saveTemplate() : saveEcmr(!isExternalUser)">
                 <mat-icon iconPositionEnd>save</mat-icon>
                 {{ "common.save" | translate }}
-            </button>
-            <button mat-flat-button color="primary" *ngIf="!(isTemplate())" (click)="saveTemplate()">
-                <mat-icon iconPositionEnd>description</mat-icon>
-                {{ "ecmr_editor.save_as_template" | translate }}
             </button>
         </div>
     } @else {
@@ -56,17 +66,28 @@
                 <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="resetForm()" *ngIf="isNotEdit()">
-                    {{ "common.reset" | translate }}
-                </button>
-                <button mat-menu-item (click)="loadFromTemplate()" *ngIf="(isNotEdit() && isTemplate()) || !isTemplate()">
-                    {{ "ecmr_editor.load_from_template" | translate }}
-                </button>
-                <button mat-menu-item (click)="isTemplate() ? saveTemplate() : saveEcmr(true)">
+                @if (!isExternalUser) {
+                    <button mat-menu-item (click)="resetForm()" *ngIf="isNotEdit()">
+                        {{ "common.reset" | translate }}
+                    </button>
+                    <button mat-menu-item (click)="loadFromTemplate()" *ngIf="(isNotEdit() && isTemplate()) || !isTemplate()">
+                        {{ "ecmr_editor.load_from_template" | translate }}
+                    </button>
+                    <button mat-menu-item *ngIf="!isTemplate()" (click)="saveTemplate()">
+                        {{ "ecmr_editor.save_as_template" | translate }}
+                    </button>
+                } @else {
+                    <button mat-menu-item (click)="shareEcmr(ecmrToEdit)">
+                        {{ 'quick_view_buttons.share' | translate }}
+                        <mat-icon>share</mat-icon>
+                    </button>
+                    <button mat-menu-item (click)="ecmrActionService.downloadPdf(ecmrToEdit.ecmrId!, tan)">
+                        {{ 'quick_view_buttons.pdf' | translate }}
+                        <mat-icon>picture_as_pdf</mat-icon>
+                    </button>
+                }
+                <button mat-menu-item (click)="isTemplate() ? saveTemplate() : saveEcmr(!isExternalUser)">
                     {{ "common.save" | translate }}
-                </button>
-                <button mat-menu-item *ngIf="!isTemplate()" (click)="saveTemplate()">
-                    {{ "ecmr_editor.save_as_template" | translate }}
                 </button>
             </mat-menu>
         </div>
@@ -86,7 +107,7 @@
 
                         <mat-form-field class="flex-grow-1">
                             <mat-label>{{ "ecmr_editor.reference_id" | translate }}</mat-label>
-                            <input matInput type="text" [dynamicDisable]="isNotEdit() && !canFillSenderFields" formControlName="value">
+                            <input matInput type="text" [dynamicDisable]="!canFillSenderFields" formControlName="value">
                             @if (ecmrConsignmentFormGroup.controls.referenceIdentificationNumber.controls.value.hasError('required')) {
                                 <mat-error>{{ "error.required" | translate }}</mat-error>
                             }

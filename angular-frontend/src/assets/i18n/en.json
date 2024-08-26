@@ -109,6 +109,7 @@
     "sign": "Sign",
     "reference_id": "Reference ID",
     "user_guides_and_docs": "User Guide & Docs",
+    "save_success": "eCMR saved successfully",
     "title_1": "1. Sender (name, address, country)",
     "sender": {
       "name": "Name",
@@ -383,6 +384,7 @@
     "copy_qr": "Copy QR-Code",
     "download_qr" : "Download QR-Code",
     "share_via_qr": "Or share via QR-Code",
+    "share_pdf": "Share as PDF",
     "link_copied": "Link copied to clipboard",
     "qr_copied": "QR-Code copied to clipboard",
     "no_qr_code_found": "No QR-Code found",

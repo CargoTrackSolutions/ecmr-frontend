@@ -65,6 +65,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ShareEcmrDialogComponent } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component';
 import { EcmrStatus } from '../../core/models/EcmrStatus';
 import { EcmrActionService } from '../../shared/services/ecmr-action.service';
+import { EcmrRole } from '../../core/enums/EcmrRole';
 
 @Component({
     selector: 'app-overview',
@@ -168,6 +169,8 @@ export class EcmrOverviewComponent implements OnInit {
 
     // ecmr selected
     selectedEcmr: Ecmr | null = null;
+    selectedEcmrRoles: EcmrRole[];
+    shareButtonDisabled: boolean = true;
 
     ecmr: Ecmr[] = [];
 
@@ -214,12 +217,15 @@ export class EcmrOverviewComponent implements OnInit {
         this.dialog.open(ShareEcmrDialogComponent, {
             width: '800px',
             maxWidth: '90vw',
-            data: ecmr
+            data: {
+                ecmr: ecmr,
+                roles: this.selectedEcmrRoles,
+                isExternalUser: false
+            }
         });
     }
 
     editEcmr(ecmrId: string) {
-        console.log(ecmrId);
         if (ecmrId) this.router.navigateByUrl(`/ecmr-editor/${ecmrId}`);
     }
 
@@ -294,6 +300,12 @@ export class EcmrOverviewComponent implements OnInit {
     }
 
     selectEcmr(ecmr: Ecmr | null) {
+        if (ecmr?.ecmrId) {
+            this.ecmrService.getEcmrRolesForCurrentUser(ecmr?.ecmrId).subscribe(roles => {
+                this.selectedEcmrRoles = roles
+                this.shareButtonDisabled = (this.selectedEcmrRoles.includes(EcmrRole.Consignee) || this.selectedEcmrRoles.includes(EcmrRole.Reader)) && this.selectedEcmrRoles.length === 1;
+            })
+        }
         this.selectedEcmr = ecmr;
     }
 

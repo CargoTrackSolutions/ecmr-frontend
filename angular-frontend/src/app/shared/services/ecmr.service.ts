@@ -90,20 +90,6 @@ export class EcmrService {
         return this.http.patch<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}/reactivate`, {}, {})
     }
 
-    // EcmrToEcmrElement(Ecmr: Ecmr): EcmrElement {
-    //   EcmrOverviewService.ecmrId++;
-    //   return {
-    //     id: EcmrOverviewService.ecmrId.toString(),
-    //     referenceId: Ecmr.ecmrId,
-    //     from: Ecmr.ecmrConsignment.senderInformation.senderNameCompany,
-    //     to: Ecmr.ecmrConsignment.consigneeInformation.consigneeNameCompany,
-    //     transportType: TransportType.International,
-    //     lastEditor: Ecmr.ecmrConsignment.senderInformation.senderNamePerson,
-    //     status: Status.NEW,
-    //     lastEditDate: Ecmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.timestamp.toString(),
-    //     creationDate: Ecmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.timestamp.toString()
-    //   }
-    // }
     downloadPdf(ecmrId: string) {
         let headers = new HttpHeaders();
         headers = headers.set('Accept', 'application/pdf');
@@ -121,6 +107,10 @@ export class EcmrService {
 
     importEcmr(ecmrId: string) {
         return this.http.get<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}/import`);
+    }
+
+    getEcmrRolesForCurrentUser(ecmrId: string) {
+        return this.http.get<EcmrRole[]>(`${environment.backendUrl}/ecmr/${ecmrId}/role`);
     }
 }
 

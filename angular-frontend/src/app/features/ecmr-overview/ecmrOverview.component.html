@@ -46,7 +46,9 @@
             <button class="m-1" mat-flat-button color="primary" (click)="moveToArchive(ecmr.ecmrId)">{{ 'quick_view_buttons.archive' | translate }}
                 <mat-icon iconPositionEnd>archive</mat-icon>
             </button>
-            <button class="m-1" mat-flat-button color="primary" (click)="ecmrActionService.downloadPdf(ecmr.ecmrId)">{{ 'quick_view_buttons.pdf' | translate }}
+            <button class="m-1" mat-flat-button color="primary" (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null)">{{
+                    'quick_view_buttons.pdf' | translate
+                }}
                 <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
             </button>
             <button class="m-1" mat-flat-button color="primary" (click)="editEcmr(ecmr.ecmrId)">{{ 'quick_view_buttons.edit' | translate }}
@@ -55,7 +57,8 @@
             <button class="m-1" mat-stroked-button (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">{{ 'quick_view_buttons.copy' | translate }}
                 <mat-icon iconPositionEnd>content_copy</mat-icon>
             </button>
-            <button class="m-1" mat-stroked-button>{{ 'quick_view_buttons.share' | translate }}
+            <button class="m-1" mat-stroked-button (click)="shareEcmr(ecmr)"
+                    [disabled]="shareButtonDisabled">{{ 'quick_view_buttons.share' | translate }}
                 <mat-icon iconPositionEnd>share</mat-icon>
             </button>
         </div>
@@ -69,7 +72,7 @@
             <button class="m-1" mat-menu-item (click)="moveToArchive(ecmr.ecmrId)">{{ 'quick_view_buttons.archive' | translate }}
                 <mat-icon>archive</mat-icon>
             </button>
-            <button class="m-1" mat-menu-item (click)="ecmrActionService.downloadPdf(ecmr.ecmrId)">{{ 'quick_view_buttons.pdf' | translate }}
+            <button class="m-1" mat-menu-item (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null)">{{ 'quick_view_buttons.pdf' | translate }}
                 <mat-icon>picture_as_pdf</mat-icon>
             </button>
             <button class="m-1" mat-menu-item (click)="editEcmr(ecmr.ecmrId)">{{ 'quick_view_buttons.edit' | translate }}
@@ -78,16 +81,16 @@
             <button class="m-1" mat-menu-item (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">{{ 'quick_view_buttons.copy' | translate }}
                 <mat-icon>content_copy</mat-icon>
             </button>
-            <button class="m-1" mat-menu-item>{{ 'quick_view_buttons.share' | translate }}
+            <button class="m-1" mat-menu-item (click)="shareEcmr(ecmr)" [disabled]="shareButtonDisabled">{{
+                    'quick_view_buttons.share' |
+                        translate
+                }}
                 <mat-icon>share</mat-icon>
             </button>
         </mat-menu>
     </ng-template>
 
     <ng-template #actionButtons let-ecmr>
-        <button mat-icon-button (click)="shareEcmr(ecmr);$event.stopPropagation()" matTooltip="{{'overview.tooltips.share' | translate}}">
-            <mat-icon>share</mat-icon>
-        </button>
         <button mat-icon-button (click)="editEcmr(ecmr.ecmrId);$event.stopPropagation()" matTooltip="{{'overview.tooltips.edit' | translate}}">
             <mat-icon>edit_note</mat-icon>
         </button>
@@ -102,16 +105,13 @@
         }
     </ng-template>
     <ng-template #mobileActionButtons let-ecmr>
-        <button mat-icon-button class="my-3" (click)="shareEcmr(ecmr)">
-            <mat-icon color="primary" style="transform: scale(1.4)">share</mat-icon>
-        </button>
         <button mat-icon-button class="my-3" (click)="editEcmr(ecmr.ecmrId)">
             <mat-icon color="primary" style="transform: scale(1.4)">edit_note</mat-icon>
         </button>
         <button mat-icon-button class="my-3" (click)="selectEcmr(ecmr)">
             <mat-icon color="primary" style="transform: scale(1.4)">visibility</mat-icon>
         </button>
-        <button mat-icon-button class="my-3" (click)="ecmrActionService.downloadPdf(ecmr.ecmrId)">
+        <button mat-icon-button class="my-3" (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null)">
             <mat-icon color="primary" style="transform: scale(1.4)">picture_as_pdf</mat-icon>
         </button>
     </ng-template>

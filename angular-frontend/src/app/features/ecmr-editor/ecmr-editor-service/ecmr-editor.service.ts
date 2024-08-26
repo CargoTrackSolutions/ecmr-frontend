@@ -15,12 +15,11 @@ import { TemplateUser } from '../../../core/models/TemplateUser';
 import { GroupFlat } from '../../../core/models/GroupFlat';
 import { Signature } from '../../../core/models/areas/signature/Signature';
 import { Sign } from '../../../core/models/Sign';
-import { EcmrRole } from '../../../core/enums/EcmrRole';
 
 @Injectable({
     providedIn: 'root'
 })
-export class EcmrService {
+export class EcmrEditorService {
 
     constructor(private http: HttpClient) {
     }
@@ -52,10 +51,6 @@ export class EcmrService {
 
     signEcmr(signModel: Sign, id: string) {
         return this.http.post<Signature>(`${environment.backendUrl}/ecmr/${id}/sign-on-glass`, signModel);
-    }
-
-    getEcmrRolesForCurrentUser(ecmrId: string) {
-        return this.http.get<EcmrRole[]>(`${environment.backendUrl}/ecmr/${ecmrId}/role`);
     }
 
     createEmptyEcmrConsignment(): EcmrConsignment {

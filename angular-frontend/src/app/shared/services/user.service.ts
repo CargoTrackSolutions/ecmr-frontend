@@ -26,6 +26,10 @@ export class UserService {
         return this.http.get<EcmrUser[]>(`${environment.backendUrl}/user`)
     }
 
+    getAllUserMail() {
+        return this.http.get<string[]>(`${environment.backendUrl}/user/mail`)
+    }
+
     createUser(user: UserCreationAndUpdate) {
         return this.http.post<EcmrUser>(`${environment.backendUrl}/user`, user)
     }

@@ -22,13 +22,14 @@ import { MatDivider } from '@angular/material/divider';
 import { SnackbarService } from '../../../core/services/snackbar.service';
 import { EcmrService } from '../../services/ecmr.service';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { EcmrUser } from '../../../core/models/EcmrUser';
 import { UserService } from '../../services/user.service';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 import { catchError, filter, map, of, startWith } from 'rxjs';
 import { EcmrShare } from '../../../core/models/EcmrShare';
 import { ShareEcmrResult } from '../../../core/enums/ShareEcmrResult';
 import { MatTooltip } from '@angular/material/tooltip';
+import { environment } from '../../../../environments/environment';
+import { ExternalUserService } from '../../../features/ecmr-editor/ecmr-editor-service/external-user.service';
 
 @Component({
     selector: 'app-share-ecmr-dialog',
@@ -67,31 +68,41 @@ export class ShareEcmrDialogComponent implements OnInit {
 
     ecmr: Ecmr;
     ecmrToken: string;
+    ecmrRoles: EcmrRole[];
 
-    userList: EcmrUser[] = [];
-    filteredUserList: EcmrUser[] = [];
+    userList: string[] = [];
+    filteredUserList: string[] = [];
 
     carrierShareString = `${location.origin}/carrier-registration`;
+    readerShareString = `${environment.backendUrl}/anonymous/ecmr`
     shareString = '';
-    currentRole: EcmrRole = EcmrRole.Sender;
+    currentRole: EcmrRole;
+    isExternalUser: boolean;
+    tan: string;
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) public data: Ecmr,
+        @Inject(MAT_DIALOG_DATA) public data: { ecmr: Ecmr, roles: EcmrRole[], isExternalUser: boolean, tan: string },
         public dialogRef: MatDialogRef<ShareEcmrDialogComponent>,
         private snackBarService: SnackbarService,
         private ecmrService: EcmrService,
-        private userService: UserService
+        private userService: UserService,
+        private externalUserService: ExternalUserService
     ) {
         if (data) {
-            this.ecmr = data
-            if (this.ecmr.ecmrId) this.ecmrService.getShareToken(this.ecmr.ecmrId, EcmrRole.Sender).subscribe(token => {
-                this.ecmrToken = token;
-                this.shareString = `${this.carrierShareString}/${this.ecmr.ecmrId}/${this.ecmrToken}`
-            })
-
-            this.userService.getAllUsers().subscribe(userResult => {
-                this.userList = userResult;
-            })
+            this.ecmr = data.ecmr;
+            this.ecmrRoles = data.roles;
+            this.isExternalUser = data.isExternalUser;
+            this.tan = data.tan
+            if (this.ecmrRoles.includes(EcmrRole.Sender)) {
+                this.changeRole(EcmrRole.Sender)
+            } else {
+                this.changeRole(EcmrRole.Carrier)
+            }
+            if (!this.isExternalUser) {
+                this.userService.getAllUserMail().subscribe(userResult => {
+                    this.userList = userResult;
+                })
+            }
         }
     }
 
@@ -107,11 +118,11 @@ export class ShareEcmrDialogComponent implements OnInit {
             });
     }
 
-    private _filter(value: string): EcmrUser[] {
+    private _filter(value: string): string[] {
         const filterValue = value.toLowerCase();
 
-        return this.userList.filter(user =>
-            user.email.toLowerCase().includes(filterValue)
+        return this.userList.filter(mail =>
+            mail.toLowerCase().includes(filterValue)
         );
     }
 
@@ -193,10 +204,15 @@ export class ShareEcmrDialogComponent implements OnInit {
 
     changeRole(role: EcmrRole) {
         this.currentRole = role
-        if (this.ecmr.ecmrId) this.ecmrService.getShareToken(this.ecmr.ecmrId, role).subscribe(token => {
-            this.ecmrToken = token;
-            this.shareString = `${this.carrierShareString}/${this.ecmr.ecmrId}/${this.ecmrToken}`
-        })
+        if (this.ecmr.ecmrId) {
+            (this.isExternalUser ? this.externalUserService.getShareToken(this.ecmr.ecmrId, role, this.tan) : this.ecmrService.getShareToken(this.ecmr.ecmrId, role)).subscribe(token => {
+                this.ecmrToken = token;
+                this.shareString = this.currentRole == EcmrRole.Carrier ?
+                    `${this.carrierShareString}/${this.ecmr.ecmrId}/${this.ecmrToken}` :
+                    `${this.readerShareString}/${this.ecmr.ecmrId}/share-pdf?shareToken=${this.ecmrToken}`
+            })
+        }
+
     }
 
     copyLink() {

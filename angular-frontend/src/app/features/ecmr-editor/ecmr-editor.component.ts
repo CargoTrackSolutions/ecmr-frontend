@@ -9,15 +9,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormField } from '@angular/material/form-field';
-import {
-    AbstractControl,
-    FormArray,
-    FormControl,
-    FormGroup,
-    ReactiveFormsModule,
-    ValidationErrors, ValidatorFn,
-    Validators
-} from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -35,7 +27,7 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { EcmrConsignment } from '../../core/models/EcmrConsignment';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Signature } from '../../core/models/areas/signature/Signature';
-import { EcmrService } from './ecmr-editor-service/ecmr.service';
+import { EcmrEditorService } from './ecmr-editor-service/ecmr-editor.service';
 import { Ecmr } from '../../core/models/Ecmr';
 import { PayerType } from '../../core/enums/PayerType';
 import { MatSelectModule } from '@angular/material/select';
@@ -57,13 +49,17 @@ import { DateTimeService } from '../../shared/services/date-time.service';
 import { MatOptionModule } from '@angular/material/core';
 import { EcmrRole } from '../../core/enums/EcmrRole';
 import { EcmrStatus } from '../../core/models/EcmrStatus';
+import { EcmrService } from '../../shared/services/ecmr.service';
+import { SnackbarService } from '../../core/services/snackbar.service';
+import { ShareEcmrDialogComponent } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component';
+import { EcmrActionService } from '../../shared/services/ecmr-action.service';
 
 export enum EditorMode {
-    ECMR_EDIT,
-    ECMR_COPY,
-    ECMR_NEW,
-    TEMPLATE_EDIT,
-    TEMPLATE_NEW,
+    ECMR_EDIT = 'ECMR_EDIT',
+    ECMR_COPY = 'ECMR_COPY',
+    ECMR_NEW = 'ECMR_NEW',
+    TEMPLATE_EDIT = 'TEMPLATE_EDIT',
+    TEMPLATE_NEW = 'TEMPLATE_NEW',
 }
 
 @Component({
@@ -313,19 +309,23 @@ export class EcmrEditorComponent implements OnInit {
     sub: Subscription;
     id: string;
     tan: string;
+    isExternalUser: boolean;
 
     constructor(private breakpointObserver: BreakpointObserver,
                 private router: Router,
-                private ecmrService: EcmrService,
+                private ecmrEditorService: EcmrEditorService,
                 private route: ActivatedRoute,
                 private snackbar: MatSnackBar,
                 private groupService: GroupService,
                 private externalUserService: ExternalUserService,
                 private translateService: TranslateService,
                 private cd: ChangeDetectorRef,
+                private snackBarService: SnackbarService,
+                protected ecmrActionService: EcmrActionService,
                 private loadingService: LoadingService,
                 protected dateTimeService: DateTimeService,
-                public matDialog: MatDialog) {
+                public matDialog: MatDialog,
+                private ecmrService: EcmrService) {
     }
 
     ngOnInit() {
@@ -338,6 +338,7 @@ export class EcmrEditorComponent implements OnInit {
 
         this.id = this.route.snapshot.params['id'];
         this.tan = this.route.snapshot.params['tan'];
+        this.isExternalUser = !!this.tan;
         if (this.id) {
             this.editorMode = EditorMode.ECMR_EDIT;
         } else {
@@ -396,7 +397,7 @@ export class EcmrEditorComponent implements OnInit {
         this.canFillCarrierFields = false;
         this.canFillConsigneeFields = false;
         if (this.userEcmrRoles.includes(EcmrRole.Sender)) {
-            if (this.ecmrToEdit != null && this.ecmrToEdit.ecmrStatus == EcmrStatus.NEW || !this.ecmrToEdit) {
+            if (this.ecmrToEdit != null && this.ecmrToEdit.ecmrStatus === EcmrStatus.NEW || !this.ecmrToEdit) {
                 this.canFillSenderFields = true;
             }
         }
@@ -417,7 +418,10 @@ export class EcmrEditorComponent implements OnInit {
                     filter(result => result),
                     switchMap(signResult => {
                         this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
-                        return this.ecmrService.updateEcmr(this.ecmrToEdit).pipe(map(() => signResult))
+                        return (this.isExternalUser ?
+                                this.externalUserService.updateEcmr(this.ecmrToEdit, this.tan) :
+                                this.ecmrEditorService.updateEcmr(this.ecmrToEdit)
+                        ).pipe(map(() => signResult))
                     }),
                     switchMap(result => {
                         const signature: Sign = {
@@ -426,9 +430,9 @@ export class EcmrEditorComponent implements OnInit {
                             city: this.ecmrConsignmentFormGroup.controls.established.controls.customEstablishedIn.value
                         };
 
-                        return this.ecmrService.signEcmr(signature, this.id!);
+                        return this.isExternalUser ? this.externalUserService.signEcmr(signature, this.id, this.tan) : this.ecmrEditorService.signEcmr(signature, this.id);
                     }),
-                    switchMap(() => this.ecmrService.getEcmr(this.id!))
+                    switchMap(() => this.isExternalUser ? this.externalUserService.getEcmrWithTan(this.id, this.tan) : this.ecmrEditorService.getEcmr(this.id))
                 )
                 .subscribe(ecmr => {
                     this.loadEcmr(ecmr);
@@ -478,7 +482,10 @@ export class EcmrEditorComponent implements OnInit {
                 filter(result => result),
                 switchMap(signResult => {
                     this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
-                    return this.ecmrService.updateEcmr(this.ecmrToEdit).pipe(map(() => signResult))
+                    return (this.isExternalUser ?
+                            this.externalUserService.updateEcmr(this.ecmrToEdit, this.tan) :
+                            this.ecmrEditorService.updateEcmr(this.ecmrToEdit)
+                    ).pipe(map(() => signResult))
                 }),
                 switchMap(result => {
                     const signature: Sign = {
@@ -486,9 +493,9 @@ export class EcmrEditorComponent implements OnInit {
                         data: result,
                         city: null
                     }
-                    return this.ecmrService.signEcmr(signature, this.id!);
+                    return this.isExternalUser ? this.externalUserService.signEcmr(signature, this.id, this.tan) : this.ecmrEditorService.signEcmr(signature, this.id);
                 }),
-                switchMap(() => this.ecmrService.getEcmr(this.id!))
+                switchMap(() => this.isExternalUser ? this.externalUserService.getEcmrWithTan(this.id, this.tan) : this.ecmrEditorService.getEcmr(this.id))
             )
             .subscribe(ecmr => {
                 this.loadEcmr(ecmr);
@@ -504,7 +511,10 @@ export class EcmrEditorComponent implements OnInit {
                     filter(result => result),
                     switchMap(signResult => {
                         this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
-                        return this.ecmrService.updateEcmr(this.ecmrToEdit).pipe(map(() => signResult))
+                        return (this.isExternalUser ?
+                                this.externalUserService.updateEcmr(this.ecmrToEdit, this.tan) :
+                                this.ecmrEditorService.updateEcmr(this.ecmrToEdit)
+                        ).pipe(map(() => signResult))
                     }),
                     switchMap(result => {
                         const signature: Sign = {
@@ -512,9 +522,9 @@ export class EcmrEditorComponent implements OnInit {
                             data: result,
                             city: this.ecmrConsignmentFormGroup.controls.takingOverTheGoods.controls.takingOverTheGoodsPlace.value!
                         }
-                        return this.ecmrService.signEcmr(signature, this.id!);
+                        return this.isExternalUser ? this.externalUserService.signEcmr(signature, this.id, this.tan) : this.ecmrEditorService.signEcmr(signature, this.id);
                     }),
-                    switchMap(() => this.ecmrService.getEcmr(this.id!))
+                    switchMap(() => this.isExternalUser ? this.externalUserService.getEcmrWithTan(this.id, this.tan) : this.ecmrEditorService.getEcmr(this.id))
                 )
                 .subscribe(ecmr => {
                     this.loadEcmr(ecmr);
@@ -543,7 +553,7 @@ export class EcmrEditorComponent implements OnInit {
             if (control instanceof FormGroup) {
                 // recursive call for subgroups
                 const subResult = this.checkControls(control, excludedElements)
-                if (subResult.length >= 0) {
+                if (subResult.length > 0) {
                     invalidFields.push(...subResult);
                 }
             } else if (!excludedElements.includes(controlName) && (control.value === null || control.value === '')) {
@@ -568,12 +578,12 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     private initializeForm() {
-        if (this.editorMode == EditorMode.ECMR_NEW || EditorMode.TEMPLATE_NEW) {
-            this.ecmrConsignment = this.ecmrService.createEmptyEcmrConsignment();
+        if (this.editorMode === EditorMode.ECMR_NEW || this.editorMode === EditorMode.TEMPLATE_NEW) {
+            this.ecmrConsignment = this.ecmrEditorService.createEmptyEcmrConsignment();
             this.userEcmrRoles = [EcmrRole.Sender];
             this.setFormConstraints();
         }
-        if (this.editorMode == EditorMode.ECMR_EDIT) {
+        if (this.editorMode === EditorMode.ECMR_EDIT) {
             if (this.tan != undefined) {
                 const loadEcmrObs = this.externalUserService.getEcmrWithTan(this.id, this.tan);
                 const loadRolesObs = this.externalUserService.getEcmrRolesForUser(this.id, this.tan);
@@ -585,7 +595,7 @@ export class EcmrEditorComponent implements OnInit {
                     })
 
             } else {
-                const loadEcmrObs = this.ecmrService.getEcmr(this.id);
+                const loadEcmrObs = this.ecmrEditorService.getEcmr(this.id);
                 const loadRolesObs = this.ecmrService.getEcmrRolesForCurrentUser(this.id);
                 this.loadingService.showLoaderUntilCompleted(forkJoin({ecmr: loadEcmrObs, roles: loadRolesObs}))
                     .subscribe(result => {
@@ -595,15 +605,15 @@ export class EcmrEditorComponent implements OnInit {
                     });
             }
         }
-        if (this.editorMode == EditorMode.ECMR_COPY) {
-            this.ecmrService.getEcmr(this.id).subscribe(ecmr => {
+        if (this.editorMode === EditorMode.ECMR_COPY) {
+            this.ecmrEditorService.getEcmr(this.id).subscribe(ecmr => {
                 this.userEcmrRoles = [EcmrRole.Sender];
-                this.loadEcmr(this.ecmrService.copyEcmr(ecmr));
+                this.loadEcmr(this.ecmrEditorService.copyEcmr(ecmr));
                 this.setFormConstraints();
             });
         }
-        if (this.editorMode == EditorMode.TEMPLATE_EDIT) {
-            this.ecmrService.getTemplate(Number.parseFloat(this.id)).subscribe(ecmr => {
+        if (this.editorMode === EditorMode.TEMPLATE_EDIT) {
+            this.ecmrEditorService.getTemplate(Number.parseFloat(this.id)).subscribe(ecmr => {
                 this.userEcmrRoles = [EcmrRole.Sender];
                 this.loadedTemplate = ecmr;
                 this.loadEcmr(ecmr.ecmr);
@@ -625,6 +635,19 @@ export class EcmrEditorComponent implements OnInit {
         this.senderSignature = this.ecmrConsignment.signatureOrStampOfTheSender.senderSignature;
         this.carrierSignature = this.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature;
         this.consigneeSignature = this.ecmrConsignment.goodsReceived.consigneeSignature;
+    }
+
+    shareEcmr(ecmr: Ecmr) {
+        this.matDialog.open(ShareEcmrDialogComponent, {
+            width: '800px',
+            maxWidth: '90vw',
+            data: {
+                ecmr: ecmr,
+                roles: this.userEcmrRoles,
+                isExternalUser: this.isExternalUser,
+                tan: this.tan
+            }
+        });
     }
 
     saveEcmr(returnToOverview: boolean) {
@@ -653,7 +676,7 @@ export class EcmrEditorComponent implements OnInit {
                 }),
                 map(groups => groups as GroupFlat[]),
                 switchMap(groups => {
-                    return this.loadingService.showLoaderUntilCompleted(this.ecmrService.saveEcmr(ecmr, groups))
+                    return this.loadingService.showLoaderUntilCompleted(this.ecmrEditorService.saveEcmr(ecmr, groups))
                 }),
                 catchError(err => {
                     console.warn(err);
@@ -666,8 +689,13 @@ export class EcmrEditorComponent implements OnInit {
 
         } else if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_EDIT)) {
             this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
-            this.ecmrService.updateEcmr(this.ecmrToEdit).subscribe({
-                next: () => {
+
+            const $updateObservable = this.isExternalUser ? this.externalUserService.updateEcmr(this.ecmrToEdit, this.tan) : this.ecmrEditorService.updateEcmr(this.ecmrToEdit)
+
+            $updateObservable.subscribe({
+                next: ecmr => {
+                    this.loadEcmr(ecmr)
+                    this.snackBarService.openSuccessSnackbar('ecmr_editor.save_success')
                     if (returnToOverview) this.returnToOverview()
                 },
                 error: error => {
@@ -695,7 +723,7 @@ export class EcmrEditorComponent implements OnInit {
                         ecmrId: null,
                         ecmrConsignment: formValues
                     }
-                    return this.ecmrService.saveTemplate(ecmr, dialogResult);
+                    return this.ecmrEditorService.saveTemplate(ecmr, dialogResult);
                 })
             ).subscribe(() => {
                 this.returnToOverview()
@@ -703,7 +731,7 @@ export class EcmrEditorComponent implements OnInit {
         }
         if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.TEMPLATE_EDIT)) {
             this.loadedTemplate.ecmr.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
-            this.ecmrService.updateTemplate(this.loadedTemplate).subscribe(() => {
+            this.ecmrEditorService.updateTemplate(this.loadedTemplate).subscribe(() => {
                 this.returnToOverview()
             })
         }
@@ -786,7 +814,7 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     isNotEdit(): boolean {
-        return !(this.editorMode == EditorMode.ECMR_EDIT || this.editorMode == EditorMode.TEMPLATE_EDIT)
+        return !(this.editorMode === EditorMode.ECMR_EDIT || this.editorMode === EditorMode.TEMPLATE_EDIT)
     }
 
     scrollToElement() {

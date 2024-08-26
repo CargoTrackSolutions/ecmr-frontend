@@ -24,7 +24,7 @@
             <button class="m-1" mat-flat-button color="primary" (click)="moveToOverview(ecmr.ecmrId)">Remove from archive
                 <mat-icon iconPositionEnd>archive</mat-icon>
             </button>
-            <button class="m-1" mat-flat-button color="primary" (click)="ecmrActionService.downloadPdf(ecmr.ecmrId)">PDF
+            <button class="m-1" mat-flat-button color="primary" (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null)">PDF
                 <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
             </button>
             <button class="m-1" mat-stroked-button (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">Copy

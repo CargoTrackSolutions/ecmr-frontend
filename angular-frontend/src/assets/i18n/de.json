@@ -109,6 +109,7 @@
     "sign": "Unterschreiben",
     "reference_id": "Referenz ID",
     "user_guides_and_docs": "Benutzerhandbuch & Docs",
+    "save_success": "eCMR erfolgreich gespeichert",
     "title_1": "1. Sender (Name, Adresse, Land)",
     "sender": {
       "name": "Name",
@@ -380,6 +381,7 @@
     "consignee": "Empfänger",
     "email": "E-Mail",
     "share_via_qr": "Oder teile mit dem QR-Code",
+    "share_pdf": "Als PDF teilen",
     "copy_link": "Link kopieren",
     "copy_qr": "QR-Code kopieren",
     "download_qr" : "QR-Code downloaden",

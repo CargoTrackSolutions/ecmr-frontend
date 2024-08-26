@@ -11,17 +11,24 @@ import { HttpResponse } from '@angular/common/http';
 import { LoadingService } from '../../core/services/loading.service';
 import { EcmrService } from './ecmr.service';
 import { Router } from '@angular/router';
+import { ExternalUserService } from '../../features/ecmr-editor/ecmr-editor-service/external-user.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class EcmrActionService {
 
-    constructor(private loadingService: LoadingService, private ecmrService: EcmrService, private router: Router) {
+    constructor(private loadingService: LoadingService,
+                private ecmrService: EcmrService,
+                private externalUserService: ExternalUserService,
+                private router: Router) {
     }
 
-    downloadPdf(ecmrId: string) {
-        this.loadingService.showLoaderUntilCompleted(this.ecmrService.downloadPdf(ecmrId)).subscribe((response: HttpResponse<Blob>) => {
+    downloadPdf(ecmrId: string, tan: string | null) {
+        this.loadingService.showLoaderUntilCompleted(
+            (tan ? this.externalUserService.downloadPdf(ecmrId, tan) :
+                this.ecmrService.downloadPdf(ecmrId))
+        ).subscribe((response: HttpResponse<Blob>) => {
             const contentDisposition = response.headers.get('Content-Disposition');
             let fileName = 'ecmr-report.pdf';
 
@@ -42,6 +49,7 @@ export class EcmrActionService {
             }
         });
     }
+
 
     onCopyEcmr(ecmrId: string | null | undefined) {
         if (ecmrId) {
