@@ -23,7 +23,7 @@ body {
 .dark-theme {
   @include mat.all-component-colors($dark-theme);
 
-  .action-row .mat-icon {
+  .action-row .mat-icon:not(.delete) {
     color: white !important;
   }
 }

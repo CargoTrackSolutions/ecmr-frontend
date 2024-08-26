@@ -37,6 +37,10 @@ export class GroupService {
         return this.http.post<Group>(`${environment.backendUrl}/group`, group)
     }
 
+    deleteGroup(groupId: number) {
+        return this.http.delete<boolean>(`${environment.backendUrl}/group/${groupId}`)
+    }
+
     getUsersForGroup(groupId: number) {
         return this.http.get<EcmrUser[]>(`${environment.backendUrl}/group/${groupId}/users`);
     }

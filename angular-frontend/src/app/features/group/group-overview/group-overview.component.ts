@@ -232,4 +232,15 @@ export class GroupOverviewComponent implements OnInit {
             this.restoreExpandedState();
         })
     }
+
+    deleteGroup(group: Group) {
+        this.saveExpandedState();
+        this.groupService.deleteGroup(group.id).pipe(
+            filter(result => result),
+            switchMap(() => this.groupService.getAllGroups(true))
+        ).subscribe(groups => {
+            this.dataSource.data = groups;
+            this.restoreExpandedState();
+        })
+    }
 }

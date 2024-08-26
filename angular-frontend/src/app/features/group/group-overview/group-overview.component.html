@@ -50,6 +50,12 @@
 </div>
 <ng-template #actionButtons let-node>
     <div class="action-row">
+        <button mat-icon-button (click)="deleteGroup(node); $event.stopPropagation()"
+                *ngIf="node.children.length === 0 && node.level !== 0"
+                color="warn"
+                matTooltip="{{'group_overview.tooltips.delete' | translate}}">
+            <mat-icon class="delete">delete</mat-icon>
+        </button>
         <button mat-icon-button (click)="createNewGroup(node); $event.stopPropagation()"
                 color="primary"
                 matTooltip="{{'group_overview.tooltips.create_new' | translate}}">
