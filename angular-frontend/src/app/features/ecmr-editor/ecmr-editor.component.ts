@@ -835,6 +835,10 @@ export class EcmrEditorComponent implements OnInit {
 
 export function phoneNumberValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
+        if (!control.value) {
+            return null;
+        }
+
         const phoneRegex = /^(\+)?[0-9]*$/;
         const valid = phoneRegex.test(control.value);
         return valid ? null : { invalidPhoneNumber: true };
@@ -843,6 +847,10 @@ export function phoneNumberValidator(): ValidatorFn {
 
 export function emailValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
+        if (!control.value) {
+            return null;
+        }
+
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         const valid = emailRegex.test(control.value);
         return valid ? null : {invalidEmail: true};
