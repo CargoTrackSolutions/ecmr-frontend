@@ -9,7 +9,15 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormField } from '@angular/material/form-field';
-import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+    AbstractControl,
+    FormArray,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+    ValidationErrors, ValidatorFn,
+    Validators
+} from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,7 +25,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CountryCode } from '../../core/enums/CountryCode';
 import { catchError, filter, forkJoin, map, Observable, of, startWith, Subscription, switchMap } from 'rxjs';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, NgClass, NgForOf } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
@@ -79,6 +87,8 @@ export enum EditorMode {
         TranslateModule,
         MatSelectModule,
         DynamicDisableControlDirective,
+        NgClass,
+        NgForOf,
     ],
     providers: [DatePipe, DateTimeService],
     templateUrl: './ecmr-editor.component.html',
@@ -146,8 +156,8 @@ export class EcmrEditorComponent implements OnInit {
                 region: new FormControl<string | null>(null)
             }),
             senderContactInformation: new FormGroup({
-                email: new FormControl<string | null>(null),
-                phone: new FormControl<string | null>(null)
+                email: new FormControl<string | null>(null, [emailValidator()]),
+                phone: new FormControl<string | null>(null, [phoneNumberValidator()])
             })
         }),
         //Area 2
@@ -162,8 +172,8 @@ export class EcmrEditorComponent implements OnInit {
                 region: new FormControl<string | null>(null)
             }),
             consigneeContactInformation: new FormGroup({
-                email: new FormControl<string | null>(null),
-                phone: new FormControl<string | null>(null)
+                email: new FormControl<string | null>(null, [emailValidator()]),
+                phone: new FormControl<string | null>(null, [phoneNumberValidator()])
             })
         }),
         //Area 3
@@ -194,8 +204,8 @@ export class EcmrEditorComponent implements OnInit {
             }),
             carrierLicensePlate: new FormControl<string | null>(null),
             carrierContactInformation: new FormGroup({
-                email: new FormControl<string | null>(null),
-                phone: new FormControl<string | null>(null)
+                email: new FormControl<string | null>(null, [emailValidator()]),
+                phone: new FormControl<string | null>(null, [phoneNumberValidator()])
             })
         }),
         //Area 7
@@ -212,8 +222,8 @@ export class EcmrEditorComponent implements OnInit {
             successiveCarrierSignatureDate: new FormControl<Date | null>(null),
             successiveCarrierStreet: new FormControl<string | null>(null),
             successiveCarrierContactInformation: new FormGroup({
-                email: new FormControl<string | null>(null),
-                phone: new FormControl<string | null>(null)
+                email: new FormControl<string | null>(null, [emailValidator()]),
+                phone: new FormControl<string | null>(null, [phoneNumberValidator()])
             })
         }),
         //Area 8
@@ -444,7 +454,7 @@ export class EcmrEditorComponent implements OnInit {
             for (const itemGroup of this.itemList.controls) {
 
                 const volumeControl = itemGroup.controls.volumeInM3.controls.supplyChainConsignmentItemGrossVolume;
-                if(volumeControl.value == 0) {
+                if (volumeControl.value == 0) {
                     volumeControl.setErrors({'minValue': true});
                     invalidVolumes.push(volumeControl);
                 }
@@ -553,7 +563,7 @@ export class EcmrEditorComponent implements OnInit {
                 option.includes(filteredValue)
             );
         } else {
-            return []
+            return this.countries;
         }
     }
 
@@ -783,4 +793,58 @@ export class EcmrEditorComponent implements OnInit {
         const element = document.getElementById('ecmr-signature-scroll');
         element?.scrollIntoView({behavior: 'smooth'});
     }
+
+    checkCountry(forControl: string) {
+        let formControl: FormControl<string | null>;
+        if (forControl === 'sender') {
+            formControl = this.ecmrConsignmentFormGroup.controls.senderInformation.controls.senderCountryCode.controls.value;
+        } else if (forControl === 'carrier') {
+            formControl = this.ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierCountryCode.controls.value;
+        } else if (forControl === 'successiveCarrier') {
+            formControl = this.ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierCountryCode.controls.value;
+        } else if (forControl === 'consignee') {
+            formControl = this.ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeCountryCode.controls.value;
+        }
+
+        const countryIsFromList = this.countries.find(country => country.includes(formControl.value!));
+        if (!countryIsFromList && formControl!.value) {
+            formControl!.setErrors({'invalidCountryCode': true});
+        }
+    }
+
+    transformToUppercase(forControl: string) {
+        let formControl: FormControl<string | null>;
+
+        if(forControl === 'sender') {
+            formControl = this.ecmrConsignmentFormGroup.controls.senderInformation.controls.senderCountryCode.controls.value;
+        } else if(forControl === 'carrier') {
+            formControl = this.ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierCountryCode.controls.value;
+        } else if(forControl === 'successiveCarrier') {
+            formControl = this.ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierCountryCode.controls.value;
+        } else if(forControl === 'consignee') {
+            formControl = this.ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeCountryCode.controls.value;
+        }
+
+        const currentValue = formControl!.value!;
+
+        if (currentValue) {
+            formControl!.setValue(currentValue.toUpperCase(), { emitEvent: false });
+        }
+    }
+}
+
+export function phoneNumberValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const phoneRegex = /^(\+)?[0-9]*$/;
+        const valid = phoneRegex.test(control.value);
+        return valid ? null : { invalidPhoneNumber: true };
+    };
+}
+
+export function emailValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const valid = emailRegex.test(control.value);
+        return valid ? null : {invalidEmail: true};
+    };
 }

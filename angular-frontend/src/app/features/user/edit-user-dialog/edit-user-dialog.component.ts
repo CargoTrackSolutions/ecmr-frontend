@@ -13,7 +13,7 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { AsyncPipe, KeyValuePipe, NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { MatOption, MatSelect } from '@angular/material/select';
@@ -93,8 +93,8 @@ export class EditUserDialogComponent implements OnInit {
         country: new FormControl<CountryCode | null>(null, Validators.required),
         firstName: new FormControl<string>('', Validators.required),
         lastName: new FormControl<string>('', Validators.required),
-        email: new FormControl<string>('', Validators.required),
-        phone: new FormControl<string>(''),
+        email: new FormControl<string>('', [Validators.required, emailValidator()]),
+        phone: new FormControl<string>('', [phoneNumberValidator()]),
         role: new FormControl<UserRole | null>(null, Validators.required),
     })
 
@@ -258,4 +258,20 @@ export class EditUserDialogComponent implements OnInit {
     setDefaultGroupId(id: number | null) {
         this.defaultGroupId = id;
     }
+}
+
+export function phoneNumberValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const phoneRegex = /^(\+)?[0-9]*$/;
+        const valid = phoneRegex.test(control.value);
+        return valid ? null : { invalidPhoneNumber: true };
+    };
+}
+
+export function emailValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const valid = emailRegex.test(control.value);
+        return valid ? null : {invalidEmail: true};
+    };
 }

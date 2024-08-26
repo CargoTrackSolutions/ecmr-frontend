@@ -14,7 +14,10 @@
     "share": "Teilen",
     "copy": "Kopieren",
     "errors": {
-      "required": "Feld darf nicht leer sein"
+      "required": "Feld darf nicht leer sein",
+      "invalid_countryCode": "Ungültiger Ländercode",
+      "invalid_phone": "Ungültige Telefonnummer",
+      "invalid_email": "Ungültige Email"
     }
   },
   "error": {

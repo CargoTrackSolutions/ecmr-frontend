@@ -14,7 +14,10 @@
     "share": "Share",
     "copy": "Copy",
     "errors": {
-      "required": "Required"
+      "required": "Required",
+      "invalid_countryCode": "Invalid CountryCode",
+      "invalid_phone": "Invalid Phone",
+      "invalid_email": "Invalid Email"
     }
   },
   "error": {

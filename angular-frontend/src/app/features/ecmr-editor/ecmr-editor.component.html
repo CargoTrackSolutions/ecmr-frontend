@@ -145,16 +145,20 @@
                             <ng-container formGroupName="senderCountryCode">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.sender.country" | translate }}</mat-label>
-                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="value" maxlength="2"
-                                           class="text-uppercase"
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput formControlName="value" maxlength="2"
+                                           (input)="transformToUppercase('sender')"
+                                           (blur)="checkCountry('sender')"
                                            [matAutocomplete]="senderCountryAutocomplete">
                                     <mat-autocomplete #senderCountryAutocomplete="matAutocomplete">
                                         @for (country of filteredSenderCountries | async; track country) {
                                             <mat-option [value]="country">{{ country }}</mat-option>
                                         }
                                     </mat-autocomplete>
-                                    @if (ecmrConsignmentFormGroup.controls.senderInformation.controls.senderCountryCode.get('value')?.invalid) {
+                                    @if (ecmrConsignmentFormGroup.controls.senderInformation.controls.senderCountryCode.get('value')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                    }
+                                    @if (ecmrConsignmentFormGroup.controls.senderInformation.controls.senderCountryCode.get('value')?.hasError('invalidCountryCode')) {
+                                        <mat-error>{{ "common.errors.invalid_countryCode" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
                             </ng-container>
@@ -162,15 +166,21 @@
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.sender.email" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="email">
-                                    @if (ecmrConsignmentFormGroup.controls.senderInformation.controls.senderContactInformation.get('email')?.invalid) {
+                                    @if (ecmrConsignmentFormGroup.controls.senderInformation.controls.senderContactInformation.get('email')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                    }
+                                    @if (ecmrConsignmentFormGroup.controls.senderInformation.controls.senderContactInformation.get('email')?.hasError('invalidEmail')) {
+                                        <mat-error>{{ "common.errors.invalid_email" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.sender.phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone">
-                                    @if (ecmrConsignmentFormGroup.controls.senderInformation.controls.senderContactInformation.get('phone')?.invalid) {
+                                    @if (ecmrConsignmentFormGroup.controls.senderInformation.controls.senderContactInformation.get('phone')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                    }
+                                    @if (ecmrConsignmentFormGroup.controls.senderInformation.controls.senderContactInformation.get('phone')?.hasError('invalidPhoneNumber')) {
+                                        <mat-error>{{ "common.errors.invalid_phone" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
                             </div>
@@ -218,15 +228,19 @@
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.consignee.country" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="value" maxlength="2"
-                                           class="text-uppercase"
+                                           (input)="transformToUppercase('consignee')"
+                                           (blur)="checkCountry('consignee')"
                                            [matAutocomplete]="consigneeCountryAutocomplete">
                                     <mat-autocomplete #consigneeCountryAutocomplete="matAutocomplete">
                                         @for (country of filteredConsigneeCountries | async; track country) {
                                             <mat-option [value]="country">{{ country }}</mat-option>
                                         }
                                     </mat-autocomplete>
-                                    @if (ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeCountryCode.get('value')?.invalid) {
+                                    @if (ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeCountryCode.get('value')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                    }
+                                    @if (ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeCountryCode.get('value')?.hasError('invalidCountryCode')) {
+                                        <mat-error>{{ "common.errors.invalid_countryCode" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
                             </ng-container>
@@ -234,15 +248,21 @@
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.consignee.email" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="email">
-                                    @if (ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeContactInformation.get('email')?.invalid) {
+                                    @if (ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeContactInformation.get('email')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                    }
+                                    @if (ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeContactInformation.get('email')?.hasError('invalidEmail')) {
+                                        <mat-error>{{ "common.errors.invalid_email" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.consignee.phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone">
-                                    @if (ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeContactInformation.get('phone')?.invalid) {
+                                    @if (ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeContactInformation.get('phone')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                    }
+                                    @if (ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeContactInformation.get('phone')?.hasError('invalidPhoneNumber')) {
+                                        <mat-error>{{ "common.errors.invalid_phone" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
                             </div>
@@ -369,15 +389,19 @@
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.carrier_information.country" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="value" maxlength="2"
-                                           class="text-uppercase"
+                                           (input)="transformToUppercase('carrier')"
+                                           (blur)="checkCountry('carrier')"
                                            [matAutocomplete]="carrierCountryAutocomplete">
                                     <mat-autocomplete #carrierCountryAutocomplete="matAutocomplete">
                                         @for (country of filteredCarrierCountries | async; track country) {
                                             <mat-option [value]="country">{{ country }}</mat-option>
                                         }
                                     </mat-autocomplete>
-                                    @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierCountryCode.get('value')?.invalid) {
+                                    @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierCountryCode.get('value')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                    }
+                                    @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierCountryCode.get('value')?.hasError('invalidCountryCode')) {
+                                        <mat-error>{{ "common.errors.invalid_countryCode" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
                             </ng-container>
@@ -392,15 +416,21 @@
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.carrier_information.email" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="email">
-                                    @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('email')?.invalid) {
+                                    @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('email')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                    }
+                                    @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('email')?.hasError('invalidEmail')) {
+                                        <mat-error>{{ "common.errors.invalid_email" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.carrier_information.phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone">
-                                    @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('phone')?.invalid) {
+                                    @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('phone')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                    }
+                                    @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('phone')?.hasError('invalidPhoneNumber')) {
+                                        <mat-error>{{ "common.errors.invalid_phone" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
                             </div>
@@ -436,15 +466,19 @@
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.successive_carrier_information.country" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="value" maxlength="2"
-                                           class="text-uppercase"
+                                           (input)="transformToUppercase('successiveCarrier')"
+                                           (blur)="checkCountry('successiveCarrier')"
                                            [matAutocomplete]="successiveCarrierAutocomplete">
                                     <mat-autocomplete #successiveCarrierAutocomplete="matAutocomplete">
                                         @for (country of filteredSuccessiveCarrierCountries | async; track country) {
                                             <mat-option [value]="country">{{ country }}</mat-option>
                                         }
                                     </mat-autocomplete>
-                                    @if (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierCountryCode.get('value')?.invalid) {
+                                    @if (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierCountryCode.get('value')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                    }
+                                    @if (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierCountryCode.get('value')?.hasError('invalidCountryCode')) {
+                                        <mat-error>{{ "common.errors.invalid_countryCode" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
                             </ng-container>
@@ -459,10 +493,16 @@
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.successive_carrier_information.email" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="email">
+                                    @if (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierContactInformation.get('email')?.hasError('invalidEmail')) {
+                                        <mat-error>{{ "common.errors.invalid_email" | translate }}</mat-error>
+                                    }
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.successive_carrier_information.phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone">
+                                    @if (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierContactInformation.get('phone')?.hasError('invalidPhoneNumber')) {
+                                        <mat-error>{{ "common.errors.invalid_phone" | translate }}</mat-error>
+                                    }
                                 </mat-form-field>
                             </div>
                         </div>
@@ -709,7 +749,7 @@
                             <h6>{{ "ecmr_editor.title_23" | translate }}</h6>
                             @if (carrierSignature) {
                                 <div class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
-                                    <img [src]="carrierSignature.data" alt="signature" class="img-fluid rounded mb-2" />
+                                    <img [src]="carrierSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
                                     <span class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(carrierSignature.timestamp) }}</span>
                                     <p class="text-center mt-2">{{ "signature.by" | translate }} {{ carrierSignature.userName }}</p>
                                 </div>
@@ -763,7 +803,7 @@
                             <h6>{{ "ecmr_editor.title_24_signature" | translate }}</h6>
                             @if (consigneeSignature) {
                                 <div class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
-                                    <img [src]="consigneeSignature.data" alt="signature" class="img-fluid rounded mb-2" />
+                                    <img [src]="consigneeSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
                                     <span class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(consigneeSignature.timestamp) }}</span>
                                     <p class="text-center mt-2">{{ "signature.by" | translate }} {{ consigneeSignature.userName }}</p>
                                 </div>

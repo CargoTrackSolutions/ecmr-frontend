@@ -26,10 +26,16 @@
                 @if (userFormGroup.controls.email.invalid) {
                     <mat-error>{{ "common.errors.required" | translate }}</mat-error>
                 }
+                @if (userFormGroup.controls.email.hasError('invalidEmail')) {
+                    <mat-error>{{ "common.errors.invalid_email" | translate }}</mat-error>
+                }
             </mat-form-field>
             <mat-form-field class="col">
                 <mat-label>{{ "user.phone" | translate }}</mat-label>
                 <input matInput formControlName="phone"/>
+                @if (userFormGroup.controls.phone.hasError('invalidPhoneNumber')) {
+                    <mat-error>{{ "common.errors.invalid_phone" | translate }}</mat-error>
+                }
             </mat-form-field>
         </div>
         <div class="row">
