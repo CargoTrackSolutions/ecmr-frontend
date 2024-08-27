@@ -53,6 +53,7 @@ import { EcmrService } from '../../shared/services/ecmr.service';
 import { SnackbarService } from '../../core/services/snackbar.service';
 import { ShareEcmrDialogComponent } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component';
 import { EcmrActionService } from '../../shared/services/ecmr-action.service';
+import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 export enum EditorMode {
     ECMR_EDIT = 'ECMR_EDIT',
@@ -660,6 +661,8 @@ export class EcmrEditorComponent implements OnInit {
                 ecmrConsignment: formValue
             }
 
+            console.log(ecmr);
+
             this.groupService.getAllGroupsAsFlatList(true).pipe(
                 switchMap(groups => {
                     if (groups.length > 1) {
@@ -754,10 +757,18 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     resetForm() {
-        this.ecmrConsignmentFormGroup.reset();
-        //Remove all items from itemList FormArray
-        this.ecmrConsignmentFormGroup.controls.itemList.controls = [];
-        this.addNewItem();
+        this.matDialog.open(ConfirmationDialogComponent, {
+            data: {
+                text: 'ecmr_editor.reset_confirmation_message',
+            }
+        }).afterClosed().pipe(
+            filter(dialogResult => dialogResult.isConfirmed === true))
+            .subscribe(() => {
+                this.ecmrConsignmentFormGroup.reset();
+
+                this.ecmrConsignmentFormGroup.controls.itemList.controls = [];
+                this.addNewItem();
+            })
     }
 
     /**
@@ -843,21 +854,49 @@ export class EcmrEditorComponent implements OnInit {
     transformToUppercase(forControl: string) {
         let formControl: FormControl<string | null>;
 
-        if(forControl === 'sender') {
+        if (forControl === 'sender') {
             formControl = this.ecmrConsignmentFormGroup.controls.senderInformation.controls.senderCountryCode.controls.value;
-        } else if(forControl === 'carrier') {
+        } else if (forControl === 'carrier') {
             formControl = this.ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierCountryCode.controls.value;
-        } else if(forControl === 'successiveCarrier') {
+        } else if (forControl === 'successiveCarrier') {
             formControl = this.ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierCountryCode.controls.value;
-        } else if(forControl === 'consignee') {
+        } else if (forControl === 'consignee') {
             formControl = this.ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeCountryCode.controls.value;
         }
 
         const currentValue = formControl!.value!;
 
         if (currentValue) {
-            formControl!.setValue(currentValue.toUpperCase(), { emitEvent: false });
+            formControl!.setValue(currentValue.toUpperCase(), {emitEvent: false});
         }
+    }
+
+    checkSignStatus() {
+        return this.canFillSenderFields || this.canFillCarrierFields || this.canFillConsigneeFields;
+    }
+
+    checkEcmrStatusNew() {
+        return this.ecmrToEdit?.ecmrStatus !== EcmrStatus.NEW;
+    }
+
+    disableSave() {
+        if (this.userEcmrRoles.includes(EcmrRole.Reader) && this.userEcmrRoles.length == 1) {
+            return true;
+        }
+
+        if (this.userEcmrRoles.includes(EcmrRole.Sender) && this.canFillSenderFields) {
+            return false;
+        }
+
+        if (this.userEcmrRoles.includes(EcmrRole.Carrier) && this.canFillCarrierFields) {
+            return false;
+        }
+
+        if (this.userEcmrRoles.includes(EcmrRole.Consignee) && this.canFillConsigneeFields) {
+            return false;
+        }
+
+        return true;
     }
 }
 
@@ -869,7 +908,7 @@ export function phoneNumberValidator(): ValidatorFn {
 
         const phoneRegex = /^(\+)?[0-9]*$/;
         const valid = phoneRegex.test(control.value);
-        return valid ? null : { invalidPhoneNumber: true };
+        return valid ? null : {invalidPhoneNumber: true};
     };
 }
 

@@ -7,6 +7,7 @@
   },
   "common": {
     "cancel": "Abbrechen",
+    "back": "Zurück",
     "reset": "Zurücksetzen",
     "save": "Speichern",
     "edit": "Bearbeiten",
@@ -110,6 +111,7 @@
     "reference_id": "Referenz ID",
     "user_guides_and_docs": "Benutzerhandbuch & Docs",
     "save_success": "eCMR erfolgreich gespeichert",
+    "reset_confirmation_message": "Sie sind dabei den eCMR zurückzusetzen, dabei wird jedes Feld geleert. Fortfahren?",
     "title_1": "1. Sender (Name, Adresse, Land)",
     "sender": {
       "name": "Name",

@@ -28,13 +28,14 @@
             @if (!isExternalUser) {
                 <button mat-flat-button color="warn" (click)="returnToOverview()">
                     <mat-icon>arrow_back</mat-icon>
-                    {{ "common.cancel" | translate }}
+                    {{ "common.back" | translate }}
                 </button>
                 <button mat-stroked-button color="warn" (click)="resetForm()" *ngIf="editorMode === EditorMode.ECMR_NEW">
                     <mat-icon>restart_alt</mat-icon>
                     {{ "common.reset" | translate }}
                 </button>
-                <button mat-stroked-button color="primary" (click)="loadFromTemplate()" *ngIf="!(editorMode === EditorMode.TEMPLATE_NEW)">
+                <button mat-stroked-button color="primary" (click)="loadFromTemplate()" *ngIf="!(editorMode === EditorMode.TEMPLATE_NEW)"
+                        [disabled]="checkEcmrStatusNew()">
                     <mat-icon iconPositionEnd>upload_file</mat-icon>
                     {{ "ecmr_editor.load_from_template" | translate }}
                 </button>
@@ -51,14 +52,14 @@
                     <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
                 </button>
             }
-            <button mat-flat-button color="primary" (click)="(isTemplate())  ? saveTemplate() : saveEcmr(!isExternalUser)">
+            <button mat-flat-button color="primary" (click)="(isTemplate())  ? saveTemplate() : saveEcmr(!isExternalUser)" [disabled]="disableSave()">
                 <mat-icon iconPositionEnd>save</mat-icon>
                 {{ "common.save" | translate }}
             </button>
         </div>
     } @else {
         <div class="d-flex flex-row gap-2 align-items-center">
-            <button mat-flat-button color="primary" *ngIf="!isTemplate()">
+            <button mat-flat-button color="primary" *ngIf="!isTemplate()" (click)="scrollToElement()">
                 <mat-icon iconPositionEnd>edit</mat-icon>
                 {{ "ecmr_editor.sign" | translate }}
             </button>
@@ -114,7 +115,7 @@
                         </mat-form-field>
                     </div>
                     <div class="d-flex flex-grow-1 flex-row gap-3 w-50 justify-content-end flex-wrap" *ngIf="!isMobile">
-                        <button mat-flat-button color="primary" *ngIf="!isTemplate()" (click)="scrollToElement()">
+                        <button mat-flat-button color="primary" *ngIf="!isTemplate() && checkSignStatus()" (click)="scrollToElement()">
                             <mat-icon iconPositionEnd>edit</mat-icon>
                             {{ "ecmr_editor.sign" | translate }}
                         </button>
