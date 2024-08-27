@@ -45,4 +45,12 @@ export class UserService {
     getCurrentUser() {
         return this.http.get<AuthenticatedUser>(`${environment.backendUrl}/user/current`);
     }
+
+    activateUser(userId: number) {
+        return this.http.post<void>(`${environment.backendUrl}/user/${userId}/activate`, {});
+    }
+
+    deactivateUser(userId: number) {
+        return this.http.post<void>(`${environment.backendUrl}/user/${userId}/deactivate`, {});
+    }
 }

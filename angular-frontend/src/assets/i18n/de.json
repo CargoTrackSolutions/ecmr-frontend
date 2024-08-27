@@ -311,7 +311,10 @@
     "title": "Benutzerverwaltung",
     "create_user": "Neuen Nutzer erstellen",
     "edit_user": "User bearbeiten",
-    "delete_user": "User löschen"
+    "deactivate_user": "User deaktivieren",
+    "activate_user": "User aktivieren",
+    "activate_dialog": "Wollen Sie diesen User wirklich aktivieren?",
+    "deactivate_dialog": "Wollen Sie diesen User wirklich deaktivieren?"
   },
   "edit_user_dialog": {
     "edit": "Benutzer bearbeiten",

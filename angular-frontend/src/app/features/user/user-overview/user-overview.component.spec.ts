@@ -14,12 +14,19 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../app.component';
 import { HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
+import { AuthService } from '../../../core/services/auth.service';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 describe('UserOverviewComponent', () => {
     let component: UserOverviewComponent;
     let fixture: ComponentFixture<UserOverviewComponent>;
+    let mockAuthService;
+
 
     beforeEach(async () => {
+        mockAuthService = jasmine.createSpyObj('AuthService', ['isAuthenticated', 'getAuthenticatedUser']);
+        mockAuthService.getAuthenticatedUser.and.returnValue(of(null));
         await TestBed.configureTestingModule({
             imports: [
                 UserOverviewComponent,
@@ -32,6 +39,10 @@ describe('UserOverviewComponent', () => {
                         deps: [HttpClient]
                     }
                 }),
+            ],
+            providers: [
+                {provide: AuthService, useValue: mockAuthService},
+                {provide: OAuthService, useValue: {}},
             ]
         })
             .compileComponents();

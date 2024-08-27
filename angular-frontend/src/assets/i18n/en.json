@@ -310,8 +310,11 @@
   "user_overview": {
     "title": "User management",
     "create_user": "Create new user",
-    "edit_user": "Edit User",
-    "delete_user": "Delete User"
+    "edit_user": "Edit user",
+    "deactivate_user": "Deactivate user",
+    "activate_user": "Activate user",
+    "activate_dialog": "Do you really want to activate this user?",
+    "deactivate_dialog": "Do you really want to deactivate this user?"
   },
   "edit_user_dialog": {
     "edit": "Edit user",

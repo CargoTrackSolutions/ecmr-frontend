@@ -34,6 +34,10 @@ import { UserService } from '../../../shared/services/user.service';
 import { filter, switchMap } from 'rxjs';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatInput } from '@angular/material/input';
+import { ConfirmationDialogComponent } from '../../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { AuthService } from '../../../core/services/auth.service';
+import { AuthenticatedUser } from '../../../core/models/AuthenticatedUser';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-user-overview',
@@ -62,7 +66,8 @@ import { MatInput } from '@angular/material/input';
         MatSortModule,
         MatFormField,
         MatInput,
-        MatSuffix
+        MatSuffix,
+        NgClass
     ],
     templateUrl: './user-overview.component.html',
     styleUrl: './user-overview.component.scss'
@@ -72,6 +77,7 @@ export class UserOverviewComponent implements OnInit {
     dataSource = new MatTableDataSource<EcmrUser>();
 
     displayedColumns = ['actions', 'firstName', 'lastName', 'email', 'phone', 'role'];
+    authenticatedUser: AuthenticatedUser;
 
     @ViewChild(MatPaginator) set matPaginator(paginator: MatPaginator) {
         this.dataSource.paginator = paginator;
@@ -79,7 +85,10 @@ export class UserOverviewComponent implements OnInit {
 
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private userService: UserService, private matDialog: MatDialog) {
+    constructor(private userService: UserService, private matDialog: MatDialog, authService: AuthService) {
+        authService.getAuthenticatedUser().subscribe(user => {
+            if(user) this.authenticatedUser = user
+        });
     }
 
     ngOnInit() {
@@ -98,11 +107,7 @@ export class UserOverviewComponent implements OnInit {
                 return true
             } else if (data.phone?.trim().toLowerCase().includes(filter.trim().toLowerCase())) {
                 return true
-            } else if (data.role.trim().toLowerCase().includes(filter.trim().toLowerCase())) {
-                return true
-            } else {
-                return false
-            }
+            } else return data.role.trim().toLowerCase().includes(filter.trim().toLowerCase());
         };
     }
 
@@ -158,7 +163,34 @@ export class UserOverviewComponent implements OnInit {
     }
 
     applyFilter(event: Event) {
-        const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-        this.dataSource.filter = filterValue;
+        this.dataSource.filter = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    }
+
+    activateUser(userId: number) {
+        this.matDialog.open(ConfirmationDialogComponent, {
+            data: {
+                text: 'user_overview.activate_dialog'
+            }
+        }).afterClosed().pipe(
+            filter(result => result.isConfirmed),
+            switchMap(() => this.userService.activateUser(userId)),
+            switchMap(() => this.userService.getAllUsers())
+        ).subscribe(users => {
+            this.dataSource.data = users;
+        });
+    }
+
+    deactivateUser(userId: number) {
+        this.matDialog.open(ConfirmationDialogComponent, {
+            data: {
+                text: 'user_overview.activate_dialog'
+            }
+        }).afterClosed().pipe(
+            filter(result => result.isConfirmed),
+            switchMap(() => this.userService.deactivateUser(userId)),
+            switchMap(() => this.userService.getAllUsers())
+        ).subscribe(users => {
+            this.dataSource.data = users;
+        });
     }
 }

@@ -18,4 +18,5 @@ export interface EcmrUser {
     phone: string | null,
     role: UserRole,
     defaultGroupId: number | null
+    deactivated: boolean;
 }
