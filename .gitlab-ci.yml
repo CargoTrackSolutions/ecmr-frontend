@@ -25,6 +25,10 @@ stages:
   - archive
   - deploy
 
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
 node-build-angular-frontend:
   trigger:
     include:
