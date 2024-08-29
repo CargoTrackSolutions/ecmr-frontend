@@ -103,6 +103,7 @@
     "edit_title": "Edit eCMR",
     "error_mandatory": "This field is required for signing.",
     "error_volume_min": "Must be greater than 0",
+    "error_too_short": "Must be at least 2 characters long",
     "snackbar_error": "Please fill in all required fields.",
     "load_from_template": "Load From template",
     "save_as_template": "Save as template",

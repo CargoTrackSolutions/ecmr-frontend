@@ -103,6 +103,7 @@
     "edit_title": "Bearbeite eCMR",
     "error_mandatory": "Dieses Feld ist für die Signatur erforderlich.",
     "error_volume_min": "Muss größer als 0 sein",
+    "error_too_short": "Muss mindestens 2 Zeichen lang sein",
     "snackbar_error": "Bitte füllen Sie alle Pflichtfelder aus.",
     "load_from_template": "Aus Vorlage laden",
     "save_as_template": "Speichern als Vorlage",
