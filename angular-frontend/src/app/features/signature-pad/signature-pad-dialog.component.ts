@@ -8,7 +8,7 @@
 
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import SignaturePad from 'signature_pad';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -32,7 +32,9 @@ import { NgIf } from '@angular/common';
     MatInput,
     MatLabel,
     NgIf,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogContent,
+    MatDialogActions
   ],
   templateUrl: './signature-pad-dialog.component.html',
   styleUrl: './signature-pad-dialog.component.scss'
@@ -74,7 +76,7 @@ export class SignaturePadDialogComponent implements AfterViewInit {
   savePad() {
     this.dialog.open(ConfirmationDialogComponent, {
       data: {
-        text: this.translateService.instant('signature.confirm_text')
+        text: 'signature.confirm_text'
       }
     }).afterClosed().subscribe(result => {
       if (result.isConfirmed) {

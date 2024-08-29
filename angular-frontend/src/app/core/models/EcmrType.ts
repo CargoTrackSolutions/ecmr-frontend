@@ -7,7 +7,7 @@
  */
 
 export enum EcmrType {
-  ECMR,
-  TEMPLATE,
-  ARCHIVED
+    ECMR = 'ECMR',
+    TEMPLATE = 'TEMPLATE',
+    ARCHIVED = 'ARCHIVED'
 }

@@ -1,8 +1,11 @@
 <mat-drawer-container [hasBackdrop]="false" class="h-100">
-    <mat-drawer [position]="'end'" [opened]="selectedEcmr !== null" class="detail-view" [mode]="'side'">
+    <mat-drawer [position]="'end'" [opened]="selectedEcmr !== null" class="detail-view" [ngClass]="isMobile?'detail-view-mobile' :
+    'detail-view'" [mode]="'side'">
         @if (selectedEcmr) {
             <app-ecmr-overview-details (closeDetails)="closeDetailView($event)"
                                        [quickViewButtons]="quickViewButtons"
+                                       [mobileQuickViewButtons]="mobileQuickViewButtons"
+                                       [isMobile]="isMobile"
                                        [selectedEcmr]="selectedEcmr"></app-ecmr-overview-details>
         }
     </mat-drawer>
@@ -15,21 +18,52 @@
             </mat-toolbar>
 
             <!-- Overview Table Container -->
-            <app-ecmr-table (selectedEcmr)="selectEcmr($event)" class="h-100 overflow-x-auto overflow-y-hidden"></app-ecmr-table>
+            <app-ecmr-table (selectedEcmr)="selectEcmr($event)"
+                            (filterRequest)="onFilterRequest($event)"
+                            [mobileActionButtons]="mobileActionButtons"
+                            class="h-100 overflow-x-auto overflow-y-hidden"></app-ecmr-table>
         </section>
     </article>
 
     <ng-template #quickViewButtons let-ecmr>
         <div>
-            <button class="m-1" mat-flat-button color="primary" (click)="moveToOverview(ecmr.ecmrId)">Remove from archive
+            <button class="m-1" mat-flat-button color="primary" (click)="moveToOverview(ecmr.ecmrId)">
+                {{ 'quick_view_buttons.remove_archive' | translate }}
                 <mat-icon iconPositionEnd>archive</mat-icon>
             </button>
-            <button class="m-1" mat-flat-button color="primary" (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null)">PDF
+            <button class="m-1" mat-flat-button color="primary" (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null)">
+                {{ 'quick_view_buttons.pdf' | translate }}
                 <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
             </button>
-            <button class="m-1" mat-stroked-button (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">Copy
+            <button class="m-1" mat-stroked-button (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">
+                {{ 'quick_view_buttons.copy' | translate }}
                 <mat-icon iconPositionEnd>content_copy</mat-icon>
             </button>
         </div>
+    </ng-template>
+
+    <ng-template #mobileQuickViewButtons let-ecmr>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button class="m-1" mat-menu-item (click)="moveToOverview(ecmr.ecmrId)">{{ 'quick_view_buttons.archive' | translate }}
+                <mat-icon>archive</mat-icon>
+            </button>
+            <button class="m-1" mat-menu-item (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null)">{{ 'quick_view_buttons.pdf' | translate }}
+                <mat-icon>picture_as_pdf</mat-icon>
+            </button>
+            <button class="m-1" mat-menu-item (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">{{ 'quick_view_buttons.copy' | translate }}
+                <mat-icon>content_copy</mat-icon>
+            </button>
+        </mat-menu>
+    </ng-template>
+    <ng-template #mobileActionButtons let-ecmr>
+        <button mat-icon-button class="my-3" (click)="selectEcmr(ecmr)">
+            <mat-icon color="primary" style="transform: scale(1.4)">visibility</mat-icon>
+        </button>
+        <button mat-icon-button class="my-3" (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null)">
+            <mat-icon color="primary" style="transform: scale(1.4)">picture_as_pdf</mat-icon>
+        </button>
     </ng-template>
 </mat-drawer-container>

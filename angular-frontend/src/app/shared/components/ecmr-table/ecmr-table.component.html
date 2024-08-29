@@ -1,68 +1,72 @@
 <div class="ecmr-overview-table-container">
     <!-- Overview of eCMRs -->
-    @if(!isMobile) {
-        <table class="ecmr-overview-table overflow-x-auto" mat-table [dataSource]="dataSource" matSort
-            (matSortChange)="sortData($event)"
-            cdkDropList
-            [cdkDropListSortPredicate]="sortPredicate"
-            cdkDropListOrientation="horizontal"
-            [formGroup]="filterFormGroup"
-            (cdkDropListDropped)="tableDrop($event)">
+    @if (!isMobile) {
+        <table class="ecmr-overview-table overflow-x-auto desktop" mat-table [dataSource]="dataSource" matSort
+               (matSortChange)="sortData($event)"
+               cdkDropList
+               [cdkDropListSortPredicate]="sortPredicate"
+               cdkDropListOrientation="horizontal"
+               [formGroup]="filterFormGroup"
+               (cdkDropListDropped)="tableDrop($event)">
 
             <!-- ID Column used to display icon buttons -->
             <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef cdkDrag cdkDragLockAxis="x"
                     [cdkDragDisabled]="true"
+                    class="actions-header"
                     cdkDragBoundary="mat-header-row">
                     <button mat-icon-button (click)="toggleColumnSelectionMenu()">
                         <mat-icon>tune</mat-icon>
                     </button>
                     <ng-container *ngIf="showColumSelection">
-                        <mat-card style="position: absolute; width: 250px; z-index: 5;">
-                            <button mat-stroked-button (click)="closeColumnSelection()">{{ 'overview.columns_settings.configure_columns' |
-                                translate }}
+                        <mat-card class="position-fixed z-3">
+                            <button mat-stroked-button (click)="closeColumnSelection()">{{
+                                    'overview.columns_settings.configure_columns' |
+                                        translate
+                                }}
                                 <mat-icon color="primary">close</mat-icon>
                             </button>
-                            <mat-checkbox [checked]="showColumns.referenceId" (change)="toggleColumnAtKey('referenceId')">{{ 'overview.table_header.ref_id' | translate }}
+                            <mat-checkbox [checked]="showColumns.referenceId"
+                                          (change)="toggleColumnAtKey('referenceId')">{{ 'overview.table_header.ref_id' | translate }}
                             </mat-checkbox>
                             <mat-checkbox [checked]="showColumns.from"
-                                        (change)="toggleColumnAtKey('from')">{{ 'overview.table_header.from' | translate }}
+                                          (change)="toggleColumnAtKey('from')">{{ 'overview.table_header.from' | translate }}
                             </mat-checkbox>
                             <mat-checkbox [checked]="showColumns.to"
-                                        (change)="toggleColumnAtKey('to')">{{ 'overview.table_header.to' | translate }}
+                                          (change)="toggleColumnAtKey('to')">{{ 'overview.table_header.to' | translate }}
                             </mat-checkbox>
                             <mat-checkbox [checked]="showColumns.transportType"
-                                        (change)="toggleColumnAtKey('transportType')">{{ 'overview.table_header.transport_type' | translate }}
+                                          (change)="toggleColumnAtKey('transportType')">{{ 'overview.table_header.transport_type' | translate }}
                             </mat-checkbox>
                             <mat-checkbox [checked]="showColumns.lastEditor"
-                                        (change)="toggleColumnAtKey('lastEditor')">{{ 'overview.table_header.last_editor' |translate }}
+                                          (change)="toggleColumnAtKey('lastEditor')">{{ 'overview.table_header.last_editor' |translate }}
                             </mat-checkbox>
                             <mat-checkbox [checked]="showColumns.status"
-                                        (change)="toggleColumnAtKey('status')">{{ 'overview.table_header.status' | translate }}
+                                          (change)="toggleColumnAtKey('status')">{{ 'overview.table_header.status' | translate }}
                             </mat-checkbox>
                             <mat-checkbox [checked]="showColumns.lastEditDate"
-                                        (change)="toggleColumnAtKey('lastEditDate')">{{ 'overview.table_header.last_edit_date' | translate }}
+                                          (change)="toggleColumnAtKey('lastEditDate')">{{ 'overview.table_header.last_edit_date' | translate }}
                             </mat-checkbox>
                             <mat-checkbox [checked]="showColumns.creationDate"
-                                        (change)="toggleColumnAtKey('creationDate')">{{ 'overview.table_header.creation_date' |translate }}
+                                          (change)="toggleColumnAtKey('creationDate')">{{ 'overview.table_header.creation_date' |translate }}
                             </mat-checkbox>
                             <mat-checkbox [checked]="showColumns.licensePlate"
-                                        (change)="toggleColumnAtKey('licensePlate')">{{ 'overview.table_header.license_plate'|translate }}
+                                          (change)="toggleColumnAtKey('licensePlate')">{{ 'overview.table_header.license_plate'|translate }}
                             </mat-checkbox>
                             <mat-checkbox [checked]="showColumns.carrierName"
-                                        (change)="toggleColumnAtKey('carrierName')">{{
+                                          (change)="toggleColumnAtKey('carrierName')">{{
                                     'overview.table_header.carrier_name'
                                         |translate
                                 }}
                             </mat-checkbox>
                             <mat-checkbox [checked]="showColumns.carrierPostCode"
-                                        (change)="toggleColumnAtKey('carrierPostCode')">{{
+                                          (change)="toggleColumnAtKey('carrierPostCode')">{{
                                     'overview.table_header.carrier_post_code'
                                         |translate
                                 }}
                             </mat-checkbox>
                             <mat-checkbox [checked]="showColumns.consigneePostCode"
-                                        (change)="toggleColumnAtKey('consigneePostCode')">{{
+                                          (change)="toggleColumnAtKey('consigneePostCode')">{{
                                     'overview.table_header.consignee_post_code'
                                         |translate
                                 }}
@@ -103,7 +107,7 @@
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
-                    >{{ ecmr.ecmrConsignment.referenceIdentificationNumber.value }}
+                >{{ ecmr.ecmrConsignment.referenceIdentificationNumber.value }}
                 </td>
             </ng-container>
 
@@ -121,7 +125,7 @@
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
-                    >{{ ecmr.ecmrConsignment.senderInformation.senderNameCompany }}
+                >{{ ecmr.ecmrConsignment.senderInformation.senderNameCompany }}
                 </td>
             </ng-container>
 
@@ -139,7 +143,7 @@
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
-                    >{{ ecmr.ecmrConsignment.consigneeInformation.consigneeNameCompany }}
+                >{{ ecmr.ecmrConsignment.consigneeInformation.consigneeNameCompany }}
                 </td>
             </ng-container>
 
@@ -153,10 +157,10 @@
                         <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
                             <mat-select formControlName="transportType">
                                 <mat-option [value]="null"></mat-option>
-                                <mat-option [value]="EcmrTransportType.NATIONAL">{{ 'overview.table_header.transport_types.national' | translate }}
+                                <mat-option [value]="EcmrTransportType.National">{{ 'overview.table_header.transport_types.national' | translate }}
                                 </mat-option>
                                 <mat-option
-                                        [value]="EcmrTransportType.INTERNATIONAL">{{ 'overview.table_header.transport_types.international' |translate }}
+                                        [value]="EcmrTransportType.International">{{ 'overview.table_header.transport_types.international' |translate }}
                                 </mat-option>
                             </mat-select>
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.transportType.reset(); $event.stopPropagation()">close
@@ -165,7 +169,7 @@
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
-                    >{{ getTransportType(ecmr) }}
+                >{{ getTransportType(ecmr) }}
                 </td>
             </ng-container>
 
@@ -175,15 +179,10 @@
                     cdkDragBoundary="mat-header-row">
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.last_editor' | translate }}</span>
-                        <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
-                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="lastEditor">
-                            <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.lastEditor.reset()">close</mat-icon>
-                        </mat-form-field>
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
-                    >{{ ecmr.editedBy }}
+                >{{ ecmr.editedBy }}
                 </td>
             </ng-container>
 
@@ -205,12 +204,13 @@
                                         [value]="EcmrStatus.ARRIVED_AT_DESTINATION">{{ 'overview.table_header.ecmr_status.arrived_at_destination' |translate }}
                                 </mat-option>
                             </mat-select>
-                            <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.status.reset(); $event.stopPropagation()">close</mat-icon>
+                            <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.status.reset(); $event.stopPropagation()">close
+                            </mat-icon>
                         </mat-form-field>
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
-                    >{{ ecmr.ecmrStatus }}
+                >{{ ecmr.ecmrStatus }}
                 </td>
             </ng-container>
 
@@ -220,11 +220,6 @@
                     cdkDragBoundary="mat-header-row">
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.last_edit_date' | translate }}</span>
-                        <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
-                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="lastEditorDate">
-                            <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.lastEditorDate.reset()">close</mat-icon>
-                        </mat-form-field>
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index" (click)="showDetailsForEcmrAtIndex(i)">
@@ -238,11 +233,6 @@
                     cdkDragBoundary="mat-header-row">
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.creation_date' | translate }}</span>
-                        <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
-                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="lastCreationDate">
-                            <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.lastCreationDate.reset()">close</mat-icon>
-                        </mat-form-field>
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index" (click)="showDetailsForEcmrAtIndex(i)">
@@ -264,7 +254,7 @@
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
-                    >{{ ecmr.ecmrConsignment.carrierInformation.carrierLicensePlate }}
+                >{{ ecmr.ecmrConsignment.carrierInformation.carrierLicensePlate }}
                 </td>
             </ng-container>
 
@@ -282,7 +272,7 @@
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
-                    >{{ ecmr.ecmrConsignment.carrierInformation.carrierNameCompany }}
+                >{{ ecmr.ecmrConsignment.carrierInformation.carrierNameCompany }}
                 </td>
             </ng-container>
 
@@ -300,7 +290,7 @@
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
-                    >{{ ecmr.ecmrConsignment.carrierInformation.carrierPostcode }}
+                >{{ ecmr.ecmrConsignment.carrierInformation.carrierPostcode }}
                 </td>
             </ng-container>
 
@@ -318,59 +308,59 @@
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
-                    >{{ ecmr.ecmrConsignment.consigneeInformation.consigneePostcode }}
+                >{{ ecmr.ecmrConsignment.consigneeInformation.consigneePostcode }}
                 </td>
             </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;" id="rows"
-              (click)="showDetailsForEcmrAtIndex(i)">
-          </tr>
-      </table>
-  } @else {
-      <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
-          <ng-container matColumnDef="content">
-              <td mat-cell *matCellDef="let ecmr">
-                  <div class="d-flex flex-row justify-content-between ms-4 me-1 mt-3 mb-1">
-                      <span class="fs-6">{{ ecmr.ecmrConsignment.referenceIdentificationNumber.value }}</span>
-                      <span class="fs-5 primary-color"> {{ ecmr.ecmrStatus }} </span>
-                  </div>
-                  <div class="fs-5 ms-4 mb-2">
-                      {{ dateFormatService.formatDate(ecmr.editedAt) }}
-                  </div>
-                  <div class="d-flex flex-row gap-2 mx-1 mb-3">
-                      <div class="d-flex flex-column justify-content-center align-items-center line-icons">
-                          <div class="circle filled"></div>
-                          <div class="line"></div>
-                          <div class="circle"></div>
-                      </div>
-                      <div class="d-flex flex-column justify-content-between gap-3">
-                          <div class="fw-bold fs-5">
-                              {{ ecmr.ecmrConsignment.senderInformation.senderNameCompany }}
-                          </div>
-                          <div class="fw-bold fs-5">
-                              {{ ecmr.ecmrConsignment.consigneeInformation.consigneeNameCompany }}
-                          </div>
-                      </div>
-                  </div>
-              </td>
-          </ng-container>
-          <ng-container matColumnDef="expandedDetail">
-              <td mat-cell *matCellDef="let ecmr" [attr.colspan]="displayedColumnsMobile.length">
-                  <div class="d-flex flex-row justify-content-evenly"
-                       [@detailExpand]="ecmr === expandedElement ? 'expanded' : 'collapsed'">
-                      <ng-container *ngTemplateOutlet="mobileActionButtons; context: { $implicit: ecmr  }">
-                      </ng-container>
-                  </div>
-              </td>
-          </ng-container>
-          <tr mat-row *matRowDef="let element; columns: displayedColumnsMobile;"
-              class="element-row"
-              [class.expanded-row]="expandedElement === element"
-              (click)="expandedElement = expandedElement === element ? null : element">
-          </tr>
-          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"
-              class="expanded-row"></tr>
-      </table>
-  }
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;" (click)="showDetailsForEcmrAtIndex(i)" id="rows"></tr>
+        </table>
+    } @else {
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mobile">
+            <ng-container matColumnDef="content">
+                <td mat-cell *matCellDef="let ecmr">
+                    <div class="d-flex flex-row justify-content-between ms-4 me-1 mt-3 mb-1">
+                        <span class="fs-6">{{ ecmr.ecmrConsignment.referenceIdentificationNumber.value }}</span>
+                        <span class="fs-5 primary-color"> {{ ecmr.ecmrStatus }} </span>
+                    </div>
+                    <div class="fs-5 ms-4 mb-2">
+                        {{ dateFormatService.formatDate(ecmr.editedAt) }}
+                    </div>
+                    <div class="d-flex flex-row gap-2 mx-1 mb-3">
+                        <div class="d-flex flex-column justify-content-center align-items-center line-icons">
+                            <div class="circle filled"></div>
+                            <div class="line"></div>
+                            <div class="circle"></div>
+                        </div>
+                        <div class="d-flex flex-column justify-content-between gap-3">
+                            <div class="fw-bold fs-5">
+                                {{ ecmr.ecmrConsignment.senderInformation.senderNameCompany }}
+                            </div>
+                            <div class="fw-bold fs-5">
+                                {{ ecmr.ecmrConsignment.consigneeInformation.consigneeNameCompany }}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let ecmr" [attr.colspan]="displayedColumnsMobile.length">
+                    <div class="d-flex flex-row justify-content-evenly"
+                         [@detailExpand]="ecmr === expandedElement ? 'expanded' : 'collapsed'">
+                        <ng-container *ngTemplateOutlet="mobileActionButtons; context: { $implicit: ecmr  }">
+                        </ng-container>
+                    </div>
+                </td>
+            </ng-container>
+            <tr mat-row *matRowDef="let element; columns: displayedColumnsMobile;"
+                class="element-row"
+                [class.expanded-row]="expandedElement === element"
+                (click)="expandedElement = expandedElement === element ? null : element">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"
+                class="expanded-row"></tr>
+        </table>
+    }
 </div>
+<mat-paginator [showFirstLastButtons]="true" class="mat-paginator-sticky"
+               [pageSize]="10" (page)="onPageEvent($event)"></mat-paginator>

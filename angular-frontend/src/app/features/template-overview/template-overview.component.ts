@@ -43,6 +43,7 @@ import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-d
 import { filter, switchMap } from 'rxjs';
 import { EcmrOverviewDetailsComponent } from '../ecmr-overview/ecmr-overview-details/ecmr-overview-details.component';
 import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-template-overview',
@@ -80,14 +81,15 @@ import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
     MatHeaderCellDef,
     EcmrOverviewDetailsComponent,
     MatDrawer,
-    MatDrawerContainer
+    MatDrawerContainer,
+    MatPaginator
   ],
   templateUrl: './template-overview.component.html',
   styleUrl: './template-overview.component.scss'
 })
 export class TemplateOverviewComponent implements OnInit {
-  displayedColumns: string[] = ['id','number', 'name', 'refId', 'from', 'to'];
-  columns: string[] = ['id','number', 'name', 'refId', 'from', 'to'];
+  displayedColumns: string[] = ['id', 'number', 'name', 'refId', 'from', 'to'];
+  columns: string[] = ['id', 'number', 'name', 'refId', 'from', 'to'];
   filteredColumns: string[] = [];
 
   showColumSelection: boolean = false;
@@ -110,11 +112,13 @@ export class TemplateOverviewComponent implements OnInit {
               private router: Router, public templateOverviewService: TemplateOverviewService, public translateService: TranslateService) {
   }
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort = new MatSort();
 
   ngOnInit() {
     this.overviewService.getAllTemplates().subscribe(data => {
       this.dataSource.data = data;
+      this.dataSource.paginator = this.paginator;
     })
   }
 
@@ -129,7 +133,7 @@ export class TemplateOverviewComponent implements OnInit {
   deleteTemplate(templateUser: TemplateUser) {
     this.dialog.open(ConfirmationDialogComponent, {
       data: {
-        text: this.translateService.instant('template_overview.delete_template_dialog_text')
+        text: 'template_overview.delete_template_dialog_text'
       }
     }).afterClosed().pipe(
         filter(result => result.isConfirmed === true),
@@ -147,7 +151,7 @@ export class TemplateOverviewComponent implements OnInit {
 
   }
 
-  sortData(sort: Sort){
+  sortData(sort: Sort) {
     this.announceSortChange(sort);
 
     const data = this.dataSource.data.slice();
@@ -157,7 +161,7 @@ export class TemplateOverviewComponent implements OnInit {
         case 'number':
           return compare(a.templateUserNumber, b.templateUserNumber, isAsc);
         case 'name':
-          return compare(a.name,b.name,isAsc);
+          return compare(a.name, b.name, isAsc);
         case 'refId':
           return compare(a.ecmr.ecmrConsignment.referenceIdentificationNumber.value, b.ecmr.ecmrConsignment.referenceIdentificationNumber.value, isAsc);
         case 'from':
@@ -171,7 +175,7 @@ export class TemplateOverviewComponent implements OnInit {
   }
 
   tableDrop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.displayedColumns, event.previousIndex+1, event.currentIndex+1);
+    moveItemInArray(this.displayedColumns, event.previousIndex + 1, event.currentIndex + 1);
   }
 
   announceSortChange(sortState: Sort) {
@@ -216,10 +220,10 @@ export class TemplateOverviewComponent implements OnInit {
     this.displayedColumns = this.displayedColumns.filter(item => this.filteredColumns.includes(item));
     // add columns that were hidden before at their original position
     const newColumns = this.filteredColumns.filter(item => !this.displayedColumns.includes(item));
-    for(const item of newColumns) {
+    for (const item of newColumns) {
       const originalPos = this.columns.indexOf(item)
       const length = this.displayedColumns.push(item);
-      const newPos = originalPos >= length ? length-1 : originalPos;
+      const newPos = originalPos >= length ? length - 1 : originalPos;
       moveItemInArray(this.displayedColumns, length, newPos)
     }
 

@@ -80,7 +80,7 @@
       "edit": "Edit",
       "history": "History",
       "delete": "Delete eCMR",
-      "delete_template": "Delete Template"
+      "delete_template": "Delete template"
     },
     "columns_settings": {
       "configure_columns": "Configure Columns"
@@ -94,9 +94,9 @@
       "number": "Number",
       "name": "Name"
     },
-    "load_from_template_header": "Load Data from Template",
+    "load_from_template_header": "Load Data from template",
     "load_selected": "Load selected",
-    "delete_template_dialog_text": "Are you sure you want to delete this Template? This cannot be undone!"
+    "delete_template_dialog_text": "Are you sure you want to delete this template? This cannot be undone!"
   },
   "ecmr_editor": {
     "create_new_title": "Create new eCMR",
@@ -104,8 +104,8 @@
     "error_mandatory": "This field is required for signing.",
     "error_volume_min": "Must be greater than 0",
     "snackbar_error": "Please fill in all required fields.",
-    "load_from_template": "Load From Template",
-    "save_as_template": "Save as Template",
+    "load_from_template": "Load From template",
+    "save_as_template": "Save as template",
     "template_name": "Template Name",
     "sign": "Sign",
     "reference_id": "Reference ID",
@@ -201,7 +201,7 @@
     "nature_of_goods": {
       "identification_text": "Identification Text"
     },
-    "title_14": "14. Gross weight in Kg",
+    "title_14": "14. Gross weight in kg",
     "gross_weight_in_kg": {
       "gross_weight": "Gross Weight"
     },
@@ -258,8 +258,8 @@
     "email": "Email",
     "phone": "Phone",
     "template": {
-      "edit_title": "Edit Template",
-      "create_new_title": "Create Template"
+      "edit_title": "Edit template",
+      "create_new_title": "Create template"
     },
     "items": "Items"
   },
@@ -282,6 +282,7 @@
     "title": "Group management",
     "create_new": "Create new group",
     "delete_group": "Delete group",
+    "delete_confirm": "Are you sure you want to delete the group? All users and eCMRs are moved up one level.",
     "search": "Search",
     "location_name": "Location",
     "expand_all": "Expand all",
@@ -290,7 +291,8 @@
       "create_new": "Create new group",
       "edit_name": "Edit group",
       "change_parent": "Change parent group",
-      "user": "Assigned users"
+      "user": "Assigned users",
+      "delete": "Delete group"
     }
   },
   "group_detail": {
@@ -402,6 +404,7 @@
     "pdf": "PDF",
     "edit": "Edit",
     "copy": "Copy",
-    "share": "Share"
+    "share": "Share",
+    "remove_archive": "Remove from archive"
   }
 }

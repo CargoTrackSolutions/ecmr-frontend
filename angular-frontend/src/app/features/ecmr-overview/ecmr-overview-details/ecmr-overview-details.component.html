@@ -290,15 +290,6 @@
                         [label]="'ecmr_editor.successive_carrier_information.date'"
                         [displayedContent]="toDateString(selectedEcmr.ecmrConsignment.successiveCarrierInformation.successiveCarrierSignatureDate)">
                 </app-ecmr-display-information-field>
-                <!-- TODO Signature -->
-                <!--            <span class="info-field-header">{{ 'ecmr_editor.successive_carrier_information.signature' | translate }}</span>-->
-                <!--            <mat-card appearance="outlined">-->
-                <!--                <mat-card-content>-->
-                <!--                    {{ selectedEcmr.ecmrConsignment.successiveCarrierInformation.successiveCarrierSignature }}-->
-                <!--                </mat-card-content>-->
-                <!--            </mat-card>-->
-
-
                 <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_8' | translate }}</h6>
                 <app-ecmr-display-information-field
                         [label]="'ecmr_editor.carriers_reservations.reservation_and_observation'"
@@ -485,8 +476,8 @@
                                 <img [src]="selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.data"
                                      alt="signature" class="img-fluid"/>
                                 <span class="d-flex justify-content-center">
-                                    {{ "sender_signature.signed_on" | translate }}
-                                    {{ selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.timestamp }}
+                                    {{ "signature.signed_on" | translate }}
+                                    {{ toDateString(selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.timestamp) }}
                                 </span>
                                 <p class="text-center">
                                     {{ "signature.by" | translate }}
@@ -499,19 +490,19 @@
                 <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_23' | translate }}</h6>
                 <!-- Signature -->
                 <span class="info-field-header">{{ 'ecmr_editor.carrier_signature.signature' | translate }}</span>
-                @if (selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature) {
+                @if (selectedEcmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature) {
                     <mat-card appearance="outlined">
                         <mat-card-content>
                             <div class="d-flex justify-content-center align-items-center flex-column">
-                                <img [src]="selectedEcmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature?.data"
+                                <img [src]="selectedEcmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature.data"
                                      alt="signature" class="img-fluid"/>
                                 <span class="d-flex justify-content-center">
                                     {{ "signature.signed_on" | translate }}
-                                    {{ selectedEcmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature?.timestamp }}
+                                    {{ toDateString(selectedEcmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature.timestamp) }}
                                 </span>
                                 <p class="text-center">
                                     {{ "signature.by" | translate }}
-                                    {{ selectedEcmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature?.userName }}
+                                    {{ selectedEcmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature.userName }}
                                 </p>
                             </div>
                         </mat-card-content>
@@ -532,29 +523,24 @@
                 </div>
                 <!-- Signature -->
                 <span class="info-field-header">{{ 'ecmr_editor.receival_signature.signature' | translate }}</span>
-                <mat-card appearance="outlined">
-                    <mat-card-content>
-                        @if (selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature) {
-                            <mat-card appearance="outlined">
-                                <mat-card-content>
-                                    <div class="d-flex justify-content-center align-items-center flex-column">
-                                        <img [src]="selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature.data"
-                                             alt="signature" class="img-fluid"/>
-                                        <span class="d-flex justify-content-center">
-                                    {{ "signature.signed_on" | translate }}
-                                            {{ selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature.timestamp }}
-                                </span>
-                                        <p class="text-center">
-                                            {{ "signature.by" | translate }}
-                                            {{ selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature.userName }}
-                                        </p>
-                                    </div>
-                                </mat-card-content>
-                            </mat-card>
-                        }
-                    </mat-card-content>
-                </mat-card>
-
+                @if (selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature) {
+                    <mat-card appearance="outlined">
+                        <mat-card-content>
+                            <div class="d-flex justify-content-center align-items-center flex-column">
+                                <img [src]="selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature.data"
+                                     alt="signature" class="img-fluid"/>
+                                <span class="d-flex justify-content-center">
+                                            {{ "signature.signed_on" | translate }}
+                                    {{ toDateString(selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature.timestamp) }}
+                                        </span>
+                                <p class="text-center">
+                                    {{ "signature.by" | translate }}
+                                    {{ selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature.userName }}
+                                </p>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                }
                 <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.non_contractual_part_reserved_for_the_carrier' | translate }}</h6>
                 <app-ecmr-display-information-field
                         [label]="'ecmr_editor.remarks'"

@@ -36,6 +36,7 @@
             <!-- Overview Table Container -->
             <app-ecmr-table [actionButtons]="actionButtons" [mobileActionButtons]="mobileActionButtons" [ecmr]="ecmr"
                             (selectedEcmr)="selectEcmr($event)"
+                            (filterRequest)="onFilterRequest($event)"
                             class="h-100 overflow-x-auto overflow-y-hidden">
             </app-ecmr-table>
         </section>

@@ -67,17 +67,19 @@
                             </button>
                         </th>
                         <td id="icons" mat-cell *matCellDef="let templateUser; let i = index;">
-          <span>
-          <button mat-icon-button (click)="shareTemplate();$event.stopPropagation()" matTooltip="{{'overview.tooltips.share' | translate}}">
-            <mat-icon>share</mat-icon>
-          </button>
-          <button mat-icon-button (click)="editTemplate(templateUser)" matTooltip="{{'overview.tooltips.edit' | translate}}">
-            <mat-icon>edit_note</mat-icon>
-          </button>
-          <button mat-icon-button (click)="deleteTemplate(templateUser);$event.stopPropagation()" matTooltip="{{'overview.tooltips.delete_template' | translate}}">
-            <mat-icon color="warn">delete</mat-icon>
-          </button>
-            </span>
+                              <span>
+                                  <button mat-icon-button (click)="shareTemplate();$event.stopPropagation()"
+                                          matTooltip="{{'overview.tooltips.share' | translate}}">
+                                    <mat-icon>share</mat-icon>
+                                  </button>
+                                  <button mat-icon-button (click)="editTemplate(templateUser)" matTooltip="{{'overview.tooltips.edit' | translate}}">
+                                    <mat-icon>edit_note</mat-icon>
+                                  </button>
+                                  <button mat-icon-button (click)="deleteTemplate(templateUser);$event.stopPropagation()"
+                                          matTooltip="{{'overview.tooltips.delete_template' | translate}}">
+                                    <mat-icon color="warn">delete</mat-icon>
+                                  </button>
+                                </span>
                         </td>
                     </ng-container>
 
@@ -168,6 +170,8 @@
                     </tr>
                 </table>
             </div>
+            <mat-paginator [showFirstLastButtons]="true" class="mat-paginator-sticky"
+                           [pageSize]="10"></mat-paginator>
         </section>
     </article>
     <ng-template #quickViewButtons let-ecmr>

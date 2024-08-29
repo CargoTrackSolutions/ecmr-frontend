@@ -86,7 +86,7 @@
       "configure_columns": "Spalten konfigurieren"
     },
     "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR in das Archiv verschieben wollen?",
-    "delete_ecmr_dialog_text": "Sind Sie sicher, dass Sie diesen eCMR löschen wollen? Dies kann nicht Rückgängig gemacht werden."
+    "delete_ecmr_dialog_text": "Sind Sie sicher, dass Sie diesen eCMR löschen wollen? Dies kann nicht rückgängig gemacht werden."
   },
   "template_overview": {
     "title": "Vorlagen Übersicht",
@@ -116,7 +116,7 @@
     "sender": {
       "name": "Name",
       "person_name": "Personenname",
-      "street_name": "Staßenname",
+      "street_name": "Straßenname",
       "post_code": "Postleitzahl",
       "city_name": "Stadtname",
       "country": "Land",
@@ -127,7 +127,7 @@
     "consignee": {
       "name": "Name",
       "person_name": "Personenname",
-      "street_name": "Staßenname",
+      "street_name": "Straßenname",
       "post_code": "Postleitzahl",
       "city_name": "Stadtname",
       "country": "Land",
@@ -153,7 +153,7 @@
     "carrier_information": {
       "name": "Name",
       "person_name": "Personenname",
-      "street_name": "Staßenname",
+      "street_name": "Straßenname",
       "post_code": "Postleitzahl",
       "city_name": "Stadtname",
       "country": "Land",
@@ -166,7 +166,7 @@
     "successive_carrier_information": {
       "name": "Unternehmensname",
       "person_name": "Personenname",
-      "street_name": "Staßenname",
+      "street_name": "Straßenname",
       "post_code": "Postleitzahl",
       "city_name": "Stadtname",
       "country": "Land",
@@ -282,6 +282,7 @@
     "title": "Gruppenverwaltung",
     "create_new": "Neue Gruppe erstellen",
     "delete_group": "Gruppe löschen",
+    "delete_confirm": "Sind Sie sich sicher, dass Sie die Gruppe löschen möchten? Alle Benutzer und eCMRs werden eine Ebene höher gruppiert.",
     "search": "Suchen",
     "location_name": "Standort",
     "expand_all": "Alle ausklappen",
@@ -290,7 +291,8 @@
       "create_new": "Erstelle neue Gruppe",
       "edit_name": "Gruppe bearbeiten",
       "change_parent": "Wechsel übergeordnete Gruppe",
-      "user": "Zugeordnete Benutzer"
+      "user": "Zugeordnete Benutzer",
+      "delete": "Gruppe löschen"
     }
   },
   "group_detail": {
@@ -402,6 +404,7 @@
     "pdf": "PDF",
     "edit": "Bearbeiten",
     "copy": "Kopieren",
-    "share": "Teilen"
+    "share": "Teilen",
+    "remove_archive": "Aus Archiv entfernen"
   }
 }

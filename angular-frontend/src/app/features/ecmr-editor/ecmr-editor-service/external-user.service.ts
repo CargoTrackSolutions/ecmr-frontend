@@ -14,6 +14,8 @@ import { EcmrRole } from '../../../core/enums/EcmrRole';
 import { Observable } from 'rxjs';
 import { Sign } from '../../../core/models/Sign';
 import { Signature } from '../../../core/models/areas/signature/Signature';
+import { EcmrShare } from '../../../core/models/EcmrShare';
+import { EcmrShareResponse } from '../../../core/models/EcmrShareResponse';
 
 @Injectable({
     providedIn: 'root'
@@ -60,5 +62,9 @@ export class ExternalUserService {
             observe: 'response',
             params: {'tan': tan}
         });
+    }
+
+    shareEcmr(ecmrShare: EcmrShare, ecmrId: string, tan: string) {
+        return this.http.patch<EcmrShareResponse>(`${environment.backendUrl}/anonymous/ecmr/${ecmrId}/share`, ecmrShare, {params: {'tan': tan}});
     }
 }

@@ -2,7 +2,7 @@
 <mat-dialog-content>
     <div class="d-flex flex-column w-100 mt-2 gap-2">
 
-        <mat-button-toggle-group name="Ecmr Role" aria-label="Ecmr Role" #buttonToggle>
+        <mat-button-toggle-group name="Ecmr Role" aria-label="Ecmr Role" #buttonToggle [vertical]="this.isMobile">
             <mat-button-toggle [value]="EcmrRole.Sender" [checked]="ecmrRoles.includes(EcmrRole.Sender)" class="flex-grow-1"
                                (change)="changeRole(EcmrRole.Sender)"
                                *ngIf="ecmrRoles.includes(EcmrRole.Sender)">

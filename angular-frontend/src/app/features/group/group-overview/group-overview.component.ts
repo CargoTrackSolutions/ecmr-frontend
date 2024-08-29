@@ -34,7 +34,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GroupEditDialogComponent } from '../group-edit-dialog/group-edit-dialog.component';
 import { MatInput } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
-import { filter, switchMap } from 'rxjs';
+import { filter, of, switchMap } from 'rxjs';
 import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
 import {
     MatTree,
@@ -50,6 +50,7 @@ import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { FlatGroupNode } from '../../../core/models/FlatGroupNode';
 import { FormsModule } from '@angular/forms';
 import { GroupChangeParentDialogComponent } from '../group-change-parent-dialog/group-change-parent-dialog.component';
+import { ConfirmationDialogComponent } from '../../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
     selector: 'app-group-overview',
@@ -235,12 +236,26 @@ export class GroupOverviewComponent implements OnInit {
 
     deleteGroup(group: Group) {
         this.saveExpandedState();
-        this.groupService.deleteGroup(group.id).pipe(
-            filter(result => result),
-            switchMap(() => this.groupService.getAllGroups(true))
-        ).subscribe(groups => {
-            this.dataSource.data = groups;
-            this.restoreExpandedState();
-        })
+        this.matDialog.open(ConfirmationDialogComponent, {
+            data: {
+                text: 'group_overview.delete_confirm'
+            }
+        }).afterClosed().pipe(
+            switchMap(result => {
+                if (result.isConfirmed) return this.groupService.deleteGroup(group.id)
+                return of(false)
+            }),
+            switchMap(data => {
+                if (data) {
+                    return this.groupService.getAllGroups(true)
+                }
+                return of(null)
+            }))
+            .subscribe(groups => {
+                if (groups) {
+                    this.dataSource.data = groups;
+                    this.restoreExpandedState();
+                }
+            });
     }
 }

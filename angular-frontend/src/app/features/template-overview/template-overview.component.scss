@@ -22,6 +22,17 @@
   overflow: auto;
 }
 
+.mat-paginator-sticky {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+}
+
+.mat-mdc-row, .cdk-row, .mdc-data-table__row {
+  height: calc((100vh - 240px) / 10) !important;
+  max-height: calc((100vh - 240px) / 10) !important;
+}
+
 #quick-view-container{
   position: fixed;
   z-index: 5;

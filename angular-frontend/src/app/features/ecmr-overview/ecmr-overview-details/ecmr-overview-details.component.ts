@@ -67,7 +67,7 @@ export class EcmrOverviewDetailsComponent {
     this.closeDetails.emit(true);
   }
 
-  toDateString(logisticsTimeOfArrivalDateTime: Date | null) {
+  toDateString(logisticsTimeOfArrivalDateTime: Date | null | undefined) {
     if (logisticsTimeOfArrivalDateTime)
       return formatDate(logisticsTimeOfArrivalDateTime, 'dd.MM.yyyy hh:mm', this.locale)
     else

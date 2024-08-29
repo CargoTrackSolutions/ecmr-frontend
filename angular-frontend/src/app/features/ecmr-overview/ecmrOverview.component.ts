@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatIconButton, MatMiniFabButton } from '@angular/material/button';
@@ -22,7 +22,6 @@ import {
     MatRow,
     MatRowDef,
     MatTable,
-    MatTableDataSource,
     MatTableModule
 } from '@angular/material/table';
 import { MatTabBody, MatTabHeader } from '@angular/material/tabs';
@@ -66,6 +65,9 @@ import { ShareEcmrDialogComponent } from '../../shared/dialogs/share-ecmr-dialog
 import { EcmrStatus } from '../../core/models/EcmrStatus';
 import { EcmrActionService } from '../../shared/services/ecmr-action.service';
 import { EcmrRole } from '../../core/enums/EcmrRole';
+import { FilterRequest } from './filter-request';
+import { EcmrPage } from '../../core/models/EcmrPage';
+import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
     selector: 'app-overview',
@@ -148,7 +150,7 @@ import { EcmrRole } from '../../core/enums/EcmrRole';
     templateUrl: './ecmrOverview.component.html',
     styleUrl: './ecmrOverview.component.scss'
 })
-export class EcmrOverviewComponent implements OnInit {
+export class EcmrOverviewComponent implements OnInit, AfterViewInit {
 
     isMobile: boolean = false;
     breakpointSubscription: Subscription | undefined;
@@ -162,6 +164,7 @@ export class EcmrOverviewComponent implements OnInit {
                 public snackbar: MatSnackBar,
                 public ecmrService: EcmrService,
                 private router: Router,
+                private loadingService: LoadingService,
                 private translateService: TranslateService,
                 private breakpointObserver: BreakpointObserver,
                 protected ecmrActionService: EcmrActionService) {
@@ -174,6 +177,18 @@ export class EcmrOverviewComponent implements OnInit {
 
     ecmr: Ecmr[] = [];
 
+    filterRequest: FilterRequest = {
+        referenceId: null,
+        from: null,
+        to: null,
+        transportType: null,
+        status: null,
+        licensePlate: null,
+        carrierName: null,
+        carrierPostCode: null,
+        consigneePostCode: null,
+    };
+
     showDetails: boolean = false;
 
     ngOnInit() {
@@ -183,20 +198,31 @@ export class EcmrOverviewComponent implements OnInit {
                 this.isMobile = result.matches;
             });
 
-        this.loadData().subscribe(data => {
+        const savedFilterRequest = this.ecmrService.getFilterRequest();
+        if (savedFilterRequest) this.filterRequest = savedFilterRequest;
+    }
+
+    ngAfterViewInit() {
+        this.loadingService.showLoaderUntilCompleted(this.loadData()).subscribe(data => {
             this.updateTableData(data);
+            this.table.initFilter();
         });
     }
 
-    loadData(): Observable<Ecmr[]> {
-        return this.ecmrService.getAllEcmr();
+    loadData(): Observable<EcmrPage> {
+        const paginator = this.table.paginator
+        if (this.isMobile) {
+            return this.ecmrService.getAllEcmr(this.filterRequest, paginator.pageIndex, paginator.pageSize, null, '');
+        } else {
+            return this.ecmrService.getAllEcmr(this.filterRequest, paginator.pageIndex, paginator.pageSize, this.table.sort.active, this.table.sort.direction.toUpperCase());
+        }
     }
 
-    updateTableData(data: Ecmr[]) {
-        this.table.dataSource = new MatTableDataSource(data);
-        this.table.ecmr = data;
-        this.ecmr = data;
-        this.table.initFilter();
+    updateTableData(data: EcmrPage) {
+        this.table.dataSource.data = data.ecmrs;
+        this.table.ecmr = data.ecmrs;
+        this.ecmr = data.ecmrs;
+        this.table.paginator.length = data.totalElements;
     }
 
     createNewEcmr() {
@@ -232,7 +258,7 @@ export class EcmrOverviewComponent implements OnInit {
     deleteEcmr(ecmrId: string) {
         this.dialog.open(ConfirmationDialogComponent, {
             data: {
-                text: this.translateService.instant('overview.delete_ecmr_dialog_text')
+                text: 'overview.delete_ecmr_dialog_text'
             }
         }).afterClosed().pipe(
             filter(dialogResult => dialogResult.isConfirmed === true && !!ecmrId),
@@ -271,12 +297,11 @@ export class EcmrOverviewComponent implements OnInit {
                 } else {
                     return EMPTY;
                 }
-            })
+            }),
+            switchMap(() => this.loadData())
         ).subscribe({
-            next: () => {
-                this.loadData().subscribe(data => {
-                    this.updateTableData(data);
-                });
+            next: data => {
+                this.updateTableData(data);
                 this.selectedEcmr = null;
             },
             error: err => {
@@ -286,11 +311,6 @@ export class EcmrOverviewComponent implements OnInit {
                 console.log(err);
             }
         });
-    }
-
-    // TODO: implement Guest Access-function for eCMR
-    guestAccessToEcmr() {
-        this.snackbar.open('Not implemented yet.', '', {duration: 3000});
     }
 
     onCopyEcmr(ecmrId: string | null | undefined) {
@@ -312,5 +332,12 @@ export class EcmrOverviewComponent implements OnInit {
     closeDetailView($event: boolean) {
         if ($event)
             this.selectEcmr(null)
+    }
+
+    onFilterRequest(request: FilterRequest) {
+        this.filterRequest = request;
+        this.loadData().subscribe(data => {
+            this.updateTableData(data);
+        });
     }
 }

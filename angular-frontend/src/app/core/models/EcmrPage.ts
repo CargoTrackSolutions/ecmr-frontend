@@ -5,8 +5,10 @@
  * For details on the licensing terms, see the LICENSE file.
  * SPDX-License-Identifier: OLFL-1.3
  */
+import { Ecmr } from './Ecmr';
 
-export enum EcmrTransportType {
-    National = 'National',
-    International = 'International'
+export interface EcmrPage {
+    totalPages: number,
+    totalElements: number,
+    ecmrs: Ecmr[]
 }

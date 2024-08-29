@@ -43,8 +43,10 @@ export class ConfirmationDialogComponent {
     isCheckboxTicked: false
   };
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: ConfirmationDialogData, public dialogRef: MatDialogRef<ConfirmationDialogComponent>) {
-  }
+    constructor(
+        @Inject(MAT_DIALOG_DATA) public data: ConfirmationDialogData,
+        public dialogRef: MatDialogRef<ConfirmationDialogComponent>) {
+    }
 
   toggleCreateCopy() {
     this.dialogResult.isCheckboxTicked = !this.dialogResult.isCheckboxTicked;

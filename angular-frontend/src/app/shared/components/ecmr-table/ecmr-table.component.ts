@@ -177,10 +177,7 @@ export class EcmrTableComponent implements OnInit {
         from: new FormControl<string | null>(null),
         to: new FormControl<string | null>(null),
         transportType: new FormControl<EcmrTransportType | null>(null),
-        lastEditor: new FormControl<string | null>(null),
         status: new FormControl<EcmrStatus | null>(null),
-        lastEditorDate: new FormControl<Date | null>(null),
-        lastCreationDate: new FormControl<Date | null>(null),
         licensePlate: new FormControl<string | null>(null),
         carrierName: new FormControl<string | null>(null),
         carrierPostCode: new FormControl<string | null>(null),
@@ -192,6 +189,7 @@ export class EcmrTableComponent implements OnInit {
     @Input() mobileActionButtons: TemplateRef<object>;
     @Input() ecmr: Ecmr[];
     @Output() selectedEcmr = new EventEmitter<Ecmr>();
+    @Output() filterRequest = new EventEmitter<FilterRequest>();
 
     toggledColumns = [this.showColumns.referenceId, this.showColumns.from, this.showColumns.to, this.showColumns.transportType, this.showColumns.lastEditor, this.showColumns.status, this.showColumns.lastEditDate, this.showColumns.creationDate];
 
@@ -240,17 +238,30 @@ export class EcmrTableComponent implements OnInit {
         //Check for saved filter configuration
         const savedFilterRequest: FilterRequest | null = this.ecmrService.getFilterRequest();
         if (savedFilterRequest) {
-            this.filterTable(savedFilterRequest);
             this.filterFormGroup.patchValue(savedFilterRequest)
-            this.dataSource.paginator = this.paginator;
         }
         //Subscribes to filter value changes
         this.filterFormGroup.valueChanges.subscribe(() => {
-            const filterRequest: FilterRequest = this.filterFormGroup.getRawValue();
+            const filterRequest: FilterRequest = this.getFilterValues();
             this.ecmrService.saveFilterRequest(filterRequest);
-            this.filterTable(filterRequest);
+            this.filterRequest.emit(filterRequest);
         })
         this.dataSource.sort = this.sort;
+    }
+
+    getFilterValues(): FilterRequest {
+        const formGroup = this.filterFormGroup.controls
+        return {
+            referenceId: formGroup.referenceId.value != '' ? formGroup.referenceId.value : null,
+            from: formGroup.from.value != '' ? formGroup.from.value : null,
+            to: formGroup.to.value != '' ? formGroup.to.value : null,
+            transportType: formGroup.transportType.value ? formGroup.transportType.value : null,
+            status: formGroup.status.value ? formGroup.status.value : null,
+            licensePlate: formGroup.licensePlate.value != '' ? formGroup.licensePlate.value : null,
+            carrierName: formGroup.carrierName.value != '' ? formGroup.carrierName.value : null,
+            carrierPostCode: formGroup.carrierPostCode.value != '' ? formGroup.carrierPostCode.value : null,
+            consigneePostCode: formGroup.consigneePostCode.value != '' ? formGroup.consigneePostCode.value : null,
+        }
     }
 
     updateDisplayedColumns() {
@@ -319,7 +330,6 @@ export class EcmrTableComponent implements OnInit {
      */
     toggleColumnSelectionMenu() {
         this.showColumSelection = !this.showColumSelection;
-        console.log('filter status: ' + this.showColumSelection);
     }
 
     toggleColumnAtIndex(index: number) {
@@ -353,64 +363,6 @@ export class EcmrTableComponent implements OnInit {
         this.showColumSelection = false;
     }
 
-    // TODO: implement Delete-function for eCMR
-    deleteEcmr() {
-        this.snackbar.open('Not implemented yet.', '', {duration: 3000});
-    }
-
-    // TODO: implement History-function for eCMR
-    historyOfEcmr() {
-        this.snackbar.open('Not implemented yet.', '', {duration: 3000});
-    }
-
-    private filterTable(filterRequest: FilterRequest) {
-        this.dataSource.data = this.ecmr;
-        if (filterRequest.referenceId) {
-            this.dataSource.data = this.dataSource.data.filter(ecmr => ecmr.ecmrConsignment.referenceIdentificationNumber.value?.toLowerCase().includes(filterRequest.referenceId!.toLowerCase()))
-        }
-        if (filterRequest.from) {
-            this.dataSource.data = this.dataSource.data.filter(ecmr => ecmr.ecmrConsignment.senderInformation.senderNameCompany?.toLowerCase().includes(filterRequest.from!.toLowerCase()))
-        }
-        if (filterRequest.to) {
-            this.dataSource.data = this.dataSource.data.filter(ecmr => ecmr.ecmrConsignment.consigneeInformation.consigneeNameCompany?.toLowerCase().includes(filterRequest.to!.toLowerCase()))
-        }
-        if (filterRequest.transportType) {
-            this.dataSource.data = this.dataSource.data.filter(ecmr => this.getTransportType(ecmr) === filterRequest.transportType)
-        }
-        if (filterRequest.lastEditor) {
-            this.dataSource.data = this.dataSource.data.filter(ecmr => ecmr.editedBy?.toLowerCase().includes(filterRequest.lastEditor!.toLowerCase()))
-        }
-        if (filterRequest.status) {
-            this.dataSource.data = this.dataSource.data.filter(ecmr => ecmr.ecmrStatus === filterRequest.status)
-        }
-        if (filterRequest.lastEditorDate) {
-            const filterDate = new Date(filterRequest.lastEditorDate);
-            this.dataSource.data = this.dataSource.data.filter(ecmr => {
-                const editDate = ecmr.editedAt ? new Date(ecmr.editedAt) : undefined;
-                return editDate && editDate >= filterDate;
-            });
-        }
-        if (filterRequest.lastCreationDate) {
-            const filterDate = new Date(filterRequest.lastCreationDate);
-            this.dataSource.data = this.dataSource.data.filter(ecmr => {
-                const creationDate = ecmr.createdAt ? new Date(ecmr.createdAt) : undefined;
-                return creationDate && creationDate >= filterDate;
-            });
-        }
-        if (filterRequest.licensePlate) {
-            this.dataSource.data = this.dataSource.data.filter(ecmr => ecmr.ecmrConsignment.carrierInformation.carrierLicensePlate?.toLowerCase().includes(filterRequest.licensePlate!.toLowerCase()))
-        }
-        if (filterRequest.carrierName) {
-            this.dataSource.data = this.dataSource.data.filter(ecmr => ecmr.ecmrConsignment.carrierInformation.carrierNameCompany?.toLowerCase().includes(filterRequest.carrierName!.toLowerCase()))
-        }
-        if (filterRequest.carrierPostCode) {
-            this.dataSource.data = this.dataSource.data.filter(ecmr => ecmr.ecmrConsignment.carrierInformation.carrierPostcode?.includes(filterRequest.carrierPostCode!))
-        }
-        if (filterRequest.consigneePostCode) {
-            this.dataSource.data = this.dataSource.data.filter(ecmr => ecmr.ecmrConsignment.consigneeInformation.consigneePostcode?.includes(filterRequest.consigneePostCode!))
-        }
-    }
-
     // eslint-disable-next-line
     sortPredicate(index: number, item: CdkDrag<number>) {
         return index != 0;
@@ -427,14 +379,18 @@ export class EcmrTableComponent implements OnInit {
             return null;
         }
         return senderCountryCode === consigneeCountryCode
-            ? EcmrTransportType.NATIONAL
-            : EcmrTransportType.INTERNATIONAL;
+            ? EcmrTransportType.National
+            : EcmrTransportType.International;
     }
 
     closeColumnSelection() {
         const savedShowColumns: ShowColumns | null = this.ecmrService.getShowColumns();
         if (savedShowColumns) this.showColumns = savedShowColumns;
         this.showColumSelection = false;
+    }
+
+    onPageEvent($event: PageEvent) {
+        this.filterRequest.emit(this.getFilterValues());
     }
 }
 

@@ -413,7 +413,10 @@ export class EcmrEditorComponent implements OnInit {
 
     signSender() {
         if (this.senderFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
-            this.matDialog.open(SignaturePadDialogComponent)
+            this.matDialog.open(SignaturePadDialogComponent, {
+                width: '1000px',
+                maxWidth: '95vw',
+            })
                 .afterClosed()
                 .pipe(
                     filter(result => result),

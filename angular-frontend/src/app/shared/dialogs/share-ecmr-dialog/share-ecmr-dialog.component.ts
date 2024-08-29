@@ -24,12 +24,13 @@ import { EcmrService } from '../../services/ecmr.service';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
-import { catchError, filter, map, of, startWith } from 'rxjs';
+import { catchError, filter, map, of, startWith, Subscription } from 'rxjs';
 import { EcmrShare } from '../../../core/models/EcmrShare';
 import { ShareEcmrResult } from '../../../core/enums/ShareEcmrResult';
 import { MatTooltip } from '@angular/material/tooltip';
 import { environment } from '../../../../environments/environment';
 import { ExternalUserService } from '../../../features/ecmr-editor/ecmr-editor-service/external-user.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
     selector: 'app-share-ecmr-dialog',
@@ -80,14 +81,24 @@ export class ShareEcmrDialogComponent implements OnInit {
     isExternalUser: boolean;
     tan: string;
 
+    private breakpointSubscription: Subscription | undefined;
+    isMobile: boolean;
+
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: { ecmr: Ecmr, roles: EcmrRole[], isExternalUser: boolean, tan: string },
         public dialogRef: MatDialogRef<ShareEcmrDialogComponent>,
         private snackBarService: SnackbarService,
         private ecmrService: EcmrService,
+        private breakpointObserver: BreakpointObserver,
         private userService: UserService,
         private externalUserService: ExternalUserService
     ) {
+        this.breakpointSubscription = this.breakpointObserver
+            .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium])
+            .subscribe(result => {
+                this.isMobile = result.matches;
+            });
+
         if (data) {
             this.ecmr = data.ecmr;
             this.ecmrRoles = data.roles;
@@ -131,8 +142,8 @@ export class ShareEcmrDialogComponent implements OnInit {
             const ecmrShare: EcmrShare = {
                 role: this.currentRole,
                 email: this.emailFormControl.value
-            }
-            this.ecmrService.shareEcmr(ecmrShare, this.ecmr.ecmrId).pipe(
+            };
+            (this.isExternalUser ? this.externalUserService.shareEcmr(ecmrShare, this.ecmr.ecmrId, this.tan) : this.ecmrService.shareEcmr(ecmrShare, this.ecmr.ecmrId)).pipe(
                 catchError(err => {
                     console.error(err);
                     if (err.status === 501) {

@@ -16,19 +16,37 @@ import { environment } from '../../../environments/environment';
 import { EcmrRole } from '../../core/enums/EcmrRole';
 import { EcmrShareResponse } from '../../core/models/EcmrShareResponse';
 import { EcmrShare } from '../../core/models/EcmrShare';
+import { EcmrPage } from '../../core/models/EcmrPage';
 
 @Injectable({
     providedIn: 'root'
 })
 export class EcmrService {
 
-  static ecmrId = 0;
+    static ecmrId = 0;
 
     constructor(private http: HttpClient) {
     }
 
-    getAllEcmr() {
-        return this.http.get<Ecmr[]>(`${environment.backendUrl}/ecmr`)
+    getAllEcmr(filterRequest: FilterRequest, page: number, size: number, sortBy: string | null, sortingOrder: string) {
+        return this.http.post<EcmrPage>(`${environment.backendUrl}/ecmr/my-ecmrs`, filterRequest, {
+            params: {
+                'page': page,
+                'size': size,
+                'sortingOrder': sortingOrder
+            }
+        })
+    }
+
+    getAllArchivedEcmr(filterRequest: FilterRequest, page: number, size: number, sortBy: string | null, sortingOrder: string) {
+        return this.http.post<EcmrPage>(`${environment.backendUrl}/ecmr/my-ecmrs`, filterRequest, {
+            params: {
+                'type': [EcmrType.ARCHIVED],
+                'page': page,
+                'size': size,
+                'sortingOrder': sortingOrder
+            }
+        })
     }
 
     getShareToken(ecmrId: string, role: EcmrRole) {
@@ -77,11 +95,6 @@ export class EcmrService {
         }
     }
 
-    getAllArchivedEcmr() {
-        const params = {'type': EcmrType[EcmrType.ARCHIVED]}
-        return this.http.get<Ecmr[]>(`${environment.backendUrl}/ecmr`, {params: params})
-    }
-
     moveToArchive(ecmrId: string) {
         return this.http.patch<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}/archive`, {}, {})
     }
@@ -97,8 +110,8 @@ export class EcmrService {
     }
 
     deleteEcmr(ecmrId: string) {
-    const params = {'type':  EcmrType[EcmrType.ECMR]}
-    return this.http.delete(`${environment.backendUrl}/ecmr/${ecmrId}`, {params: params});
+        const params = {'type': EcmrType[EcmrType.ECMR]}
+        return this.http.delete(`${environment.backendUrl}/ecmr/${ecmrId}`, {params: params});
     }
 
     shareEcmr(ecmrShare: EcmrShare, ecmrId: string) {
