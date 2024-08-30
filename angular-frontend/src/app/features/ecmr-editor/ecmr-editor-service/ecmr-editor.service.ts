@@ -15,6 +15,7 @@ import { TemplateUser } from '../../../core/models/TemplateUser';
 import { GroupFlat } from '../../../core/models/GroupFlat';
 import { Signature } from '../../../core/models/areas/signature/Signature';
 import { Sign } from '../../../core/models/Sign';
+import { EcmrStatus } from '../../../core/models/EcmrStatus';
 
 @Injectable({
     providedIn: 'root'
@@ -194,11 +195,16 @@ export class EcmrEditorService {
         // Reset Signature
         ecmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature = null;
         ecmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature = null;
+        ecmr.ecmrConsignment.goodsReceived.consigneeSignature = null;
         // Reset Carrier Reservation
         ecmr.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.senderReservationsObservationsSignature = null;
         ecmr.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.carrierReservationsObservations = null;
         // Set new referenceIdentificationNumber to Copy
         ecmr.ecmrConsignment.referenceIdentificationNumber.value += ': Copy';
+        //Status
+        ecmr.ecmrStatus = EcmrStatus.NEW;
+        //Items
+        ecmr.ecmrConsignment.itemList = []
 
         return ecmr;
     }

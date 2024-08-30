@@ -20,15 +20,16 @@
                             <mat-icon iconPositionEnd>add</mat-icon>
                             {{ 'overview.create_new' | translate }}
                         </button>
-                        @if (!isMobile) {
-                            <button mat-flat-button (click)="importEcmr()">{{ 'overview.import' | translate }}
-                                <mat-icon iconPositionEnd>upload_file</mat-icon>
-                            </button>
-                        } @else {
-                            <button mat-flat-button class="download-button-mobile" (click)="importEcmr()">
-                                <mat-icon>upload_file</mat-icon>
-                            </button>
-                        }
+                        <!--                        TODO Will be implemented at a later date-->
+                        <!--                        @if (!isMobile) {-->
+                        <!--                            <button mat-flat-button (click)="importEcmr()">{{ 'overview.import' | translate }}-->
+                        <!--                                <mat-icon iconPositionEnd>upload_file</mat-icon>-->
+                        <!--                            </button>-->
+                        <!--                        } @else {-->
+                        <!--                            <button mat-flat-button class="download-button-mobile" (click)="importEcmr()">-->
+                        <!--                                <mat-icon>upload_file</mat-icon>-->
+                        <!--                            </button>-->
+                        <!--                        }-->
                     </div>
                 </mat-toolbar-row>
             </mat-toolbar>
@@ -47,12 +48,15 @@
             <button class="m-1" mat-flat-button color="primary" (click)="moveToArchive(ecmr.ecmrId)">{{ 'quick_view_buttons.archive' | translate }}
                 <mat-icon iconPositionEnd>archive</mat-icon>
             </button>
-            <button class="m-1" mat-flat-button color="primary" (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null)">{{
-                    'quick_view_buttons.pdf' | translate
-                }}
+            <button class="m-1" mat-flat-button color="primary"
+                    (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null, ecmr.ecmrConsignment.referenceIdentificationNumber.value)">
+                {{ 'quick_view_buttons.pdf' | translate }}
                 <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
             </button>
-            <button class="m-1" mat-flat-button color="primary" (click)="editEcmr(ecmr.ecmrId)">{{ 'quick_view_buttons.edit' | translate }}
+            <button class="m-1" mat-flat-button color="primary"
+                    [disabled]="ecmr.ecmrStatus === EcmrStatus.ARRIVED_AT_DESTINATION"
+                    (click)="editEcmr(ecmr.ecmrId)">
+                {{ 'quick_view_buttons.edit' | translate }}
                 <mat-icon iconPositionEnd>edit_note</mat-icon>
             </button>
             <button class="m-1" mat-stroked-button (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">{{ 'quick_view_buttons.copy' | translate }}
@@ -73,10 +77,15 @@
             <button class="m-1" mat-menu-item (click)="moveToArchive(ecmr.ecmrId)">{{ 'quick_view_buttons.archive' | translate }}
                 <mat-icon>archive</mat-icon>
             </button>
-            <button class="m-1" mat-menu-item (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null)">{{ 'quick_view_buttons.pdf' | translate }}
+            <button class="m-1" mat-menu-item
+                    (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null, ecmr.ecmrConsignment.referenceIdentificationNumber.value)">
+                {{ 'quick_view_buttons.pdf' | translate }}
                 <mat-icon>picture_as_pdf</mat-icon>
             </button>
-            <button class="m-1" mat-menu-item (click)="editEcmr(ecmr.ecmrId)">{{ 'quick_view_buttons.edit' | translate }}
+            <button class="m-1" mat-menu-item
+                    [disabled]="ecmr.ecmrStatus === EcmrStatus.ARRIVED_AT_DESTINATION"
+                    (click)="editEcmr(ecmr.ecmrId)">
+                {{ 'quick_view_buttons.edit' | translate }}
                 <mat-icon>edit_note</mat-icon>
             </button>
             <button class="m-1" mat-menu-item (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">{{ 'quick_view_buttons.copy' | translate }}
@@ -92,7 +101,9 @@
     </ng-template>
 
     <ng-template #actionButtons let-ecmr>
-        <button mat-icon-button (click)="editEcmr(ecmr.ecmrId);$event.stopPropagation()" matTooltip="{{'overview.tooltips.edit' | translate}}">
+        <button mat-icon-button (click)="editEcmr(ecmr.ecmrId);$event.stopPropagation()"
+                [disabled]="ecmr.ecmrStatus === EcmrStatus.ARRIVED_AT_DESTINATION"
+                matTooltip="{{'overview.tooltips.edit' | translate}}">
             <mat-icon>edit_note</mat-icon>
         </button>
         <button mat-icon-button (click)="historyOfEcmr();$event.stopPropagation()" matTooltip="{{'overview.tooltips.history' | translate}}">
@@ -106,14 +117,17 @@
         }
     </ng-template>
     <ng-template #mobileActionButtons let-ecmr>
-        <button mat-icon-button class="my-3" (click)="editEcmr(ecmr.ecmrId)">
-            <mat-icon color="primary" style="transform: scale(1.4)">edit_note</mat-icon>
+        <button mat-icon-button class="my-3"
+                [disabled]="ecmr.ecmrStatus === EcmrStatus.ARRIVED_AT_DESTINATION"
+                (click)="editEcmr(ecmr.ecmrId)">
+            <mat-icon style="transform: scale(1.4)">edit_note</mat-icon>
         </button>
         <button mat-icon-button class="my-3" (click)="selectEcmr(ecmr)">
-            <mat-icon color="primary" style="transform: scale(1.4)">visibility</mat-icon>
+            <mat-icon style="transform: scale(1.4)">visibility</mat-icon>
         </button>
-        <button mat-icon-button class="my-3" (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null)">
-            <mat-icon color="primary" style="transform: scale(1.4)">picture_as_pdf</mat-icon>
+        <button mat-icon-button class="my-3"
+                (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null, ecmr.ecmrConsignment.referenceIdentificationNumber.value)">
+            <mat-icon style="transform: scale(1.4)">picture_as_pdf</mat-icon>
         </button>
     </ng-template>
 </mat-drawer-container>

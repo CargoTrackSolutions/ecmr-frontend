@@ -664,8 +664,6 @@ export class EcmrEditorComponent implements OnInit {
                 ecmrConsignment: formValue
             }
 
-            console.log(ecmr);
-
             this.groupService.getAllGroupsAsFlatList(true).pipe(
                 switchMap(groups => {
                     if (groups.length > 1) {

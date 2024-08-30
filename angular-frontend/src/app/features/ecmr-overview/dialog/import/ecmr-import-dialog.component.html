@@ -1,8 +1,8 @@
 <div mat-dialog-title class="d-flex flex-row align-items-center gap-3 p-0">
-    <button mat-icon-button>
+    <button mat-icon-button (click)="close()">
         <mat-icon>arrow_back</mat-icon>
     </button>
-    Import eCMR
+    {{ "ecmr_import.title" | translate }}
 </div>
 <mat-dialog-content class="d-flex flex-column gap-3 justify-content-center align-items-center">
     <div class="scanner-container" [ngClass]="cameraCssClass">
@@ -18,7 +18,7 @@
     </div>
     <div class="w-100 d-flex flex-row align-items-center gap-3">
         <button mat-flat-button (click)="switchCamera()" color="accent" class="flex-grow-1" [disabled]="!cameraActive">
-            Switch Camera
+            {{ "ecmr_import.switch_camera" | translate }}
             <mat-icon iconPositionEnd>cameraswitch</mat-icon>
         </button>
         <button mat-icon-button (click)="toggleCamera()">
@@ -26,7 +26,7 @@
         </button>
     </div>
     <mat-form-field class="w-100">
-        <mat-label>E-Token</mat-label>
+        <mat-label>{{ "ecmr_import.e_token" | translate }}</mat-label>
         <input matInput [formControl]="tokenFormControl">
         <button mat-icon-button matIconSuffix (click)="pasteFromClipboard()"
                 *ngIf="tokenFormControl.invalid" color="accent"
@@ -47,7 +47,9 @@
     </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions [align]="'end'">
-    <button mat-flat-button color="primary" [disabled]="tokenFormControl.invalid" (click)="importEcmr()">eCmr Importieren</button>
+    <button mat-flat-button color="primary" [disabled]="tokenFormControl.invalid" (click)="importEcmr()">
+        {{ "ecmr_import.import" | translate }}
+    </button>
     <button mat-flat-button color="warn" (click)="close()">{{ "common.cancel" | translate }}</button>
 </mat-dialog-actions>
 

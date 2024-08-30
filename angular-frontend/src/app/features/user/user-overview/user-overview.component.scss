@@ -18,7 +18,7 @@ table {
   max-height: calc((100vh - 240px) / 15) !important;
 }
 
-.mat-mdc-row:hover {
+.mat-mdc-row:hover:not(.deactivated) {
   background-color: rgba(196, 196, 196, 0.08) !important;
   cursor: pointer;
 }

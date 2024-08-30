@@ -232,7 +232,6 @@ export class TemplateOverviewComponent implements OnInit {
   }
 
   selectTemplate(templateUser: TemplateUser | null) {
-    console.log(templateUser);
     this.selectedTemplate = templateUser;
   }
 

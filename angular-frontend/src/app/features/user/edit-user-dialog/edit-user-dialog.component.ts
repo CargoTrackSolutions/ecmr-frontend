@@ -144,7 +144,7 @@ export class EditUserDialogComponent implements OnInit {
             this.initializeForm(data);
         }
         authService.getAuthenticatedUser().subscribe(authenticatedUser => {
-            this.isAuthenticatedUser = this.user.id === authenticatedUser?.user.id;
+            this.isAuthenticatedUser = this.user?.id === authenticatedUser?.user.id;
         })
     }
 
@@ -211,6 +211,7 @@ export class EditUserDialogComponent implements OnInit {
             this.selectedGroups.forEach(group => {
                 if (group.id) groupIds.push(group.id);
             })
+
             const user: UserCreationAndUpdate = {
                 firstName: this.userFormGroup.controls.firstName.value!,
                 lastName: this.userFormGroup.controls.lastName.value!,
@@ -221,6 +222,7 @@ export class EditUserDialogComponent implements OnInit {
                 groupIds: groupIds,
                 defaultGroupId: this.defaultGroupId
             }
+
             if (this.isEditMode && this.user?.id) {
                 this.userService.updateUser(user, this.user.id).pipe(
                     filter(result => !!result),
@@ -239,8 +241,12 @@ export class EditUserDialogComponent implements OnInit {
                 this.userService.createUser(user).pipe(
                     filter(result => !!result),
                     catchError(err => {
+                        if (err.status === 409) {
+                            this.snackbarService.openErrorSnackbarWithTranslationValue('edit_user_dialog.already_exists', user.email);
+                        } else {
+                            this.snackbarService.openErrorSnackbar('edit_user_dialog.error_saving');
+                        }
                         console.warn(err);
-                        this.snackbarService.openErrorSnackbar("edit_user_dialog.error_saving");
                         return of(null);
                     })
                 ).subscribe(result => {

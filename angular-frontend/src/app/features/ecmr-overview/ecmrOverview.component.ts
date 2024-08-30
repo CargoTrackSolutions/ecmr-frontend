@@ -308,7 +308,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
                 const action = this.translateService.instant('general.snackbar_action');
                 const message = this.translateService.instant('general.snackbar_error');
                 this.snackbar.open(message, action, {duration: 3000});
-                console.log(err);
+                console.error(err);
             }
         });
     }
@@ -340,4 +340,6 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
             this.updateTableData(data);
         });
     }
+
+    protected readonly EcmrStatus = EcmrStatus;
 }

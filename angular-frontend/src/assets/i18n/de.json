@@ -330,7 +330,8 @@
     "locations_and_groups": "Standorte und Gruppen",
     "successfully_saved": "User erfolgreich gespeichert.",
     "successfully_created": "User erfolgreich angelegt.",
-    "error_saving": "Fehler beim Speichern des Users!"
+    "error_saving": "Fehler beim Speichern des Users!",
+    "already_exists": "User mit der Email '{{ translateValue }}' existiert bereits"
   },
   "user": {
     "first_name": "Vorname",
@@ -407,5 +408,11 @@
     "copy": "Kopieren",
     "share": "Teilen",
     "remove_archive": "Aus Archiv entfernen"
+  },
+  "ecmr_import": {
+    "title": "eCMR importieren",
+    "switch_camera": "Kamera wechseln",
+    "e_token": "E-Token",
+    "import": "Importieren"
   }
 }

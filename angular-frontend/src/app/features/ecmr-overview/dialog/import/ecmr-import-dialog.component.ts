@@ -65,7 +65,6 @@ export class EcmrImportDialogComponent {
     }
 
     handleQrCodeResult(resultString: string) {
-        console.log('QR-Code-Ergebnis:', resultString);
         this.tokenFormControl.setValue(resultString);
     }
 

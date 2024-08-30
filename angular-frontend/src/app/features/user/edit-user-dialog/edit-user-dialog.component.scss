@@ -38,14 +38,10 @@
 .dialog-content {
   overflow: hidden;
   transition: max-height 0.3s ease-in-out;
-  max-height: 350px;
-}
-
-.dialog-expanded {
   max-height: 750px;
 }
 
 .favourite-button {
-  color: yellow;
+  color: #ffa700;;
   cursor: pointer;
 }

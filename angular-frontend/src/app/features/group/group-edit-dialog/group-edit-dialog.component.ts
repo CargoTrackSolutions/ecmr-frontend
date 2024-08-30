@@ -103,7 +103,6 @@ export class GroupEditDialogComponent {
                     name: this.groupFormGroup.controls.name.value!,
                     description: this.groupFormGroup.controls.description.value!,
                 }
-                console.log(groupUpdate);
                 this.groupService.updateGroup(groupUpdate, this.currentGroup.id).pipe(
                     filter(result => !!result),
                     catchError(err => {

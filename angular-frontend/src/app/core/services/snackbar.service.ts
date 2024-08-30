@@ -30,6 +30,14 @@ export class SnackbarService {
         this.openErrorSnackbarWithDuration(message, 3000);
     }
 
+    openErrorSnackbarWithTranslationValue(message: string, translateValue: any): void {
+        this._snackBar.openFromComponent(CustomSnackbarComponent, {
+            data: {message: message, type: 'error', translateValue: translateValue, duration: 3000},
+            duration: 3000,
+            panelClass: ['custom-snackbar', 'error']
+        });
+    }
+
     openInfoSnackbarWithDuration(message: string, duration: number): void {
         this._snackBar.openFromComponent(CustomSnackbarComponent, {
             data: {message: message, type: 'info', duration: duration},
