@@ -1,0 +1,15 @@
+tr {
+  cursor: pointer;
+}
+
+.table-container {
+  height: 400px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0);
+}

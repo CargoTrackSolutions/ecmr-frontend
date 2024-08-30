@@ -34,7 +34,8 @@
                     <mat-icon>restart_alt</mat-icon>
                     {{ "common.reset" | translate }}
                 </button>
-                <button mat-stroked-button color="primary" (click)="loadFromTemplate()" *ngIf="!(editorMode === EditorMode.TEMPLATE_NEW)"
+                <button mat-stroked-button color="primary" (click)="loadFromTemplate()"
+                        *ngIf="!(editorMode === EditorMode.TEMPLATE_NEW) && !(editorMode === EditorMode.TEMPLATE_EDIT)"
                         [disabled]="checkEcmrStatusNew()">
                     <mat-icon iconPositionEnd>upload_file</mat-icon>
                     {{ "ecmr_editor.load_from_template" | translate }}
@@ -820,7 +821,7 @@
                     </div>
                 </mat-card-content>
             </mat-card>
-            <mat-card id="ecmr-signature-scroll">
+            <mat-card id="ecmr-signature-scroll" *ngIf="!(editorMode === EditorMode.TEMPLATE_NEW) && !(editorMode === EditorMode.TEMPLATE_EDIT)">
                 <mat-card-content class="container-fluid">
                     <div class="row">
 

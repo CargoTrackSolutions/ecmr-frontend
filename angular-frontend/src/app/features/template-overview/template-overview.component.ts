@@ -44,6 +44,8 @@ import { filter, switchMap } from 'rxjs';
 import { EcmrOverviewDetailsComponent } from '../ecmr-overview/ecmr-overview-details/ecmr-overview-details.component';
 import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
 import { MatPaginator } from '@angular/material/paginator';
+import { ShareTemplateDialogComponent } from '../../shared/dialogs/share-template-dialog/share-template-dialog.component';
+import { SnackbarService } from '../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-template-overview',
@@ -108,7 +110,9 @@ export class TemplateOverviewComponent implements OnInit {
 
   protected readonly JSON = JSON;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, public snackbar: MatSnackBar, public overviewService: TemplateOverviewService,
+  constructor(private _liveAnnouncer: LiveAnnouncer,
+              public dialog: MatDialog, private snackBarService: SnackbarService,
+              public snackbar: MatSnackBar, public overviewService: TemplateOverviewService,
               private router: Router, public templateOverviewService: TemplateOverviewService, public translateService: TranslateService) {
   }
 
@@ -147,8 +151,18 @@ export class TemplateOverviewComponent implements OnInit {
     });
   }
 
-  shareTemplate() {
-
+  shareTemplate(template: TemplateUser) {
+    this.dialog.open(ShareTemplateDialogComponent, {
+      width: '1300px',
+      maxWidth: '90vw',
+      data: {
+        template: template
+      }
+    }).afterClosed().subscribe(res => {
+      if (res) {
+        this.snackBarService.openSuccessSnackbar('template_share_dialog.success')
+      }
+    })
   }
 
   sortData(sort: Sort) {

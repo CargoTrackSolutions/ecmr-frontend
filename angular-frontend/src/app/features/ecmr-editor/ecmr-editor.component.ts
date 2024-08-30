@@ -401,6 +401,9 @@ export class EcmrEditorComponent implements OnInit {
             if (this.ecmrToEdit != null && this.ecmrToEdit.ecmrStatus === EcmrStatus.NEW || !this.ecmrToEdit) {
                 this.canFillSenderFields = true;
             }
+            if (this.ecmrToEdit != null && this.editorMode === EditorMode.TEMPLATE_EDIT) {
+                this.canFillSenderFields = true;
+            }
         }
         if (this.userEcmrRoles.includes(EcmrRole.Carrier) && this.ecmrToEdit && this.ecmrToEdit.ecmrStatus == EcmrStatus.LOADING) {
             this.canFillCarrierFields = true;
@@ -619,6 +622,7 @@ export class EcmrEditorComponent implements OnInit {
         if (this.editorMode === EditorMode.TEMPLATE_EDIT) {
             this.ecmrEditorService.getTemplate(Number.parseFloat(this.id)).subscribe(ecmr => {
                 this.userEcmrRoles = [EcmrRole.Sender];
+                this.canFillSenderFields = true;
                 this.loadedTemplate = ecmr;
                 this.loadEcmr(ecmr.ecmr);
                 this.setFormConstraints();
@@ -634,7 +638,6 @@ export class EcmrEditorComponent implements OnInit {
             this.addNewItem();
         });
         this.ecmrConsignmentFormGroup.patchValue(this.ecmrConsignment);
-        this.setFormConstraints();
 
         this.senderSignature = this.ecmrConsignment.signatureOrStampOfTheSender.senderSignature;
         this.carrierSignature = this.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature;
@@ -884,20 +887,13 @@ export class EcmrEditorComponent implements OnInit {
         if (this.userEcmrRoles.includes(EcmrRole.Reader) && this.userEcmrRoles.length == 1) {
             return true;
         }
-
         if (this.userEcmrRoles.includes(EcmrRole.Sender) && this.canFillSenderFields) {
             return false;
         }
-
         if (this.userEcmrRoles.includes(EcmrRole.Carrier) && this.canFillCarrierFields) {
             return false;
         }
-
-        if (this.userEcmrRoles.includes(EcmrRole.Consignee) && this.canFillConsigneeFields) {
-            return false;
-        }
-
-        return true;
+        return !(this.userEcmrRoles.includes(EcmrRole.Consignee) && this.canFillConsigneeFields);
     }
 }
 

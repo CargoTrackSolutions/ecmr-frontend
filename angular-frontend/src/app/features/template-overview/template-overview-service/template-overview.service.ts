@@ -26,4 +26,8 @@ export class TemplateOverviewService {
   deleteTemplate(id: number) {
     return this.http.delete(`${environment.backendUrl}/template/${id}`)
   }
+
+  shareTemplate(id: number, userIds: number[]) {
+    return this.http.post<TemplateUser>(`${environment.backendUrl}/template/share/${id}`, userIds)
+  }
 }

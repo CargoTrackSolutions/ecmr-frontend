@@ -68,7 +68,7 @@
                         </th>
                         <td id="icons" mat-cell *matCellDef="let templateUser; let i = index;">
                               <span>
-                                  <button mat-icon-button (click)="shareTemplate();$event.stopPropagation()"
+                                  <button mat-icon-button (click)="shareTemplate(templateUser);$event.stopPropagation()"
                                           matTooltip="{{'overview.tooltips.share' | translate}}">
                                     <mat-icon>share</mat-icon>
                                   </button>
@@ -180,7 +180,7 @@
                 {{ 'common.edit' | translate }}
                 <mat-icon iconPositionEnd>edit_note</mat-icon>
             </button>
-            <button class="m-1" mat-stroked-button>
+            <button class="m-1" mat-stroked-button (click)="shareTemplate(selectedTemplate!)">
                 {{ 'common.share' | translate }}
                 <mat-icon iconPositionEnd>share</mat-icon>
             </button>

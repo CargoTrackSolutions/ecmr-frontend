@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>{{ "template_share_dialog.title" | translate }}</h2>
+<mat-dialog-content class="overflow-auto">
+    <div class="d-flex w-100 justify-content-end mt-2">
+        <mat-form-field class="w-50">
+            <mat-label>{{ "common.search" | translate }}</mat-label>
+            <input matInput (keyup)="applyFilter($event)" #input>
+            <mat-icon matIconSuffix>search</mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="overflow-y-scroll table-container">
+        <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()"
+                                  (change)="$event ? selection.toggle(row) : null"
+                                  [checked]="selection.isSelected(row)">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="firstName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "user.first_name" | translate }}</th>
+                <td mat-cell *matCellDef="let element" class="ps-3">{{ element.firstName }}</td>
+            </ng-container>
+            <ng-container matColumnDef="lastName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "user.last_name" | translate }}</th>
+                <td mat-cell *matCellDef="let element" class="ps-3">{{ element.lastName }}</td>
+            </ng-container>
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "user.email" | translate }}</th>
+                <td mat-cell *matCellDef="let element" class="ps-3">{{ element.email }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row);$event.stopPropagation()"></tr>
+        </table>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions [align]="'end'">
+    <button mat-flat-button color="warn" (click)="close()">
+        {{ "common.close" | translate }}
+        <mat-icon>close</mat-icon>
+    </button>
+    <button mat-flat-button color="primary" [disabled]="selection.isEmpty()" (click)="shareTemplate()">
+        {{ "common.share" | translate }}
+        <mat-icon>send</mat-icon>
+    </button>
+</mat-dialog-actions>

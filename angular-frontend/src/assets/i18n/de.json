@@ -14,6 +14,7 @@
     "close": "Schließen",
     "share": "Teilen",
     "copy": "Kopieren",
+    "search": "Suchen",
     "errors": {
       "required": "Feld darf nicht leer sein",
       "invalid_countryCode": "Ungültiger Ländercode",
@@ -414,5 +415,9 @@
     "switch_camera": "Kamera wechseln",
     "e_token": "E-Token",
     "import": "Importieren"
+  },
+  "template_share_dialog": {
+    "title": "Vorlage teilen",
+    "success": "Vorlage erfolgreich geteilt"
   }
 }
