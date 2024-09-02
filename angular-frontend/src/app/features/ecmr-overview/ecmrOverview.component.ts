@@ -274,9 +274,9 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
             && ecmr.ecmrStatus === EcmrStatus.NEW
     }
 
-    // TODO: implement
-    historyOfEcmr() {
-        this.snackbar.open('Not implemented yet.', '', {duration: 3000});
+
+    historyOfEcmr(ecmrId: string, refId: string) {
+        if (ecmrId) this.router.navigateByUrl(`/history/${ecmrId}/${refId}`);
     }
 
     moveToArchive(ecmrId: string) {

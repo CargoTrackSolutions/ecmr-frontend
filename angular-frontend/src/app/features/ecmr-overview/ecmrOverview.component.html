@@ -106,7 +106,10 @@
                 matTooltip="{{'overview.tooltips.edit' | translate}}">
             <mat-icon>edit_note</mat-icon>
         </button>
-        <button mat-icon-button (click)="historyOfEcmr();$event.stopPropagation()" matTooltip="{{'overview.tooltips.history' | translate}}">
+        <button mat-icon-button
+                (click)="historyOfEcmr(ecmr.ecmrId,ecmr.ecmrConsignment.referenceIdentificationNumber.value);$event.stopPropagation()"
+                matTooltip="{{'overview.tooltips.history' |
+        translate}}">
             <mat-icon>history</mat-icon>
         </button>
         @if(deleteButtonVisible(ecmr)) {

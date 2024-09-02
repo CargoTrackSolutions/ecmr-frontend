@@ -1,0 +1,14 @@
+.header-container {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+mat-card {
+  border-radius: 0 0 0.5rem 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+mat-card-content p {
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}

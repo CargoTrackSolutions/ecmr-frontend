@@ -419,5 +419,12 @@
   "template_share_dialog": {
     "title": "Share template",
     "success": "Template shared successfully"
+  },
+  "history": {
+    "title": "History for eCMR",
+    "actiontype": {
+      "creation": "Created",
+      "edit": "Edited"
+    }
   }
 }

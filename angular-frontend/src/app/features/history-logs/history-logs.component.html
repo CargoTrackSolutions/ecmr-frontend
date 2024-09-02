@@ -1,0 +1,16 @@
+<div class="mt-1 container">
+    <div class="header-container sticky-top d-flex align-items-center justify-content-between p-3">
+        <button mat-flat-button color="primary" (click)="back()">
+            <mat-icon>arrow_back</mat-icon>
+            {{ 'common.back' | translate }}
+        </button>
+        <h6>{{ 'history.title' | translate }}: {{ referenceId }}</h6>
+    </div>
+    <mat-card>
+        <mat-card-content>
+            <p *ngFor="let log of historyLogs;">{{ dateTimeService.transformDate(log.timestamp) }}
+                - {{ ('history.actiontype.' + log.actionType.toLowerCase()) | translate }} -
+                {{ log.actionFrom }}</p>
+        </mat-card-content>
+    </mat-card>
+</div>

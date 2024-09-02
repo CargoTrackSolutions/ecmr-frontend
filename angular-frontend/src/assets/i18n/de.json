@@ -419,5 +419,12 @@
   "template_share_dialog": {
     "title": "Vorlage teilen",
     "success": "Vorlage erfolgreich geteilt"
+  },
+  "history": {
+    "title": "Historie für eCMR",
+    "actiontype": {
+      "creation": "Erstellt",
+      "edit": "Bearbeitet"
+    }
   }
 }
