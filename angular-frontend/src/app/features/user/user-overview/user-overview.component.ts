@@ -183,7 +183,7 @@ export class UserOverviewComponent implements OnInit {
     deactivateUser(userId: number) {
         this.matDialog.open(ConfirmationDialogComponent, {
             data: {
-                text: 'user_overview.activate_dialog'
+                text: 'user_overview.deactivate_dialog'
             }
         }).afterClosed().pipe(
             filter(result => result.isConfirmed),

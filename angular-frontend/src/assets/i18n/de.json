@@ -97,7 +97,8 @@
     },
     "load_from_template_header": "Daten aus Vorlage laden",
     "load_selected": "Auswahl laden",
-    "delete_template_dialog_text": "Sind Sie sicher, dass Sie die Vorlage löschen wollen? Diese kann nicht wiederhergestellt werden!"
+    "delete_template_dialog_text": "Sind Sie sicher, dass Sie die Vorlage löschen wollen? Diese kann nicht wiederhergestellt werden!",
+    "clear_fitler": "Filter leeren"
   },
   "ecmr_editor": {
     "create_new_title": "Neuer eCMR",

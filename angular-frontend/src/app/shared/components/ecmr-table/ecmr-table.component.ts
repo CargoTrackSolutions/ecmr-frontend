@@ -271,7 +271,6 @@ export class EcmrTableComponent implements OnInit {
     sortData(sort: Sort) {
         this.announceSortChange(sort);
 
-        // TODO: change to request with sorting parameter
         const data = this.dataSource.data.slice();
         this.dataSource.data = data.sort((a, b) => {
             const isAsc = sort.direction === 'asc';
@@ -283,11 +282,19 @@ export class EcmrTableComponent implements OnInit {
                 case 'to':
                     return compare(a.ecmrConsignment.consigneeInformation.consigneeNameCompany, b.ecmrConsignment.consigneeInformation.consigneeNameCompany, isAsc);
                 case 'transportType':
-                    return compare(a.ecmrConsignment.sendersInstructions.transportInstructionsDescription, b.ecmrConsignment.sendersInstructions.transportInstructionsDescription, isAsc);
+                    return compare(this.getTransportType(a), this.getTransportType(b), isAsc);
                 case 'lastEditor':
                     return compare(a.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.userName, b.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.userName, isAsc);
                 case 'status':
-                    return compare(a.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.carrierReservationsObservations, b.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.carrierReservationsObservations, isAsc);
+                    return compare(a.ecmrStatus!, b.ecmrStatus!, isAsc);
+                case 'licensePlate':
+                    return compare(a.ecmrConsignment.carrierInformation.carrierLicensePlate, b.ecmrConsignment.carrierInformation.carrierLicensePlate, isAsc);
+                case 'carrierName':
+                    return compare(a.ecmrConsignment.carrierInformation.carrierNameCompany, b.ecmrConsignment.carrierInformation.carrierNameCompany, isAsc);
+                case 'carrierPostCode':
+                    return compare(a.ecmrConsignment.carrierInformation.carrierPostcode, b.ecmrConsignment.carrierInformation.carrierPostcode, isAsc);
+                case 'consigneePostCode':
+                    return compare(a.ecmrConsignment.consigneeInformation.consigneePostcode, b.ecmrConsignment.consigneeInformation.consigneePostcode, isAsc);
                 case 'lastEditDate':
                     return compare(a.ecmrConsignment.successiveCarrierInformation.successiveCarrierSignatureDate!, b.ecmrConsignment.successiveCarrierInformation.successiveCarrierSignatureDate!, isAsc);
                 case 'creationDate':

@@ -29,6 +29,8 @@ import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { MatTooltip } from '@angular/material/tooltip';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { NgClass } from '@angular/common';
+import { EcmrStatus } from '../../core/models/EcmrStatus';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-archive',
@@ -80,7 +82,7 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
     };
 
     constructor(public dialog: MatDialog, public snackbar: MatSnackBar, public ecmrService: EcmrService, private breakpointObserver: BreakpointObserver,
-                private translateService: TranslateService, protected ecmrActionService: EcmrActionService) {
+                private translateService: TranslateService, protected ecmrActionService: EcmrActionService,private router: Router) {
     }
 
     ngOnInit() {
@@ -160,5 +162,11 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
         this.loadData().subscribe(data => {
             this.updateTableData(data);
         });
+    }
+
+    protected readonly EcmrStatus = EcmrStatus;
+
+    historyOfEcmr(ecmrId: string, refId: string) {
+        if (ecmrId) this.router.navigateByUrl(`/history/${ecmrId}/${refId}`);
     }
 }

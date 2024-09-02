@@ -97,7 +97,8 @@
     },
     "load_from_template_header": "Load Data from template",
     "load_selected": "Load selected",
-    "delete_template_dialog_text": "Are you sure you want to delete this template? This cannot be undone!"
+    "delete_template_dialog_text": "Are you sure you want to delete this template? This cannot be undone!",
+    "clear_filter": "Clear Filter"
   },
   "ecmr_editor": {
     "create_new_title": "Create new eCMR",

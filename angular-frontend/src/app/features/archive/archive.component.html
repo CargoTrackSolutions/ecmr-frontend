@@ -21,6 +21,7 @@
             <app-ecmr-table (selectedEcmr)="selectEcmr($event)"
                             (filterRequest)="onFilterRequest($event)"
                             [mobileActionButtons]="mobileActionButtons"
+                            [actionButtons]="actionButtons"
                             class="h-100 overflow-x-auto overflow-y-hidden"></app-ecmr-table>
         </section>
     </article>
@@ -68,6 +69,14 @@
         <button mat-icon-button class="my-3"
                 (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null, ecmr.ecmrConsignment.referenceIdentificationNumber.value)">
             <mat-icon color="primary" style="transform: scale(1.4)">picture_as_pdf</mat-icon>
+        </button>
+    </ng-template>
+    <ng-template #actionButtons let-ecmr>
+        <button mat-icon-button
+                (click)="historyOfEcmr(ecmr.ecmrId,ecmr.ecmrConsignment.referenceIdentificationNumber.value);$event.stopPropagation()"
+                matTooltip="{{'overview.tooltips.history' |
+        translate}}">
+            <mat-icon>history</mat-icon>
         </button>
     </ng-template>
 </mat-drawer-container>

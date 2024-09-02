@@ -46,6 +46,7 @@ import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
 import { MatPaginator } from '@angular/material/paginator';
 import { ShareTemplateDialogComponent } from '../../shared/dialogs/share-template-dialog/share-template-dialog.component';
 import { SnackbarService } from '../../core/services/snackbar.service';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-template-overview',
@@ -84,7 +85,8 @@ import { SnackbarService } from '../../core/services/snackbar.service';
     EcmrOverviewDetailsComponent,
     MatDrawer,
     MatDrawerContainer,
-    MatPaginator
+    MatPaginator,
+    ReactiveFormsModule
   ],
   templateUrl: './template-overview.component.html',
   styleUrl: './template-overview.component.scss'
@@ -108,6 +110,15 @@ export class TemplateOverviewComponent implements OnInit {
 
   dataSource: MatTableDataSource<TemplateUser> = new MatTableDataSource<TemplateUser>();
 
+  filterFormGroup = new FormGroup({
+    templateUserNumber: new FormControl<string | null>(null),
+    name: new FormControl<string | null>(null),
+    refId: new FormControl<string | null>(null),
+    from: new FormControl<string | null>(null),
+    to: new FormControl<string | null>(null)
+  })
+
+
   protected readonly JSON = JSON;
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
@@ -122,8 +133,14 @@ export class TemplateOverviewComponent implements OnInit {
   ngOnInit() {
     this.overviewService.getAllTemplates().subscribe(data => {
       this.dataSource.data = data;
+      this.dataSource.filterPredicate = this.createFilter();
       this.dataSource.paginator = this.paginator;
     })
+
+    this.filterFormGroup.valueChanges.subscribe(() => {
+      this.applyFilter();
+    })
+
   }
 
   createNewTemplate() {
@@ -188,6 +205,40 @@ export class TemplateOverviewComponent implements OnInit {
     });
   }
 
+  applyFilter() {
+    const filterValues = this.filterFormGroup.value;
+    this.dataSource.filter = JSON.stringify(filterValues);
+  }
+
+  createFilter(): (data: TemplateUser, filter: string) => boolean {
+    return (data: TemplateUser, filter: string): boolean => {
+      const searchTerms: { [key: string]: string | null } = JSON.parse(filter);
+
+      return Object.keys(searchTerms).every(key => {
+        const searchTerm = searchTerms[key];
+
+        if (key === 'refId') {
+          const nestedValue = data.ecmr.ecmrConsignment?.referenceIdentificationNumber?.value;
+          return searchTerm ? nestedValue?.toString().toLowerCase().includes(searchTerm.toLowerCase()) : true;
+        }
+
+        if (key === 'from') {
+          const nestedValue = data.ecmr.ecmrConsignment.senderInformation?.senderNameCompany;
+          return searchTerm ? nestedValue?.toString().toLowerCase().includes(searchTerm.toLowerCase()) : true;
+        }
+
+        if (key === 'to') {
+          const nestedValue = data.ecmr.ecmrConsignment?.consigneeInformation.consigneeNameCompany;
+          return searchTerm ? nestedValue?.toString().toLowerCase().includes(searchTerm.toLowerCase()) : true;
+        }
+
+        const typedKey = key as keyof TemplateUser;
+        const dataValue = data[typedKey];
+        return searchTerm ? dataValue?.toString().toLowerCase().includes(searchTerm.toLowerCase()) : true;
+      });
+    };
+  }
+
   tableDrop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.displayedColumns, event.previousIndex + 1, event.currentIndex + 1);
   }
@@ -202,7 +253,6 @@ export class TemplateOverviewComponent implements OnInit {
 
   toggleColumnSelectionMenu() {
     this.showColumSelection = !this.showColumSelection;
-    console.log("filter status: " + this.showColumSelection);
   }
 
   toggleColumnAtIndex(index: number) {

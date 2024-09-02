@@ -25,7 +25,7 @@
                        (matSortChange)="sortData($event)"
                        cdkDropList
                        cdkDropListOrientation="horizontal"
-                       (cdkDropListDropped)="tableDrop($event)">
+                       (cdkDropListDropped)="tableDrop($event)" [formGroup]="filterFormGroup">
 
                     <!-- ID Column used to display icon buttons -->
                     <ng-container matColumnDef="id">
@@ -62,9 +62,15 @@
                                     </div>
                                 </mat-card>
                             </ng-container>
-                            <button mat-icon-button (click)="toggleFilterListIcon()">
-                                <mat-icon>{{ getFilterListIcon() }}</mat-icon>
+                            <button mat-icon-button (click)="showFilter = !showFilter;">
+                                <mat-icon>{{ showFilter ? 'filter_list_off' : 'filter_list' }}</mat-icon>
                             </button>
+                            <button mat-icon-button color="warn" *ngIf="showFilter && filterFormGroup.dirty" (click)="filterFormGroup.reset()"
+                                    matTooltip="{{
+                'template_overview.clear_filter' | translate}}">
+                                <mat-icon>clear</mat-icon>
+                            </button>
+
                         </th>
                         <td id="icons" mat-cell *matCellDef="let templateUser; let i = index;">
                               <span>
@@ -89,9 +95,9 @@
                             <div class="my-3">
                                 <span class="float-start fw-bold">{{ 'template_overview.table_header.number' | translate }}</span>
                                 <br>
-                                <mat-form-field appearance="fill" *ngIf="this.showFilter">
-                                    <input matInput>
-                                    <mat-icon matSuffix color="warn">close</mat-icon>
+                                <mat-form-field appearance="fill" *ngIf="showFilter" (click)="$event.stopPropagation()">
+                                    <input matInput formControlName="templateUserNumber" (keydown)="$event.stopPropagation()">
+                                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.templateUserNumber.reset()">close</mat-icon>
                                 </mat-form-field>
                             </div>
                         </th>
@@ -104,9 +110,9 @@
                             <div class="my-3">
                                 <span class="float-start fw-bold">{{ 'template_overview.table_header.name' | translate }}</span>
                                 <br>
-                                <mat-form-field appearance="fill" *ngIf="this.showFilter">
-                                    <input matInput>
-                                    <mat-icon matSuffix color="warn">close</mat-icon>
+                                <mat-form-field appearance="fill" *ngIf="showFilter" (click)="$event.stopPropagation()">
+                                    <input matInput formControlName="name" (keydown)="$event.stopPropagation()">
+                                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.name.reset()">close</mat-icon>
                                 </mat-form-field>
                             </div>
                         </th>
@@ -120,9 +126,9 @@
                             <div class="my-3">
                                 <span class="float-start fw-bold">{{ 'overview.table_header.ref_id' | translate }}</span>
                                 <br>
-                                <mat-form-field appearance="fill" *ngIf="this.showFilter">
-                                    <input matInput>
-                                    <mat-icon matSuffix color="warn">close</mat-icon>
+                                <mat-form-field appearance="fill" *ngIf="showFilter" (click)="$event.stopPropagation()">
+                                    <input matInput formControlName="refId" (keydown)="$event.stopPropagation()">
+                                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.refId.reset()">close</mat-icon>
                                 </mat-form-field>
                             </div>
                         </th>
@@ -137,9 +143,9 @@
                             <div class="my-3">
                                 <span class="float-start fw-bold">{{ 'overview.table_header.from' | translate }}</span>
                                 <br>
-                                <mat-form-field appearance="fill" *ngIf="this.showFilter">
-                                    <input matInput>
-                                    <mat-icon matSuffix color="warn">close</mat-icon>
+                                <mat-form-field appearance="fill" *ngIf="showFilter" (click)="$event.stopPropagation()">
+                                    <input matInput formControlName="from" (keydown)="$event.stopPropagation()">
+                                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.from.reset()">close</mat-icon>
                                 </mat-form-field>
                             </div>
                         </th>
@@ -154,9 +160,9 @@
                             <div class="my-3">
                                 <span class="float-start fw-bold">{{ 'overview.table_header.to' | translate }}</span>
                                 <br>
-                                <mat-form-field appearance="fill" *ngIf="this.showFilter">
-                                    <input matInput>
-                                    <mat-icon matSuffix color="warn">close</mat-icon>
+                                <mat-form-field appearance="fill" *ngIf="showFilter" (click)="$event.stopPropagation()">
+                                    <input matInput formControlName="to" (keydown)="$event.stopPropagation()">
+                                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.to.reset()">close</mat-icon>
                                 </mat-form-field>
                             </div>
                         </th>
