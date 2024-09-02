@@ -49,7 +49,7 @@
                 matRipple>
                 <app-ecmr-icon></app-ecmr-icon>
             </a>
-            <a class="sidenav__icon" tabindex="0" (click)="navigateTo('templates-overview')"
+            <a class="sidenav__icon" *ngIf="!isMobile" tabindex="0" (click)="navigateTo('templates-overview')"
                 (keyup.enter)="navigateTo('templates-overview')"
                 [routerLink]="['/templates-overview']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
                 matRipple>
@@ -63,13 +63,13 @@
             </a>
         }
         @if (authService.hasRole(authenticatedUser, UserRole.Admin)) {
-            <a class="sidenav__icon" tabindex="0" (click)="navigateTo('user-overview')"
+            <a class="sidenav__icon" *ngIf="!isMobile" tabindex="0" (click)="navigateTo('user-overview')"
                 (keyup.enter)="navigateTo('user-overview')"
                 [routerLink]="['/user-overview']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
                 matRipple>
                 <mat-icon color="primary" class="scale-icon">person</mat-icon>
             </a>
-            <a class="sidenav__icon" tabindex="0" (click)="navigateTo('group-overview')"
+            <a class="sidenav__icon" *ngIf="!isMobile" tabindex="0" (click)="navigateTo('group-overview')"
                 (keyup.enter)="navigateTo('group-overview')"
                 [routerLink]="['/group-overview']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
                 matRipple>
@@ -91,7 +91,7 @@
                             </div>
                             {{ 'menu.overview' | translate }}
                         </a>
-                        <a class="sidenav-container__icon-container" matRipple
+                        <a class="sidenav-container__icon-container" *ngIf="!isMobile" matRipple
                            tabindex="0" (click)="navigateTo('templates-overview')"
                            (keyup.enter)="navigateTo('templates-overview')"
                            [routerLink]="['/templates-overview']">
@@ -111,7 +111,7 @@
                         </a>
                     }
                     @if (authService.hasRole(authenticatedUser, UserRole.Admin)) {
-                        <a class="sidenav-container__icon-container" matRipple
+                        <a class="sidenav-container__icon-container" *ngIf="!isMobile" matRipple
                            tabindex="0" (click)="navigateTo('user-overview')"
                            (keyup.enter)="navigateTo('user-overview')"
                            [routerLink]="['/user-overview']">
@@ -120,7 +120,7 @@
                             </div>
                             {{ 'menu.user_overview' | translate }}
                         </a>
-                        <a class="sidenav-container__icon-container" matRipple
+                        <a class="sidenav-container__icon-container" *ngIf="!isMobile" matRipple
                            tabindex="0" (click)="navigateTo('group-overview')"
                            (keyup.enter)="navigateTo('group-overview')"
                            [routerLink]="['/group-overview']">
@@ -139,7 +139,7 @@
                         <span>{{ 'menu.logout' | translate }}</span>
                     </div>
                     <a  class="footer-line">
-                        <mat-icon iconPositionEnd>open_in_new</mat-icon>
+                        <mat-icon iconPositionEnd color="primary">open_in_new</mat-icon>
                         {{ "ecmr_editor.user_guides_and_docs" | translate }}
                     </a>
                     <a class="footer-line"
