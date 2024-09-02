@@ -240,15 +240,21 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     }
 
     shareEcmr(ecmr: Ecmr) {
-        this.dialog.open(ShareEcmrDialogComponent, {
-            width: '800px',
-            maxWidth: '90vw',
-            data: {
-                ecmr: ecmr,
-                roles: this.selectedEcmrRoles,
-                isExternalUser: false
-            }
-        });
+      if (ecmr?.ecmrId) {
+        this.ecmrService.getEcmrRolesForCurrentUser(ecmr?.ecmrId).subscribe(roles => {
+            this.selectedEcmrRoles = roles
+            this.shareButtonDisabled = (this.selectedEcmrRoles.includes(EcmrRole.Consignee) || this.selectedEcmrRoles.includes(EcmrRole.Reader)) && this.selectedEcmrRoles.length === 1;
+            this.dialog.open(ShareEcmrDialogComponent, {
+                width: '800px',
+                maxWidth: '90vw',
+                data: {
+                    ecmr: ecmr,
+                    roles: this.selectedEcmrRoles,
+                    isExternalUser: false
+                }
+            });
+        })
+      }
     }
 
     editEcmr(ecmrId: string) {

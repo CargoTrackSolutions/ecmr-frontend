@@ -128,6 +128,9 @@
         <button mat-icon-button class="my-3" (click)="selectEcmr(ecmr)">
             <mat-icon style="transform: scale(1.4)">visibility</mat-icon>
         </button>
+        <button mat-icon-button class="my-3" (click)="shareEcmr(ecmr)">
+          <mat-icon color="primary" style="transform: scale(1.4)">share</mat-icon>
+        </button>
         <button mat-icon-button class="my-3"
                 (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null, ecmr.ecmrConsignment.referenceIdentificationNumber.value)">
             <mat-icon style="transform: scale(1.4)">picture_as_pdf</mat-icon>
