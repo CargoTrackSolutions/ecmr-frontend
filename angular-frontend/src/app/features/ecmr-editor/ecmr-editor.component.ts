@@ -97,6 +97,7 @@ export class EcmrEditorComponent implements OnInit {
     canFillConsigneeFields: boolean = false;
 
     isMobile: boolean = false;
+    isPhone: boolean = false;
     breakpointSubscription: Subscription | undefined;
 
     editorMode: EditorMode;
@@ -330,12 +331,13 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.breakpointSubscription = this.breakpointObserver.observe([
-            Breakpoints.Handset,
-            Breakpoints.Tablet
-        ]).subscribe(result => {
-            this.isMobile = result.matches;
-        });
+        this.breakpointSubscription = this.breakpointObserver
+          .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium])
+          .subscribe((result) => {
+             this.isMobile = result.matches;
+             this.isPhone = this.breakpointObserver.isMatched(Breakpoints.XSmall);
+          }
+        );
 
         this.id = this.route.snapshot.params['id'];
         this.tan = this.route.snapshot.params['tan'];

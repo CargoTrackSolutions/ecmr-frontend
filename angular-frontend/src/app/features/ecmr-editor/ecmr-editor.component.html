@@ -61,10 +61,13 @@
         </div>
     } @else {
         <div class="d-flex flex-row gap-2 align-items-center">
-            <button mat-flat-button color="primary" *ngIf="!isTemplate()" (click)="scrollToElement()">
-                <mat-icon iconPositionEnd>edit</mat-icon>
-                {{ "ecmr_editor.sign" | translate }}
+            <button mat-flat-button color="primary" *ngIf="!isTemplate() && !isPhone" (click)="scrollToElement()">
+                <mat-icon iconPositionEnd>draw</mat-icon>
+                  {{ "ecmr_editor.sign" | translate }}
             </button>
+            <div role="button" tabindex="0" class="icon-button d-flex justify-content-center align-items-center" *ngIf="!isTemplate() && isPhone" (click)="scrollToElement()" (keyup.enter)="scrollToElement()">
+              <mat-icon class="icon" iconPositionEnd>draw</mat-icon>
+            </div>
             <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="isMobile" color="primary">
                 <mat-icon>more_vert</mat-icon>
             </button>
@@ -103,13 +106,13 @@
             <mat-card class="header-card">
                 <mat-card-content class="d-flex flex-row justify-content-between align-items-center">
                     <div class="flex-grow-1 d-flex gap-3 flex-row align-items-center" formGroupName="referenceIdentificationNumber">
-                        <div class="ecmr-cmr-logo">
+                        <div class="ecmr-cmr-logo mb-0">
                             <div>CMR</div>
                         </div>
 
                         <!-- Area 26 -->
 
-                        <mat-form-field class="flex-grow-1">
+                        <mat-form-field class="flex-grow-1 id-input" subscriptSizing="dynamic">
                             <mat-label>{{ "ecmr_editor.reference_id" | translate }}</mat-label>
                             <input matInput type="text" [dynamicDisable]="!canFillSenderFields" formControlName="value">
                             @if (ecmrConsignmentFormGroup.controls.referenceIdentificationNumber.controls.value.hasError('required')) {
@@ -117,9 +120,9 @@
                             }
                         </mat-form-field>
                     </div>
-                    <div class="d-flex flex-grow-1 flex-row gap-3 w-50 justify-content-end flex-wrap" *ngIf="!isMobile">
+                    <div class="d-flex flex-grow-1 flex-row justify-content-end" *ngIf="!isMobile">
                         <button mat-flat-button color="primary" *ngIf="!isTemplate() && checkSignStatus()" (click)="scrollToElement()">
-                            <mat-icon iconPositionEnd>edit</mat-icon>
+                            <mat-icon iconPositionEnd>draw</mat-icon>
                             {{ "ecmr_editor.sign" | translate }}
                         </button>
                     </div>
@@ -867,12 +870,12 @@
                             } @else {
                                 <div class="action-button-group">
                                     <button [disabled]="!canFillSenderFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
-                                            class="main-button" color="primary"
+                                            class="main-button mb-3" color="primary"
                                             (click)="signSender()">
                                         Sign on glass
                                     </button>
                                     <button [disabled]="!canFillSenderFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
-                                            class="dropdown-button" color="primary"
+                                            class="dropdown-button mb-3" color="primary"
                                             [matMenuTriggerFor]="menu">
                                         <mat-icon>arrow_drop_down</mat-icon>
                                     </button>
@@ -898,12 +901,12 @@
                             } @else {
                                 <div class="action-button-group">
                                     <button [disabled]="!canFillCarrierFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
-                                            class="main-button" color="primary"
+                                            class="main-button mb-3" color="primary"
                                             (click)="signCarrier()">
                                         Sign on glass
                                     </button>
                                     <button [disabled]="!canFillCarrierFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
-                                            class="dropdown-button" color="primary"
+                                            class="dropdown-button mb-3" color="primary"
                                             [matMenuTriggerFor]="menu">
                                         <mat-icon>arrow_drop_down</mat-icon>
                                     </button>
