@@ -199,6 +199,7 @@ export class EcmrEditorService {
         // Reset Carrier Reservation
         ecmr.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.senderReservationsObservationsSignature = null;
         ecmr.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.carrierReservationsObservations = null;
+        ecmr.ecmrConsignment.nonContractualPartReservedForTheCarrier.nonContractualCarrierRemarks = null;
         // Set new referenceIdentificationNumber to Copy
         ecmr.ecmrConsignment.referenceIdentificationNumber.value += ': Copy';
         //Status
