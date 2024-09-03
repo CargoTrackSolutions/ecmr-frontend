@@ -64,6 +64,7 @@ import { Router } from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { DateFormatService } from '../../services/date-format.service';
+import { EcmrStatusComponent } from '../ecmr-status/ecmr-status.component';
 
 @Component({
     selector: 'app-ecmr-table',
@@ -126,6 +127,7 @@ import { DateFormatService } from '../../services/date-format.service';
         CommonModule,
         MatPaginator,
         EcmrOverviewDetailsComponent,
+        EcmrStatusComponent,
     ],
     templateUrl: './ecmr-table.component.html',
     animations: [

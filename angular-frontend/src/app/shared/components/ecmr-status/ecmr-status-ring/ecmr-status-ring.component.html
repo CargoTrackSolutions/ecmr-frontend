@@ -1,0 +1,20 @@
+<div class="ring-container">
+    <mat-icon>{{ icon }}</mat-icon>
+    <svg width="100%" height="100%" viewBox="0 0 3000 3000" version="1.1" xmlns="http://www.w3.org/2000/svg"
+         xml:space="preserve"
+         style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+        <path id="ring-one"
+              d="M1650,7.421C2358.22,77.871 2922.13,641.783 2992.58,1350L2686.32,1350C2618.6,809.932 2190.07,381.405 1650,313.684L1650,7.421Z"
+              style="fill:rgba(164,164,164,0.38);" [ngClass]="isActive(EcmrStatus.NEW) ? 'active' : ''"/>
+        <path id="ring-two"
+              d="M2992.58,1650C2922.13,2358.22 2358.22,2922.13 1650,2992.58L1650,2686.32C2190.07,2618.6 2618.6,2190.07 2686.32,1650L2992.58,1650Z"
+              style="fill:rgba(164,164,164,0.38);" [ngClass]="isActive(EcmrStatus.LOADING) ? 'active' : ''"/>
+        <path id="ring-three"
+              d="M1350,2992.58C641.783,2922.13 77.871,2358.22 7.421,1650L313.684,1650C381.405,2190.07 809.932,2618.6 1350,2686.32L1350,2992.58Z"
+              style="fill:rgba(164,164,164,0.38);"
+              [ngClass]="isActive(EcmrStatus.IN_TRANSPORT) ? 'active' : ''"/>
+        <path id="ring-four"
+              d="M7.421,1350C77.871,641.783 641.783,77.871 1350,7.421L1350,313.684C809.932,381.405 381.405,809.932 313.684,1350L7.421,1350Z"
+              style="fill:rgba(164,164,164,0.38);" [ngClass]="isActive( EcmrStatus.ARRIVED_AT_DESTINATION) ? 'active' : ''"/>
+    </svg>
+</div>

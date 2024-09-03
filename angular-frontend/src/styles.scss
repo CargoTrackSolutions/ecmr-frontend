@@ -282,3 +282,26 @@ mat-tree-node .action-row button:nth-child(5) {
 ::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0);
 }
+
+// Status icons bar
+.active-icon {
+  background-color: $primary-color !important;
+  color: white;
+  transition: background-color 1s linear;
+}
+
+#ring-one.active {
+  fill: $primary-color !important;
+}
+
+#ring-two.active {
+  fill: $primary-color !important;
+}
+
+#ring-three.active {
+  fill: $primary-color !important;
+}
+
+#ring-four.active {
+  fill: $primary-color !important;
+}

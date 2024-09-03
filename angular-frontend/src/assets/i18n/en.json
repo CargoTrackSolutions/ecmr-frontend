@@ -62,12 +62,6 @@
       },
       "last_editor": "Last Editor",
       "status": "Status",
-      "ecmr_status": {
-        "new": "New",
-        "loading": "Loading",
-        "in_transport": "In Transport",
-        "arrived_at_destination": "Arrived At Destination"
-      },
       "last_edit_date": "Last Edit Date",
       "creation_date": "Creation Date",
       "license_plate": "License Plate",
@@ -101,8 +95,8 @@
     "clear_filter": "Clear Filter"
   },
   "ecmr_editor": {
-    "create_new_title": "Create new eCMR",
-    "edit_title": "Edit eCMR",
+    "create_new_title": "Create new",
+    "edit_title": "Edit",
     "error_mandatory": "This field is required for signing.",
     "error_volume_min": "Must be greater than 0",
     "error_too_short": "Must be at least 2 characters long",
@@ -427,5 +421,11 @@
       "creation": "Created",
       "edit": "Edited"
     }
+  },
+  "ecmr_status": {
+    "NEW": "New",
+    "LOADING": "Loading",
+    "IN_TRANSPORT": "In transport",
+    "ARRIVED_AT_DESTINATION": "Arrived at destination"
   }
 }

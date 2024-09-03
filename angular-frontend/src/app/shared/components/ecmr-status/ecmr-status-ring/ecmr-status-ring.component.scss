@@ -1,0 +1,16 @@
+.ring-container {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .mat-icon {
+    position: absolute;
+  }
+
+  svg {
+    position: absolute;
+  }
+}

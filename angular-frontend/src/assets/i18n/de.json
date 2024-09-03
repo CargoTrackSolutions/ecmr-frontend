@@ -62,12 +62,6 @@
       },
       "last_editor": "Zuletzt bearbeitet von",
       "status": "Status",
-      "ecmr_status": {
-        "new": "Neu",
-        "loading": "Ladend",
-        "in_transport": "Im Transport",
-        "arrived_at_destination": "Am Zielort angekommen"
-      },
       "last_edit_date": "Zuletzt bearbeitet am",
       "creation_date": "Erstellt am",
       "license_plate": "Nummernschild",
@@ -101,8 +95,8 @@
     "clear_fitler": "Filter leeren"
   },
   "ecmr_editor": {
-    "create_new_title": "Neuer eCMR",
-    "edit_title": "Bearbeite eCMR",
+    "create_new_title": "Erstellen",
+    "edit_title": "Bearbeiten",
     "error_mandatory": "Dieses Feld ist für die Signatur erforderlich.",
     "error_volume_min": "Muss größer als 0 sein",
     "error_too_short": "Muss mindestens 2 Zeichen lang sein",
@@ -427,5 +421,11 @@
       "creation": "Erstellt",
       "edit": "Bearbeitet"
     }
+  },
+  "ecmr_status": {
+    "NEW": "Neu",
+    "LOADING": "Im Ladevorgang",
+    "IN_TRANSPORT": "Im Transport",
+    "ARRIVED_AT_DESTINATION": "Am Zielort angekommen"
   }
 }

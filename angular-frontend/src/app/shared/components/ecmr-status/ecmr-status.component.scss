@@ -1,0 +1,20 @@
+.status-container {
+  border-radius: 10px;
+
+  .status-icon {
+    background-color: rgba(138, 138, 138, 0.22);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-right: 1px solid rgba(128, 128, 128, 0.25);
+  }
+}
+
+.status-icon:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+.status-icon:last-child {
+  border-radius: 0 10px 10px 0;
+}

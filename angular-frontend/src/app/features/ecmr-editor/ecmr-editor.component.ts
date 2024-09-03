@@ -54,6 +54,7 @@ import { SnackbarService } from '../../core/services/snackbar.service';
 import { ShareEcmrDialogComponent } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component';
 import { EcmrActionService } from '../../shared/services/ecmr-action.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { EcmrStatusComponent } from '../../shared/components/ecmr-status/ecmr-status.component';
 
 export enum EditorMode {
     ECMR_EDIT = 'ECMR_EDIT',
@@ -86,6 +87,7 @@ export enum EditorMode {
         DynamicDisableControlDirective,
         NgClass,
         NgForOf,
+        EcmrStatusComponent,
     ],
     providers: [DatePipe, DateTimeService],
     templateUrl: './ecmr-editor.component.html',
@@ -897,6 +899,8 @@ export class EcmrEditorComponent implements OnInit {
         }
         return !(this.userEcmrRoles.includes(EcmrRole.Consignee) && this.canFillConsigneeFields);
     }
+
+    protected readonly EcmrStatus = EcmrStatus;
 }
 
 export function phoneNumberValidator(): ValidatorFn {

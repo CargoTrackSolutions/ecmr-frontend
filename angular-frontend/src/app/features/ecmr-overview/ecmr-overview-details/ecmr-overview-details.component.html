@@ -1,9 +1,12 @@
 <div class="overflow-hidden  h-100">
     <mat-toolbar class="action-bar-shadow sticky-top">
         <mat-toolbar-row class="d-flex flex-row justify-content-between">
-            <button class="m-1" mat-icon-button color="warn" (click)="closeDetailsView()">
-                <mat-icon>close</mat-icon>
-            </button>
+            <div class="d-flex flex-row justify-content-start align-items-center gap-2">
+                <button class="m-1" mat-icon-button color="warn" (click)="closeDetailsView()">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <app-ecmr-status [status]="selectedEcmr ? selectedEcmr.ecmrStatus : EcmrStatus.NEW" [isMobile]="!isMobile"></app-ecmr-status>
+            </div>
             @if (isMobile) {
                 <ng-container *ngTemplateOutlet="mobileQuickViewButtons; context: { $implicit: selectedEcmr  }">
                 </ng-container>

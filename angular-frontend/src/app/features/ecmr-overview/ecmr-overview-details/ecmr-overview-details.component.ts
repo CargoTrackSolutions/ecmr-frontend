@@ -20,6 +20,8 @@ import { formatDate, NgIf, NgOptimizedImage, NgTemplateOutlet } from '@angular/c
 import { TranslateModule } from '@ngx-translate/core';
 import { EcmrDisplayInformationFieldComponent } from './ecmr-display-information-field/ecmr-display-information-field.component';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
+import { EcmrStatus } from '../../../core/models/EcmrStatus';
+import { EcmrStatusComponent } from '../../../shared/components/ecmr-status/ecmr-status.component';
 
 @Component({
   selector: 'app-ecmr-overview-details',
@@ -45,7 +47,8 @@ import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
     EcmrDisplayInformationFieldComponent,
     MatIconButton,
     MatToolbar,
-    MatToolbarRow
+      MatToolbarRow,
+      EcmrStatusComponent
   ],
   templateUrl: './ecmr-overview-details.component.html',
   styleUrl: './ecmr-overview-details.component.scss'
@@ -73,4 +76,6 @@ export class EcmrOverviewDetailsComponent {
     else
       return ''
   }
+
+    protected readonly EcmrStatus = EcmrStatus;
 }
