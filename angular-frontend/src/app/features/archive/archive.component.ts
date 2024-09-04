@@ -15,7 +15,6 @@ import { MatInput } from '@angular/material/input';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { EcmrService } from '../../shared/services/ecmr.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { catchError, filter, Observable, of, Subscription, switchMap } from 'rxjs';
@@ -33,6 +32,7 @@ import { EcmrStatus } from '../../core/models/EcmrStatus';
 import { Router } from '@angular/router';
 import { EcmrType } from '../../core/models/EcmrType';
 import { LoadingService } from '../../core/services/loading.service';
+import { SnackbarService } from '../../core/services/snackbar.service';
 
 @Component({
     selector: 'app-archive',
@@ -84,7 +84,7 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
         lastEditor: null
     };
 
-    constructor(public dialog: MatDialog, public snackbar: MatSnackBar, public ecmrService: EcmrService, private breakpointObserver: BreakpointObserver,
+    constructor(public dialog: MatDialog, public snackbarService: SnackbarService, public ecmrService: EcmrService, private breakpointObserver: BreakpointObserver,
                 private translateService: TranslateService, protected ecmrActionService: EcmrActionService,private router: Router, private loadingService: LoadingService) {
     }
 
@@ -133,9 +133,7 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
             switchMap(() => this.ecmrService.moveOutOfArchive(ecmrId)),
             switchMap(() => this.loadData()),
             catchError(err => {
-                const action = this.translateService.instant('general.snackbar_action');
-                const message = this.translateService.instant('general.snackbar_error');
-                this.snackbar.open(message, action, {duration: 3000});
+                this.snackbarService.openErrorSnackbar("general.snackbar_error")
                 console.log(err);
                 return of(null)
             })
@@ -143,6 +141,7 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
             if (result) {
                 this.updateTableData(result);
                 this.selectedEcmr = null;
+                this.snackbarService.openSuccessSnackbar("archive.move_to_overview_success");
             }
         });
     }

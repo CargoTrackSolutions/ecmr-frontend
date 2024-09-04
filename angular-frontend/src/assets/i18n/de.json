@@ -81,7 +81,9 @@
       "configure_columns": "Spalten konfigurieren"
     },
     "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR in das Archiv verschieben wollen?",
-    "delete_ecmr_dialog_text": "Sind Sie sicher, dass Sie diesen eCMR löschen wollen? Dies kann nicht rückgängig gemacht werden."
+    "delete_ecmr_dialog_text": "Sind Sie sicher, dass Sie diesen eCMR löschen wollen? Dies kann nicht rückgängig gemacht werden.",
+    "delete_success": "eCMR wurde erfolgreich gelöscht",
+    "move_to_archive_success": "eCMR wurde erfolgreich archiviert"
   },
   "template_overview": {
     "title": "Vorlagen Übersicht",
@@ -92,7 +94,8 @@
     "load_from_template_header": "Daten aus Vorlage laden",
     "load_selected": "Auswahl laden",
     "delete_template_dialog_text": "Sind Sie sicher, dass Sie die Vorlage löschen wollen? Diese kann nicht wiederhergestellt werden!",
-    "clear_fitler": "Filter leeren"
+    "clear_fitler": "Filter leeren",
+    "delete_success": "Vorlage erfolgreich gelöscht"
   },
   "ecmr_editor": {
     "create_new_title": "Erstellen",
@@ -100,7 +103,7 @@
     "error_mandatory": "Dieses Feld ist für die Signatur erforderlich.",
     "error_volume_min": "Muss größer als 0 sein",
     "error_too_short": "Muss mindestens 2 Zeichen lang sein",
-    "snackbar_error": "Bitte füllen Sie alle Pflichtfelder aus.",
+    "mandatory_missing": "Bitte füllen Sie alle Pflichtfelder aus.",
     "load_from_template": "Aus Vorlage laden",
     "save_as_template": "Speichern als Vorlage",
     "template_name": "Vorlagen Name",
@@ -108,8 +111,10 @@
     "reference_id": "Referenz ID",
     "user_guides_and_docs": "Benutzerhandbuch & Docs",
     "save_success": "eCMR erfolgreich gespeichert",
-    "template_save_success": "Template erfolgreich gespeichert",
+    "template_save_success": "Vorlage erfolgreich gespeichert",
     "reset_confirmation_message": "Sie sind dabei den eCMR zurückzusetzen, dabei wird jedes Feld geleert. Fortfahren?",
+    "signature_successful": "Unterschrift erfolgreich getätigt. eCMR Felder gesperrt",
+    "sign_on_glass": "Sign on glass",
     "title_1": "1. Sender (Name, Adresse, Land)",
     "sender": {
       "name": "Name",
@@ -264,7 +269,8 @@
   "archive": {
     "title": "Archiv",
     "search": "Suchen",
-    "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR wiederherstellen wollen?"
+    "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR wiederherstellen wollen?",
+    "move_to_overview_success": "eCMR erfolgreich wiederhergestellt"
   },
   "confirmation": {
     "title": "Bestätigung",
@@ -303,7 +309,8 @@
     "name": "Name",
     "location": "Standort",
     "description": "Beschreibung",
-    "parent_group": "Übergeordnete Gruppe"
+    "parent_group": "Übergeordnete Gruppe",
+    "group_save_success": "Gruppe erfolgreich gespeichert"
   },
   "group_change_parent": {
     "title": "Wechsel übergeordnete Gruppe",
@@ -311,12 +318,14 @@
   },
   "user_overview": {
     "title": "Benutzerverwaltung",
-    "create_user": "Neuen Nutzer erstellen",
-    "edit_user": "User bearbeiten",
-    "deactivate_user": "User deaktivieren",
-    "activate_user": "User aktivieren",
-    "activate_dialog": "Wollen Sie diesen User wirklich aktivieren?",
-    "deactivate_dialog": "Wollen Sie diesen User wirklich deaktivieren?"
+    "create_user": "Neuen Benutzer erstellen",
+    "edit_user": "Benutzer bearbeiten",
+    "deactivate_user": "Benutzer deaktivieren",
+    "activate_user": "Benutzer aktivieren",
+    "activate_dialog": "Wollen Sie diesen Benutzer wirklich aktivieren?",
+    "deactivate_dialog": "Wollen Sie diesen Benutzer wirklich deaktivieren?",
+    "activate_success": "Benutzer erfolgreich aktiviert",
+    "deactivate_success": "Benutzer erfolgreich deaktiviert"
   },
   "edit_user_dialog": {
     "edit": "Benutzer bearbeiten",
@@ -325,10 +334,10 @@
     "location": "Standort",
     "user_information": "Benutzerinformationen",
     "locations_and_groups": "Standorte und Gruppen",
-    "successfully_saved": "User erfolgreich gespeichert.",
-    "successfully_created": "User erfolgreich angelegt.",
-    "error_saving": "Fehler beim Speichern des Users!",
-    "already_exists": "User mit der Email '{{ translateValue }}' existiert bereits"
+    "successfully_saved": "Benutzer erfolgreich gespeichert",
+    "successfully_created": "Benutzer erfolgreich angelegt",
+    "error_saving": "Fehler beim Speichern des Benutzers!",
+    "already_exists": "Benutzer mit der Email '{{ translateValue }}' existiert bereits"
   },
   "user": {
     "first_name": "Vorname",
@@ -372,7 +381,7 @@
     "tan": "Tan",
     "tan_message": "Tan wird in kürze per SMS zugestellt",
     "authenticate": "Authentifizieren",
-    "registered_user": "Als registrierter User kann die Carrier Registrierung nicht aufgerufen werden."
+    "registered_user": "Als registrierter Benutzer kann die Transporteur Registrierung nicht aufgerufen werden."
   },
   "signature": {
     "clear": "Unterschrift löschen",
@@ -394,7 +403,7 @@
     "link_copied": "Link wurde in die Zwischenablage kopiert",
     "qr_copied": "QR-Code wurde in die Zwischenablage kopiert",
     "no_qr_code_found": "Kein QR-Code gefunden",
-    "shared_external": "Mit extenem User geteilt",
+    "shared_external": "Mit externem Benutzer geteilt",
     "shared_internal": "Mit internem Benutzer in Gruppe {{ translateValue }} geteilt.",
     "user_has_no_group": "Benutzer hat keine Gruppe"
   },

@@ -38,6 +38,7 @@ import { ConfirmationDialogComponent } from '../../../shared/dialogs/confirmatio
 import { AuthService } from '../../../core/services/auth.service';
 import { AuthenticatedUser } from '../../../core/models/AuthenticatedUser';
 import { NgClass } from '@angular/common';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
     selector: 'app-user-overview',
@@ -85,7 +86,7 @@ export class UserOverviewComponent implements OnInit {
 
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private userService: UserService, private matDialog: MatDialog, authService: AuthService) {
+    constructor(private userService: UserService, private matDialog: MatDialog, authService: AuthService, private snackBarService: SnackbarService) {
         authService.getAuthenticatedUser().subscribe(user => {
             if(user) this.authenticatedUser = user
         });
@@ -176,6 +177,7 @@ export class UserOverviewComponent implements OnInit {
             switchMap(() => this.userService.activateUser(userId)),
             switchMap(() => this.userService.getAllUsers())
         ).subscribe(users => {
+            this.snackBarService.openSuccessSnackbar("user_overview.activate_success");
             this.dataSource.data = users;
         });
     }
@@ -190,6 +192,7 @@ export class UserOverviewComponent implements OnInit {
             switchMap(() => this.userService.deactivateUser(userId)),
             switchMap(() => this.userService.getAllUsers())
         ).subscribe(users => {
+            this.snackBarService.openSuccessSnackbar("user_overview.deactivate_success");
             this.dataSource.data = users;
         });
     }

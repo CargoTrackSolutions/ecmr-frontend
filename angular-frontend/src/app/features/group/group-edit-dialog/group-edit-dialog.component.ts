@@ -21,6 +21,7 @@ import { GroupCreation } from '../../../core/models/GroupCreation';
 import { GroupUpdate } from '../../../core/models/GroupUpdate';
 import { catchError, filter, of } from 'rxjs';
 import { NgClass } from '@angular/common';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
     selector: 'app-group-edit-dialog',
@@ -58,7 +59,7 @@ export class GroupEditDialogComponent {
     isEditMode: boolean = false;
 
     constructor(public dialogRef: MatDialogRef<GroupEditDialogComponent>,
-                private groupService: GroupService,
+                private groupService: GroupService, private snackBarService: SnackbarService,
                 @Inject(MAT_DIALOG_DATA) public data: { parentGroup: Group, groupToEdit: Group }) {
         if (data.groupToEdit) {
             this.currentGroup = data.groupToEdit;
@@ -129,7 +130,10 @@ export class GroupEditDialogComponent {
                         return of(null)
                     })
                 ).subscribe(res => {
-                    if (res) this.dialogRef.close(res)
+                    if (res) {
+                        this.snackBarService.openSuccessSnackbar("group_edit_dialog.group_save_success");
+                        this.dialogRef.close(res);
+                    }
                 })
             }
         }

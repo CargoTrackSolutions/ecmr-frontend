@@ -445,15 +445,14 @@ export class EcmrEditorComponent implements OnInit {
                     switchMap(() => this.isExternalUser ? this.externalUserService.getEcmrWithTan(this.id, this.tan) : this.ecmrEditorService.getEcmr(this.id))
                 )
                 .subscribe(ecmr => {
+                    this.snackBarService.openSuccessSnackbar("ecmr_editor.signature_successful")
                     this.loadEcmr(ecmr);
                     this.setFormConstraints();
                     this.cd.detectChanges();
                 });
         } else {
             this.ecmrConsignmentFormGroup.markAllAsTouched();
-            const action = this.translateService.instant('general.snackbar_action');
-            const message = this.translateService.instant('ecmr_editor.snackbar_error');
-            this.snackbar.open(message, action, {duration: 3000})
+            this.snackBarService.openInfoSnackbar("ecmr_editor.mandatory_missing")
         }
     }
 
@@ -541,9 +540,7 @@ export class EcmrEditorComponent implements OnInit {
                 });
         } else {
             this.ecmrConsignmentFormGroup.markAllAsTouched();
-            const action = this.translateService.instant('general.snackbar_action');
-            const message = this.translateService.instant('ecmr_editor.snackbar_error');
-            this.snackbar.open(message, action, {duration: 3000})
+            this.snackBarService.openInfoSnackbar("ecmr_editor.mandatory_missing");
         }
     }
 
@@ -699,7 +696,8 @@ export class EcmrEditorComponent implements OnInit {
                     return of(null)
                 })
             ).subscribe(ecmr => {
-                if (ecmr && returnToOverview) this.returnToOverview()
+                this.snackBarService.openSuccessSnackbar('ecmr_editor.save_success')
+                if (ecmr && returnToOverview) this.returnToOverview();
             })
 
 
@@ -715,9 +713,7 @@ export class EcmrEditorComponent implements OnInit {
                     if (returnToOverview) this.returnToOverview()
                 },
                 error: error => {
-                    const action = this.translateService.instant('general.snackbar_action');
-                    const message = this.translateService.instant('general.snackbar_error');
-                    this.snackbar.open(message, action, {duration: 3000})
+                    this.snackBarService.openErrorSnackbar("general.snackbar_error");
                     console.error(error)
                 }
             })

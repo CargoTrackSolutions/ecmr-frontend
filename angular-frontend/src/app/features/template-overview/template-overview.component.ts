@@ -161,6 +161,7 @@ export class TemplateOverviewComponent implements OnInit {
         switchMap(() => this.templateOverviewService.deleteTemplate(templateUser.id))
     ).subscribe({
       next: () => {
+        this.snackBarService.openSuccessSnackbar("template_overview.delete_success")
         this.dataSource.data = this.dataSource.data.filter(loc => loc.id != templateUser.id);
       },
       error: () => {

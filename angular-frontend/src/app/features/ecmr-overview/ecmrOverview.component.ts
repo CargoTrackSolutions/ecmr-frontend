@@ -67,6 +67,7 @@ import { FilterRequest } from './filter-request';
 import { EcmrPage } from '../../core/models/EcmrPage';
 import { LoadingService } from '../../core/services/loading.service';
 import { EcmrType } from '../../core/models/EcmrType';
+import { SnackbarService } from '../../core/services/snackbar.service';
 
 @Component({
     selector: 'app-overview',
@@ -164,7 +165,8 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
                 private loadingService: LoadingService,
                 private translateService: TranslateService,
                 private breakpointObserver: BreakpointObserver,
-                protected ecmrActionService: EcmrActionService) {
+                protected ecmrActionService: EcmrActionService,
+                private snackBarService: SnackbarService) {
     }
 
     // ecmr selected
@@ -268,6 +270,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
             switchMap(() => this.ecmrService.deleteEcmr(ecmrId)),
             switchMap(() => this.loadData())
         ).subscribe(data => {
+            this.snackBarService.openSuccessSnackbar("overview.delete_success");
             this.updateTableData(data);
         });
     }
@@ -299,14 +302,13 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
             }),
             switchMap(() => this.loadData()),
             catchError(err => {
-                const action = this.translateService.instant('general.snackbar_action');
-                const message = this.translateService.instant('general.snackbar_error');
-                this.snackbar.open(message, action, {duration: 3000});
+                this.snackBarService.openErrorSnackbar("general.snackbar_error");
                 console.error(err);
                 return of(null)
             }),
         ).subscribe(data => {
             if (data) {
+                this.snackBarService.openSuccessSnackbar("overview.move_to_archive_success");
                 this.updateTableData(data);
                 this.selectedEcmr = null;
             }

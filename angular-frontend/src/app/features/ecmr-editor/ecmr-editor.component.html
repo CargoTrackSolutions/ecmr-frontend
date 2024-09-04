@@ -866,7 +866,7 @@
                                     <button [disabled]="!canFillSenderFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
                                             class="main-button mb-3" color="primary"
                                             (click)="signSender()">
-                                        Sign on glass
+                                        {{ "ecmr_editor.sign_on_glass" | translate }}
                                     </button>
                                     <button [disabled]="!canFillSenderFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
                                             class="dropdown-button mb-3" color="primary"
@@ -897,7 +897,7 @@
                                     <button [disabled]="!canFillCarrierFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
                                             class="main-button mb-3" color="primary"
                                             (click)="signCarrier()">
-                                        Sign on glass
+                                        {{ "ecmr_editor.sign_on_glass" | translate }}
                                     </button>
                                     <button [disabled]="!canFillCarrierFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
                                             class="dropdown-button mb-3" color="primary"
@@ -955,7 +955,7 @@
                                     <button [disabled]="!canFillConsigneeFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
                                             class="main-button" color="primary"
                                             (click)="signConsignee()">
-                                        Sign on glass
+                                        {{ "ecmr_editor.sign_on_glass" | translate }}
                                     </button>
                                     <button [disabled]="!canFillConsigneeFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
                                             class="dropdown-button" color="primary"
