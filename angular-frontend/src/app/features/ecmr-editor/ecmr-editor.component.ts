@@ -220,7 +220,6 @@ export class EcmrEditorComponent implements OnInit {
             successiveCarrierNamePerson: new FormControl<string | null>(null),
             successiveCarrierPostcode: new FormControl<string | null>(null),
             successiveCarrierSignature: new FormControl<Signature | null>(null),
-            successiveCarrierSignatureDate: new FormControl<Date | null>(null),
             successiveCarrierStreet: new FormControl<string | null>(null),
             successiveCarrierContactInformation: new FormGroup({
                 email: new FormControl<string | null>(null, [emailValidator()]),
@@ -894,7 +893,7 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     checkEcmrStatusNew() {
-        return this.ecmrToEdit && this.ecmrToEdit.ecmrStatus && this.ecmrToEdit.ecmrStatus !== EcmrStatus.NEW;
+        return this.ecmrToEdit?.ecmrStatus && this.ecmrToEdit.ecmrStatus !== EcmrStatus.NEW;
     }
 
     disableSave() {

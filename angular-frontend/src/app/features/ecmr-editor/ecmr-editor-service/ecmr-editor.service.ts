@@ -124,7 +124,6 @@ export class EcmrEditorService {
                 successiveCarrierNamePerson: null,
                 successiveCarrierPostcode: null,
                 successiveCarrierSignature: null,
-                successiveCarrierSignatureDate: null,
                 successiveCarrierStreet: null,
                 successiveCarrierContactInformation: {
                     email: null,

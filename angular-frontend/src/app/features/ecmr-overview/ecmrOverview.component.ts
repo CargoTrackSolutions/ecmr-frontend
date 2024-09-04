@@ -27,7 +27,6 @@ import {
 import { MatTabBody, MatTabHeader } from '@angular/material/tabs';
 import { MatInput } from '@angular/material/input';
 import { MatSort, MatSortHeader, MatSortModule } from '@angular/material/sort';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatOption, MatSelect } from '@angular/material/select';
@@ -40,7 +39,6 @@ import {
     MatExpansionPanelTitle
 } from '@angular/material/expansion';
 import { MatDialog, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
-import { EcmrImportDialogComponent } from './dialog/import/ecmr-import-dialog.component';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
@@ -56,7 +54,7 @@ import { EcmrOverviewDetailsComponent } from './ecmr-overview-details/ecmr-overv
 
 import { Ecmr } from '../../core/models/Ecmr';
 import { EcmrTableComponent } from '../../shared/components/ecmr-table/ecmr-table.component';
-import { EMPTY, filter, Observable, Subscription, switchMap } from 'rxjs';
+import { catchError, filter, Observable, of, Subscription, switchMap } from 'rxjs';
 import { EcmrService } from '../../shared/services/ecmr.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatDrawer, MatDrawerContainer, MatSidenavContainer } from '@angular/material/sidenav';
@@ -68,6 +66,7 @@ import { EcmrRole } from '../../core/enums/EcmrRole';
 import { FilterRequest } from './filter-request';
 import { EcmrPage } from '../../core/models/EcmrPage';
 import { LoadingService } from '../../core/services/loading.service';
+import { EcmrType } from '../../core/models/EcmrType';
 
 @Component({
     selector: 'app-overview',
@@ -157,10 +156,8 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
 
     @ViewChild(EcmrTableComponent) table: EcmrTableComponent;
     @ViewChild(MatSort) sort: MatSort = new MatSort();
-    dataSourceIndex: number;
 
-    constructor(private _liveAnnouncer: LiveAnnouncer,
-                public dialog: MatDialog,
+    constructor(public dialog: MatDialog,
                 public snackbar: MatSnackBar,
                 public ecmrService: EcmrService,
                 private router: Router,
@@ -187,9 +184,8 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         carrierName: null,
         carrierPostCode: null,
         consigneePostCode: null,
+        lastEditor: null
     };
-
-    showDetails: boolean = false;
 
     ngOnInit() {
         this.breakpointSubscription = this.breakpointObserver
@@ -203,7 +199,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.loadingService.showLoaderUntilCompleted(this.loadData()).subscribe(data => {
+        this.loadData().subscribe(data => {
             this.updateTableData(data);
             this.table.initFilter();
         });
@@ -212,9 +208,9 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     loadData(): Observable<EcmrPage> {
         const paginator = this.table.paginator
         if (this.isMobile) {
-            return this.ecmrService.getAllEcmr(this.filterRequest, paginator.pageIndex, paginator.pageSize, null, '');
+            return this.loadingService.showLoaderUntilCompleted(this.ecmrService.getAllEcmr(this.filterRequest, EcmrType.ECMR, paginator.pageIndex, paginator.pageSize, 'creationDate', 'ASC'));
         } else {
-            return this.ecmrService.getAllEcmr(this.filterRequest, paginator.pageIndex, paginator.pageSize, this.table.sort.active, this.table.sort.direction.toUpperCase());
+            return this.loadingService.showLoaderUntilCompleted(this.ecmrService.getAllEcmr(this.filterRequest, EcmrType.ECMR, paginator.pageIndex, paginator.pageSize, this.table.sort.active, this.table.sort.direction.toUpperCase()));
         }
     }
 
@@ -229,6 +225,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         this.router.navigateByUrl('/ecmr-editor');
     }
 
+    /* TODO wird später implementiert
     importEcmr() {
         this.dialog.open(EcmrImportDialogComponent).afterClosed().subscribe(result => {
             if (result) {
@@ -237,7 +234,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
                 });
             }
         });
-    }
+    }*/
 
     shareEcmr(ecmr: Ecmr) {
       if (ecmr?.ecmrId) {
@@ -292,29 +289,26 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
                 checkBoxText: 'confirmation.checkbox',
             },
         });
-
         dialogRef.afterClosed().pipe(
+            filter(result => result.isConfirmed),
             switchMap(result => {
-                if (result.isConfirmed) {
-                    if (result.isCheckboxTicked) {
-                        this.onCopyEcmr(ecmrId);
-                    }
-                    return this.ecmrService.moveToArchive(ecmrId);
-                } else {
-                    return EMPTY;
+                if (result.isCheckboxTicked) {
+                    this.onCopyEcmr(ecmrId);
                 }
+                return this.ecmrService.moveToArchive(ecmrId);
             }),
-            switchMap(() => this.loadData())
-        ).subscribe({
-            next: data => {
-                this.updateTableData(data);
-                this.selectedEcmr = null;
-            },
-            error: err => {
+            switchMap(() => this.loadData()),
+            catchError(err => {
                 const action = this.translateService.instant('general.snackbar_action');
                 const message = this.translateService.instant('general.snackbar_error');
                 this.snackbar.open(message, action, {duration: 3000});
                 console.error(err);
+                return of(null)
+            }),
+        ).subscribe(data => {
+            if (data) {
+                this.updateTableData(data);
+                this.selectedEcmr = null;
             }
         });
     }

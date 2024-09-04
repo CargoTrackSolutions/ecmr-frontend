@@ -29,12 +29,11 @@ import { MatDivider } from '@angular/material/divider';
 import { MatFormField, MatLabel, MatPrefix, MatSuffix } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { MatSort, MatSortHeader, MatSortModule, Sort } from '@angular/material/sort';
+import { MatSort, MatSortHeader, MatSortModule } from '@angular/material/sort';
 import { MatTooltip } from '@angular/material/tooltip';
 import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { Ecmr } from '../../../core/models/Ecmr';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatDialog, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
@@ -59,8 +58,7 @@ import { EcmrTransportType } from '../../../core/models/EcmrTransportType';
 import { EcmrOverviewDetailsComponent } from '../../../features/ecmr-overview/ecmr-overview-details/ecmr-overview-details.component';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
-import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { debounceTime, Subscription } from 'rxjs';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { DateFormatService } from '../../services/date-format.service';
@@ -184,6 +182,7 @@ export class EcmrTableComponent implements OnInit {
         carrierName: new FormControl<string | null>(null),
         carrierPostCode: new FormControl<string | null>(null),
         consigneePostCode: new FormControl<string | null>(null),
+        lastEditor: new FormControl<string | null>(null),
     })
 
     @Input() quickViewButtons: TemplateRef<object>;
@@ -195,13 +194,11 @@ export class EcmrTableComponent implements OnInit {
 
     toggledColumns = [this.showColumns.referenceId, this.showColumns.from, this.showColumns.to, this.showColumns.transportType, this.showColumns.lastEditor, this.showColumns.status, this.showColumns.lastEditDate, this.showColumns.creationDate];
 
-    constructor(private _liveAnnouncer: LiveAnnouncer,
-                public dialog: MatDialog,
+    constructor(public dialog: MatDialog,
                 public snackbar: MatSnackBar,
                 private ecmrService: EcmrService,
                 private breakpointObserver: BreakpointObserver,
-                public dateFormatService: DateFormatService,
-                private router: Router) {
+                public dateFormatService: DateFormatService) {
     }
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -243,11 +240,13 @@ export class EcmrTableComponent implements OnInit {
             this.filterFormGroup.patchValue(savedFilterRequest)
         }
         //Subscribes to filter value changes
-        this.filterFormGroup.valueChanges.subscribe(() => {
-            const filterRequest: FilterRequest = this.getFilterValues();
-            this.ecmrService.saveFilterRequest(filterRequest);
-            this.filterRequest.emit(filterRequest);
-        })
+        this.filterFormGroup.valueChanges.pipe(
+            debounceTime(500))
+            .subscribe(() => {
+                const filterRequest: FilterRequest = this.getFilterValues();
+                this.ecmrService.saveFilterRequest(filterRequest);
+                this.filterRequest.emit(filterRequest);
+            })
         this.dataSource.sort = this.sort;
     }
 
@@ -263,6 +262,7 @@ export class EcmrTableComponent implements OnInit {
             carrierName: formGroup.carrierName.value != '' ? formGroup.carrierName.value : null,
             carrierPostCode: formGroup.carrierPostCode.value != '' ? formGroup.carrierPostCode.value : null,
             consigneePostCode: formGroup.consigneePostCode.value != '' ? formGroup.consigneePostCode.value : null,
+            lastEditor: formGroup.lastEditor.value != '' ? formGroup.lastEditor.value : null,
         }
     }
 
@@ -270,41 +270,8 @@ export class EcmrTableComponent implements OnInit {
         this.displayedColumns = this.columns.filter(column => this.showColumns[column as keyof ShowColumns]);
     }
 
-    sortData(sort: Sort) {
-        this.announceSortChange(sort);
-
-        const data = this.dataSource.data.slice();
-        this.dataSource.data = data.sort((a, b) => {
-            const isAsc = sort.direction === 'asc';
-            switch (sort.active) {
-                case 'referenceId':
-                    return compare(a.ecmrConsignment.referenceIdentificationNumber.value, b.ecmrConsignment.referenceIdentificationNumber.value, isAsc);
-                case 'from':
-                    return compare(a.ecmrConsignment.senderInformation.senderNameCompany, b.ecmrConsignment.senderInformation.senderNameCompany, isAsc);
-                case 'to':
-                    return compare(a.ecmrConsignment.consigneeInformation.consigneeNameCompany, b.ecmrConsignment.consigneeInformation.consigneeNameCompany, isAsc);
-                case 'transportType':
-                    return compare(this.getTransportType(a), this.getTransportType(b), isAsc);
-                case 'lastEditor':
-                    return compare(a.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.userName, b.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.userName, isAsc);
-                case 'status':
-                    return compare(a.ecmrStatus!, b.ecmrStatus!, isAsc);
-                case 'licensePlate':
-                    return compare(a.ecmrConsignment.carrierInformation.carrierLicensePlate, b.ecmrConsignment.carrierInformation.carrierLicensePlate, isAsc);
-                case 'carrierName':
-                    return compare(a.ecmrConsignment.carrierInformation.carrierNameCompany, b.ecmrConsignment.carrierInformation.carrierNameCompany, isAsc);
-                case 'carrierPostCode':
-                    return compare(a.ecmrConsignment.carrierInformation.carrierPostcode, b.ecmrConsignment.carrierInformation.carrierPostcode, isAsc);
-                case 'consigneePostCode':
-                    return compare(a.ecmrConsignment.consigneeInformation.consigneePostcode, b.ecmrConsignment.consigneeInformation.consigneePostcode, isAsc);
-                case 'lastEditDate':
-                    return compare(a.ecmrConsignment.successiveCarrierInformation.successiveCarrierSignatureDate!, b.ecmrConsignment.successiveCarrierInformation.successiveCarrierSignatureDate!, isAsc);
-                case 'creationDate':
-                    return compare(a.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.timestamp, b.ecmrConsignment.signatureOrStampOfTheSender.senderSignature!.timestamp, isAsc);
-                default:
-                    return 0;
-            }
-        });
+    sortData() {
+        this.filterRequest.emit(this.getFilterValues())
     }
 
     //DragDrop function to move and save columns
@@ -320,18 +287,6 @@ export class EcmrTableComponent implements OnInit {
         }
         moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
         this.ecmrService.saveDisplayedColumns(this.columns);
-    }
-
-    /**
-     * Trigger the sortState, i.e. whether the column should be sorted ascending, descending or not at all.
-     * @param sortState
-     */
-    announceSortChange(sortState: Sort) {
-        if (sortState.direction) {
-            this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-        } else {
-            this._liveAnnouncer.announce('Sorting cleared');
-        }
     }
 
     /**
@@ -387,18 +342,11 @@ export class EcmrTableComponent implements OnInit {
         this.showColumSelection = false;
     }
 
-    onPageEvent($event: PageEvent) {
+    onPageEvent() {
         this.filterRequest.emit(this.getFilterValues());
     }
 
     public getTransportType(ecmr: Ecmr): EcmrTransportType | null {
       return this.ecmrService.getTransportType(ecmr);
     }
-}
-
-function compare(a: number | string | Date | null, b: number | string | Date | null, isAsc: boolean) {
-    if (a && b) {
-        return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-    }
-    return 0
 }

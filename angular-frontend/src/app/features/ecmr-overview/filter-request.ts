@@ -19,4 +19,5 @@ export interface FilterRequest {
     carrierName: string | null,
     carrierPostCode: string | null,
     consigneePostCode: string | null,
+    lastEditor: string | null,
 }

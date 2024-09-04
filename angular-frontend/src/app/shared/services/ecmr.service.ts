@@ -7,7 +7,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { EcmrType } from '../../core/models/EcmrType';
 import { Ecmr } from '../../core/models/Ecmr';
 import { ShowColumns } from '../../features/ecmr-overview/show-columns';
@@ -24,30 +24,13 @@ import { EcmrTransportType } from '../../core/models/EcmrTransportType';
 })
 export class EcmrService {
 
-    static ecmrId = 0;
-
     constructor(private http: HttpClient) {
     }
 
-    getAllEcmr(filterRequest: FilterRequest, page: number, size: number, sortBy: string | null, sortingOrder: string) {
-        return this.http.post<EcmrPage>(`${environment.backendUrl}/ecmr/my-ecmrs`, filterRequest, {
-            params: {
-                'page': page,
-                'size': size,
-                'sortingOrder': sortingOrder
-            }
-        })
-    }
-
-    getAllArchivedEcmr(filterRequest: FilterRequest, page: number, size: number, sortBy: string | null, sortingOrder: string) {
-        return this.http.post<EcmrPage>(`${environment.backendUrl}/ecmr/my-ecmrs`, filterRequest, {
-            params: {
-                'type': [EcmrType.ARCHIVED],
-                'page': page,
-                'size': size,
-                'sortingOrder': sortingOrder
-            }
-        })
+    getAllEcmr(filterRequest: FilterRequest, ecmrType: EcmrType, page: number, size: number, sortBy: string | null, sortingOrder: string) {
+        let params: HttpParams = new HttpParams().set('type', ecmrType).set('page', page).set('size', size).set('sortingOrder', sortingOrder);
+        if (sortBy) params = params.set('sortBy', sortBy);
+        return this.http.post<EcmrPage>(`${environment.backendUrl}/ecmr/my-ecmrs`, filterRequest, {params: params})
     }
 
     getShareToken(ecmrId: string, role: EcmrRole) {
@@ -66,7 +49,7 @@ export class EcmrService {
 
     saveFilterRequest(filterRequest: FilterRequest) {
         const filterString: string = JSON.stringify(filterRequest);
-        localStorage.setItem('filterRequest', filterString);
+        sessionStorage.setItem('filterRequest', filterString);
     }
 
     getDisplayedColumns(): string[] | null {
@@ -88,7 +71,7 @@ export class EcmrService {
     }
 
     getFilterRequest(): FilterRequest | null {
-        const filterString: string | null = localStorage.getItem('filterRequest');
+        const filterString: string | null = sessionStorage.getItem('filterRequest');
         if (filterString) {
             return JSON.parse(filterString)
         } else {
@@ -96,16 +79,19 @@ export class EcmrService {
         }
     }
 
-   getTransportType(ecmr: Ecmr) {
-    const senderCountryCode = ecmr.ecmrConsignment.senderInformation.senderCountryCode.value;
-    const consigneeCountryCode = ecmr.ecmrConsignment.consigneeInformation.consigneeCountryCode.value;
-    if (!senderCountryCode || !consigneeCountryCode) {
-      return null;
+    getTransportType(ecmr: Ecmr) {
+        if (!ecmr) {
+            return null;
+        }
+        const senderCountryCode = ecmr.ecmrConsignment.senderInformation.senderCountryCode.value;
+        const consigneeCountryCode = ecmr.ecmrConsignment.consigneeInformation.consigneeCountryCode.value;
+        if (!senderCountryCode || !consigneeCountryCode) {
+            return null;
+        }
+        return senderCountryCode === consigneeCountryCode
+            ? EcmrTransportType.National
+            : EcmrTransportType.International;
     }
-    return senderCountryCode === consigneeCountryCode
-      ? EcmrTransportType.National
-      : EcmrTransportType.International;
-  }
 
     moveToArchive(ecmrId: string) {
         return this.http.patch<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}/archive`, {}, {})

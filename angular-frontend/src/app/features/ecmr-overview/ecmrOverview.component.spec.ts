@@ -132,7 +132,6 @@ describe('OverviewComponent', () => {
                     timestamp: new Date(),
                     data: '123lasc123'
                 },
-                successiveCarrierSignatureDate: new Date(),
                 successiveCarrierContactInformation:{
                     email: "test@test.com",
                     phone: "+15612331421"

@@ -2,7 +2,7 @@
     <!-- Overview of eCMRs -->
     @if (!isMobile) {
         <table class="ecmr-overview-table overflow-x-auto desktop" mat-table [dataSource]="dataSource" matSort
-               (matSortChange)="sortData($event)"
+               (matSortChange)="sortData()"
                cdkDropList
                [cdkDropListSortPredicate]="sortPredicate"
                cdkDropListOrientation="horizontal"
@@ -149,7 +149,7 @@
 
             <!-- Transport Type Column -->
             <ng-container matColumnDef="transportType">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
+                <th mat-header-cell *matHeaderCellDef cdkDrag cdkDragLockAxis="x"
                     cdkDragBoundary="mat-header-row">
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.transport_type' | translate }}</span>
@@ -179,6 +179,10 @@
                     cdkDragBoundary="mat-header-row">
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.last_editor' | translate }}</span>
+                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="lastEditor">
+                            <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.lastEditor.reset()">close</mat-icon>
+                        </mat-form-field>
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
@@ -366,4 +370,4 @@
     }
 </div>
 <mat-paginator [showFirstLastButtons]="true" class="mat-paginator-sticky"
-               [pageSize]="10" (page)="onPageEvent($event)"></mat-paginator>
+               [pageSize]="10" (page)="onPageEvent()"></mat-paginator>

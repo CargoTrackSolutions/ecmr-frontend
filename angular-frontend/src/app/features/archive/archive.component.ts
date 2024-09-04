@@ -18,7 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EcmrService } from '../../shared/services/ecmr.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { EMPTY, Subscription, switchMap } from 'rxjs';
+import { catchError, filter, Observable, of, Subscription, switchMap } from 'rxjs';
 import { EcmrOverviewDetailsComponent } from '../ecmr-overview/ecmr-overview-details/ecmr-overview-details.component';
 import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
 import { Ecmr } from '../../core/models/Ecmr';
@@ -31,6 +31,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { NgClass } from '@angular/common';
 import { EcmrStatus } from '../../core/models/EcmrStatus';
 import { Router } from '@angular/router';
+import { EcmrType } from '../../core/models/EcmrType';
+import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
     selector: 'app-archive',
@@ -79,10 +81,11 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
         carrierName: null,
         carrierPostCode: null,
         consigneePostCode: null,
+        lastEditor: null
     };
 
     constructor(public dialog: MatDialog, public snackbar: MatSnackBar, public ecmrService: EcmrService, private breakpointObserver: BreakpointObserver,
-                private translateService: TranslateService, protected ecmrActionService: EcmrActionService,private router: Router) {
+                private translateService: TranslateService, protected ecmrActionService: EcmrActionService,private router: Router, private loadingService: LoadingService) {
     }
 
     ngOnInit() {
@@ -110,40 +113,36 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
         this.table.paginator.length = data.totalElements;
     }
 
-    loadData() {
+    loadData(): Observable<EcmrPage> {
         const paginator = this.table.paginator
         if (this.table.sort?.active) {
-            return this.ecmrService.getAllArchivedEcmr(this.filterRequest, paginator.pageIndex, paginator.pageSize, this.table.sort.active, this.table.sort.direction.toUpperCase());
+            return this.loadingService.showLoaderUntilCompleted(this.ecmrService.getAllEcmr(this.filterRequest, EcmrType.ARCHIVED, paginator.pageIndex, paginator.pageSize, this.table.sort.active, this.table.sort.direction.toUpperCase()));
         } else {
-            return this.ecmrService.getAllArchivedEcmr(this.filterRequest, paginator.pageIndex, paginator.pageSize, 'referenceId', '');
+            return this.loadingService.showLoaderUntilCompleted(this.ecmrService.getAllEcmr(this.filterRequest, EcmrType.ARCHIVED, paginator.pageIndex, paginator.pageSize, 'creationDate', 'ASC'));
         }
 
     }
 
     moveToOverview(ecmrId: string) {
-        const confirmationMessage = this.translateService.instant('archive.confirmation_message');
         const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-            data: {text: confirmationMessage}
+            data: {text: 'archive.confirmation_message'}
         })
 
         dialogRef.afterClosed().pipe(
-            switchMap(result => {
-                if (result.isConfirmed) {
-                    return this.ecmrService.moveOutOfArchive(ecmrId);
-                } else {
-                    return EMPTY;
-                }
-            })
-        ).subscribe({
-            next: () => {
-                this.loadData();
-                this.selectedEcmr = null;
-            },
-            error: err => {
+            filter(result => result.isConfirmed),
+            switchMap(() => this.ecmrService.moveOutOfArchive(ecmrId)),
+            switchMap(() => this.loadData()),
+            catchError(err => {
                 const action = this.translateService.instant('general.snackbar_action');
                 const message = this.translateService.instant('general.snackbar_error');
                 this.snackbar.open(message, action, {duration: 3000});
                 console.log(err);
+                return of(null)
+            })
+        ).subscribe(result => {
+            if (result) {
+                this.updateTableData(result);
+                this.selectedEcmr = null;
             }
         });
     }

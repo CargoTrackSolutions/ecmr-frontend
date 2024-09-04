@@ -264,7 +264,7 @@
   "archive": {
     "title": "Archive",
     "search": "Search",
-    "confirmation_message": "Are you sure you want to remove this eCMR from the archive?"
+    "confirmation_message": "Are you sure you want to reactivate this eCMR?"
   },
   "confirmation": {
     "title": "Confirmation",
@@ -404,7 +404,7 @@
     "edit": "Edit",
     "copy": "Copy",
     "share": "Share",
-    "remove_archive": "Remove from archive"
+    "remove_archive": "Reactivate eCMR"
   },
   "ecmr_import": {
     "title": "Import eCMR",

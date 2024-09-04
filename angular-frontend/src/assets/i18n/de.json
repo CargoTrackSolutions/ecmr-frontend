@@ -264,7 +264,7 @@
   "archive": {
     "title": "Archiv",
     "search": "Suchen",
-    "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR aus dem Archiv entfernen wollen?"
+    "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR wiederherstellen wollen?"
   },
   "confirmation": {
     "title": "Bestätigung",
@@ -404,7 +404,7 @@
     "edit": "Bearbeiten",
     "copy": "Kopieren",
     "share": "Teilen",
-    "remove_archive": "Aus Archiv entfernen"
+    "remove_archive": "eCMR wiederherstellen"
   },
   "ecmr_import": {
     "title": "eCMR importieren",

@@ -17,7 +17,6 @@ export interface SuccessiveCarrierInformation {
   successiveCarrierNamePerson: string | null;
   successiveCarrierPostcode: string | null;
   successiveCarrierSignature: Signature | null;
-  successiveCarrierSignatureDate: Date | null;
   successiveCarrierStreet: string | null;
   successiveCarrierContactInformation: SuccessiveCarrierContactInformation;
 }

@@ -592,13 +592,6 @@
                                     }
                                 </mat-form-field>
                             </ng-container>
-                            <mat-form-field class="flex-grow-1">
-                                <mat-label>{{ "ecmr_editor.successive_carrier_information.date" | translate }}</mat-label>
-                                <input [dynamicDisable]="!canFillSenderFields" matInput formControlName="successiveCarrierSignatureDate"
-                                       [matDatepicker]="successiveCarrierSignatureDatePicker">
-                                <mat-datepicker #successiveCarrierSignatureDatePicker></mat-datepicker>
-                                <mat-datepicker-toggle matIconSuffix [for]="successiveCarrierSignatureDatePicker"></mat-datepicker-toggle>
-                            </mat-form-field>
                             <div formGroupName="successiveCarrierContactInformation" class="d-flex flex-column">
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.successive_carrier_information.email" | translate }}</mat-label>

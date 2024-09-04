@@ -287,12 +287,6 @@
                         [label]="'ecmr_editor.successive_carrier_information.phone'"
                         [displayedContent]="selectedEcmr.ecmrConsignment.successiveCarrierInformation.successiveCarrierContactInformation.phone">
                 </app-ecmr-display-information-field>
-
-                <app-ecmr-display-information-field
-                        class="w-50 mb-2"
-                        [label]="'ecmr_editor.successive_carrier_information.date'"
-                        [displayedContent]="toDateString(selectedEcmr.ecmrConsignment.successiveCarrierInformation.successiveCarrierSignatureDate)">
-                </app-ecmr-display-information-field>
                 @if (!isTemplate) {
                     <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_8' | translate }}</h6>
                     <app-ecmr-display-information-field
