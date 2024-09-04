@@ -588,22 +588,28 @@ export class EcmrEditorComponent implements OnInit {
         }
     }
 
-    private initializeForm() {
-        if (this.editorMode === EditorMode.ECMR_NEW || this.editorMode === EditorMode.TEMPLATE_NEW) {
-            this.ecmrConsignment = this.ecmrEditorService.createEmptyEcmrConsignment();
-            this.userEcmrRoles = [EcmrRole.Sender];
+  private initializeForm() {
+    if (this.editorMode === EditorMode.TEMPLATE_NEW || this.editorMode === EditorMode.TEMPLATE_EDIT) {
+      this.ecmrConsignmentFormGroup.controls.itemList.controls = [];
+      (this.ecmrConsignmentFormGroup.controls['itemList'].disable());
+      (this.ecmrConsignmentFormGroup.controls['goodsReceived'].disable());
+      (this.ecmrConsignmentFormGroup.controls['carriersReservationsAndObservationsOnTakingOverTheGoods'].disable());
+    }
+    if (this.editorMode === EditorMode.ECMR_NEW || this.editorMode === EditorMode.TEMPLATE_NEW) {
+      this.ecmrConsignment = this.ecmrEditorService.createEmptyEcmrConsignment();
+      this.userEcmrRoles = [EcmrRole.Sender];
+      this.setFormConstraints();
+    }
+    if (this.editorMode === EditorMode.ECMR_EDIT) {
+      if (this.tan != undefined) {
+        const loadEcmrObs = this.externalUserService.getEcmrWithTan(this.id, this.tan);
+        const loadRolesObs = this.externalUserService.getEcmrRolesForUser(this.id, this.tan);
+        this.loadingService.showLoaderUntilCompleted(forkJoin({ecmr: loadEcmrObs, roles: loadRolesObs}))
+          .subscribe(result => {
+            this.loadEcmr(result.ecmr);
+            this.userEcmrRoles = result.roles;
             this.setFormConstraints();
-        }
-        if (this.editorMode === EditorMode.ECMR_EDIT) {
-            if (this.tan != undefined) {
-                const loadEcmrObs = this.externalUserService.getEcmrWithTan(this.id, this.tan);
-                const loadRolesObs = this.externalUserService.getEcmrRolesForUser(this.id, this.tan);
-                this.loadingService.showLoaderUntilCompleted(forkJoin({ecmr: loadEcmrObs, roles: loadRolesObs}))
-                    .subscribe(result => {
-                        this.loadEcmr(result.ecmr);
-                        this.userEcmrRoles = result.roles;
-                        this.setFormConstraints();
-                    })
+          })
 
             } else {
                 const loadEcmrObs = this.ecmrEditorService.getEcmr(this.id);

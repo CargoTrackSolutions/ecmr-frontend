@@ -101,14 +101,15 @@
     }
 </mat-toolbar>
 <div class="container-fluid" [formGroup]="ecmrConsignmentFormGroup">
-    <div class="row">
-        <div class="m-3 d-flex flex-column gap-3 overflow-container col" [class.mobile-container]="isMobile">
-            <mat-card class="header-card">
-                <mat-card-content class="d-flex flex-row justify-content-between align-items-center">
-                    <div class="flex-grow-1 d-flex gap-3 flex-row align-items-center overflow-hidden" formGroupName="referenceIdentificationNumber">
-                        <div class="ecmr-cmr-logo">
-                            <div>CMR</div>
-                        </div>
+  <div class="row"  [class.custom-template-style]="isTemplate() && !isPhone">
+    <div class="m-3 d-flex flex-column gap-3 overflow-container col"
+         [class.mobile-container]="isMobile">
+      <mat-card class="header-card">
+        <mat-card-content class="d-flex flex-row justify-content-between align-items-center">
+          <div class="flex-grow-1 d-flex gap-3 flex-row align-items-center overflow-hidden" formGroupName="referenceIdentificationNumber">
+            <div class="ecmr-cmr-logo">
+              <div>CMR</div>
+            </div>
 
                         <!-- Area 26 -->
 
@@ -1153,11 +1154,11 @@
                 </mat-expansion-panel>
             }
         </mat-accordion>
-        <div class="d-flex flex-row justify-content-between">
-            <button [disabled]="!canFillSenderFields" mat-stroked-button color="primary" class="mt-2" (click)="addNewItem()">
-                <mat-icon iconPositionEnd>add</mat-icon>
-                {{ "ecmr_editor.add_item" | translate }}
-            </button>
+        <div *ngIf="editorMode != EditorMode.TEMPLATE_NEW && editorMode != EditorMode.TEMPLATE_EDIT" class="d-flex flex-row justify-content-between">
+          <button [disabled]="!canFillSenderFields" mat-stroked-button color="primary" class="mt-2" (click)="addNewItem()">
+            <mat-icon iconPositionEnd>add</mat-icon>
+            {{ "ecmr_editor.add_item" | translate }}
+          </button>
             <div class="d-flex gap-2 flex-row">
                 <button mat-icon-button color="accent" class="custom-stroked-icon-button"
                         (click)="accordion.openAll()">

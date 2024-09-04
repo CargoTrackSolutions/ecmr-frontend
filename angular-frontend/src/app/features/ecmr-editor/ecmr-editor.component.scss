@@ -59,3 +59,13 @@
 .icon {
   transform: scale(0.75);
 }
+
+.custom-template-style {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 1rem;
+  display: block;
+  width: 70%;
+  margin: calc(-1 * var(--bs-gutter-y)) auto var(--bs-gutter-y) auto;
+  padding-left: var(--bs-gutter-x);
+  padding-right: var(--bs-gutter-x);
+}
