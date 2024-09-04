@@ -23,6 +23,8 @@ import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { ActivatedRoute } from '@angular/router';
 import { EcmrStatus } from '../../../core/models/EcmrStatus';
 import { EcmrStatusComponent } from '../../../shared/components/ecmr-status/ecmr-status.component';
+import { EcmrTransportType } from '../../../core/models/EcmrTransportType';
+import { EcmrService } from '../../../shared/services/ecmr.service';
 
 @Component({
     selector: 'app-ecmr-overview-details',
@@ -55,10 +57,9 @@ import { EcmrStatusComponent } from '../../../shared/components/ecmr-status/ecmr
     styleUrl: './ecmr-overview-details.component.scss'
 })
 export class EcmrOverviewDetailsComponent {
-
     isTemplate: boolean = false;
 
-    constructor(@Inject(LOCALE_ID) public locale: string, route: ActivatedRoute,) {
+    constructor(@Inject(LOCALE_ID) public locale: string, route: ActivatedRoute, private ecmrService: EcmrService) {
         if (route.snapshot.url.join('/').includes('templates-overview')) {
             this.isTemplate = true;
         }
@@ -83,6 +84,13 @@ export class EcmrOverviewDetailsComponent {
         else
             return ''
     }
+
+
+  public getTransportType(ecmr: Ecmr): EcmrTransportType | null {
+    return this.ecmrService.getTransportType(ecmr);
+  }
+
+    protected readonly EcmrTransportType = EcmrTransportType;
 
     protected readonly EcmrStatus = EcmrStatus;
 }

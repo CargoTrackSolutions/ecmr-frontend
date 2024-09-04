@@ -55,6 +55,7 @@ import { ShareEcmrDialogComponent } from '../../shared/dialogs/share-ecmr-dialog
 import { EcmrActionService } from '../../shared/services/ecmr-action.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { EcmrStatusComponent } from '../../shared/components/ecmr-status/ecmr-status.component';
+import { EcmrTransportType } from '../../core/models/EcmrTransportType';
 
 export enum EditorMode {
     ECMR_EDIT = 'ECMR_EDIT',
@@ -366,7 +367,6 @@ export class EcmrEditorComponent implements OnInit {
         }
 
         this.initializeForm();
-
         // Initialize Country Autocomplete Form Fields
         const formGroupControl = this.ecmrConsignmentFormGroup.controls;
         //Autocomplete filter Sender Countries
@@ -909,6 +909,12 @@ export class EcmrEditorComponent implements OnInit {
         }
         return !(this.userEcmrRoles.includes(EcmrRole.Consignee) && this.canFillConsigneeFields);
     }
+
+    public getTransportType(ecmr: Ecmr): EcmrTransportType | null {
+      return this.ecmrService.getTransportType(ecmr);
+    }
+
+    protected readonly EcmrTransportType = EcmrTransportType;
 
     protected readonly EcmrStatus = EcmrStatus;
 }

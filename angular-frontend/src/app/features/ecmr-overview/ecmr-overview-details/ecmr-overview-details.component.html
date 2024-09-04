@@ -456,7 +456,7 @@
                         [displayedContent]="selectedEcmr.ecmrConsignment.cashOnDelivery.customCashOnDelivery">
                 </app-ecmr-display-information-field>
 
-                <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_20' | translate }}</h6>
+                <h6 class="fw-bold mb-2 mt-5" *ngIf="getTransportType(selectedEcmr) === EcmrTransportType.International">{{ 'ecmr_editor.title_20' | translate }}</h6>
 
                 @if (!isTemplate) {
                     <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_21' | translate }}</h6>

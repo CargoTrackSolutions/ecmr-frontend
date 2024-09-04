@@ -381,17 +381,6 @@ export class EcmrTableComponent implements OnInit {
     protected readonly EcmrStatus = EcmrStatus;
     protected readonly EcmrTransportType = EcmrTransportType;
 
-    getTransportType(ecmr: Ecmr) {
-        const senderCountryCode = ecmr.ecmrConsignment.senderInformation.senderCountryCode.value;
-        const consigneeCountryCode = ecmr.ecmrConsignment.consigneeInformation.consigneeCountryCode.value;
-        if (!senderCountryCode || !consigneeCountryCode) {
-            return null;
-        }
-        return senderCountryCode === consigneeCountryCode
-            ? EcmrTransportType.National
-            : EcmrTransportType.International;
-    }
-
     closeColumnSelection() {
         const savedShowColumns: ShowColumns | null = this.ecmrService.getShowColumns();
         if (savedShowColumns) this.showColumns = savedShowColumns;
@@ -400,6 +389,10 @@ export class EcmrTableComponent implements OnInit {
 
     onPageEvent($event: PageEvent) {
         this.filterRequest.emit(this.getFilterValues());
+    }
+
+    public getTransportType(ecmr: Ecmr): EcmrTransportType | null {
+      return this.ecmrService.getTransportType(ecmr);
     }
 }
 

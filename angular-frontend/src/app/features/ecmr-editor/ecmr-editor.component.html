@@ -813,7 +813,7 @@
                     </div>
                 </mat-card-content>
             </mat-card>
-            <mat-card>
+            <mat-card *ngIf="getTransportType(ecmrToEdit) === EcmrTransportType.International">
                 <mat-card-content class="container-fluid">
                     <div class="row">
 
@@ -1154,7 +1154,7 @@
                 </mat-expansion-panel>
             }
         </mat-accordion>
-        <div *ngIf="editorMode != EditorMode.TEMPLATE_NEW && editorMode != EditorMode.TEMPLATE_EDIT" class="d-flex flex-row justify-content-between">
+        <div *ngIf="editorMode !== EditorMode.TEMPLATE_NEW && editorMode !== EditorMode.TEMPLATE_EDIT" class="d-flex flex-row justify-content-between">
           <button [disabled]="!canFillSenderFields" mat-stroked-button color="primary" class="mt-2" (click)="addNewItem()">
             <mat-icon iconPositionEnd>add</mat-icon>
             {{ "ecmr_editor.add_item" | translate }}

@@ -17,6 +17,7 @@ import { EcmrRole } from '../../core/enums/EcmrRole';
 import { EcmrShareResponse } from '../../core/models/EcmrShareResponse';
 import { EcmrShare } from '../../core/models/EcmrShare';
 import { EcmrPage } from '../../core/models/EcmrPage';
+import { EcmrTransportType } from '../../core/models/EcmrTransportType';
 
 @Injectable({
     providedIn: 'root'
@@ -94,6 +95,17 @@ export class EcmrService {
             return null
         }
     }
+
+   getTransportType(ecmr: Ecmr) {
+    const senderCountryCode = ecmr.ecmrConsignment.senderInformation.senderCountryCode.value;
+    const consigneeCountryCode = ecmr.ecmrConsignment.consigneeInformation.consigneeCountryCode.value;
+    if (!senderCountryCode || !consigneeCountryCode) {
+      return null;
+    }
+    return senderCountryCode === consigneeCountryCode
+      ? EcmrTransportType.National
+      : EcmrTransportType.International;
+  }
 
     moveToArchive(ecmrId: string) {
         return this.http.patch<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}/archive`, {}, {})
