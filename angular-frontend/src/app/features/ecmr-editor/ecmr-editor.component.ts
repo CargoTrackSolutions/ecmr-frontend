@@ -737,12 +737,16 @@ export class EcmrEditorComponent implements OnInit {
                     return this.ecmrEditorService.saveTemplate(ecmr, dialogResult);
                 })
             ).subscribe(() => {
-                this.returnToOverview()
+                this.snackBarService.openSuccessSnackbar('ecmr_editor.template_save_success');
+                if(this.isTemplate()) {
+                    this.returnToOverview();
+                }
             });
         }
         if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.TEMPLATE_EDIT)) {
             this.loadedTemplate.ecmr.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
             this.ecmrEditorService.updateTemplate(this.loadedTemplate).subscribe(() => {
+                this.snackBarService.openSuccessSnackbar('ecmr_editor.template_save_success');
                 this.returnToOverview()
             })
         }
@@ -884,7 +888,7 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     checkEcmrStatusNew() {
-        return this.ecmrToEdit?.ecmrStatus !== EcmrStatus.NEW;
+        return this.ecmrToEdit && this.ecmrToEdit.ecmrStatus && this.ecmrToEdit.ecmrStatus !== EcmrStatus.NEW;
     }
 
     disableSave() {

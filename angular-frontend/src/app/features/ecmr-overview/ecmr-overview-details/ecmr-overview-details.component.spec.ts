@@ -14,6 +14,7 @@ import { HttpLoaderFactory } from '../../../app.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { PayerType } from '../../../core/enums/PayerType';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute } from '@angular/router';
 
 describe('EcmrOverviewDetailsComponent', () => {
     let component: EcmrOverviewDetailsComponent;
@@ -29,7 +30,17 @@ describe('EcmrOverviewDetailsComponent', () => {
                 }
             })],
             providers: [
-                TranslateService
+                TranslateService,
+                {
+                    provide: ActivatedRoute,
+                    useValue: {
+                        snapshot: {
+                            url: [
+                                { path: 'someurl' }  // Mock URL segments
+                            ]
+                        }
+                    }
+                }
             ]
         }).compileComponents();
 

@@ -108,6 +108,7 @@
     "reference_id": "Reference ID",
     "user_guides_and_docs": "User Guide & Docs",
     "save_success": "eCMR saved successfully",
+    "template_save_success": "Template saved successfully",
     "reset_confirmation_message": "You are about to reset the eCMR, every field will be emptied. Continue?",
     "title_1": "1. Sender (name, address, country)",
     "sender": {
