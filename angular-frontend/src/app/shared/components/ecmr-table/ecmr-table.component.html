@@ -100,7 +100,7 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.ref_id' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
+                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
                             <input (keydown.space)="$event.stopPropagation()" matInput formControlName="referenceId">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.referenceId.reset()">close</mat-icon>
                         </mat-form-field>
@@ -118,7 +118,7 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.from' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
+                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
                             <input (keydown.space)="$event.stopPropagation()" matInput formControlName="from">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.from.reset()">close</mat-icon>
                         </mat-form-field>
@@ -136,7 +136,7 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.to' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
+                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
                             <input (keydown.space)="$event.stopPropagation()" matInput formControlName="to">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.to.reset()">close</mat-icon>
                         </mat-form-field>
@@ -154,7 +154,7 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.transport_type' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
+                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
                             <mat-select formControlName="transportType">
                                 <mat-option [value]="null"></mat-option>
                                 <mat-option [value]="EcmrTransportType.National">{{ 'overview.table_header.transport_types.national' | translate }}
@@ -193,7 +193,7 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.status' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
+                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
                             <mat-select formControlName="status">
                                 <mat-option [value]="null"></mat-option>
                                 <mat-option [value]="EcmrStatus.NEW">{{ ('ecmr_status.' + EcmrStatus.NEW)| translate }}</mat-option>
@@ -250,7 +250,7 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.license_plate' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
+                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
                             <input (keydown.space)="$event.stopPropagation()" matInput formControlName="licensePlate">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.licensePlate.reset()">close</mat-icon>
                         </mat-form-field>
@@ -268,7 +268,7 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.carrier_name' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
+                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
                             <input (keydown.space)="$event.stopPropagation()" matInput formControlName="carrierName">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.carrierName.reset()">close</mat-icon>
                         </mat-form-field>
@@ -286,7 +286,7 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.carrier_post_code' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
+                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
                             <input (keydown.space)="$event.stopPropagation()" matInput formControlName="carrierPostCode">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.carrierPostCode.reset()">close</mat-icon>
                         </mat-form-field>
@@ -304,7 +304,7 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.consignee_post_code' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()">
+                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
                             <input (keydown.space)="$event.stopPropagation()" matInput formControlName="consigneePostCode">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.consigneePostCode.reset()">close</mat-icon>
                         </mat-form-field>

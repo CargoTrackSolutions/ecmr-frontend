@@ -16,7 +16,9 @@ import { HistoryLog } from '../../core/models/HistoryLog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { DatePipe, NgForOf } from '@angular/common';
+import { DatePipe, Location, NgForOf } from '@angular/common';
+import { MatToolbar } from '@angular/material/toolbar';
+import { ActionType } from '../../core/enums/ActionType';
 
 @Component({
     selector: 'app-history-logs',
@@ -29,7 +31,8 @@ import { DatePipe, NgForOf } from '@angular/common';
         MatButton,
         MatIcon,
         MatCardHeader,
-        NgForOf
+        NgForOf,
+        MatToolbar
     ],
     providers: [DatePipe, DateTimeService],
     templateUrl: './history-logs.component.html',
@@ -46,6 +49,7 @@ export class HistoryLogsComponent implements OnInit {
                 protected dateTimeService: DateTimeService,
                 private route: ActivatedRoute,
                 private historyLogService: HistoryLogsService,
+                private _location: Location,
                 private router: Router,
                 ) {
     }
@@ -60,6 +64,8 @@ export class HistoryLogsComponent implements OnInit {
     }
 
     back() {
-        this.router.navigateByUrl(`/ecmr-overview`);
+        this._location.back();
     }
+
+    protected readonly ActionType = ActionType;
 }
