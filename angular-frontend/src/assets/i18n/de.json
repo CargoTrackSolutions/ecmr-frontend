@@ -1,441 +1,440 @@
 {
-  "title": "eCMR Service",
-  "general": {
-    "apply_button": "Annehmen",
-    "snackbar_action": "Schließen",
-    "snackbar_error": "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal."
+  "archive": {
+    "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR wiederherstellen wollen?",
+    "move_to_overview_success": "eCMR erfolgreich wiederhergestellt",
+    "search": "Suchen",
+    "title": "Archiv"
+  },
+  "carrier_registration": {
+    "authenticate": "Authentifizieren",
+    "authentication": "Authentifizierung",
+    "company": "Unternehmen",
+    "first_name": "Vorname",
+    "last_name": "Nachname",
+    "phone": "Telefon",
+    "register": "Registrieren",
+    "registered_user": "Als registrierter Benutzer kann die Transporteur Registrierung nicht aufgerufen werden.",
+    "tan": "Tan",
+    "tan_message": "Tan wird in kürze per SMS zugestellt",
+    "title": "Registrierung"
   },
   "common": {
-    "cancel": "Abbrechen",
     "back": "Zurück",
+    "cancel": "Abbrechen",
+    "close": "Schließen",
+    "copy": "Kopieren",
+    "edit": "Bearbeiten",
+    "errors": {
+      "invalid_countryCode": "Ungültiger Ländercode",
+      "invalid_email": "Ungültige Email",
+      "invalid_phone": "Ungültige Telefonnummer",
+      "required": "Feld darf nicht leer sein"
+    },
     "reset": "Zurücksetzen",
     "save": "Speichern",
-    "edit": "Bearbeiten",
-    "close": "Schließen",
-    "share": "Teilen",
-    "copy": "Kopieren",
     "search": "Suchen",
-    "errors": {
-      "required": "Feld darf nicht leer sein",
-      "invalid_countryCode": "Ungültiger Ländercode",
-      "invalid_phone": "Ungültige Telefonnummer",
-      "invalid_email": "Ungültige Email"
-    }
+    "share": "Teilen"
   },
-  "error": {
-    "required": "Feld darf nicht leer sein",
-    "pattern": "Ungültige Telefonnummer",
-    "default_group_required": "Es muss mindestens eine Gruppe favorisiert werden",
-    "not_implemented": "Nicht Implementiert",
-    "ecmr_not_found": "Ecmr konnte nicht gefunden werden"
-  },
-  "menu": {
-    "overview": "eCMR Übersicht",
-    "templates": "Vorlagen Übersicht",
-    "archive": "Archiv",
-    "user_overview": "Benutzerverwaltung",
-    "group_overview": "Gruppenverwaltung",
-    "location_overview": "Standortverwaltung",
-    "logout": "Abmelden",
-    "privacy": "Datenschutz",
-    "imprint_legal": "Impressum, Rechtliches"
-  },
-  "privacy": {
-    "title": "Datenschutzhinweis"
-  },
-  "imprint_legal_matter": {
-    "title": "Impressum und rechtliche Hinweise"
-  },
-  "overview": {
-    "title": "eCMR Übersicht",
-    "search" : "Suchen",
-    "create_new": "Erstellen",
-    "import": "Importieren",
-    "table_header": {
-      "ref_id": "Referenz ID",
-      "from": "Von",
-      "to": "Nach",
-      "transport_type": "Transportart",
-      "transport_types": {
-        "national": "National",
-        "international": "International"
-      },
-      "last_editor": "Zuletzt bearbeitet von",
-      "status": "Status",
-      "last_edit_date": "Zuletzt bearbeitet am",
-      "creation_date": "Erstellt am",
-      "license_plate": "Nummernschild",
-      "carrier_name": "Transporteur Name",
-      "carrier_post_code": "Transporteur PLZ",
-      "consignee_post_code": "Empfänger PLZ"
-    },
-    "tooltips": {
-      "share": "eCMR teilen",
-      "guest_access": "Gastzugang",
-      "edit": "Bearbeiten",
-      "history": "Historie",
-      "delete": "Löschen",
-      "delete_template": "Vorlage löschen"
-    },
-    "columns_settings": {
-      "configure_columns": "Spalten konfigurieren"
-    },
-    "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR in das Archiv verschieben wollen?",
-    "delete_ecmr_dialog_text": "Sind Sie sicher, dass Sie diesen eCMR löschen wollen? Dies kann nicht rückgängig gemacht werden.",
-    "delete_success": "eCMR wurde erfolgreich gelöscht",
-    "move_to_archive_success": "eCMR wurde erfolgreich archiviert"
-  },
-  "template_overview": {
-    "title": "Vorlagen Übersicht",
-    "table_header": {
-      "number": "Nummer",
-      "name": "Name"
-    },
-    "load_from_template_header": "Daten aus Vorlage laden",
-    "load_selected": "Auswahl laden",
-    "delete_template_dialog_text": "Sind Sie sicher, dass Sie die Vorlage löschen wollen? Diese kann nicht wiederhergestellt werden!",
-    "clear_fitler": "Filter leeren",
-    "delete_success": "Vorlage erfolgreich gelöscht"
+  "confirmation": {
+    "accept": "Bestätigen",
+    "cancel": "Abbrechen",
+    "checkbox": "Eine editierbare Kopie dieses eCMRs erstellen.",
+    "title": "Bestätigung"
   },
   "ecmr_editor": {
-    "create_new_title": "Erstellen",
-    "edit_title": "Bearbeiten",
-    "error_mandatory": "Dieses Feld ist für die Signatur erforderlich.",
-    "error_volume_min": "Muss größer als 0 sein",
-    "error_too_short": "Muss mindestens 2 Zeichen lang sein",
-    "mandatory_missing": "Bitte füllen Sie alle Pflichtfelder aus.",
-    "load_from_template": "Aus Vorlage laden",
-    "save_as_template": "Speichern als Vorlage",
-    "template_name": "Vorlagen Name",
-    "sign": "Unterschreiben",
-    "reference_id": "Referenz ID",
-    "user_guides_and_docs": "Benutzerhandbuch & Docs",
-    "save_success": "eCMR erfolgreich gespeichert",
-    "template_save_success": "Vorlage erfolgreich gespeichert",
-    "reset_confirmation_message": "Sie sind dabei den eCMR zurückzusetzen, dabei wird jedes Feld geleert. Fortfahren?",
-    "signature_successful": "Unterschrift erfolgreich getätigt. eCMR Felder gesperrt",
-    "sign_on_glass": "Sign on glass",
-    "title_1": "1. Sender (Name, Adresse, Land)",
-    "sender": {
-      "name": "Name",
-      "person_name": "Personenname",
-      "street_name": "Straßenname",
-      "post_code": "Postleitzahl",
-      "city_name": "Stadtname",
-      "country": "Land",
-      "email": "E-Mail",
-      "phone": "Telefon"
-    },
-    "title_2": "2. Empfänger (Name, Adresse, Land)",
-    "consignee": {
-      "name": "Name",
-      "person_name": "Personenname",
-      "street_name": "Straßenname",
-      "post_code": "Postleitzahl",
-      "city_name": "Stadtname",
-      "country": "Land",
-      "email": "E-Mail",
-      "phone": "Telefon"
-    },
-    "title_3": "3. Übernahme der Güter",
-    "taking_over_the_goods": {
-      "place": "Standort",
-      "time_of_arrival": "Ankunftszeit",
-      "time_of_departure": "Abfahrzeit"
-    },
-    "title_4": "4. Lieferung der Güter",
-    "delivery_of_the_goods": {
-      "place": "Standort",
-      "opening_hours": "Öffnungszeiten"
-    },
-    "title_5": "5. Anweisungen des Absenders",
-    "senders_instruction": {
-      "description": "Beschreibung"
-    },
-    "title_6": "6. Transporteur (Name, Adresse, Land, Andere Referenzen)",
+    "add_item": "Gegenstand hinzufügen",
     "carrier_information": {
+      "city_name": "Stadtname",
+      "country": "Land",
+      "email": "E-Mail",
+      "license_plate": "Nummernschild",
       "name": "Name",
       "person_name": "Personenname",
-      "street_name": "Straßenname",
+      "phone": "Telefon",
       "post_code": "Postleitzahl",
-      "city_name": "Stadtname",
-      "country": "Land",
       "region": "Region",
-      "license_plate": "Nummernschild",
-      "email": "E-Mail",
-      "phone": "Telefon"
+      "street_name": "Straßenname"
     },
-    "title_7": "7. Nachfolgende Transporteure",
-    "successive_carrier_information": {
-      "name": "Unternehmensname",
-      "person_name": "Personenname",
-      "street_name": "Straßenname",
-      "post_code": "Postleitzahl",
-      "city_name": "Stadtname",
-      "country": "Land",
-      "region": "Region",
-      "date": "Datum",
-      "signature": "Unterschrift",
-      "email": "E-Mail",
-      "phone": "Telefon"
+    "carrier_signature": {
+      "signature": "Unterschrift"
     },
-    "title_8": "8. Vorbehalte und Bemerkungen des Frachtführers bei der Übernahme des Gutes",
     "carriers_reservations": {
       "reservation_and_observation": "Vorbehalte und Bemerkungen"
     },
-    "title_9": "9. Dokumente, die dem Frachtführer vom Absender übergeben werden",
+    "cash_on_delivery": {
+      "particulars": "Angaben",
+      "title": "Bargeld bei Lieferung"
+    },
+    "consignee": {
+      "city_name": "Stadtname",
+      "country": "Land",
+      "email": "E-Mail",
+      "name": "Name",
+      "person_name": "Personenname",
+      "phone": "Telefon",
+      "post_code": "Postleitzahl",
+      "street_name": "Straßenname"
+    },
+    "create_new_title": "Erstellen",
+    "delivery_of_the_goods": {
+      "opening_hours": "Öffnungszeiten",
+      "place": "Standort"
+    },
     "documents_handed_to_carrier": {
       "remarks": "Bemerkungen"
     },
-    "title_10": "10. Markierungen und Ziffern",
-    "marks_and_nos": {
-      "marking_text": "Textmarkierung",
-      "barcode_number": "Barcode-Nummer"
-    },
-    "title_11": "11. Anzahl Pakete",
-    "number_of_packages": {
-      "item_quantity": "Quantität"
-    },
-    "title_12": "12. Verpackungsart" ,
-    "method_of_packing": {
-      "type_text": "Art"
-    },
-    "title_13": "13. Gegenstandsart",
-    "nature_of_goods": {
-      "identification_text": "Identifikationstext"
-    },
-    "title_14": "14. Gesamtgewicht in kg",
-    "gross_weight_in_kg": {
-      "gross_weight": "Gesamtgewicht"
-    },
-    "title_15": "15. Volumen in m³",
-    "volume_in_m3": {
-      "volume": "Volumen"
-    },
-    "add_item": "Gegenstand hinzufügen",
-    "title_16": "16. Besondere Vereinbarungen zwischen dem Absender und dem Beförderer",
-    "special_agreements_sen_carr": {
-      "special_agreements": "Besondere Vereinbarungen"
-    },
-    "title_17": "17. Zu zahlen von",
-    "to_be_paid_by": {
-      "carriage_charges": "Transportgebühren",
-      "currency": "Währung",
-      "payer": "Kostenträger",
-      "supplementary_charges": "Zusatzgebühren",
-      "custom_duties_charges": "Zollgebühren",
-      "other_charges": "Sonstige Gebühren"
-    },
-    "title_18": "18. Andere nützliche Angaben",
-    "other_useful_particulars": {
-      "particulars": "Angaben"
-    },
-    "title_19": "19. Bargeld bei Lieferung",
-    "cash_on_delivery": {
-      "title": "Bargeld bei Lieferung",
-      "particulars": "Angaben"
-    },
-    "title_20": "20. Dieser Transport unterliegt, ungeachtet einer gegenteiligen Klausel, dem Übereinkommen über den Beförderungsvertrag im internationalen Straßengüterverkehr",
-    "title_21": "21. Erstellt",
+    "edit_title": "Bearbeiten",
+    "email": "E-Mail",
+    "error_mandatory": "Dieses Feld ist für die Signatur erforderlich.",
+    "error_too_short": "Muss mindestens 2 Zeichen lang sein",
+    "error_volume_min": "Muss größer als 0 sein",
     "established": {
       "in": "In",
       "on": "Am"
     },
-    "title_22": "22. Unterschrift oder Stempel des Absenders",
-    "sender_signature": {
-      "signature": "Unterschrift"
+    "gross_weight_in_kg": {
+      "gross_weight": "Gesamtgewicht"
     },
-    "title_23": "23. Unterschrift oder Stempel des Transporteur",
-    "carrier_signature": {
-      "signature": "Unterschrift"
+    "items": "Items",
+    "load_from_template": "Aus Vorlage laden",
+    "mandatory_missing": "Bitte füllen Sie alle Pflichtfelder aus.",
+    "marks_and_nos": {
+      "barcode_number": "Barcode-Nummer",
+      "marking_text": "Textmarkierung"
     },
-    "title_24": "24. Waren erhalten",
+    "method_of_packing": {
+      "type_text": "Art"
+    },
+    "nature_of_goods": {
+      "identification_text": "Identifikationstext"
+    },
+    "non_contractual_part_reserved_for_the_carrier": "Dem Beförderer vorbehaltener außervertraglicher Teil",
+    "number_of_packages": {
+      "item_quantity": "Quantität"
+    },
+    "other_useful_particulars": {
+      "particulars": "Angaben"
+    },
+    "phone": "Telefon",
     "receival_signature": {
       "date": "Datum",
       "place": "Standort",
       "signature": "Unterschrift"
     },
-    "title_24_signature": "Unterschrift oder Stempel des Empfängers",
-    "non_contractual_part_reserved_for_the_carrier": "Dem Beförderer vorbehaltener außervertraglicher Teil",
+    "reference_id": "Referenz ID",
     "remarks": "Bemerkungen",
-    "items": "Items",
-    "phone": "Telefon",
-    "email": "E-Mail",
+    "reset_confirmation_message": "Sie sind dabei den eCMR zurückzusetzen, dabei wird jedes Feld geleert. Fortfahren?",
+    "save_as_template": "Speichern als Vorlage",
+    "save_success": "eCMR erfolgreich gespeichert",
+    "sender": {
+      "city_name": "Stadtname",
+      "country": "Land",
+      "email": "E-Mail",
+      "name": "Name",
+      "person_name": "Personenname",
+      "phone": "Telefon",
+      "post_code": "Postleitzahl",
+      "street_name": "Straßenname"
+    },
+    "sender_signature": {
+      "signature": "Unterschrift"
+    },
+    "senders_instruction": {
+      "description": "Beschreibung"
+    },
+    "sign": "Unterschreiben",
+    "sign_on_glass": "Sign on glass",
+    "signature_successful": "Unterschrift erfolgreich getätigt. eCMR Felder gesperrt",
+    "special_agreements_sen_carr": {
+      "special_agreements": "Besondere Vereinbarungen"
+    },
+    "successive_carrier_information": {
+      "city_name": "Stadtname",
+      "country": "Land",
+      "date": "Datum",
+      "email": "E-Mail",
+      "name": "Unternehmensname",
+      "person_name": "Personenname",
+      "phone": "Telefon",
+      "post_code": "Postleitzahl",
+      "region": "Region",
+      "signature": "Unterschrift",
+      "street_name": "Straßenname"
+    },
+    "taking_over_the_goods": {
+      "place": "Standort",
+      "time_of_arrival": "Ankunftszeit",
+      "time_of_departure": "Abfahrzeit"
+    },
     "template": {
-      "edit_title": "Vorlage bearbeiten",
-      "create_new_title": "Vorlage erstellen"
+      "create_new_title": "Vorlage erstellen",
+      "edit_title": "Vorlage bearbeiten"
+    },
+    "template_name": "Vorlagen Name",
+    "template_save_success": "Vorlage erfolgreich gespeichert",
+    "title_1": "1. Sender (Name, Adresse, Land)",
+    "title_10": "10. Markierungen und Ziffern",
+    "title_11": "11. Anzahl Pakete",
+    "title_12": "12. Verpackungsart",
+    "title_13": "13. Gegenstandsart",
+    "title_14": "14. Gesamtgewicht in kg",
+    "title_15": "15. Volumen in m³",
+    "title_16": "16. Besondere Vereinbarungen zwischen dem Absender und dem Beförderer",
+    "title_17": "17. Zu zahlen von",
+    "title_18": "18. Andere nützliche Angaben",
+    "title_19": "19. Bargeld bei Lieferung",
+    "title_2": "2. Empfänger (Name, Adresse, Land)",
+    "title_20": "20. Dieser Transport unterliegt, ungeachtet einer gegenteiligen Klausel, dem Übereinkommen über den Beförderungsvertrag im internationalen Straßengüterverkehr",
+    "title_21": "21. Erstellt",
+    "title_22": "22. Unterschrift oder Stempel des Absenders",
+    "title_23": "23. Unterschrift oder Stempel des Transporteur",
+    "title_24": "24. Waren erhalten",
+    "title_24_signature": "Unterschrift oder Stempel des Empfängers",
+    "title_3": "3. Übernahme der Güter",
+    "title_4": "4. Lieferung der Güter",
+    "title_5": "5. Anweisungen des Absenders",
+    "title_6": "6. Transporteur (Name, Adresse, Land, Andere Referenzen)",
+    "title_7": "7. Nachfolgende Transporteure",
+    "title_8": "8. Vorbehalte und Bemerkungen des Frachtführers bei der Übernahme des Gutes",
+    "title_9": "9. Dokumente, die dem Frachtführer vom Absender übergeben werden",
+    "to_be_paid_by": {
+      "carriage_charges": "Transportgebühren",
+      "currency": "Währung",
+      "custom_duties_charges": "Zollgebühren",
+      "other_charges": "Sonstige Gebühren",
+      "payer": "Kostenträger",
+      "supplementary_charges": "Zusatzgebühren"
+    },
+    "user_guides_and_docs": "Benutzerhandbuch \u0026 Docs",
+    "volume_in_m3": {
+      "volume": "Volumen"
     }
   },
-  "archive": {
-    "title": "Archiv",
-    "search": "Suchen",
-    "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR wiederherstellen wollen?",
-    "move_to_overview_success": "eCMR erfolgreich wiederhergestellt"
+  "ecmr_import": {
+    "e_token": "E-Token",
+    "import": "Importieren",
+    "switch_camera": "Kamera wechseln",
+    "title": "eCMR importieren"
   },
-  "confirmation": {
-    "title": "Bestätigung",
-    "accept": "Bestätigen",
-    "cancel": "Abbrechen",
-    "checkbox": "Eine editierbare Kopie dieses eCMRs erstellen."
+  "ecmr_status": {
+    "ARRIVED_AT_DESTINATION": "Am Zielort angekommen",
+    "IN_TRANSPORT": "Im Transport",
+    "LOADING": "Im Ladevorgang",
+    "NEW": "Neu"
+  },
+  "edit_user_dialog": {
+    "already_exists": "Benutzer mit der Email \u0027{{ translateValue }}\u0027 existiert bereits",
+    "create": "Benutzer erstellen",
+    "edit": "Benutzer bearbeiten",
+    "error_saving": "Fehler beim Speichern des Benutzers!",
+    "group": "Gruppe",
+    "location": "Standort",
+    "locations_and_groups": "Standorte und Gruppen",
+    "successfully_created": "Benutzer erfolgreich angelegt",
+    "successfully_saved": "Benutzer erfolgreich gespeichert",
+    "user_information": "Benutzerinformationen"
+  },
+  "error": {
+    "default_group_required": "Es muss mindestens eine Gruppe favorisiert werden",
+    "ecmr_not_found": "Ecmr konnte nicht gefunden werden",
+    "not_implemented": "Nicht Implementiert",
+    "pattern": "Ungültige Telefonnummer",
+    "required": "Feld darf nicht leer sein"
+  },
+  "general": {
+    "apply_button": "Annehmen",
+    "snackbar_action": "Schließen",
+    "snackbar_error": "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal."
+  },
+  "group_change_parent": {
+    "parent_group": "Übergeordnete Gruppe",
+    "title": "Wechsel übergeordnete Gruppe"
+  },
+  "group_detail": {
+    "remove_user": "Nutzer entfernen",
+    "title": "Benutzerverwaltung"
+  },
+  "group_edit_dialog": {
+    "create": "Gruppe erstellen",
+    "description": "Beschreibung",
+    "edit": "Gruppe bearbeiten",
+    "group_save_success": "Gruppe erfolgreich gespeichert",
+    "location": "Standort",
+    "name": "Name",
+    "parent_group": "Übergeordnete Gruppe"
+  },
+  "group_overview": {
+    "collapse_all": "Alle einklappen",
+    "create_new": "Neue Gruppe erstellen",
+    "delete_confirm": "Sind Sie sich sicher, dass Sie die Gruppe löschen möchten? Alle Benutzer und eCMRs werden eine Ebene höher gruppiert.",
+    "delete_group": "Gruppe löschen",
+    "expand_all": "Alle ausklappen",
+    "location_name": "Standort",
+    "name": "Name",
+    "search": "Suchen",
+    "title": "Gruppenverwaltung",
+    "tooltips": {
+      "change_parent": "Wechsel übergeordnete Gruppe",
+      "create_new": "Erstelle neue Gruppe",
+      "delete": "Gruppe löschen",
+      "edit_name": "Gruppe bearbeiten",
+      "user": "Zugeordnete Benutzer"
+    }
+  },
+  "history": {
+    "actiontype": {
+      "creation": "Erstellt",
+      "edit": "Bearbeitet"
+    },
+    "title": "Historie für eCMR"
+  },
+  "imprint_legal_matter": {
+    "title": "Impressum und rechtliche Hinweise"
   },
   "item": {
     "empty": "Leer"
   },
-  "group_overview": {
-    "name": "Name",
-    "title": "Gruppenverwaltung",
-    "create_new": "Neue Gruppe erstellen",
-    "delete_group": "Gruppe löschen",
-    "delete_confirm": "Sind Sie sich sicher, dass Sie die Gruppe löschen möchten? Alle Benutzer und eCMRs werden eine Ebene höher gruppiert.",
-    "search": "Suchen",
-    "location_name": "Standort",
-    "expand_all": "Alle ausklappen",
-    "collapse_all": "Alle einklappen",
-    "tooltips": {
-      "create_new": "Erstelle neue Gruppe",
-      "edit_name": "Gruppe bearbeiten",
-      "change_parent": "Wechsel übergeordnete Gruppe",
-      "user": "Zugeordnete Benutzer",
-      "delete": "Gruppe löschen"
-    }
-  },
-  "group_detail": {
-    "title": "Benutzerverwaltung",
-    "remove_user": "Nutzer entfernen"
-  },
-  "group_edit_dialog": {
-    "edit": "Gruppe bearbeiten",
-    "create": "Gruppe erstellen",
-    "name": "Name",
-    "location": "Standort",
-    "description": "Beschreibung",
-    "parent_group": "Übergeordnete Gruppe",
-    "group_save_success": "Gruppe erfolgreich gespeichert"
-  },
-  "group_change_parent": {
-    "title": "Wechsel übergeordnete Gruppe",
-    "parent_group": "Übergeordnete Gruppe"
-  },
-  "user_overview": {
-    "title": "Benutzerverwaltung",
-    "create_user": "Neuen Benutzer erstellen",
-    "edit_user": "Benutzer bearbeiten",
-    "deactivate_user": "Benutzer deaktivieren",
-    "activate_user": "Benutzer aktivieren",
-    "activate_dialog": "Wollen Sie diesen Benutzer wirklich aktivieren?",
-    "deactivate_dialog": "Wollen Sie diesen Benutzer wirklich deaktivieren?",
-    "activate_success": "Benutzer erfolgreich aktiviert",
-    "deactivate_success": "Benutzer erfolgreich deaktiviert"
-  },
-  "edit_user_dialog": {
-    "edit": "Benutzer bearbeiten",
-    "create": "Benutzer erstellen",
-    "group": "Gruppe",
-    "location": "Standort",
-    "user_information": "Benutzerinformationen",
-    "locations_and_groups": "Standorte und Gruppen",
-    "successfully_saved": "Benutzer erfolgreich gespeichert",
-    "successfully_created": "Benutzer erfolgreich angelegt",
-    "error_saving": "Fehler beim Speichern des Benutzers!",
-    "already_exists": "Benutzer mit der Email '{{ translateValue }}' existiert bereits"
-  },
-  "user": {
-    "first_name": "Vorname",
-    "last_name": "Nachname",
-    "email": "E-Mail",
-    "phone": "Telefon",
-    "role": "Rolle"
-  },
   "location": {
-    "title": "Standortverwaltung",
-    "name": "Name",
-    "street": "Straße",
-    "postcode": "PLZ",
     "city": "Stadt",
     "countryCode": "Länderkürzel",
-    "officeNumber": "Büronummer",
-    "clear_filter": "Filter löschen",
     "create": "Standort erstellen",
-    "edit": "Standort bearbeiten",
     "delete": "Standort löschen",
+    "edit": "Standort bearbeiten",
+    "error": {
+      "not_created": "Standort konnte nicht erstellt werden",
+      "not_found": "Standort nicht gefunden"
+    },
+    "name": "Name",
+    "officeNumber": "Büronummer",
+    "postcode": "PLZ",
+    "street": "Straße",
     "success": {
       "created": "Standort erfolgreich erstellt",
       "updated": "Standort erfolgreich geändert"
     },
-    "error": {
-      "not_created": "Standort konnte nicht erstellt werden",
-      "not_found": "Standort nicht gefunden"
+    "title": "Standortverwaltung"
+  },
+  "menu": {
+    "archive": "Archiv",
+    "group_overview": "Gruppenverwaltung",
+    "imprint_legal": "Impressum, Rechtliches",
+    "location_overview": "Standortverwaltung",
+    "logout": "Abmelden",
+    "overview": "eCMR Übersicht",
+    "privacy": "Datenschutz",
+    "templates": "Vorlagen Übersicht",
+    "user_overview": "Benutzerverwaltung"
+  },
+  "overview": {
+    "columns_settings": {
+      "configure_columns": "Spalten konfigurieren"
+    },
+    "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR in das Archiv verschieben wollen?",
+    "create_new": "Erstellen",
+    "delete_ecmr_dialog_text": "Sind Sie sicher, dass Sie diesen eCMR löschen wollen? Dies kann nicht rückgängig gemacht werden.",
+    "delete_success": "eCMR wurde erfolgreich gelöscht",
+    "import": "Importieren",
+    "move_to_archive_success": "eCMR wurde erfolgreich archiviert",
+    "search": "Suchen",
+    "table_header": {
+      "carrier_name": "Transporteur Name",
+      "carrier_post_code": "Transporteur PLZ",
+      "consignee_post_code": "Empfänger PLZ",
+      "creation_date": "Erstellt am",
+      "from": "Von",
+      "last_edit_date": "Zuletzt bearbeitet am",
+      "last_editor": "Zuletzt bearbeitet von",
+      "license_plate": "Nummernschild",
+      "ref_id": "Referenz ID",
+      "status": "Status",
+      "to": "Nach",
+      "transport_type": "Transportart",
+      "transport_types": {
+        "international": "International",
+        "national": "National"
+      }
+    },
+    "title": "eCMR Übersicht",
+    "tooltips": {
+      "delete": "Löschen",
+      "delete_template": "Vorlage löschen",
+      "edit": "Bearbeiten",
+      "guest_access": "Gastzugang",
+      "history": "Historie",
+      "share": "eCMR teilen"
     }
+  },
+  "privacy": {
+    "title": "Datenschutzhinweis"
+  },
+  "quick_view_buttons": {
+    "archive": "Archivieren",
+    "copy": "Kopieren",
+    "edit": "Bearbeiten",
+    "pdf": "PDF",
+    "remove_archive": "eCMR wiederherstellen",
+    "share": "Teilen"
   },
   "share_create_dialog": {
     "title": "Gruppen zum Teilen auswählen"
   },
-  "carrier_registration": {
-    "title": "Registrierung",
+  "share_ecmr_dialog": {
+    "carrier": "Beförderer",
+    "consignee": "Empfänger",
+    "copy_link": "Link kopieren",
+    "copy_qr": "QR-Code kopieren",
+    "download_qr": "QR-Code downloaden",
+    "email": "E-Mail",
+    "link_copied": "Link wurde in die Zwischenablage kopiert",
+    "no_qr_code_found": "Kein QR-Code gefunden",
+    "qr_copied": "QR-Code wurde in die Zwischenablage kopiert",
+    "sender": "Sender",
+    "share_pdf": "Als PDF teilen",
+    "share_via_qr": "Oder teile mit dem QR-Code",
+    "shared_external": "Mit externem Benutzer geteilt",
+    "shared_internal": "Mit internem Benutzer in Gruppe {{ translateValue }} geteilt.",
+    "title": "eCMR Teilen",
+    "user_has_no_group": "Benutzer hat keine Gruppe"
+  },
+  "signature": {
+    "by": "Von:",
+    "clear": "Unterschrift löschen",
+    "confirm_text": "Sind Sie sicher? Sie können danach keine Änderungen mehr am eCMR vornehmen.",
+    "signed_on": "Unterschrieben am:"
+  },
+  "template_overview": {
+    "clear_filter": "Filter leeren",
+    "delete_success": "Vorlage erfolgreich gelöscht",
+    "delete_template_dialog_text": "Sind Sie sicher, dass Sie die Vorlage löschen wollen? Diese kann nicht wiederhergestellt werden!",
+    "load_from_template_header": "Daten aus Vorlage laden",
+    "load_selected": "Auswahl laden",
+    "table_header": {
+      "name": "Name",
+      "number": "Nummer"
+    },
+    "title": "Vorlagen Übersicht"
+  },
+  "template_share_dialog": {
+    "success": "Vorlage erfolgreich geteilt",
+    "title": "Vorlage teilen"
+  },
+  "title": "eCMR Service",
+  "user": {
+    "email": "E-Mail",
     "first_name": "Vorname",
     "last_name": "Nachname",
     "phone": "Telefon",
-    "company": "Unternehmen",
-    "register": "Registrieren",
-    "authentication": "Authentifizierung",
-    "tan": "Tan",
-    "tan_message": "Tan wird in kürze per SMS zugestellt",
-    "authenticate": "Authentifizieren",
-    "registered_user": "Als registrierter Benutzer kann die Transporteur Registrierung nicht aufgerufen werden."
+    "role": "Rolle"
   },
-  "signature": {
-    "clear": "Unterschrift löschen",
-    "confirm_text": "Sind Sie sicher? Sie können danach keine Änderungen mehr am eCMR vornehmen.",
-    "signed_on": "Unterschrieben am:",
-    "by": "Von:"
-  },
-  "share_ecmr_dialog": {
-    "title": "eCMR Teilen",
-    "sender": "Sender",
-    "carrier": "Beförderer",
-    "consignee": "Empfänger",
-    "email": "E-Mail",
-    "share_via_qr": "Oder teile mit dem QR-Code",
-    "share_pdf": "Als PDF teilen",
-    "copy_link": "Link kopieren",
-    "copy_qr": "QR-Code kopieren",
-    "download_qr" : "QR-Code downloaden",
-    "link_copied": "Link wurde in die Zwischenablage kopiert",
-    "qr_copied": "QR-Code wurde in die Zwischenablage kopiert",
-    "no_qr_code_found": "Kein QR-Code gefunden",
-    "shared_external": "Mit externem Benutzer geteilt",
-    "shared_internal": "Mit internem Benutzer in Gruppe {{ translateValue }} geteilt.",
-    "user_has_no_group": "Benutzer hat keine Gruppe"
-  },
-  "quick_view_buttons": {
-    "archive": "Archivieren",
-    "pdf": "PDF",
-    "edit": "Bearbeiten",
-    "copy": "Kopieren",
-    "share": "Teilen",
-    "remove_archive": "eCMR wiederherstellen"
-  },
-  "ecmr_import": {
-    "title": "eCMR importieren",
-    "switch_camera": "Kamera wechseln",
-    "e_token": "E-Token",
-    "import": "Importieren"
-  },
-  "template_share_dialog": {
-    "title": "Vorlage teilen",
-    "success": "Vorlage erfolgreich geteilt"
-  },
-  "history": {
-    "title": "Historie für eCMR",
-    "actiontype": {
-      "creation": "Erstellt",
-      "edit": "Bearbeitet"
-    }
-  },
-  "ecmr_status": {
-    "NEW": "Neu",
-    "LOADING": "Im Ladevorgang",
-    "IN_TRANSPORT": "Im Transport",
-    "ARRIVED_AT_DESTINATION": "Am Zielort angekommen"
+  "user_overview": {
+    "activate_dialog": "Wollen Sie diesen Benutzer wirklich aktivieren?",
+    "activate_success": "Benutzer erfolgreich aktiviert",
+    "activate_user": "Benutzer aktivieren",
+    "create_user": "Neuen Benutzer erstellen",
+    "deactivate_dialog": "Wollen Sie diesen Benutzer wirklich deaktivieren?",
+    "deactivate_success": "Benutzer erfolgreich deaktiviert",
+    "deactivate_user": "Benutzer deaktivieren",
+    "edit_user": "Benutzer bearbeiten",
+    "title": "Benutzerverwaltung"
   }
 }
