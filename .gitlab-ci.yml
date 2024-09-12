@@ -15,6 +15,10 @@ variables:
   # DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
   # DOCKER_BUILDKIT: "1"
 
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 # Extend the default stages with the archive stage intended to push artifacts to the nexus
 # Bear in mind that the K8s cluster may pick up docker images from the registry by itself if
@@ -24,10 +28,6 @@ stages:
   - test
   - archive
   - deploy
-
-workflow:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
 node-build-angular-frontend:
   trigger:
@@ -45,10 +45,11 @@ docker-build-angular-frontend:
     IMAGE_TAG: $CI_REGISTRY_IMAGE
   stage: archive
   cache: {}
-  image: docker:24.0.5
+  image: docker:dind
   services:
-  - name: docker:24.0.5-dind
+  - name: docker:dind
     command: ['--host=0.0.0.0:2375']
+    alias: docker  
   before_script:
   - docker info
   - rm -rf ~/.docker/manifests || true
@@ -63,6 +64,6 @@ docker-build-angular-frontend:
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   - docker push $IMAGE_TAG:latest
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
       - angular-frontend/**/*
