@@ -65,9 +65,9 @@ third-party-license-check:
   variables:
     PROJECT_DIR: "angular-frontend/"
 
-artifacts-archive:
-  stage: archive
-  extends: .npm-angular-archive
-  variables:
-    PROJECT_DIR: "angular-frontend/"
-    PACKAGE_JSON_PATH: "angular-frontend/package.json"
+#artifacts-archive:
+#  stage: archive
+#  extends: .npm-angular-archive
+#  variables:
+#    PROJECT_DIR: "angular-frontend/"
+#    PACKAGE_JSON_PATH: "angular-frontend/package.json"
