@@ -46,7 +46,7 @@ variables:
     # Output environment variables used in this job. (Can be useful for debugging.)
     - echo "PROJECT_DIR=${PROJECT_DIR}"
     - cd "${PROJECT_DIR}"
-    - npm install
+    - npm ci
     - npm run build
   artifacts:
     # Save the files produced by this job as job artifacts and allow jobs in subsequent stages to
@@ -66,7 +66,7 @@ variables:
     # Output environment variables used in this job. (Can be useful for debugging.)
     - echo "PROJECT_DIR=${PROJECT_DIR}"
     - cd "${PROJECT_DIR}"
-    - npm install
+    - npm ci
     # Run the linter
     - npm run lint -- -o "${ESLINT_REPORT_FILE}" -f jslint-xml
   artifacts:
@@ -88,7 +88,7 @@ variables:
     # Output environment variables used in this job. (Can be useful for debugging.)
     - echo "PROJECT_DIR=${PROJECT_DIR}"
     - cd "${PROJECT_DIR}"
-    - npm install
+    - npm ci
     - npm run test -- --code-coverage=true --progress=false --watch=false
   coverage: '/Lines \W+: (\d+\.\d+)%.*/'
   artifacts:
@@ -114,7 +114,7 @@ variables:
     - cd "${PROJECT_DIR}"
     # `npx license-checker` traverses the `node_modules` folder to evaluate the project's licenses,
     # therefore "npm install" is needed.
-    - npm install
+    - npm ci
     - npx license-checker --unknown --csv --out "${GENERATED_LICENSES_FILE}"
     # Ensure a newline on each of the license files to equalise them
     - sed -i -e '$a\' "${GENERATED_LICENSES_FILE}"; sed -i -e '$a\' "${REFERENCE_LICENSES_FILE}"
