@@ -126,6 +126,7 @@
     "reset_confirmation_message": "You are about to reset the eCMR, every field will be emptied. Continue?",
     "save_as_template": "Save as template",
     "save_success": "eCMR saved successfully",
+    "save_failure": "Could not save the eCMR",
     "sender": {
       "city_name": "City Name",
       "country": "Country",

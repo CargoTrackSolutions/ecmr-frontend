@@ -696,8 +696,12 @@ export class EcmrEditorComponent implements OnInit {
                     return of(null)
                 })
             ).subscribe(ecmr => {
+              if(ecmr === null) {
+                this.snackBarService.openErrorSnackbar('ecmr_editor.save_failure');
+              } else {
                 this.snackBarService.openSuccessSnackbar('ecmr_editor.save_success')
                 if (ecmr && returnToOverview) this.returnToOverview();
+              }
             })
 
 

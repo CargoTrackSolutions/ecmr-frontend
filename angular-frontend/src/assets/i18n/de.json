@@ -126,6 +126,7 @@
     "reset_confirmation_message": "Sie sind dabei den eCMR zurückzusetzen, dabei wird jedes Feld geleert. Fortfahren?",
     "save_as_template": "Speichern als Vorlage",
     "save_success": "eCMR erfolgreich gespeichert",
+    "save_failure": "eCMR konnte nicht gespeichert werden",
     "sender": {
       "city_name": "Stadtname",
       "country": "Land",
