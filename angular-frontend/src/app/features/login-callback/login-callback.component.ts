@@ -36,6 +36,9 @@ export class LoginCallbackComponent implements OnInit {
                     } else {
                         entrypoint = entrypoint.split('=')[1];
                         entrypoint = entrypoint ? entrypoint : '/';
+                        if(entrypoint == '/login-callback') {
+                          entrypoint = '/'
+                        }
                         this.router.navigateByUrl(entrypoint);
                     }
                 } else {
