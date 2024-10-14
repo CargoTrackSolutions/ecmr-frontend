@@ -17,6 +17,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HttpLoaderFactory } from './app.component';
 import { environment } from '../environments/environment';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -33,5 +34,11 @@ export const appConfig: ApplicationConfig = {
                 sendAccessToken: true
             }
         }),
+        {
+          provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+          useValue: {
+            subscriptSizing: 'dynamic'
+          }
+        }
     ]
 };

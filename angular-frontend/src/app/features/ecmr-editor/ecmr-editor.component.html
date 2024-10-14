@@ -21,7 +21,9 @@
                 <h6>{{ "ecmr_editor.template.edit_title" | translate }}</h6>
             }
         }
-        <app-ecmr-status [status]="ecmrToEdit?.ecmrStatus ? ecmrToEdit.ecmrStatus : EcmrStatus.NEW" [isMobile]="isMobile"></app-ecmr-status>
+        @if (!isTemplate()) {
+          <app-ecmr-status [status]="ecmrToEdit?.ecmrStatus ? ecmrToEdit.ecmrStatus : EcmrStatus.NEW" [isMobile]="isMobile"></app-ecmr-status>
+        }
     </div>
     @if (!isMobile) {
         <div class="d-flex gap-2 align-items-center">
@@ -35,7 +37,7 @@
                     {{ "common.reset" | translate }}
                 </button>
                 <button mat-stroked-button color="primary" (click)="loadFromTemplate()"
-                        *ngIf="!(editorMode === EditorMode.TEMPLATE_NEW) && !(editorMode === EditorMode.TEMPLATE_EDIT)"
+                        *ngIf="!isTemplate()"
                         [disabled]="checkEcmrStatusNew()">
                     <mat-icon iconPositionEnd>upload_file</mat-icon>
                     {{ "ecmr_editor.load_from_template" | translate }}
@@ -102,7 +104,7 @@
 </mat-toolbar>
 <div class="container-fluid" [formGroup]="ecmrConsignmentFormGroup">
   <div class="row"  [class.custom-template-style]="isTemplate() && !isPhone">
-    <div class="m-3 d-flex flex-column gap-3 overflow-container col"
+    <div class="m-3 d-flex flex-column gap-3 overflow-container col pb-3"
          [class.mobile-container]="isMobile">
       <mat-card class="header-card">
         <mat-card-content class="d-flex flex-row justify-content-between align-items-center">
@@ -370,7 +372,7 @@
                                         <mat-datepicker-toggle matIconSuffix [for]="timeOfDeparturePicker"></mat-datepicker-toggle>
                                         @if (ecmrConsignmentFormGroup.controls.takingOverTheGoods.get('logisticsTimeOfDepartureDateTime')?.invalid) {
                                             <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
-                                        }
+                                          }
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -818,186 +820,188 @@
                     </div>
                 </mat-card-content>
             </mat-card>
-            <mat-card id="ecmr-signature-scroll" *ngIf="!(editorMode === EditorMode.TEMPLATE_NEW) && !(editorMode === EditorMode.TEMPLATE_EDIT)">
-                <mat-card-content class="container-fluid">
-                    <div class="row">
+            @if(!isTemplate()) {
+              <mat-card id="ecmr-signature-scroll">
+                  <mat-card-content class="container-fluid">
+                      <div class="row">
 
-                        <!-- Area 21 -->
+                          <!-- Area 21 -->
 
-                        <div class="flex-grow-1 d-flex gap-1 flex-column col"
-                             formGroupName="established">
-                            <h6>{{ "ecmr_editor.title_21" | translate }}</h6>
-                            <div class="d-flex flex-row flex-wrap gap-2">
-                                <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.established.in" | translate }}</mat-label>
-                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="customEstablishedIn"
-                                           [minlength]="2" [maxlength]="30">
-                                    @if (ecmrConsignmentFormGroup.controls.established.get('customEstablishedIn')?.hasError('mandatoryForSigning')) {
-                                        <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
-                                    }
-                                    @if (ecmrConsignmentFormGroup.controls.established.get('customEstablishedIn')?.hasError('minlength')) {
-                                        <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
-                                    }
-                                </mat-form-field>
-                                <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.established.on" | translate }}</mat-label>
-                                    <input [dynamicDisable]="!canFillSenderFields" matInput formControlName="customEstablishedDate"
-                                           [matDatepicker]="establishedDatePicker">
-                                    <mat-datepicker #establishedDatePicker></mat-datepicker>
-                                    <mat-datepicker-toggle matIconSuffix [for]="establishedDatePicker"></mat-datepicker-toggle>
-                                    @if (ecmrConsignmentFormGroup.controls.established.get('customEstablishedDate')?.invalid) {
-                                        <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
-                                    }
-                                </mat-form-field>
-                            </div>
+                          <div class="flex-grow-1 d-flex gap-1 flex-column col"
+                              formGroupName="established">
+                              <h6>{{ "ecmr_editor.title_21" | translate }}</h6>
+                              <div class="d-flex flex-row flex-wrap gap-2">
+                                  <mat-form-field class="flex-grow-1">
+                                      <mat-label>{{ "ecmr_editor.established.in" | translate }}</mat-label>
+                                      <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="customEstablishedIn"
+                                            [minlength]="2" [maxlength]="30">
+                                      @if (ecmrConsignmentFormGroup.controls.established.get('customEstablishedIn')?.hasError('mandatoryForSigning')) {
+                                          <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                      }
+                                      @if (ecmrConsignmentFormGroup.controls.established.get('customEstablishedIn')?.hasError('minlength')) {
+                                          <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
+                                      }
+                                  </mat-form-field>
+                                  <mat-form-field class="flex-grow-1">
+                                      <mat-label>{{ "ecmr_editor.established.on" | translate }}</mat-label>
+                                      <input [dynamicDisable]="!canFillSenderFields" matInput formControlName="customEstablishedDate"
+                                            [matDatepicker]="establishedDatePicker">
+                                      <mat-datepicker #establishedDatePicker></mat-datepicker>
+                                      <mat-datepicker-toggle matIconSuffix [for]="establishedDatePicker"></mat-datepicker-toggle>
+                                      @if (ecmrConsignmentFormGroup.controls.established.get('customEstablishedDate')?.invalid) {
+                                          <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                      }
+                                  </mat-form-field>
+                              </div>
 
-                            <!-- Area 22 -->
+                              <!-- Area 22 -->
 
-                            <h6>{{ "ecmr_editor.title_22" | translate }}</h6>
-                            @if (senderSignature) {
-                                <div
-                                        class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
-                                    <img [src]="senderSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
-                                    <span class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(senderSignature.timestamp) }}</span>
-                                    <p class="text-center mt-2">{{ "signature.by" | translate }} {{ senderSignature.userName }}</p>
-                                </div>
-                            } @else {
-                                <div class="action-button-group">
-                                    <button [disabled]="!canFillSenderFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
-                                            class="main-button mb-3" color="primary"
-                                            (click)="signSender()">
-                                        {{ "ecmr_editor.sign_on_glass" | translate }}
-                                    </button>
-                                    <button [disabled]="!canFillSenderFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
-                                            class="dropdown-button mb-3" color="primary"
-                                            [matMenuTriggerFor]="menu">
-                                        <mat-icon>arrow_drop_down</mat-icon>
-                                    </button>
-                                </div>
+                              <h6>{{ "ecmr_editor.title_22" | translate }}</h6>
+                              @if (senderSignature) {
+                                  <div
+                                          class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
+                                      <img [src]="senderSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
+                                      <span class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(senderSignature.timestamp) }}</span>
+                                      <p class="text-center mt-2">{{ "signature.by" | translate }} {{ senderSignature.userName }}</p>
+                                  </div>
+                              } @else {
+                                  <div class="action-button-group">
+                                      <button [disabled]="!canFillSenderFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
+                                              class="main-button mb-3" color="primary"
+                                              (click)="signSender()">
+                                          {{ "ecmr_editor.sign_on_glass" | translate }}
+                                      </button>
+                                      <button [disabled]="!canFillSenderFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
+                                              class="dropdown-button mb-3" color="primary"
+                                              [matMenuTriggerFor]="menu">
+                                          <mat-icon>arrow_drop_down</mat-icon>
+                                      </button>
+                                  </div>
 
-                                <mat-menu #menu="matMenu">
-                                    <button mat-menu-item>
-                                        E-Sign
-                                    </button>
-                                </mat-menu>
-                            }
+                                  <mat-menu #menu="matMenu">
+                                      <button mat-menu-item>
+                                          E-Sign
+                                      </button>
+                                  </mat-menu>
+                              }
 
 
-                            <!-- Area 23 -->
+                              <!-- Area 23 -->
 
-                            <h6>{{ "ecmr_editor.title_23" | translate }}</h6>
-                            @if (carrierSignature) {
-                                <div class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
-                                    <img [src]="carrierSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
-                                    <span class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(carrierSignature.timestamp) }}</span>
-                                    <p class="text-center mt-2">{{ "signature.by" | translate }} {{ carrierSignature.userName }}</p>
-                                </div>
-                            } @else {
-                                <div class="action-button-group">
-                                    <button [disabled]="!canFillCarrierFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
-                                            class="main-button mb-3" color="primary"
-                                            (click)="signCarrier()">
-                                        {{ "ecmr_editor.sign_on_glass" | translate }}
-                                    </button>
-                                    <button [disabled]="!canFillCarrierFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
-                                            class="dropdown-button mb-3" color="primary"
-                                            [matMenuTriggerFor]="menu">
-                                        <mat-icon>arrow_drop_down</mat-icon>
-                                    </button>
-                                </div>
+                              <h6>{{ "ecmr_editor.title_23" | translate }}</h6>
+                              @if (carrierSignature) {
+                                  <div class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
+                                      <img [src]="carrierSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
+                                      <span class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(carrierSignature.timestamp) }}</span>
+                                      <p class="text-center mt-2">{{ "signature.by" | translate }} {{ carrierSignature.userName }}</p>
+                                  </div>
+                              } @else {
+                                  <div class="action-button-group">
+                                      <button [disabled]="!canFillCarrierFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
+                                              class="main-button mb-3" color="primary"
+                                              (click)="signCarrier()">
+                                          {{ "ecmr_editor.sign_on_glass" | translate }}
+                                      </button>
+                                      <button [disabled]="!canFillCarrierFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
+                                              class="dropdown-button mb-3" color="primary"
+                                              [matMenuTriggerFor]="menu">
+                                          <mat-icon>arrow_drop_down</mat-icon>
+                                      </button>
+                                  </div>
 
-                                <mat-menu #menu="matMenu">
-                                    <button mat-menu-item>
-                                        E-Sign
-                                    </button>
-                                </mat-menu>
-                            }
-                        </div>
+                                  <mat-menu #menu="matMenu">
+                                      <button mat-menu-item>
+                                          E-Sign
+                                      </button>
+                                  </mat-menu>
+                              }
+                          </div>
 
-                        <!-- Area 24 -->
+                          <!-- Area 24 -->
 
-                        <div class="flex-grow-1 d-flex gap-1 flex-column col"
-                             formGroupName="goodsReceived">
-                            <h6>{{ "ecmr_editor.title_24" | translate }}</h6>
-                            <div class="d-flex flex-row flex-wrap gap-2">
-                                <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.receival_signature.place" | translate }}</mat-label>
-                                    <input [dynamicDisable]="!canFillConsigneeFields" matInput type="text"
-                                           formControlName="confirmedLogisticsLocationName" [minlength]="2" [maxlength]="60">
-                                    @if
-                                    (ecmrConsignmentFormGroup.controls.goodsReceived.get('confirmedLogisticsLocationName')?.hasError('mandatoryForSigning')) {
-                                        <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
-                                    }
-                                    @if (ecmrConsignmentFormGroup.controls.goodsReceived.get('confirmedLogisticsLocationName')?.hasError('minlength')) {
-                                        <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
-                                    }
-                                </mat-form-field>
-                                <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.receival_signature.date" | translate }}</mat-label>
-                                    <input [dynamicDisable]="!canFillConsigneeFields" matInput formControlName="consigneeSignatureDate"
-                                           [matDatepicker]="consigneeSignatureDatePicker">
-                                    <mat-datepicker #consigneeSignatureDatePicker></mat-datepicker>
-                                    <mat-datepicker-toggle matIconSuffix [for]="consigneeSignatureDatePicker"></mat-datepicker-toggle>
-                                    @if (ecmrConsignmentFormGroup.controls.goodsReceived.get('consigneeSignatureDate')?.invalid) {
-                                        <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
-                                    }
-                                </mat-form-field>
-                            </div>
-                            <h6>{{ "ecmr_editor.title_24_signature" | translate }}</h6>
-                            @if (consigneeSignature) {
-                                <div class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
-                                    <img [src]="consigneeSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
-                                    <span class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(consigneeSignature.timestamp) }}</span>
-                                    <p class="text-center mt-2">{{ "signature.by" | translate }} {{ consigneeSignature.userName }}</p>
-                                </div>
-                            } @else {
-                                <div class="action-button-group">
-                                    <button [disabled]="!canFillConsigneeFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
-                                            class="main-button" color="primary"
-                                            (click)="signConsignee()">
-                                        {{ "ecmr_editor.sign_on_glass" | translate }}
-                                    </button>
-                                    <button [disabled]="!canFillConsigneeFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
-                                            class="dropdown-button" color="primary"
-                                            [matMenuTriggerFor]="menu">
-                                        <mat-icon>arrow_drop_down</mat-icon>
-                                    </button>
-                                </div>
+                          <div class="flex-grow-1 d-flex gap-1 flex-column col"
+                              formGroupName="goodsReceived">
+                              <h6>{{ "ecmr_editor.title_24" | translate }}</h6>
+                              <div class="d-flex flex-row flex-wrap gap-2">
+                                  <mat-form-field class="flex-grow-1">
+                                      <mat-label>{{ "ecmr_editor.receival_signature.place" | translate }}</mat-label>
+                                      <input [dynamicDisable]="!canFillConsigneeFields" matInput type="text"
+                                            formControlName="confirmedLogisticsLocationName" [minlength]="2" [maxlength]="60">
+                                      @if
+                                      (ecmrConsignmentFormGroup.controls.goodsReceived.get('confirmedLogisticsLocationName')?.hasError('mandatoryForSigning')) {
+                                          <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                      }
+                                      @if (ecmrConsignmentFormGroup.controls.goodsReceived.get('confirmedLogisticsLocationName')?.hasError('minlength')) {
+                                          <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
+                                      }
+                                  </mat-form-field>
+                                  <mat-form-field class="flex-grow-1">
+                                      <mat-label>{{ "ecmr_editor.receival_signature.date" | translate }}</mat-label>
+                                      <input [dynamicDisable]="!canFillConsigneeFields" matInput formControlName="consigneeSignatureDate"
+                                            [matDatepicker]="consigneeSignatureDatePicker">
+                                      <mat-datepicker #consigneeSignatureDatePicker></mat-datepicker>
+                                      <mat-datepicker-toggle matIconSuffix [for]="consigneeSignatureDatePicker"></mat-datepicker-toggle>
+                                      @if (ecmrConsignmentFormGroup.controls.goodsReceived.get('consigneeSignatureDate')?.invalid) {
+                                          <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                      }
+                                  </mat-form-field>
+                              </div>
+                              <h6>{{ "ecmr_editor.title_24_signature" | translate }}</h6>
+                              @if (consigneeSignature) {
+                                  <div class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
+                                      <img [src]="consigneeSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
+                                      <span class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(consigneeSignature.timestamp) }}</span>
+                                      <p class="text-center mt-2">{{ "signature.by" | translate }} {{ consigneeSignature.userName }}</p>
+                                  </div>
+                              } @else {
+                                  <div class="action-button-group">
+                                      <button [disabled]="!canFillConsigneeFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
+                                              class="main-button" color="primary"
+                                              (click)="signConsignee()">
+                                          {{ "ecmr_editor.sign_on_glass" | translate }}
+                                      </button>
+                                      <button [disabled]="!canFillConsigneeFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
+                                              class="dropdown-button" color="primary"
+                                              [matMenuTriggerFor]="menu">
+                                          <mat-icon>arrow_drop_down</mat-icon>
+                                      </button>
+                                  </div>
 
-                                <mat-menu #menu="matMenu">
-                                    <button mat-menu-item>
-                                        E-Sign
-                                    </button>
-                                </mat-menu>
-                            }
-                        </div>
-                    </div>
-                </mat-card-content>
-            </mat-card>
-            <mat-card>
-                <mat-card-content class="container-fluid">
-                    <div class="row">
+                                  <mat-menu #menu="matMenu">
+                                      <button mat-menu-item>
+                                          E-Sign
+                                      </button>
+                                  </mat-menu>
+                              }
+                          </div>
+                      </div>
+                  </mat-card-content>
+              </mat-card>
+              <mat-card>
+                  <mat-card-content class="container-fluid">
+                      <div class="row">
 
-                        <!-- Area 25 -->
+                          <!-- Area 25 -->
 
-                        <div class="flex-grow-1 d-flex gap-1 flex-column"
-                             formGroupName="nonContractualPartReservedForTheCarrier">
-                            <h6>{{ "ecmr_editor.non_contractual_part_reserved_for_the_carrier" | translate }}</h6>
-                            <mat-form-field class="flex-grow-1">
-                                <mat-label>{{ "ecmr_editor.remarks" | translate }}</mat-label>
-                                <textarea [dynamicDisable]="!canFillCarrierFields" matInput cdkTextareaAutosize rows="5"
-                                          formControlName="nonContractualCarrierRemarks" [minlength]="2" [maxlength]="512"></textarea>
-                                @if
-                                (ecmrConsignmentFormGroup.controls.nonContractualPartReservedForTheCarrier.controls.nonContractualCarrierRemarks.get('confirmedLogisticsLocationName')?.hasError('minlength')) {
-                                    <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
-                                }
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </mat-card-content>
-            </mat-card>
+                          <div class="flex-grow-1 d-flex gap-1 flex-column"
+                              formGroupName="nonContractualPartReservedForTheCarrier">
+                              <h6>{{ "ecmr_editor.non_contractual_part_reserved_for_the_carrier" | translate }}</h6>
+                              <mat-form-field class="flex-grow-1">
+                                  <mat-label>{{ "ecmr_editor.remarks" | translate }}</mat-label>
+                                  <textarea [dynamicDisable]="!canFillCarrierFields" matInput cdkTextareaAutosize rows="5"
+                                            formControlName="nonContractualCarrierRemarks" [minlength]="2" [maxlength]="512"></textarea>
+                                  @if
+                                  (ecmrConsignmentFormGroup.controls.nonContractualPartReservedForTheCarrier.controls.nonContractualCarrierRemarks.get('confirmedLogisticsLocationName')?.hasError('minlength')) {
+                                      <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
+                                  }
+                              </mat-form-field>
+                          </div>
+                      </div>
+                  </mat-card-content>
+              </mat-card>
+            }
         </div>
-        <div class="col-lg-6  m-3 gap-3 overflow-container" *ngIf="!isMobile">
+        <div class="col-lg-6  m-3 gap-3 overflow-container" *ngIf="!isMobile && !isTemplate()">
             <ng-container *ngTemplateOutlet="itemListTemplate"></ng-container>
         </div>
     </div>
@@ -1147,21 +1151,23 @@
                 </mat-expansion-panel>
             }
         </mat-accordion>
-        <div *ngIf="editorMode !== EditorMode.TEMPLATE_NEW && editorMode !== EditorMode.TEMPLATE_EDIT" class="d-flex flex-row justify-content-between">
-          <button [disabled]="!canFillSenderFields" mat-stroked-button color="primary" class="mt-2" (click)="addNewItem()">
-            <mat-icon iconPositionEnd>add</mat-icon>
-            {{ "ecmr_editor.add_item" | translate }}
-          </button>
-            <div class="d-flex gap-2 flex-row">
-                <button mat-icon-button color="accent" class="custom-stroked-icon-button"
-                        (click)="accordion.openAll()">
-                    <mat-icon>expand</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" class="custom-stroked-icon-button"
-                        (click)="accordion.closeAll()">
-                    <mat-icon>compress</mat-icon>
-                </button>
-            </div>
-        </div>
+        @if (!isTemplate()) {
+          <div class="d-flex flex-row justify-content-between">
+            <button [disabled]="!canFillSenderFields" mat-stroked-button color="primary" class="mt-2" (click)="addNewItem()">
+              <mat-icon iconPositionEnd>add</mat-icon>
+              {{ "ecmr_editor.add_item" | translate }}
+            </button>
+              <div class="d-flex gap-2 flex-row">
+                  <button mat-icon-button color="accent" class="custom-stroked-icon-button"
+                          (click)="accordion.openAll()">
+                      <mat-icon>expand</mat-icon>
+                  </button>
+                  <button mat-icon-button color="accent" class="custom-stroked-icon-button"
+                          (click)="accordion.closeAll()">
+                      <mat-icon>compress</mat-icon>
+                  </button>
+              </div>
+          </div>
+        }
     </ng-template>
-</div>
+ </div>

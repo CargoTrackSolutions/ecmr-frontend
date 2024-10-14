@@ -9,7 +9,7 @@
         </div>
         <mat-form-field>
             <mat-label>{{ 'carrier_registration.tan' | translate }}</mat-label>
-            <input matInput type="text" [formControl]="carrierTan">
+            <input #focusedInput matInput type="text" [formControl]="carrierTan">
             @if (carrierTan.hasError('required')) {
                 <mat-error>{{ "error.required" | translate }}</mat-error>
             }

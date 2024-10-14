@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { MatError, MatFormField, MatInput, MatLabel, MatPrefix } from '@angular/material/input';
 import { NgForOf } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -55,6 +55,10 @@ export class CarrierRegistrationSuccessComponent {
         });
     }
 
+    @ViewChild("focusedInput") focusedInputField: ElementRef;
+    ngAfterViewInit() {
+        this.focusedInputField.nativeElement.focus();
+    }
 
     authenticate() {
         const tan = this.carrierTan.value;
