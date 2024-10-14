@@ -8,7 +8,7 @@
 
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, takeWhile } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
@@ -55,7 +55,8 @@ export class CarrierRegistrationComponent {
                 private router: Router,
                 authService: AuthService,
                 snackBarService: SnackbarService) {
-        authService.getAuthenticatedUser().subscribe(user => {
+        authService.getAuthenticatedUser().pipe(takeWhile(user => !user, true))
+            .subscribe(user => {
             if (user) {
                 snackBarService.openInfoSnackbar('carrier_registration.registered_user');
                 this.router.navigateByUrl('/ecmr-overview');
