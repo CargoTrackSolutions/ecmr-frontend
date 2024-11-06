@@ -42,7 +42,7 @@ docker-build-angular-frontend:
   tags:
     - ecmr
   variables:
-    IMAGE_TAG: $CI_REGISTRY_IMAGE
+    IMAGE_TAG: "latest"
     IMAGE_NAME: $CI_COMMIT_REF_SLUG
   stage: archive
   cache: {}
