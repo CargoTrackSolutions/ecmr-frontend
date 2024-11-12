@@ -92,3 +92,10 @@ tr.expanded-row {
 .actions-header {
   z-index: 1000 !important;
 }
+
+#status-cell{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

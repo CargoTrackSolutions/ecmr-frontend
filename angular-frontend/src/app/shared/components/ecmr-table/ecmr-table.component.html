@@ -217,7 +217,11 @@
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;">
+                  <div id="status-cell">
+                    <app-ecmr-status [status]="ecmr ? ecmr.ecmrStatus : EcmrStatus.NEW" [isMobile]="!isMobile"></app-ecmr-status>
                     {{ ("ecmr_status." + ecmr.ecmrStatus) | translate }}
+                  </div>
+
                 </td>
             </ng-container>
 
