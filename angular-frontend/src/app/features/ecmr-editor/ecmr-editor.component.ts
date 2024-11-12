@@ -414,6 +414,15 @@ export class EcmrEditorComponent implements OnInit {
 
         if (this.userEcmrRoles.includes(EcmrRole.Consignee) && this.ecmrToEdit && this.ecmrToEdit.ecmrStatus == EcmrStatus.IN_TRANSPORT) {
             this.canFillConsigneeFields = true;
+
+            if(!this.ecmrToEdit.ecmrConsignment.goodsReceived.confirmedLogisticsLocationName){
+                const consigneeDefaultLocation = this.ecmrToEdit.ecmrConsignment.consigneeInformation.consigneeCity;
+                this.ecmrConsignmentFormGroup.controls.
+                    goodsReceived.controls.confirmedLogisticsLocationName.setValue( 
+                        consigneeDefaultLocation);
+            }                      
+            this.ecmrConsignmentFormGroup.controls.
+                goodsReceived.controls.consigneeSignatureDate.setValue(new Date());
         }
     }
 
