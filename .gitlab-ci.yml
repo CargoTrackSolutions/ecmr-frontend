@@ -1,4 +1,11 @@
 include:
+  - component: $CI_SERVER_FQDN/wg-electronictransportdocuments/ecmr/ecmr_ci/docker-build@main
+  - component: $CI_SERVER_FQDN/wg-electronictransportdocuments/ecmr/ecmr_ci/docker-build@main
+    inputs:
+      name_postfix: -archive
+      stage: archive
+      image_name: "$CI_COMMIT_REF_SLUG"
+      image_tag: "latest"
   - template: Code-Quality.gitlab-ci.yml
   - template: Jobs/Dependency-Scanning.gitlab-ci.yml
   - template: Jobs/Container-Scanning.gitlab-ci.yml
@@ -51,31 +58,3 @@ code_quality:
   variables:
     CODECLIMATE_REGISTRY_USERNAME: $CI_REGISTRY_USER
     CODECLIMATE_REGISTRY_PASSWORD: $CI_REGISTRY_PASSWORD
-
-docker-build-angular-frontend:
-  tags:
-    - ecmr
-  variables:
-    IMAGE_TAG: "latest"
-    IMAGE_NAME: $CI_COMMIT_REF_SLUG
-  stage: archive
-  cache: {}
-  image:
-    name: gcr.io/kaniko-project/executor:v1.23.2-debug
-    entrypoint: [""]
-  before_script:
-  - rm -rf ~/.docker/manifests || true
-  script:
-  - echo "CI_REGISTRY=$CI_REGISTRY"
-  - echo "DOCKER_HOST=$DOCKER_HOST"
-  - echo "CI_PROJECT_DIR=${CI_PROJECT_DIR}"
-  - echo "$IMAGE_TAG={$IMAGE_TAG}"
-  - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
-  - /kaniko/executor
-      --context "${CI_PROJECT_DIR}"
-      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-      --destination "${CI_REGISTRY_IMAGE}/$IMAGE_NAME:$IMAGE_TAG"
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      changes:
-      - angular-frontend/**/*
