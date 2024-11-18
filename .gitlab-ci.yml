@@ -26,6 +26,9 @@ variables:
   # DOCKER_SOCKET_PATH: /var/run/docker.sock
   # DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
   # DOCKER_BUILDKIT: "1"
+  # Enable Advanced SAST Scanning. This is required for Typescript projects.
+  GITLAB_ADVANCED_SAST_ENABLED: 'true'
+
 
 workflow:
   rules:
@@ -47,9 +50,6 @@ node-build-angular-frontend:
     include:
       - local: angular-frontend/.gitlab-ci.yml
     strategy: depend
-  rules:
-    - changes:
-      - angular-frontend/**/*
 
 code_quality:
   stage: quality

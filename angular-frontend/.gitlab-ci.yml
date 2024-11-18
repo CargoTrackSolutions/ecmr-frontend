@@ -1,11 +1,5 @@
 include:
-  - template: Code-Quality.gitlab-ci.yml
-  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
-  - template: Jobs/SAST.gitlab-ci.yml
   - local: '.gitlab/ci_cd_templates/Npm-Angular.gitlab-ci.yml'
-
-variables:
-  GITLAB_ADVANCED_SAST_ENABLED: 'true'
 
 # Extend the default stages with the archive stage intended to push artifacts to the nexus
 # Bear in mind that the K8s cluster may pick up docker images from the registry by itself if
@@ -54,15 +48,6 @@ lint:
   extends: .npm-angular-lint
   variables:
     PROJECT_DIR: "angular-frontend/"
-
-code_quality:
-  services:
-  stage: quality
-  tags:
-    - ecmr
-  variables:
-    CODECLIMATE_REGISTRY_USERNAME: $CI_REGISTRY_USER
-    CODECLIMATE_REGISTRY_PASSWORD: $CI_REGISTRY_PASSWORD
 
 third-party-license-check:
   stage: test
