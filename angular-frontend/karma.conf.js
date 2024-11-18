@@ -30,7 +30,8 @@ module.exports = function (config) {
       subdir: '.',
       reporters: [
         { type: 'html' },
-        { type: 'text-summary' }
+        { type: 'text-summary' },
+        { type: 'cobertura' }
       ]
     },
     junitReporter:{
@@ -38,7 +39,7 @@ module.exports = function (config) {
       outputFile:'junit-test-results.xml',
       useBrowserName:false,
     },
-    reporters: ['progress', 'kjhtml'],
+    reporters: ['progress', 'kjhtml', 'junit'],
     browsers: ['Chrome'],
     restartOnFileChange: true
   });

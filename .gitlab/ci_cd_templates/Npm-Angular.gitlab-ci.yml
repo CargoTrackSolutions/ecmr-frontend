@@ -84,11 +84,12 @@ variables:
 # Job template for running unit and integration tests.
 .npm-angular-test:
   image: ${NPM_ANGULAR_DOCKER_IMAGE}
-  script:
+  before_script: 
     # Output environment variables used in this job. (Can be useful for debugging.)
     - echo "PROJECT_DIR=${PROJECT_DIR}"
     - cd "${PROJECT_DIR}"
     - npm ci
+  script:
     - npm run test -- --code-coverage=true --progress=false --watch=false
   coverage: '/Lines \W+: (\d+\.\d+)%.*/'
   artifacts:
@@ -106,7 +107,7 @@ variables:
 # Note: This job uses the `license-checker` module to evaluate the project's third-party licenses.
 .npm-angular-third-party-license-check:
   image: ${NPM_ANGULAR_DOCKER_IMAGE}
-  script:
+  before_script: 
     # Output environment variables used in this job. (Can be useful for debugging.)
     - echo "PROJECT_DIR=${PROJECT_DIR}"
     - echo "REFERENCE_LICENSES_FILE=${REFERENCE_LICENSES_FILE}"
@@ -115,6 +116,7 @@ variables:
     # `npx license-checker` traverses the `node_modules` folder to evaluate the project's licenses,
     # therefore "npm install" is needed.
     - npm ci
+  script:
     - npx license-checker --unknown --csv --out "${GENERATED_LICENSES_FILE}"
     # Ensure a newline on each of the license files to equalise them
     - sed -i -e '$a\' "${GENERATED_LICENSES_FILE}"; sed -i -e '$a\' "${REFERENCE_LICENSES_FILE}"

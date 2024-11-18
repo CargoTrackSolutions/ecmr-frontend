@@ -32,13 +32,15 @@ test:
   needs:
     - job: build
       artifacts: true
-  coverage: '/Lines        : \d+(?:\.\d+)?/'
   artifacts:
     reports:
+      junit: $CI_PROJECT_DIR/angular-frontend/coverage/tests/junit-test-results.xml
       coverage_report:
         coverage_format: cobertura
-        path: $CI_PROJECT_DIR/angular-frontend/coverage/cobertura-coverage.xml
-      junit: $CI_PROJECT_DIR/angular-frontend/coverage/tests/junit-test-results.xml
+        path: $CI_PROJECT_DIR/angular-frontend/coverage/angular-frontend/cobertura-coverage.xml
+    paths:
+      - $CI_PROJECT_DIR/angular-frontend/coverage/tests/junit-test-results.xml
+      - $CI_PROJECT_DIR/angular-frontend/coverage/angular-frontend/cobertura-coverage.xml
   variables:
     PROJECT_DIR: "angular-frontend/"
 
@@ -54,6 +56,7 @@ lint:
     PROJECT_DIR: "angular-frontend/"
 
 code_quality:
+  services:
   stage: quality
   tags:
     - ecmr

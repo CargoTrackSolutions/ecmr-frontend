@@ -1,3 +1,8 @@
+include:
+  - template: Code-Quality.gitlab-ci.yml
+  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
+  - template: Jobs/Container-Scanning.gitlab-ci.yml
+  - template: Jobs/SAST.gitlab-ci.yml
 
 variables:
   PROJECT_PREFIX: "/ecmr-frontend"
@@ -26,6 +31,7 @@ workflow:
 stages:
   - build
   - test
+  - quality
   - archive
   - deploy
 
@@ -37,6 +43,14 @@ node-build-angular-frontend:
   rules:
     - changes:
       - angular-frontend/**/*
+
+code_quality:
+  stage: quality
+  tags:
+    - ecmr
+  variables:
+    CODECLIMATE_REGISTRY_USERNAME: $CI_REGISTRY_USER
+    CODECLIMATE_REGISTRY_PASSWORD: $CI_REGISTRY_PASSWORD
 
 docker-build-angular-frontend:
   tags:
