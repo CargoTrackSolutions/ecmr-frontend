@@ -480,10 +480,10 @@ export class EcmrEditorComponent implements OnInit {
     senderFieldsAreValid(): boolean {
         const invalidFields: AbstractControl[] = [];
         const invalidVolumes: AbstractControl[] = [];
-        invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.senderInformation, ['senderNamePerson', 'region']));
-        invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.consigneeInformation, ['consigneeNamePerson', 'region']));
+        invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.senderInformation, ['senderNamePerson', 'region', 'email', 'phone']));
+        invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.consigneeInformation, ['consigneeNamePerson', 'region', 'email', 'phone']));
         invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.takingOverTheGoods, ['region']));
-        invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.carrierInformation, ['region']));
+        invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.carrierInformation, ['carrierNamePerson','region', 'email', 'phone']));
         if (this.ecmrConsignmentFormGroup.controls.itemList.controls.length > 0) {
             for (const itemGroup of this.itemList.controls) {
 
@@ -685,6 +685,8 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     saveEcmr(returnToOverview: boolean) {
+        this.resetClearedControls(this.ecmrConsignmentFormGroup);
+        
         this.ecmrConsignmentFormGroup.reset(this.ecmrConsignmentFormGroup.getRawValue())
         if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_NEW || this.editorMode == EditorMode.ECMR_COPY)) {
             const formValue: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
@@ -745,6 +747,18 @@ export class EcmrEditorComponent implements OnInit {
             })
         } else {
             this.ecmrConsignmentFormGroup.markAllAsTouched();
+        }
+    }
+
+    private resetClearedControls(group: FormGroup): void {       
+        for (const controlName in group.controls) {
+            const control = group.controls[controlName];
+            if (control instanceof FormGroup) {
+                // recursive call for subgroups
+                const subResult = this.resetClearedControls(control)
+            } else if (control.value === '') {
+                control.reset();
+            }
         }
     }
 
