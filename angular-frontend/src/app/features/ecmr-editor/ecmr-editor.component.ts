@@ -56,6 +56,10 @@ import { EcmrActionService } from '../../shared/services/ecmr-action.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { EcmrStatusComponent } from '../../shared/components/ecmr-status/ecmr-status.component';
 import { EcmrTransportType } from '../../core/models/EcmrTransportType';
+import { AuthService } from '../../core/services/auth.service';
+import { AuthenticatedUser } from '../../core/models/AuthenticatedUser';
+import { UserRole } from '../../core/enums/UserRole';
+import { UserService } from '../../shared/services/user.service';
 
 export enum EditorMode {
     ECMR_EDIT = 'ECMR_EDIT',
@@ -315,6 +319,8 @@ export class EcmrEditorComponent implements OnInit {
     tan: string;
     isExternalUser: boolean;
 
+    authenticatedUser: AuthenticatedUser | null;
+
     constructor(private breakpointObserver: BreakpointObserver,
                 private router: Router,
                 private ecmrEditorService: EcmrEditorService,
@@ -329,7 +335,13 @@ export class EcmrEditorComponent implements OnInit {
                 private loadingService: LoadingService,
                 protected dateTimeService: DateTimeService,
                 public matDialog: MatDialog,
-                private ecmrService: EcmrService) {
+                private ecmrService: EcmrService,
+                public authService: AuthService,
+                private userService: UserService,
+              ) {
+                  this.authService.getAuthenticatedUser().subscribe(user => {
+                    this.authenticatedUser = user;
+                });
     }
 
     ngOnInit() {
@@ -680,40 +692,41 @@ export class EcmrEditorComponent implements OnInit {
             const ecmr: Ecmr = {
                 ecmrId: null,
                 ecmrConsignment: formValue
-            }
+            };
 
-            this.groupService.getAllGroupsAsFlatList(true).pipe(
-                switchMap(groups => {
-                    if (groups.length > 1) {
-                        return this.matDialog.open(EcmrCreateShareDialogComponent, {
-                            data: groups,
-                            width: '60vw',
-                            maxHeight: '800px'
-                        }).afterClosed()
-                    } else if (groups.length == 0) {
-                        return of([])
-                    } else {
-                        return of(groups)
-                    }
-                }),
-                map(groups => groups as GroupFlat[]),
-                switchMap(groups => {
-                    return this.loadingService.showLoaderUntilCompleted(this.ecmrEditorService.saveEcmr(ecmr, groups))
-                }),
-                catchError(err => {
-                    console.warn(err);
-                    return of(null)
-                })
-            ).subscribe(ecmr => {
-              if(ecmr === null) {
-                this.snackBarService.openErrorSnackbar('ecmr_editor.save_failure');
-              } else {
-                this.snackBarService.openSuccessSnackbar('ecmr_editor.save_success')
-                if (ecmr && returnToOverview) this.returnToOverview();
-              }
-            })
-
-
+            (this.authenticatedUser?.user.role === UserRole.Admin ?
+                this.groupService.getAllGroupsAsFlatList(true) :
+                this.userService.getGroupsForUser(this.authenticatedUser?.user.id!))
+                    .pipe(
+                        switchMap(groups => {
+                            if (groups.length > 1) {
+                                return this.matDialog.open(EcmrCreateShareDialogComponent, {
+                                    data: groups,
+                                    width: '60vw',
+                                    maxHeight: '800px'
+                                }).afterClosed()
+                            } else if (groups.length == 0) {
+                                return of([])
+                            } else {
+                                return of(groups)
+                          }
+                        }),
+                        map(groups => groups as GroupFlat[]),
+                        switchMap(groups => {
+                            return this.loadingService.showLoaderUntilCompleted(this.ecmrEditorService.saveEcmr(ecmr, groups))
+                        }),
+                      catchError(err => {
+                          console.warn(err);
+                          return of(null)
+                      })
+                    ).subscribe(ecmr => {
+                        if(ecmr === null) {
+                            this.snackBarService.openErrorSnackbar('ecmr_editor.save_failure');
+                        } else {
+                            this.snackBarService.openSuccessSnackbar('ecmr_editor.save_success')
+                            if (ecmr && returnToOverview) this.returnToOverview();
+                        }
+                    })
         } else if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_EDIT)) {
             this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
 
