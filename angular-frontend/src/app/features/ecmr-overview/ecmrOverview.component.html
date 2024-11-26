@@ -66,6 +66,11 @@
                     [disabled]="shareButtonDisabled">{{ 'quick_view_buttons.share' | translate }}
                 <mat-icon iconPositionEnd>share</mat-icon>
             </button>
+            <button class="m-1" mat-stroked-button
+                    (click)="historyOfEcmr(ecmr.ecmrId,ecmr.ecmrConsignment.referenceIdentificationNumber.value);">
+                {{ 'quick_view_buttons.history' | translate }}
+                <mat-icon iconPositionEnd>history</mat-icon>
+            </button>
         </div>
     </ng-template>
 
@@ -101,16 +106,15 @@
     </ng-template>
 
     <ng-template #actionButtons let-ecmr>
-        <button mat-icon-button (click)="editEcmr(ecmr.ecmrId);$event.stopPropagation()"
+        <button mat-icon-button (click)="signEcmr(ecmr.ecmrId);$event.stopPropagation()"
                 [disabled]="ecmr.ecmrStatus === EcmrStatus.ARRIVED_AT_DESTINATION"
-                matTooltip="{{'overview.tooltips.edit' | translate}}">
-            <mat-icon>edit_note</mat-icon>
+                matTooltip="{{'overview.tooltips.sign' | translate}}">
+            <mat-icon>draw</mat-icon>
         </button>
-        <button mat-icon-button
-                (click)="historyOfEcmr(ecmr.ecmrId,ecmr.ecmrConsignment.referenceIdentificationNumber.value);$event.stopPropagation()"
-                matTooltip="{{'overview.tooltips.history' |
-        translate}}">
-            <mat-icon>history</mat-icon>
+        <button mat-icon-button 
+                (click)="shareEcmr(ecmr);$event.stopPropagation()"
+                matTooltip="{{'overview.tooltips.share' | translate}}">
+                <mat-icon>share</mat-icon>
         </button>
         @if(deleteButtonVisible(ecmr)) {
             <button mat-icon-button (click)="deleteEcmr(ecmr.ecmrId);$event.stopPropagation()"
@@ -124,6 +128,11 @@
                 [disabled]="ecmr.ecmrStatus === EcmrStatus.ARRIVED_AT_DESTINATION"
                 (click)="editEcmr(ecmr.ecmrId)">
             <mat-icon style="transform: scale(1.4)">edit_note</mat-icon>
+        </button>
+        <button mat-icon-button class="my-3"
+                [disabled]="ecmr.ecmrStatus === EcmrStatus.ARRIVED_AT_DESTINATION" 
+                (click)="signEcmr(ecmr.ecmrId)">
+            <mat-icon style="transform: scale(1.4)">draw</mat-icon>
         </button>
         <button mat-icon-button class="my-3" (click)="selectEcmr(ecmr)">
             <mat-icon style="transform: scale(1.4)">visibility</mat-icon>

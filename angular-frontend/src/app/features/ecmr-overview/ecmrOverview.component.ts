@@ -260,6 +260,10 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         if (ecmrId) this.router.navigateByUrl(`/ecmr-editor/${ecmrId}`);
     }
 
+    signEcmr(ecmrId: string) {
+        if (ecmrId) this.router.navigateByUrl(`/ecmr-editor/${ecmrId}?action=sign`); // or /sign or sign=true
+    }
+
     deleteEcmr(ecmrId: string) {
         this.dialog.open(ConfirmationDialogComponent, {
             data: {

@@ -636,6 +636,7 @@ export class EcmrEditorComponent implements OnInit {
                         this.loadEcmr(result.ecmr);
                         this.userEcmrRoles = result.roles;
                         this.setFormConstraints();
+                        this.scrollIfSigning();
                     });
             }
         }
@@ -884,6 +885,13 @@ export class EcmrEditorComponent implements OnInit {
     scrollToElement() {
         const element = document.getElementById('ecmr-signature-scroll');
         element?.scrollIntoView({behavior: 'smooth'});
+    }
+
+    scrollIfSigning() {
+        if(this.route.snapshot.queryParams['action'] === 'sign'){
+            const element = document.getElementById('ecmr-signature-scroll');
+            element?.scrollIntoView();
+        }
     }
 
     checkCountry(forControl: string) {

@@ -362,7 +362,8 @@
       "edit": "Edit",
       "guest_access": "Guest Access",
       "history": "History",
-      "share": "Share eCMR"
+      "share": "Share eCMR",
+      "sign": "Sign eCMR"
     }
   },
   "privacy": {
@@ -372,6 +373,7 @@
     "archive": "Archive",
     "copy": "Copy",
     "edit": "Edit",
+    "history": "History",
     "pdf": "PDF",
     "remove_archive": "Reactivate eCMR",
     "share": "Share"
