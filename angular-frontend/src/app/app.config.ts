@@ -13,11 +13,10 @@ import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import {HttpClient, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { HttpLoaderFactory } from './app.component';
 import { environment } from '../environments/environment';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,12 +32,6 @@ export const appConfig: ApplicationConfig = {
         allowedUrls: [environment.backendUrl],
         sendAccessToken: true
       }
-    }),
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: {
-        subscriptSizing: 'dynamic'
-      }
-    }
+    })
   ]
 };

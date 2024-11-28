@@ -2,7 +2,7 @@
     <mat-toolbar-row class="d-flex flex-row justify-content-between">
         <mat-label>{{ 'user_overview.title' | translate }}</mat-label>
         <div class="d-flex flex-row gap-2 align-items-center">
-            <mat-form-field class="mt-4 search-field">
+            <mat-form-field class="search-field" subscriptSizing="dynamic">
                 <mat-label>{{ 'group_overview.search' | translate }}</mat-label>
                 <input matInput (keyup)="applyFilter($event)">
                 <mat-icon matSuffix>search</mat-icon>
