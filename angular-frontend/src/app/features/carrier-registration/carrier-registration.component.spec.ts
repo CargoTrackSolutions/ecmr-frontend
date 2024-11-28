@@ -11,8 +11,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CarrierRegistrationComponent } from './carrier-registration.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../app.component';
-import { HttpClient } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
@@ -29,30 +29,29 @@ describe('CarrierRegistrationComponent', () => {
         mockAuthService = jasmine.createSpyObj('AuthService', ['isAuthenticated', 'getAuthenticatedUser']);
         mockAuthService.getAuthenticatedUser.and.returnValue(of(null));
         await TestBed.configureTestingModule({
-            imports: [
-                CarrierRegistrationComponent,
-                TranslateModule.forRoot({
-                    loader: {
-                        provide: TranslateLoader,
-                        useFactory: HttpLoaderFactory,
-                        deps: [HttpClient]
-                    }
-                }),
-                HttpClientTestingModule,
-                BrowserAnimationsModule
-            ],
-            providers: [
-                {provide: AuthService, useValue: mockAuthService},
-                {provide: OAuthService, useValue: {}},
-                {provide: UserService, useValue: {}},
-                {
-                    provide: ActivatedRoute,
-                    useValue: {
-                        params: of({id: 'someId'}) // Mock params observable with 'id'
-                    }
-                }
-            ]
-        })
+    imports: [CarrierRegistrationComponent,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        BrowserAnimationsModule],
+    providers: [
+        { provide: AuthService, useValue: mockAuthService },
+        { provide: OAuthService, useValue: {} },
+        { provide: UserService, useValue: {} },
+        {
+            provide: ActivatedRoute,
+            useValue: {
+                params: of({ id: 'someId' }) // Mock params observable with 'id'
+            }
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+})
             .compileComponents();
 
         fixture = TestBed.createComponent(CarrierRegistrationComponent);

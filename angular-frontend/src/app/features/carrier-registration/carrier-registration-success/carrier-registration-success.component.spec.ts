@@ -11,8 +11,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CarrierRegistrationSuccessComponent } from './carrier-registration-success.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../app.component';
-import { HttpClient } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExternalUserService } from '../../ecmr-editor/ecmr-editor-service/external-user.service';
 import { ActivatedRoute } from '@angular/router';
@@ -24,28 +24,27 @@ describe('CarrierRegistrationSuccessComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [
-                CarrierRegistrationSuccessComponent,
-                TranslateModule.forRoot({
-                    loader: {
-                        provide: TranslateLoader,
-                        useFactory: HttpLoaderFactory,
-                        deps: [HttpClient]
-                    }
-                }),
-                HttpClientTestingModule,
-                BrowserAnimationsModule
-            ],
-            providers: [
-                {provide: ExternalUserService, useValue: {}},
-                {
-                    provide: ActivatedRoute,
-                    useValue: {
-                        params: of({id: 'someId'})
-                    }
-                },
-            ]
-        })
+    imports: [CarrierRegistrationSuccessComponent,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        BrowserAnimationsModule],
+    providers: [
+        { provide: ExternalUserService, useValue: {} },
+        {
+            provide: ActivatedRoute,
+            useValue: {
+                params: of({ id: 'someId' })
+            }
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+})
             .compileComponents();
 
         fixture = TestBed.createComponent(CarrierRegistrationSuccessComponent);

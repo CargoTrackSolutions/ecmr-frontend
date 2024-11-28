@@ -12,8 +12,8 @@ import { EcmrCreateShareDialogComponent } from './ecmr-create-share-dialog.compo
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../app.component';
-import { HttpClient } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('EcmrCreateShareDialogComponent', () => {
@@ -22,24 +22,23 @@ describe('EcmrCreateShareDialogComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [
-                EcmrCreateShareDialogComponent,
-                MatDialogModule,
-                TranslateModule.forRoot({
-                    loader: {
-                        provide: TranslateLoader,
-                        useFactory: HttpLoaderFactory,
-                        deps: [HttpClient]
-                    }
-                }),
-                HttpClientTestingModule,
-                BrowserAnimationsModule
-            ],
-            providers: [
-                {provide: MAT_DIALOG_DATA, useValue: [{id: 1, name: 'Group 1'}, {id: 2, name: 'Group 2'}]},
-                {provide: MatDialogRef, useValue: {}}
-            ]
-        }).compileComponents();
+    imports: [EcmrCreateShareDialogComponent,
+        MatDialogModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        BrowserAnimationsModule],
+    providers: [
+        { provide: MAT_DIALOG_DATA, useValue: [{ id: 1, name: 'Group 1' }, { id: 2, name: 'Group 2' }] },
+        { provide: MatDialogRef, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+}).compileComponents();
 
         fixture = TestBed.createComponent(EcmrCreateShareDialogComponent);
         component = fixture.componentInstance;

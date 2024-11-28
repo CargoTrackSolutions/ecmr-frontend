@@ -68,12 +68,12 @@ body {
 .sidenav-container__icon-container:hover,
 .sidenav__icon:hover:not(.active),
 .footer-line:hover {
-  background-color: mat.get-color-from-palette($my-accent, 500);
+  background-color: mat.m2-get-color-from-palette($my-accent, 500);
   cursor: pointer;
 }
 
 .active {
-  background-color: mat.get-color-from-palette($my-primary, 500);
+  background-color: mat.m2-get-color-from-palette($my-primary, 500);
 }
 
 .container-header {
@@ -98,7 +98,7 @@ app-share-template-dialog ::-webkit-scrollbar-thumb,
 app-ecmr-table ::-webkit-scrollbar-thumb {
   border-radius: 5px;
   cursor: pointer;
-  background: mat.get-color-from-palette($my-primary, 500) !important;
+  background: mat.m2-get-color-from-palette($my-primary, 500) !important;
 }
 
 app-ecmr-editor ::-webkit-scrollbar-thumb:hover,
@@ -110,7 +110,7 @@ app-template-overview ::-webkit-scrollbar-thumb:hover,
 app-ecmr-create-share-dialog ::-webkit-scrollbar-thumb:hover,
 app-share-template-dialog ::-webkit-scrollbar-thumb:hover,
 app-ecmr-table ::-webkit-scrollbar-thumb:hover {
-  background: mat.get-color-from-palette($my-accent, 500) !important;
+  background: mat.m2-get-color-from-palette($my-accent, 500) !important;
 }
 
 .mat-mdc-unelevated-button.mat-primary {

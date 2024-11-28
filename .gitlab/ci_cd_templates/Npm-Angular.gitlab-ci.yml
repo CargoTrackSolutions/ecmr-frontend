@@ -12,7 +12,7 @@ variables:
   # with them.
   # These variables are not intended to be overridden by jobs extending the job templates.
   ##################################################################################################
-  NPM_ANGULAR_DOCKER_IMAGE: trion/ng-cli-karma:17.3.3
+  NPM_ANGULAR_DOCKER_IMAGE: trion/ng-cli-karma:18.2.11
 
   ##################################################################################################
   # Definition of variables for project-specific configuration of the pipeline jobs.
@@ -84,7 +84,7 @@ variables:
 # Job template for running unit and integration tests.
 .npm-angular-test:
   image: ${NPM_ANGULAR_DOCKER_IMAGE}
-  before_script: 
+  before_script:
     # Output environment variables used in this job. (Can be useful for debugging.)
     - echo "PROJECT_DIR=${PROJECT_DIR}"
     - cd "${PROJECT_DIR}"
@@ -107,7 +107,7 @@ variables:
 # Note: This job uses the `license-checker` module to evaluate the project's third-party licenses.
 .npm-angular-third-party-license-check:
   image: ${NPM_ANGULAR_DOCKER_IMAGE}
-  before_script: 
+  before_script:
     # Output environment variables used in this job. (Can be useful for debugging.)
     - echo "PROJECT_DIR=${PROJECT_DIR}"
     - echo "REFERENCE_LICENSES_FILE=${REFERENCE_LICENSES_FILE}"

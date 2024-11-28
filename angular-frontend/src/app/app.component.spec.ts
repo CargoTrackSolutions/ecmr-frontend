@@ -12,7 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, provideHttpClient} from '@angular/common/http';
 import { OAuthService, OAuthSuccessEvent } from 'angular-oauth2-oidc';
 
 describe('AppComponent', () => {
@@ -37,6 +37,7 @@ describe('AppComponent', () => {
       }),],
       providers: [
         {provide: OAuthService, useValue: oauthServiceMock},
+        provideHttpClient()
       ]
     }).compileComponents();
   });

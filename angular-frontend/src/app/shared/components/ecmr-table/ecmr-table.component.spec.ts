@@ -9,10 +9,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EcmrTableComponent } from './ecmr-table.component';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { HttpLoaderFactory } from '../../../app.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('EcmrTableComponent', () => {
@@ -21,19 +21,17 @@ describe('EcmrTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        EcmrTableComponent,
+    imports: [EcmrTableComponent,
         TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-          }
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
         }),
-        HttpClientTestingModule,
-        BrowserAnimationsModule
-      ]
-    })
+        BrowserAnimationsModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(EcmrTableComponent);

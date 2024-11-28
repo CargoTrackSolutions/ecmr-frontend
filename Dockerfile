@@ -1,4 +1,4 @@
-FROM node:20.12.0-alpine as builder
+FROM node:22.11.0-alpine as builder
 
 COPY angular-frontend/package.json ./
 COPY angular-frontend/package-lock.json ./

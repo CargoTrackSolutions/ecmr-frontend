@@ -9,10 +9,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserOverviewComponent } from './user-overview.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../app.component';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
@@ -28,23 +28,22 @@ describe('UserOverviewComponent', () => {
         mockAuthService = jasmine.createSpyObj('AuthService', ['isAuthenticated', 'getAuthenticatedUser']);
         mockAuthService.getAuthenticatedUser.and.returnValue(of(null));
         await TestBed.configureTestingModule({
-            imports: [
-                UserOverviewComponent,
-                HttpClientTestingModule,
-                BrowserAnimationsModule,
-                TranslateModule.forRoot({
-                    loader: {
-                        provide: TranslateLoader,
-                        useFactory: HttpLoaderFactory,
-                        deps: [HttpClient]
-                    }
-                }),
-            ],
-            providers: [
-                {provide: AuthService, useValue: mockAuthService},
-                {provide: OAuthService, useValue: {}},
-            ]
-        })
+    imports: [UserOverviewComponent,
+        BrowserAnimationsModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })],
+    providers: [
+        { provide: AuthService, useValue: mockAuthService },
+        { provide: OAuthService, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+})
             .compileComponents();
 
         fixture = TestBed.createComponent(UserOverviewComponent);

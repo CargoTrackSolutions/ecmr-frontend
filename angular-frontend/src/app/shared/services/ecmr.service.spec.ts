@@ -9,16 +9,17 @@
 import { TestBed } from '@angular/core/testing';
 
 import { EcmrService } from './ecmr.service';
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('EcmrService', () => {
   let service: EcmrService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [EcmrService]
-    });
+    imports: [],
+    providers: [EcmrService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
     service = TestBed.inject(EcmrService);
   });
 

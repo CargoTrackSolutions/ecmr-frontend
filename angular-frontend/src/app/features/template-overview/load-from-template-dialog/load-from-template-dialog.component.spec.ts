@@ -12,7 +12,7 @@ import { LoadFromTemplateDialogComponent } from './load-from-template-dialog.com
 import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('LoadFromTemplateDialogComponent', () => {
     let component: LoadFromTemplateDialogComponent;
@@ -20,21 +20,22 @@ describe('LoadFromTemplateDialogComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [LoadFromTemplateDialogComponent, HttpClientModule, BrowserAnimationsModule,
-                TranslateModule.forRoot({
-                    loader: {
-                        provide: TranslateLoader,
-                        useClass: TranslateFakeLoader
-                    }
-                })],
-            providers: [
-                {
-                    provide: MatDialogRef,
-                    useValue: {}
-                },
-                TranslateService
-            ]
-        }).compileComponents();
+    imports: [LoadFromTemplateDialogComponent, BrowserAnimationsModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useClass: TranslateFakeLoader
+            }
+        })],
+    providers: [
+        {
+            provide: MatDialogRef,
+            useValue: {}
+        },
+        TranslateService,
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+}).compileComponents();
 
         fixture = TestBed.createComponent(LoadFromTemplateDialogComponent);
         component = fixture.componentInstance;

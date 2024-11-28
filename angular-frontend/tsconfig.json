@@ -20,7 +20,7 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "lib": [
-      "ESNext.Array",
+      "es2023.array",
       "ES2022",
       "dom"
     ]

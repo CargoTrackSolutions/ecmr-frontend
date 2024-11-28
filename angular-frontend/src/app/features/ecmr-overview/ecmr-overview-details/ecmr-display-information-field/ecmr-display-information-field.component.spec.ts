@@ -9,7 +9,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EcmrDisplayInformationFieldComponent } from './ecmr-display-information-field.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../../app.component';
 
@@ -19,17 +19,18 @@ describe('EcmrDisplayInformationFieldComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [EcmrDisplayInformationFieldComponent, HttpClientModule, TranslateModule.forRoot({
-                loader: {
-                    provide: TranslateLoader,
-                    useFactory: HttpLoaderFactory,
-                    deps: [HttpClient]
-                }
-            })],
-            providers: [
-                TranslateService
-            ]
-        })
+    imports: [EcmrDisplayInformationFieldComponent, TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })],
+    providers: [
+        TranslateService,
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+})
             .compileComponents();
 
         fixture = TestBed.createComponent(EcmrDisplayInformationFieldComponent);

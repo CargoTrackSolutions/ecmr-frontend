@@ -11,7 +11,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EcmrOverviewDetailsComponent } from './ecmr-overview-details.component';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../app.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { PayerType } from '../../../core/enums/PayerType';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
@@ -22,27 +22,28 @@ describe('EcmrOverviewDetailsComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [HttpClientModule, EcmrOverviewDetailsComponent, BrowserAnimationsModule, TranslateModule.forRoot({
-                loader: {
-                    provide: TranslateLoader,
-                    useFactory: HttpLoaderFactory,
-                    deps: [HttpClient]
+    imports: [EcmrOverviewDetailsComponent, BrowserAnimationsModule, TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })],
+    providers: [
+        TranslateService,
+        {
+            provide: ActivatedRoute,
+            useValue: {
+                snapshot: {
+                    url: [
+                        { path: 'someurl' } // Mock URL segments
+                    ]
                 }
-            })],
-            providers: [
-                TranslateService,
-                {
-                    provide: ActivatedRoute,
-                    useValue: {
-                        snapshot: {
-                            url: [
-                                { path: 'someurl' }  // Mock URL segments
-                            ]
-                        }
-                    }
-                }
-            ]
-        }).compileComponents();
+            }
+        },
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+}).compileComponents();
 
         fixture = TestBed.createComponent(EcmrOverviewDetailsComponent);
         component = fixture.componentInstance;

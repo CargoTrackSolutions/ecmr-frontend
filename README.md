@@ -10,10 +10,10 @@ Core technology of the frontend is the [Angular](https://angular.io/) framework.
 
 The versions of the runtime environment and the most relevant frameworks used are listed below:
 
-* trion/ng-cli-karma: 17.3.3 (CI Pipeline Base Image)
-* Node: 20.12.0 (as used by the trion/ng-cli-karma:17.3.3 image to build the application)
-* npm: 10.5.0   (as used by the given Node version)
-* Angular CLI: 17.3.3
+* trion/ng-cli-karma: 18.2.11 (CI Pipeline Base Image)
+* Node: 22.11.0 (as used by the trion/ng-cli-karma:18.2.11 image to build the application)
+* npm: 10.9.0   (as used by the given Node version)
+* Angular CLI: 18.2.12
 
 ## Documentation
 

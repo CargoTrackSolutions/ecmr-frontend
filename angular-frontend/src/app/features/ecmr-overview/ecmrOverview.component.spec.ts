@@ -51,7 +51,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Ecmr } from '../../core/models/Ecmr';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../app.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { PayerType } from '../../core/enums/PayerType';
 import { of } from 'rxjs';
 import {EcmrService} from "../../shared/services/ecmr.service";
@@ -252,71 +252,69 @@ describe('OverviewComponent', () => {
 
     beforeEach(async () => {
             await TestBed.configureTestingModule({
-                imports: [
-                    EcmrOverviewComponent,
-                    BrowserAnimationsModule,
-                    MatToolbar,
-                    MatToolbarRow,
-                    MatIcon,
-                    MatButton,
-                    MatLabel,
-                    MatTable,
-                    MatTabHeader,
-                    MatTabBody,
-                    MatHeaderCell,
-                    MatHeaderCellDef,
-                    MatCellDef,
-                    MatColumnDef,
-                    MatCell,
-                    MatHeaderRowDef,
-                    MatRow,
-                    MatRowDef,
-                    MatHeaderRow,
-                    MatTableModule,
-                    MatInput,
-                    MatFormField,
-                    MatPrefix,
-                    MatSuffix,
-                    MatSort,
-                    MatSortHeader,
-                    MatSortModule,
-                    MatIconButton,
-                    MatButtonToggleGroup,
-                    MatButtonToggle,
-                    MatCheckbox,
-                    MatSelect,
-                    ReactiveFormsModule,
-                    MatOption,
-                    MatAccordion,
-                    MatExpansionPanel,
-                    MatExpansionPanelTitle,
-                    MatExpansionPanelDescription,
-                    MatExpansionPanelHeader,
-                    MatDialogContent,
-                    MatDialogTitle,
-                    MatTooltip,
-                    MatMenu,
-                    MatMenuTrigger,
-                    MatMenuItem,
-                    NgIf,
-                    MatCard,
-                    MatCardContent,
-                    MatMiniFabButton,
-                    CdkScrollable,
-                    MatDivider,
-                    HttpClientModule,
-                    TranslateModule.forRoot({
-                        loader: {
-                            provide: TranslateLoader,
-                            useFactory: HttpLoaderFactory,
-                            deps: [HttpClient]
-                        }
-                    }),
-                ],
-                providers: [
-                    {provide: EcmrService, useValue: ecmrServiceSpy}
-                ]
-            })
+    imports: [EcmrOverviewComponent,
+        BrowserAnimationsModule,
+        MatToolbar,
+        MatToolbarRow,
+        MatIcon,
+        MatButton,
+        MatLabel,
+        MatTable,
+        MatTabHeader,
+        MatTabBody,
+        MatHeaderCell,
+        MatHeaderCellDef,
+        MatCellDef,
+        MatColumnDef,
+        MatCell,
+        MatHeaderRowDef,
+        MatRow,
+        MatRowDef,
+        MatHeaderRow,
+        MatTableModule,
+        MatInput,
+        MatFormField,
+        MatPrefix,
+        MatSuffix,
+        MatSort,
+        MatSortHeader,
+        MatSortModule,
+        MatIconButton,
+        MatButtonToggleGroup,
+        MatButtonToggle,
+        MatCheckbox,
+        MatSelect,
+        ReactiveFormsModule,
+        MatOption,
+        MatAccordion,
+        MatExpansionPanel,
+        MatExpansionPanelTitle,
+        MatExpansionPanelDescription,
+        MatExpansionPanelHeader,
+        MatDialogContent,
+        MatDialogTitle,
+        MatTooltip,
+        MatMenu,
+        MatMenuTrigger,
+        MatMenuItem,
+        NgIf,
+        MatCard,
+        MatCardContent,
+        MatMiniFabButton,
+        CdkScrollable,
+        MatDivider,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })],
+    providers: [
+        { provide: EcmrService, useValue: ecmrServiceSpy },
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+})
                 .compileComponents();
 
             ecmrServiceSpy.getAllEcmr.and.returnValue(of([testEcmr]));

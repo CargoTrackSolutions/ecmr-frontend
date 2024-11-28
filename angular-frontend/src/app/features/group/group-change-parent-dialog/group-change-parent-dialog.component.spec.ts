@@ -10,11 +10,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GroupChangeParentDialogComponent } from './group-change-parent-dialog.component';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../app.component';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('GroupChangeParentDialogComponent', () => {
     let component: GroupChangeParentDialogComponent;
@@ -22,24 +22,23 @@ describe('GroupChangeParentDialogComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [
-                GroupChangeParentDialogComponent,
-                MatDialogModule,
-                HttpClientTestingModule,
-                BrowserAnimationsModule,
-                TranslateModule.forRoot({
-                    loader: {
-                        provide: TranslateLoader,
-                        useFactory: HttpLoaderFactory,
-                        deps: [HttpClient]
-                    }
-                })
-            ],
-            providers: [
-                {provide: MAT_DIALOG_DATA, useValue: {}},
-                {provide: MatDialogRef, useValue: {}}
-            ]
-        })
+    imports: [GroupChangeParentDialogComponent,
+        MatDialogModule,
+        BrowserAnimationsModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })],
+    providers: [
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatDialogRef, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+})
             .compileComponents();
 
         fixture = TestBed.createComponent(GroupChangeParentDialogComponent);

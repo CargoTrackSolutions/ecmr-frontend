@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import {Component, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef} from '@angular/core';
 import { MatError, MatFormField, MatInput, MatLabel, MatPrefix } from '@angular/material/input';
 import { NgForOf } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -40,7 +40,7 @@ import { Subscription } from 'rxjs';
     templateUrl: './carrier-registration-success.component.html',
     styleUrl: './carrier-registration-success.component.scss'
 })
-export class CarrierRegistrationSuccessComponent {
+export class CarrierRegistrationSuccessComponent implements AfterViewInit {
 
     carrierTan = new FormControl<string>('', Validators.required);
 
@@ -49,7 +49,8 @@ export class CarrierRegistrationSuccessComponent {
 
     constructor(private ecmrTanService: ExternalUserService,
                 private router: Router,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                private readonly changeDetectorRef: ChangeDetectorRef,) {
         this.sub = this.route.params.subscribe(params => {
             this.ecmrId = params['id'];
         });
@@ -58,6 +59,7 @@ export class CarrierRegistrationSuccessComponent {
     @ViewChild("focusedInput") focusedInputField: ElementRef;
     ngAfterViewInit() {
         this.focusedInputField.nativeElement.focus();
+        this.changeDetectorRef.detectChanges();
     }
 
     authenticate() {
