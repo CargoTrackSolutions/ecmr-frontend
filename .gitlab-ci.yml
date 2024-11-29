@@ -54,7 +54,7 @@ node-build-angular-frontend:
 code_quality:
   stage: quality
   tags:
-    - ecmr
+    - active
   variables:
     CODECLIMATE_REGISTRY_USERNAME: $CI_REGISTRY_USER
     CODECLIMATE_REGISTRY_PASSWORD: $CI_REGISTRY_PASSWORD

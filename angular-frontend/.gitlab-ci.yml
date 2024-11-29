@@ -13,7 +13,7 @@ stages:
 build:
   stage: build
   tags:
-    - ecmr
+    - active
   extends: .npm-angular-build
   variables:
     PROJECT_DIR: "angular-frontend/"
@@ -21,7 +21,7 @@ build:
 test:
   stage: test
   tags:
-    - ecmr
+    - active
   extends: .npm-angular-test
   needs:
     - job: build
@@ -41,7 +41,7 @@ test:
 lint:
   stage: quality
   tags:
-    - ecmr
+    - active
   needs:
     - job: build
       artifacts: true
@@ -52,7 +52,7 @@ lint:
 third-party-license-check:
   stage: test
   tags:
-    - ecmr
+    - active
   extends: .npm-angular-third-party-license-check
   variables:
     PROJECT_DIR: "angular-frontend/"
