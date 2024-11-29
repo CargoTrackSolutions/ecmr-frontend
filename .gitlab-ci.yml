@@ -19,7 +19,7 @@ variables:
   # container, thanks to volume mount from config.toml
   DOCKER_TLS_CERTDIR: ""
   # Set Docker Host to GitLab Registry
-  # DOCKER_HOST: "tcp://0.0.0.0:2375"
+  DOCKER_HOST: "unix:///var/run/docker.sock"
   # See Code Quality Image
   # DOCKER_DRIVER: overlay2
   # DOCKER_TLS_VERIFY: 1
@@ -58,3 +58,11 @@ code_quality:
   variables:
     CODECLIMATE_REGISTRY_USERNAME: $CI_REGISTRY_USER
     CODECLIMATE_REGISTRY_PASSWORD: $CI_REGISTRY_PASSWORD
+
+container_scanning:
+  tags:
+    - active
+
+dependency_scanning:
+  tags:
+    - active
