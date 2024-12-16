@@ -54,10 +54,11 @@ node-build-angular-frontend:
 code_quality:
   stage: quality
   tags:
-    - active
+    - ecmr
   variables:
     CODECLIMATE_REGISTRY_USERNAME: $CI_REGISTRY_USER
     CODECLIMATE_REGISTRY_PASSWORD: $CI_REGISTRY_PASSWORD
+    DOCKER_HOST: "tcp://docker:2375"
 
 container_scanning:
   tags:
