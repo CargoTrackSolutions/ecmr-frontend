@@ -6,55 +6,56 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { EcmrOverviewComponent } from './ecmrOverview.component';
-import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
-import { MatIcon } from '@angular/material/icon';
-import { MatButton, MatIconButton, MatMiniFabButton } from '@angular/material/button';
-import { MatFormField, MatLabel, MatPrefix, MatSuffix } from '@angular/material/form-field';
+import {EcmrOverviewComponent} from './ecmrOverview.component';
+import {MatToolbar, MatToolbarRow} from '@angular/material/toolbar';
+import {MatIcon} from '@angular/material/icon';
+import {MatButton, MatIconButton, MatMiniFabButton} from '@angular/material/button';
+import {MatFormField, MatLabel, MatPrefix, MatSuffix} from '@angular/material/form-field';
 import {
-    MatCell,
-    MatCellDef,
-    MatColumnDef,
-    MatHeaderCell,
-    MatHeaderCellDef,
-    MatHeaderRow,
-    MatHeaderRowDef,
-    MatRow,
-    MatRowDef,
-    MatTable,
-    MatTableModule
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable,
+  MatTableModule
 } from '@angular/material/table';
-import { MatTabBody, MatTabHeader } from '@angular/material/tabs';
-import { MatInput } from '@angular/material/input';
-import { MatSort, MatSortHeader, MatSortModule } from '@angular/material/sort';
-import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle';
-import { MatCheckbox } from '@angular/material/checkbox';
-import { MatOption, MatSelect } from '@angular/material/select';
-import { ReactiveFormsModule } from '@angular/forms';
+import {MatTabBody, MatTabHeader} from '@angular/material/tabs';
+import {MatInput} from '@angular/material/input';
+import {MatSort, MatSortHeader, MatSortModule} from '@angular/material/sort';
+import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
+import {MatCheckbox} from '@angular/material/checkbox';
+import {MatOption, MatSelect} from '@angular/material/select';
+import {ReactiveFormsModule} from '@angular/forms';
 import {
-    MatAccordion,
-    MatExpansionPanel,
-    MatExpansionPanelDescription,
-    MatExpansionPanelHeader,
-    MatExpansionPanelTitle
+  MatAccordion,
+  MatExpansionPanel,
+  MatExpansionPanelDescription,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle
 } from '@angular/material/expansion';
-import { MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
-import { MatTooltip } from '@angular/material/tooltip';
-import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
-import { NgIf } from '@angular/common';
-import { MatCard, MatCardContent } from '@angular/material/card';
-import { CdkScrollable } from '@angular/cdk/overlay';
-import { MatDivider } from '@angular/material/divider';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Ecmr } from '../../core/models/Ecmr';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpLoaderFactory } from '../../app.component';
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { PayerType } from '../../core/enums/PayerType';
-import { of } from 'rxjs';
+import {MatDialogContent, MatDialogTitle} from '@angular/material/dialog';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
+import {NgIf} from '@angular/common';
+import {MatCard, MatCardContent} from '@angular/material/card';
+import {CdkScrollable} from '@angular/cdk/overlay';
+import {MatDivider} from '@angular/material/divider';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {Ecmr} from '../../core/models/Ecmr';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {HttpLoaderFactory} from '../../app.component';
+import {HttpClient, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {PayerType} from '../../core/enums/PayerType';
+import {of} from 'rxjs';
 import {EcmrService} from "../../shared/services/ecmr.service";
+import {SignatureType} from "../../core/models/SignatureType";
 
 describe('OverviewComponent', () => {
     let component: EcmrOverviewComponent;
@@ -122,7 +123,7 @@ describe('OverviewComponent', () => {
                 successiveCarrierNamePerson: 'Angelika Trommel',
                 successiveCarrierPostcode: '44809',
                 successiveCarrierSignature: {
-                    type: '',
+                    type: SignatureType.SignOnGlass,
                     userName: 'AT',
                     userCompany: 'DHL',
                     userStreet: 'Dahlacker 12',
@@ -140,7 +141,7 @@ describe('OverviewComponent', () => {
             carriersReservationsAndObservationsOnTakingOverTheGoods: {
                 carrierReservationsObservations: 'Observations',
                 senderReservationsObservationsSignature: {
-                    type: '',
+                    type: SignatureType.SignOnGlass,
                     userName: 'AT',
                     userCompany: 'DHL',
                     userStreet: 'Dahlacker 12',
@@ -201,7 +202,7 @@ describe('OverviewComponent', () => {
             },
             signatureOrStampOfTheSender: {
                 senderSignature: {
-                    type: '',
+                    type: SignatureType.SignOnGlass,
                     userName: 'Anna Tellman',
                     userCompany: 'DHL',
                     userStreet: 'Dahlacker 12',
@@ -214,7 +215,7 @@ describe('OverviewComponent', () => {
             },
             signatureOrStampOfTheCarrier: {
                 carrierSignature: {
-                    type: '',
+                    type: SignatureType.SignOnGlass,
                     userName: 'AT',
                     userCompany: 'DHL',
                     userStreet: 'Dahlacker 12',
@@ -229,7 +230,7 @@ describe('OverviewComponent', () => {
                 confirmedLogisticsLocationName: '',
                 consigneeReservationsObservations: '',
                 consigneeSignature: {
-                    type: '',
+                    type: SignatureType.SignOnGlass,
                     userName: 'AT',
                     userCompany: 'DHL',
                     userStreet: 'Dahlacker 12',

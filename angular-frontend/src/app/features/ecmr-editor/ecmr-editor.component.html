@@ -857,18 +857,24 @@
                               <!-- Area 22 -->
 
                               <h6>{{ "ecmr_editor.title_22" | translate }}</h6>
-                              @if (senderSignature) {
-                                  <div
-                                          class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
-                                      <img [src]="senderSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
-                                      <span class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(senderSignature.timestamp) }}</span>
-                                      <p class="text-center mt-2">{{ "signature.by" | translate }} {{ senderSignature.userName }}</p>
-                                  </div>
-                              } @else {
+                            @if (senderSignature) {
+                              <div
+                                class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
+                                @if (senderSignature.type === SignatureType.SignOnGlass) {
+                                  <img [src]="senderSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
+                                } @else {
+                                  <p>{{"ecmr_editor.eseal_information" | translate}}</p>
+                                }
+                                <span
+                                  class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(senderSignature.timestamp) }}</span>
+                                <p
+                                  class="text-center mt-2">{{ "signature.by" | translate }} {{ senderSignature.userName }}</p>
+                              </div>
+                            } @else {
                                   <div class="action-button-group">
                                       <button [disabled]="!canFillSenderFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
                                               class="main-button mb-3" color="primary"
-                                              (click)="signSender()">
+                                              (click)="signSender(SignatureType.SignOnGlass)">
                                           {{ "ecmr_editor.sign_on_glass" | translate }}
                                       </button>
                                       <button [disabled]="!canFillSenderFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
@@ -879,7 +885,7 @@
                                   </div>
 
                                   <mat-menu #menu="matMenu">
-                                      <button mat-menu-item>
+                                      <button (click)="signSender(SignatureType.ESeal)" mat-menu-item>
                                           E-Sign
                                       </button>
                                   </mat-menu>
@@ -889,17 +895,24 @@
                               <!-- Area 23 -->
 
                               <h6>{{ "ecmr_editor.title_23" | translate }}</h6>
-                              @if (carrierSignature) {
-                                  <div class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
-                                      <img [src]="carrierSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
-                                      <span class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(carrierSignature.timestamp) }}</span>
-                                      <p class="text-center mt-2">{{ "signature.by" | translate }} {{ carrierSignature.userName }}</p>
-                                  </div>
-                              } @else {
+                            @if (carrierSignature) {
+                              <div
+                                class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
+                                @if (carrierSignature.type === SignatureType.SignOnGlass) {
+                                  <img [src]="carrierSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
+                                } @else {
+                                  <p>{{ "ecmr_editor.eseal_information" | translate }}</p>
+                                }
+                                <span
+                                  class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(carrierSignature.timestamp) }}</span>
+                                <p
+                                  class="text-center mt-2">{{ "signature.by" | translate }} {{ carrierSignature.userName }}</p>
+                              </div>
+                            } @else {
                                   <div class="action-button-group">
                                       <button [disabled]="!canFillCarrierFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
                                               class="main-button mb-3" color="primary"
-                                              (click)="signCarrier()">
+                                              (click)="signCarrier(SignatureType.SignOnGlass)">
                                           {{ "ecmr_editor.sign_on_glass" | translate }}
                                       </button>
                                       <button [disabled]="!canFillCarrierFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
@@ -910,7 +923,7 @@
                                   </div>
 
                                   <mat-menu #menu="matMenu">
-                                      <button mat-menu-item>
+                                      <button mat-menu-item (click)="signCarrier(SignatureType.ESeal)">
                                           E-Sign
                                       </button>
                                   </mat-menu>
@@ -947,17 +960,24 @@
                                   </mat-form-field>
                               </div>
                               <h6>{{ "ecmr_editor.title_24_signature" | translate }}</h6>
-                              @if (consigneeSignature) {
-                                  <div class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
-                                      <img [src]="consigneeSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
-                                      <span class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(consigneeSignature.timestamp) }}</span>
-                                      <p class="text-center mt-2">{{ "signature.by" | translate }} {{ consigneeSignature.userName }}</p>
-                                  </div>
-                              } @else {
+                            @if (consigneeSignature) {
+                              <div
+                                class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
+                                @if (consigneeSignature.type === SignatureType.SignOnGlass) {
+                                  <img [src]="consigneeSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
+                                } @else {
+                                  <p>{{ "ecmr_editor.eseal_information" | translate }}</p>
+                                }
+                                <span
+                                  class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(consigneeSignature.timestamp) }}</span>
+                                <p
+                                  class="text-center mt-2">{{ "signature.by" | translate }} {{ consigneeSignature.userName }}</p>
+                              </div>
+                            } @else {
                                   <div class="action-button-group">
                                       <button [disabled]="!canFillConsigneeFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
                                               class="main-button" color="primary"
-                                              (click)="signConsignee()">
+                                              (click)="signConsignor(SignatureType.SignOnGlass)">
                                           {{ "ecmr_editor.sign_on_glass" | translate }}
                                       </button>
                                       <button [disabled]="!canFillConsigneeFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
@@ -968,7 +988,7 @@
                                   </div>
 
                                   <mat-menu #menu="matMenu">
-                                      <button mat-menu-item>
+                                      <button mat-menu-item (click)="signConsignor(SignatureType.ESeal)">
                                           E-Sign
                                       </button>
                                   </mat-menu>

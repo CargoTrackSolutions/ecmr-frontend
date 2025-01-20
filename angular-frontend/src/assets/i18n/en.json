@@ -146,6 +146,8 @@
     "sign": "Sign",
     "sign_on_glass": "Sign on glass",
     "signature_successful": "Signature successful. eCMR Fields locked",
+    "eseal_confirmation": "Do you want to seal this ecmr with eSeal?",
+    "eseal_information": "This eCMR was signed with eSeal.",
     "special_agreements_sen_carr": {
       "special_agreements": "Special Agreements"
     },

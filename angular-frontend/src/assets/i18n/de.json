@@ -146,6 +146,8 @@
     "sign": "Unterschreiben",
     "sign_on_glass": "Sign on glass",
     "signature_successful": "Unterschrift erfolgreich getätigt. eCMR Felder gesperrt",
+    "eseal_confirmation": "Möchten Sie diesen eCMR mit eSeal siegeln?",
+    "eseal_information": "Dieser eCMR wurde mit eSeal signiert.",
     "special_agreements_sen_carr": {
       "special_agreements": "Besondere Vereinbarungen"
     },

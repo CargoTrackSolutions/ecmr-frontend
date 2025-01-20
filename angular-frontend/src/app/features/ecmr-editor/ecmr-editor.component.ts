@@ -6,60 +6,76 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormField } from '@angular/material/form-field';
-import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { CountryCode } from '../../core/enums/CountryCode';
-import { catchError, filter, forkJoin, map, Observable, of, startWith, Subscription, switchMap } from 'rxjs';
-import { CommonModule, DatePipe, NgClass, NgForOf } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
-import { EcmrConsignment } from '../../core/models/EcmrConsignment';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Signature } from '../../core/models/areas/signature/Signature';
-import { EcmrEditorService } from './ecmr-editor-service/ecmr-editor.service';
-import { Ecmr } from '../../core/models/Ecmr';
-import { PayerType } from '../../core/enums/PayerType';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDialog } from '@angular/material/dialog';
-import { TemplateNameDialogComponent } from '../template-overview/template-name-dialog/template-name-dialog.component';
-import { LoadFromTemplateDialogComponent } from '../template-overview/load-from-template-dialog/load-from-template-dialog.component';
-import { TemplateUser } from '../../core/models/TemplateUser';
-import { LoadingService } from '../../core/services/loading.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { DynamicDisableControlDirective } from './dynamic-disable-control.directive';
-import { GroupService } from '../group/group.service';
-import { EcmrCreateShareDialogComponent } from './ecmr-create-share-dialog/ecmr-create-share-dialog.component';
-import { GroupFlat } from '../../core/models/GroupFlat';
-import { ExternalUserService } from './ecmr-editor-service/external-user.service';
-import { SignaturePadDialogComponent } from '../signature-pad/signature-pad-dialog.component';
-import { Sign } from '../../core/models/Sign';
-import { Signer } from '../../core/enums/Signer';
-import { DateTimeService } from '../../shared/services/date-time.service';
-import { MatOptionModule } from '@angular/material/core';
-import { EcmrRole } from '../../core/enums/EcmrRole';
-import { EcmrStatus } from '../../core/models/EcmrStatus';
-import { EcmrService } from '../../shared/services/ecmr.service';
-import { SnackbarService } from '../../core/services/snackbar.service';
-import { ShareEcmrDialogComponent } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component';
-import { EcmrActionService } from '../../shared/services/ecmr-action.service';
-import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { EcmrStatusComponent } from '../../shared/components/ecmr-status/ecmr-status.component';
-import { EcmrTransportType } from '../../core/models/EcmrTransportType';
-import { AuthService } from '../../core/services/auth.service';
-import { AuthenticatedUser } from '../../core/models/AuthenticatedUser';
-import { UserRole } from '../../core/enums/UserRole';
-import { UserService } from '../../shared/services/user.service';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {MatCardModule} from '@angular/material/card';
+import {MatFormField} from '@angular/material/form-field';
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {CountryCode} from '../../core/enums/CountryCode';
+import {catchError, filter, forkJoin, map, Observable, of, startWith, Subscription, switchMap} from 'rxjs';
+import {CommonModule, DatePipe, NgClass} from '@angular/common';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import {EcmrConsignment} from '../../core/models/EcmrConsignment';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
+import {Signature} from '../../core/models/areas/signature/Signature';
+import {EcmrEditorService} from './ecmr-editor-service/ecmr-editor.service';
+import {Ecmr} from '../../core/models/Ecmr';
+import {PayerType} from '../../core/enums/PayerType';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDialog} from '@angular/material/dialog';
+import {TemplateNameDialogComponent} from '../template-overview/template-name-dialog/template-name-dialog.component';
+import {
+  LoadFromTemplateDialogComponent
+} from '../template-overview/load-from-template-dialog/load-from-template-dialog.component';
+import {TemplateUser} from '../../core/models/TemplateUser';
+import {LoadingService} from '../../core/services/loading.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {DynamicDisableControlDirective} from './dynamic-disable-control.directive';
+import {GroupService} from '../group/group.service';
+import {EcmrCreateShareDialogComponent} from './ecmr-create-share-dialog/ecmr-create-share-dialog.component';
+import {GroupFlat} from '../../core/models/GroupFlat';
+import {ExternalUserService} from './ecmr-editor-service/external-user.service';
+import {SignaturePadDialogComponent} from '../signature-pad/signature-pad-dialog.component';
+import {Sign} from '../../core/models/Sign';
+import {Signer} from '../../core/enums/Signer';
+import {DateTimeService} from '../../shared/services/date-time.service';
+import {MatOptionModule} from '@angular/material/core';
+import {EcmrRole} from '../../core/enums/EcmrRole';
+import {EcmrStatus} from '../../core/models/EcmrStatus';
+import {EcmrService} from '../../shared/services/ecmr.service';
+import {SnackbarService} from '../../core/services/snackbar.service';
+import {ShareEcmrDialogComponent} from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component';
+import {EcmrActionService} from '../../shared/services/ecmr-action.service';
+import {
+  ConfirmationDialogComponent,
+  ConfirmationDialogResult
+} from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
+import {EcmrStatusComponent} from '../../shared/components/ecmr-status/ecmr-status.component';
+import {EcmrTransportType} from '../../core/models/EcmrTransportType';
+import {AuthService} from '../../core/services/auth.service';
+import {AuthenticatedUser} from '../../core/models/AuthenticatedUser';
+import {UserRole} from '../../core/enums/UserRole';
+import {UserService} from '../../shared/services/user.service';
+import {SealModel} from "../../core/models/SealModel";
+import {SignatureType} from "../../core/models/SignatureType";
 
 export enum EditorMode {
     ECMR_EDIT = 'ECMR_EDIT',
@@ -91,7 +107,6 @@ export enum EditorMode {
         MatSelectModule,
         DynamicDisableControlDirective,
         NgClass,
-        NgForOf,
         EcmrStatusComponent,
     ],
     providers: [DatePipe, DateTimeService],
@@ -430,51 +445,82 @@ export class EcmrEditorComponent implements OnInit {
             if(!this.ecmrToEdit.ecmrConsignment.goodsReceived.confirmedLogisticsLocationName){
                 const consigneeDefaultLocation = this.ecmrToEdit.ecmrConsignment.consigneeInformation.consigneeCity;
                 this.ecmrConsignmentFormGroup.controls.
-                    goodsReceived.controls.confirmedLogisticsLocationName.setValue( 
+                    goodsReceived.controls.confirmedLogisticsLocationName.setValue(
                         consigneeDefaultLocation);
-            }                      
+            }
             this.ecmrConsignmentFormGroup.controls.
                 goodsReceived.controls.consigneeSignatureDate.setValue(new Date());
         }
     }
 
-    signSender() {
+    signSender(signatureType: SignatureType) {
         if (this.senderFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
-            this.matDialog.open(SignaturePadDialogComponent, {
-                width: '1000px',
-                maxWidth: '95vw',
-            })
-                .afterClosed()
-                .pipe(
-                    filter(result => result),
-                    switchMap(signResult => {
-                        this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
-                        return (this.isExternalUser ?
-                                this.externalUserService.updateEcmr(this.ecmrToEdit, this.tan) :
-                                this.ecmrEditorService.updateEcmr(this.ecmrToEdit)
-                        ).pipe(map(() => signResult))
-                    }),
-                    switchMap(result => {
-                        const signature: Sign = {
-                            signer: Signer.Sender,
-                            data: result,
-                            city: this.ecmrConsignmentFormGroup.controls.established.controls.customEstablishedIn.value
-                        };
+          let resultEcmr: Observable<Ecmr>;
+          if(signatureType == SignatureType.SignOnGlass){
+            resultEcmr = this.signOnGlass(Signer.Sender, this.ecmrConsignmentFormGroup.controls.established.controls.customEstablishedIn.value)
+          } else {
+            const sealModel: SealModel = {
+              signer: Signer.Sender,
+              precedingSeal: null,
+              city: this.ecmrConsignmentFormGroup.controls.established.controls.customEstablishedIn.value
+            };
 
-                        return this.isExternalUser ? this.externalUserService.signEcmr(signature, this.id, this.tan) : this.ecmrEditorService.signEcmr(signature, this.id);
-                    }),
-                    switchMap(() => this.isExternalUser ? this.externalUserService.getEcmrWithTan(this.id, this.tan) : this.ecmrEditorService.getEcmr(this.id))
-                )
-                .subscribe(ecmr => {
-                    this.snackBarService.openSuccessSnackbar("ecmr_editor.signature_successful")
-                    this.loadEcmr(ecmr);
-                    this.setFormConstraints();
-                    this.cd.detectChanges();
-                });
+            resultEcmr = this.sealEcmr(sealModel)
+          }
+          resultEcmr.subscribe({
+            next: (ecmr) => {
+              this.snackBarService.openSuccessSnackbar("ecmr_editor.signature_successful");
+              this.loadEcmr(ecmr);
+              this.setFormConstraints();
+              this.cd.detectChanges();
+            }
+          });
         } else {
             this.ecmrConsignmentFormGroup.markAllAsTouched();
             this.snackBarService.openInfoSnackbar("ecmr_editor.mandatory_missing")
         }
+    }
+
+    sealEcmr(sealModel: SealModel): Observable<Ecmr>{
+      const dialogRef = this.matDialog.open(ConfirmationDialogComponent, {
+        data: {
+          text: this.translateService.instant("ecmr_editor.eseal_confirmation"),
+        }
+      });
+
+      return dialogRef.afterClosed().pipe(
+        filter((result: ConfirmationDialogResult) => result.isConfirmed),
+        switchMap(() => this.ecmrEditorService.sealEcmr(sealModel, this.id)),
+        switchMap(() => this.ecmrEditorService.getEcmr(this.id))
+      );
+    }
+
+    signOnGlass(signer: Signer, city: string|null): Observable<Ecmr> {
+      return this.matDialog.open(SignaturePadDialogComponent, {
+        width: '1000px',
+        maxWidth: '95vw',
+      })
+        .afterClosed()
+        .pipe(
+          filter(result => result),
+          switchMap(signResult => {
+            this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
+            return (this.isExternalUser ?
+                this.externalUserService.updateEcmr(this.ecmrToEdit, this.tan) :
+                this.ecmrEditorService.updateEcmr(this.ecmrToEdit)
+            ).pipe(map(() => signResult))
+          }),
+          switchMap(result => {
+            const signature: Sign = {
+              signer: signer,
+              data: result,
+              city: city
+            };
+
+            return this.isExternalUser ? this.externalUserService.signEcmr(signature, this.id, this.tan) : this.ecmrEditorService.signEcmr(signature, this.id);
+          }),
+          switchMap(() => this.isExternalUser ? this.externalUserService.getEcmrWithTan(this.id, this.tan) : this.ecmrEditorService.getEcmr(this.id))
+        );
     }
 
     senderFieldsAreValid(): boolean {
@@ -505,60 +551,51 @@ export class EcmrEditorComponent implements OnInit {
         return invalidFields.length == 0 && invalidVolumes.length == 0;
     }
 
-    signCarrier() {
-        this.matDialog.open(SignaturePadDialogComponent)
-            .afterClosed()
-            .pipe(
-                filter(result => result),
-                switchMap(signResult => {
-                    this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
-                    return (this.isExternalUser ?
-                            this.externalUserService.updateEcmr(this.ecmrToEdit, this.tan) :
-                            this.ecmrEditorService.updateEcmr(this.ecmrToEdit)
-                    ).pipe(map(() => signResult))
-                }),
-                switchMap(result => {
-                    const signature: Sign = {
-                        signer: Signer.Carrier,
-                        data: result,
-                        city: null
-                    }
-                    return this.isExternalUser ? this.externalUserService.signEcmr(signature, this.id, this.tan) : this.ecmrEditorService.signEcmr(signature, this.id);
-                }),
-                switchMap(() => this.isExternalUser ? this.externalUserService.getEcmrWithTan(this.id, this.tan) : this.ecmrEditorService.getEcmr(this.id))
-            )
-            .subscribe(ecmr => {
-                this.loadEcmr(ecmr);
-                this.cd.detectChanges();
-            });
+    signCarrier(signatureType: SignatureType) {
+      let resultEcmr: Observable<Ecmr>;
+
+      if(signatureType == SignatureType.SignOnGlass) {
+        resultEcmr = this.signOnGlass(Signer.Carrier, null)
+      } else {
+        const sealModel: SealModel = {
+          signer: Signer.Carrier,
+          precedingSeal: this.senderSignature?.data,
+          city: null
+        }
+        resultEcmr = this.sealEcmr(sealModel);
+      }
+
+      resultEcmr
+        .subscribe(ecmr => {
+          this.snackBarService.openSuccessSnackbar("ecmr_editor.signature_successful");
+          this.loadEcmr(ecmr);
+          this.setFormConstraints();
+          this.cd.detectChanges();
+        });
+
     }
 
-    signConsignee() {
+    signConsignor(signatureType: SignatureType) {
         if (this.consignorFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
-            this.matDialog.open(SignaturePadDialogComponent)
-                .afterClosed()
-                .pipe(
-                    filter(result => result),
-                    switchMap(signResult => {
-                        this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
-                        return (this.isExternalUser ?
-                                this.externalUserService.updateEcmr(this.ecmrToEdit, this.tan) :
-                                this.ecmrEditorService.updateEcmr(this.ecmrToEdit)
-                        ).pipe(map(() => signResult))
-                    }),
-                    switchMap(result => {
-                        const signature: Sign = {
-                            signer: Signer.Consignee,
-                            data: result,
-                            city: this.ecmrConsignmentFormGroup.controls.takingOverTheGoods.controls.takingOverTheGoodsPlace.value!
-                        }
-                        return this.isExternalUser ? this.externalUserService.signEcmr(signature, this.id, this.tan) : this.ecmrEditorService.signEcmr(signature, this.id);
-                    }),
-                    switchMap(() => this.isExternalUser ? this.externalUserService.getEcmrWithTan(this.id, this.tan) : this.ecmrEditorService.getEcmr(this.id))
-                )
-                .subscribe(ecmr => {
-                    this.loadEcmr(ecmr);
-                });
+          let resultEcmr: Observable<Ecmr>;
+
+          if(signatureType == SignatureType.SignOnGlass) {
+            resultEcmr = this.signOnGlass(Signer.Consignee, this.ecmrConsignmentFormGroup.controls.takingOverTheGoods.controls.takingOverTheGoodsPlace.value!)
+          } else {
+            const sealModel: SealModel = {
+              signer: Signer.Consignee,
+              precedingSeal: this.carrierSignature?.data,
+              city: this.ecmrConsignmentFormGroup.controls.takingOverTheGoods.controls.takingOverTheGoodsPlace.value!
+            }
+            resultEcmr = this.sealEcmr(sealModel);
+          }
+          resultEcmr
+            .subscribe(ecmr => {
+              this.snackBarService.openSuccessSnackbar("ecmr_editor.signature_successful");
+              this.loadEcmr(ecmr);
+              this.setFormConstraints();
+              this.cd.detectChanges();
+            });
         } else {
             this.ecmrConsignmentFormGroup.markAllAsTouched();
             this.snackBarService.openInfoSnackbar("ecmr_editor.mandatory_missing");
@@ -687,7 +724,7 @@ export class EcmrEditorComponent implements OnInit {
 
     saveEcmr(returnToOverview: boolean) {
         this.resetClearedControls(this.ecmrConsignmentFormGroup);
-        
+
         this.ecmrConsignmentFormGroup.reset(this.ecmrConsignmentFormGroup.getRawValue())
         if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_NEW || this.editorMode == EditorMode.ECMR_COPY)) {
             const formValue: EcmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
@@ -751,7 +788,7 @@ export class EcmrEditorComponent implements OnInit {
         }
     }
 
-    private resetClearedControls(group: FormGroup): void {       
+    private resetClearedControls(group: FormGroup): void {
         for (const controlName in group.controls) {
             const control = group.controls[controlName];
             if (control instanceof FormGroup) {
@@ -960,6 +997,8 @@ export class EcmrEditorComponent implements OnInit {
     protected readonly EcmrTransportType = EcmrTransportType;
 
     protected readonly EcmrStatus = EcmrStatus;
+
+  protected readonly SignatureType = SignatureType;
 }
 
 export function phoneNumberValidator(): ValidatorFn {

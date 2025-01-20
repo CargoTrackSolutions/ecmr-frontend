@@ -15,6 +15,7 @@ import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/
 import { PayerType } from '../../../core/enums/PayerType';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
+import {SignatureType} from "../../../core/models/SignatureType";
 
 describe('EcmrOverviewDetailsComponent', () => {
     let component: EcmrOverviewDetailsComponent;
@@ -108,7 +109,7 @@ describe('EcmrOverviewDetailsComponent', () => {
                     successiveCarrierNamePerson: 'Angelika Trommel',
                     successiveCarrierPostcode: '44809',
                     successiveCarrierSignature: {
-                        type: '',
+                        type: SignatureType.SignOnGlass,
                         userName: 'AT',
                         userCompany: 'DHL',
                         userStreet: 'Dahlacker 12',
@@ -126,7 +127,7 @@ describe('EcmrOverviewDetailsComponent', () => {
                 carriersReservationsAndObservationsOnTakingOverTheGoods: {
                     carrierReservationsObservations: 'Observations',
                     senderReservationsObservationsSignature: {
-                        type: '',
+                        type: SignatureType.SignOnGlass,
                         userName: 'AT',
                         userCompany: 'DHL',
                         userStreet: 'Dahlacker 12',
@@ -187,7 +188,7 @@ describe('EcmrOverviewDetailsComponent', () => {
                 },
                 signatureOrStampOfTheSender: {
                     senderSignature: {
-                        type: '',
+                        type: SignatureType.SignOnGlass,
                         userName: 'Anna Tellman',
                         userCompany: 'DHL',
                         userStreet: 'Dahlacker 12',
@@ -200,7 +201,7 @@ describe('EcmrOverviewDetailsComponent', () => {
                 },
                 signatureOrStampOfTheCarrier: {
                     carrierSignature: {
-                        type: '',
+                        type: SignatureType.SignOnGlass,
                         userName: 'AT',
                         userCompany: 'DHL',
                         userStreet: 'Dahlacker 12',
@@ -215,7 +216,7 @@ describe('EcmrOverviewDetailsComponent', () => {
                     confirmedLogisticsLocationName: '',
                     consigneeReservationsObservations: '',
                     consigneeSignature: {
-                        type: '',
+                        type: SignatureType.SignOnGlass,
                         userName: 'AT',
                         userCompany: 'DHL',
                         userStreet: 'Dahlacker 12',

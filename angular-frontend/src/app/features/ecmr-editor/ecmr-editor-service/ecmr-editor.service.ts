@@ -16,6 +16,7 @@ import { GroupFlat } from '../../../core/models/GroupFlat';
 import { Signature } from '../../../core/models/areas/signature/Signature';
 import { Sign } from '../../../core/models/Sign';
 import { EcmrStatus } from '../../../core/models/EcmrStatus';
+import {SealModel} from "../../../core/models/SealModel";
 
 @Injectable({
     providedIn: 'root'
@@ -52,6 +53,10 @@ export class EcmrEditorService {
 
     signEcmr(signModel: Sign, id: string) {
         return this.http.post<Signature>(`${environment.backendUrl}/ecmr/${id}/sign-on-glass`, signModel);
+    }
+
+    sealEcmr(sealModel: SealModel, id: string) {
+        return this.http.post<Signature>(`${environment.backendUrl}/ecmr/${id}/seal`, sealModel);
     }
 
     createEmptyEcmrConsignment(): EcmrConsignment {
