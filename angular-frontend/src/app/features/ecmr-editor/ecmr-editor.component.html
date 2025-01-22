@@ -958,6 +958,14 @@
                                           <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                       }
                                   </mat-form-field>
+                                  <mat-form-field class="flex-grow-1">
+                                      <mat-label>{{ "ecmr_editor.receival_signature.remarks" | translate }}</mat-label>
+                                      <textarea [dynamicDisable]="!canFillConsigneeFields" matInput cdkTextareaAutosize rows="5"
+                                          formControlName="consigneeReservationsObservations" [minlength]="2" [maxlength]="512"></textarea>
+                                      @if (ecmrConsignmentFormGroup.controls.goodsReceived.get('consigneeReservationsObservations')?.hasError('minlength')) {
+                                          <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
+                                      }                                   
+                                  </mat-form-field>
                               </div>
                               <h6>{{ "ecmr_editor.title_24_signature" | translate }}</h6>
                             @if (consigneeSignature) {
@@ -977,7 +985,7 @@
                                   <div class="action-button-group">
                                       <button [disabled]="!canFillConsigneeFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
                                               class="main-button" color="primary"
-                                              (click)="signConsignor(SignatureType.SignOnGlass)">
+                                              (click)="signConsignee(SignatureType.SignOnGlass)">
                                           {{ "ecmr_editor.sign_on_glass" | translate }}
                                       </button>
                                       <button [disabled]="!canFillConsigneeFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
@@ -988,7 +996,7 @@
                                   </div>
 
                                   <mat-menu #menu="matMenu">
-                                      <button mat-menu-item (click)="signConsignor(SignatureType.ESeal)">
+                                      <button mat-menu-item (click)="signConsignee(SignatureType.ESeal)">
                                           E-Sign
                                       </button>
                                   </mat-menu>

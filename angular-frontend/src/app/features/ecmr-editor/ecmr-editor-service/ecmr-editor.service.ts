@@ -204,6 +204,10 @@ export class EcmrEditorService {
         ecmr.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.senderReservationsObservationsSignature = null;
         ecmr.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.carrierReservationsObservations = null;
         ecmr.ecmrConsignment.nonContractualPartReservedForTheCarrier.nonContractualCarrierRemarks = null;
+        // Reset Place/Date of the Goods Receiving and Consignee Remarks
+        ecmr.ecmrConsignment.goodsReceived.consigneeReservationsObservations = null;
+        ecmr.ecmrConsignment.goodsReceived.confirmedLogisticsLocationName = null;
+        ecmr.ecmrConsignment.goodsReceived.consigneeSignatureDate = null;
         // Set new referenceIdentificationNumber to Copy
         ecmr.ecmrConsignment.referenceIdentificationNumber.value += ': Copy';
         //Status

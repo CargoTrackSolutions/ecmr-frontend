@@ -523,6 +523,11 @@
                                 [label]="'ecmr_editor.receival_signature.place'"
                                 [displayedContent]="selectedEcmr.ecmrConsignment.goodsReceived.confirmedLogisticsLocationName ">
                         </app-ecmr-display-information-field>
+                        <app-ecmr-display-information-field
+                                class="col"
+                                [label]="'ecmr_editor.receival_signature.remarks'"
+                                [displayedContent]="selectedEcmr.ecmrConsignment.goodsReceived.consigneeReservationsObservations ">
+                        </app-ecmr-display-information-field>
                     </div>
                     <!-- Signature -->
                     <span class="info-field-header">{{ 'ecmr_editor.receival_signature.signature' | translate }}</span>

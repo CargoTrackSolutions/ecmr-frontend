@@ -119,6 +119,7 @@
     "receival_signature": {
       "date": "Datum",
       "place": "Standort",
+      "remarks": "Bemerkungen des Empfängers",
       "signature": "Unterschrift"
     },
     "reference_id": "Referenz ID",

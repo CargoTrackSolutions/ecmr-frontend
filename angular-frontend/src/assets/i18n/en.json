@@ -119,6 +119,7 @@
     "receival_signature": {
       "date": "Date",
       "place": "Place",
+      "remarks": "Consignee Remarks",
       "signature": "Signature"
     },
     "reference_id": "Reference ID",
@@ -192,7 +193,7 @@
     "title_22": "22. Signature or Stamp of the sender",
     "title_23": "23. Signature or Stamp of the carrier",
     "title_24": "24. Goods received",
-    "title_24_signature": "Signature or Stamp of the Consignor",
+    "title_24_signature": "Signature or Stamp of the consignee",
     "title_3": "3. Taking over the Goods",
     "title_4": "4. Delivery of the Goods",
     "title_5": "5. Sender\u0027s instructions",

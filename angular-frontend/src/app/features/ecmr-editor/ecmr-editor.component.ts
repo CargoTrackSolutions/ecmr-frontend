@@ -454,6 +454,7 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     signSender(signatureType: SignatureType) {
+        this.resetClearedControls(this.ecmrConsignmentFormGroup);
         if (this.senderFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
           let resultEcmr: Observable<Ecmr>;
           if(signatureType == SignatureType.SignOnGlass){
@@ -552,6 +553,7 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     signCarrier(signatureType: SignatureType) {
+        this.resetClearedControls(this.ecmrConsignmentFormGroup);
       let resultEcmr: Observable<Ecmr>;
 
       if(signatureType == SignatureType.SignOnGlass) {
@@ -575,8 +577,9 @@ export class EcmrEditorComponent implements OnInit {
 
     }
 
-    signConsignor(signatureType: SignatureType) {
-        if (this.consignorFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
+    signConsignee(signatureType: SignatureType) {
+        this.resetClearedControls(this.ecmrConsignmentFormGroup);
+        if (this.consigneeFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
           let resultEcmr: Observable<Ecmr>;
 
           if(signatureType == SignatureType.SignOnGlass) {
@@ -602,7 +605,7 @@ export class EcmrEditorComponent implements OnInit {
         }
     }
 
-    consignorFieldsAreValid(): boolean {
+    consigneeFieldsAreValid(): boolean {
         const invalidFields: AbstractControl[] = this.checkControls(this.ecmrConsignmentFormGroup.controls.goodsReceived,
             ['consigneeReservationsObservations', 'consigneeTimeOfArrival', 'consigneeTimeOfDeparture', 'consigneeSignature'])
         for (const control of invalidFields) {
