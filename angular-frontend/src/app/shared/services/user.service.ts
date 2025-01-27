@@ -13,6 +13,7 @@ import { environment } from '../../../environments/environment';
 import { UserCreationAndUpdate } from '../../core/models/UserCreationAndUpdate';
 import { Group } from '../../core/models/Group';
 import { AuthenticatedUser } from '../../core/models/AuthenticatedUser';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -44,6 +45,10 @@ export class UserService {
 
     getCurrentUser() {
         return this.http.get<AuthenticatedUser>(`${environment.backendUrl}/user/current`);
+    }
+
+    getCurrentUserGroups(): Observable<Group[]> {
+        return this.http.get<Group[]>(`${environment.backendUrl}/user/current/groups`);
     }
 
     activateUser(userId: number) {

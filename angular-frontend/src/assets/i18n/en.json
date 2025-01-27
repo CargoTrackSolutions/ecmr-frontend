@@ -16,7 +16,8 @@
     "registered_user": "As registered user it is not possible to access the carrier registration.",
     "tan": "Tan",
     "tan_message": "Tan will be sent by SMS shortly",
-    "title": "Registration"
+    "title": "Registration",
+    "too_many_requests": "There were too many attempts to register. Please try again in an hour."
   },
   "common": {
     "back": "Back",

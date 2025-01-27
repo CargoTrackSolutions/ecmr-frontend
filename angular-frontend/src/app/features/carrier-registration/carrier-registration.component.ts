@@ -54,14 +54,14 @@ export class CarrierRegistrationComponent {
                 private carrierRegistrationService: CarrierRegistrationService,
                 private router: Router,
                 authService: AuthService,
-                snackBarService: SnackbarService) {
+                private snackBarService: SnackbarService) {
         authService.getAuthenticatedUser().pipe(takeWhile(user => !user, true))
             .subscribe(user => {
-            if (user) {
-                snackBarService.openInfoSnackbar('carrier_registration.registered_user');
-                this.router.navigateByUrl('/ecmr-overview');
-            }
-        });
+                if (user) {
+                    snackBarService.openInfoSnackbar('carrier_registration.registered_user');
+                    this.router.navigateByUrl('/ecmr-overview');
+                }
+            });
 
         this.sub = this.route.params.subscribe(params => {
             this.ecmrId = params['id'];
@@ -99,7 +99,11 @@ export class CarrierRegistrationComponent {
                 next: () => {
                     this.router.navigateByUrl(`/carrier-registration-success/${this.ecmrId}`)
                 },
-                error: () => {
+                error: (err) => {
+                    if(err.status == 429) {
+                        this.snackBarService.openInfoSnackbar('carrier_registration.too_many_requests');
+                    }
+                    console.log(err);
                 }
             })
         }

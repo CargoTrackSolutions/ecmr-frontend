@@ -739,7 +739,7 @@ export class EcmrEditorComponent implements OnInit {
 
             (this.authenticatedUser?.user.role === UserRole.Admin ?
                 this.groupService.getAllGroupsAsFlatList(true) :
-                this.userService.getGroupsForUser(this.authenticatedUser?.user.id!))
+                this.userService.getCurrentUserGroups())
                     .pipe(
                         switchMap(groups => {
                             if (groups.length > 1) {

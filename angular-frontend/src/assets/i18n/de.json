@@ -16,7 +16,9 @@
     "registered_user": "Als registrierter Benutzer kann die Transporteur Registrierung nicht aufgerufen werden.",
     "tan": "Tan",
     "tan_message": "Tan wird in kürze per SMS zugestellt",
-    "title": "Registrierung"
+    "title": "Registrierung",
+    "too_many_requests": "Es gab zu viele Versuche sich zu registrieren. Probieren Sie es in einer Stunde erneut."
+
   },
   "common": {
     "back": "Zurück",
