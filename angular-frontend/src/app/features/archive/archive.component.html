@@ -33,7 +33,7 @@
                 <mat-icon iconPositionEnd>archive</mat-icon>
             </button>
             <button class="m-1" mat-flat-button color="primary"
-                    (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null, ecmr.ecmrConsignment.referenceIdentificationNumber.value)">
+                    (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null, null, ecmr.ecmrConsignment.referenceIdentificationNumber.value)">
                 {{ 'quick_view_buttons.pdf' | translate }}
                 <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
             </button>
@@ -53,7 +53,7 @@
                 <mat-icon>archive</mat-icon>
             </button>
             <button class="m-1" mat-menu-item
-                    (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null, ecmr.ecmrConsignment.referenceIdentificationNumber.value)">
+                    (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null,null, ecmr.ecmrConsignment.referenceIdentificationNumber.value)">
                 {{ 'quick_view_buttons.pdf' | translate }}
                 <mat-icon>picture_as_pdf</mat-icon>
             </button>
@@ -67,7 +67,7 @@
             <mat-icon color="primary" style="transform: scale(1.4)">visibility</mat-icon>
         </button>
         <button mat-icon-button class="my-3"
-                (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null, ecmr.ecmrConsignment.referenceIdentificationNumber.value)">
+                (click)="ecmrActionService.downloadPdf(ecmr.ecmrId, null, null, ecmr.ecmrConsignment.referenceIdentificationNumber.value)">
             <mat-icon color="primary" style="transform: scale(1.4)">picture_as_pdf</mat-icon>
         </button>
     </ng-template>

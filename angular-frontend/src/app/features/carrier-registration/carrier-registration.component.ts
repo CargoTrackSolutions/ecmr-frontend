@@ -96,8 +96,8 @@ export class CarrierRegistrationComponent {
             }
 
             this.carrierRegistrationService.sendRegistration(registration).subscribe({
-                next: () => {
-                    this.router.navigateByUrl(`/carrier-registration-success/${this.ecmrId}`)
+                next: (registrationResponse) => {
+                    this.router.navigateByUrl(`/carrier-registration-success/${this.ecmrId}/${registrationResponse.userToken}`)
                 },
                 error: (err) => {
                     if(err.status == 429) {

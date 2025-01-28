@@ -11,6 +11,8 @@ import { Registration } from '../../core/models/Registration';
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { SharedCarrierInformation } from '../../core/models/SharedCarrierInformation';
+import { Observable } from 'rxjs';
+import { RegistrationResponse } from '../../core/models/RegistrationResponse';
 
 @Injectable({
     providedIn: 'root'
@@ -25,7 +27,7 @@ export class CarrierRegistrationService {
         return this.http.get<SharedCarrierInformation>(`${environment.backendUrl}/anonymous/ecmr-carrier/${ecmrId}/${shareToken}`)
     }
 
-    sendRegistration(registration: Registration) {
-        return this.http.post<void>(environment.backendUrl + '/anonymous/registration', registration)
+    sendRegistration(registration: Registration): Observable<RegistrationResponse> {
+        return this.http.post<RegistrationResponse>(environment.backendUrl + '/anonymous/registration', registration)
     }
 }

@@ -31,7 +31,7 @@ export const routes: Routes = [
     {path: 'ecmr-overview', component: EcmrOverviewComponent, canActivate: [AuthGuard], data: {role: UserRole.User}},
     {path: 'ecmr-editor', component: EcmrEditorComponent, canActivate: [AuthGuard], data: {role: UserRole.User}},
     {path: 'ecmr-editor/:id', component: EcmrEditorComponent, canActivate: [AuthGuard], data: {role: UserRole.User}},
-    {path: 'ecmr-tan/:id/:tan', component: EcmrEditorComponent},
+    {path: 'ecmr-tan/:id/:userToken/:tan', component: EcmrEditorComponent},
     {path: 'ecmr-archive', component: ArchiveComponent, canActivate: [AuthGuard], data: {role: UserRole.User}},
     {path: 'templates-overview', component: TemplateOverviewComponent, canActivate: [AuthGuard], data: {role: UserRole.User}},
     {path: 'template-editor', component: EcmrEditorComponent, canActivate: [AuthGuard], data: {role: UserRole.User}},
@@ -41,7 +41,7 @@ export const routes: Routes = [
     {path: 'group-detail/:id', component: GroupDetailViewComponent, canActivate: [AuthGuard], data: {role: UserRole.Admin}},
     {path: 'user-overview', component: UserOverviewComponent, canActivate: [AuthGuard], data: {role: UserRole.Admin}},
     {path: 'carrier-registration/:id/:token', component: CarrierRegistrationComponent},
-    {path: 'carrier-registration-success/:id', component: CarrierRegistrationSuccessComponent},
+    {path: 'carrier-registration-success/:id/:userToken', component: CarrierRegistrationSuccessComponent},
     {path: 'privacy', component: PrivacyComponent},
     {path: 'imprint-legal-matter', component: LegalMatterComponent},
     {path: 'history/:id/:refId', component: HistoryLogsComponent, canActivate: [AuthGuard]}

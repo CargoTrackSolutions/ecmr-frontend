@@ -9,44 +9,16 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
-import { MatButton, MatIconButton, MatMiniFabButton } from '@angular/material/button';
-import { MatFormField, MatLabel, MatPrefix, MatSuffix } from '@angular/material/form-field';
-import {
-    MatCell,
-    MatCellDef,
-    MatColumnDef,
-    MatHeaderCell,
-    MatHeaderCellDef,
-    MatHeaderRow,
-    MatHeaderRowDef,
-    MatRow,
-    MatRowDef,
-    MatTable,
-    MatTableModule
-} from '@angular/material/table';
-import { MatTabBody, MatTabHeader } from '@angular/material/tabs';
-import { MatInput } from '@angular/material/input';
-import { MatSort, MatSortHeader, MatSortModule } from '@angular/material/sort';
-import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle';
-import { MatCheckbox } from '@angular/material/checkbox';
-import { MatOption, MatSelect } from '@angular/material/select';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatLabel } from '@angular/material/form-field';
+import { MatTableModule } from '@angular/material/table';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-    MatAccordion,
-    MatExpansionPanel,
-    MatExpansionPanelDescription,
-    MatExpansionPanelHeader,
-    MatExpansionPanelTitle
-} from '@angular/material/expansion';
-import { MatDialog, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
-import { NgClass, NgIf } from '@angular/common';
-import { MatCard, MatCardContent } from '@angular/material/card';
-import { CdkScrollable } from '@angular/cdk/overlay';
-import { MatDivider } from '@angular/material/divider';
-import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
+import { NgClass } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { EcmrOverviewDetailsComponent } from './ecmr-overview-details/ecmr-overview-details.component';
@@ -57,7 +29,7 @@ import { EcmrTableComponent } from '../../shared/components/ecmr-table/ecmr-tabl
 import { catchError, filter, Observable, of, Subscription, switchMap } from 'rxjs';
 import { EcmrService } from '../../shared/services/ecmr.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { MatDrawer, MatDrawerContainer, MatSidenavContainer } from '@angular/material/sidenav';
+import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ShareEcmrDialogComponent } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component';
 import { EcmrStatus } from '../../core/models/EcmrStatus';
@@ -78,71 +50,22 @@ import { SnackbarService } from '../../core/services/snackbar.service';
         MatIcon,
         MatButton,
         MatLabel,
-        MatTable,
-        MatTabHeader,
-        MatTabBody,
-        MatHeaderCell,
-        MatHeaderCellDef,
-        MatCellDef,
-        MatColumnDef,
-        MatCell,
-        MatHeaderRowDef,
-        MatRow,
-        MatRowDef,
-        MatHeaderRow,
         MatTableModule,
-        MatInput,
-        MatFormField,
-        MatPrefix,
-        MatSuffix,
-        MatSort,
-        MatSortHeader,
         MatSortModule,
         MatIconButton,
-        MatButtonToggleGroup,
-        MatButtonToggle,
-        MatCheckbox,
-        MatSelect,
         ReactiveFormsModule,
-        MatOption,
-        MatAccordion,
-        MatExpansionPanel,
-        MatExpansionPanelTitle,
-        MatExpansionPanelDescription,
-        MatExpansionPanelHeader,
-        MatDialogContent,
-        MatDialogTitle,
         MatTooltip,
         MatMenu,
         MatMenuTrigger,
         MatMenuItem,
-        NgIf,
-        MatCard,
-        MatCardContent,
-        MatMiniFabButton,
-        CdkScrollable,
-        MatDivider,
-        CdkDropList,
-        CdkDrag,
         TranslateModule,
         EcmrTableComponent,
-        MatDialogContent,
-        MatDialogTitle,
         MatTooltip,
         MatMenu,
         MatMenuTrigger,
         MatMenuItem,
-        NgIf,
-        MatCard,
-        MatCardContent,
-        MatMiniFabButton,
-        CdkScrollable,
-        MatDivider,
-        CdkDropList,
-        CdkDrag,
         TranslateModule,
         EcmrOverviewDetailsComponent,
-        MatSidenavContainer,
         MatDrawer,
         MatDrawerContainer,
         NgClass

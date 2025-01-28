@@ -51,7 +51,7 @@
                     <mat-icon iconPositionEnd>share</mat-icon>
                 </button>
                 <button mat-stroked-button color="primary"
-                        (click)="ecmrActionService.downloadPdf(ecmrToEdit.ecmrId!, tan, ecmrToEdit.ecmrConsignment.referenceIdentificationNumber.value!)">
+                        (click)="ecmrActionService.downloadPdf(ecmrToEdit.ecmrId!, userToken, tan, ecmrToEdit.ecmrConsignment.referenceIdentificationNumber.value!)">
                     {{ 'quick_view_buttons.pdf' | translate }}
                     <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
                 </button>
@@ -90,7 +90,7 @@
                         <mat-icon>share</mat-icon>
                     </button>
                     <button mat-menu-item
-                            (click)="ecmrActionService.downloadPdf(ecmrToEdit.ecmrId!, tan, ecmrToEdit.ecmrConsignment.referenceIdentificationNumber.value!)">
+                            (click)="ecmrActionService.downloadPdf(ecmrToEdit.ecmrId!, userToken, tan, ecmrToEdit.ecmrConsignment.referenceIdentificationNumber.value!)">
                         {{ 'quick_view_buttons.pdf' | translate }}
                         <mat-icon>picture_as_pdf</mat-icon>
                     </button>

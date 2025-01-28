@@ -18,10 +18,9 @@ import { MatInput } from '@angular/material/input';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { QRCodeComponent, QRCodeModule } from 'angularx-qrcode';
 import { MatIcon } from '@angular/material/icon';
-import { MatDivider } from '@angular/material/divider';
 import { SnackbarService } from '../../../core/services/snackbar.service';
 import { EcmrService } from '../../services/ecmr.service';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 import { catchError, filter, map, of, startWith, Subscription } from 'rxjs';
@@ -48,10 +47,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
         ReactiveFormsModule,
         QRCodeModule,
         MatIcon,
-        MatDivider,
         MatIconButton,
         NgIf,
-        AsyncPipe,
         MatAutocomplete,
         MatAutocompleteTrigger,
         MatOption,
@@ -80,12 +77,13 @@ export class ShareEcmrDialogComponent implements OnInit {
     currentRole: EcmrRole;
     isExternalUser: boolean;
     tan: string;
+    userToken: string;
 
     private breakpointSubscription: Subscription | undefined;
     isMobile: boolean;
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) public data: { ecmr: Ecmr, roles: EcmrRole[], isExternalUser: boolean, tan: string },
+        @Inject(MAT_DIALOG_DATA) public data: { ecmr: Ecmr, roles: EcmrRole[], isExternalUser: boolean, userToken: string, tan: string },
         public dialogRef: MatDialogRef<ShareEcmrDialogComponent>,
         private snackBarService: SnackbarService,
         private ecmrService: EcmrService,
@@ -104,6 +102,7 @@ export class ShareEcmrDialogComponent implements OnInit {
             this.ecmrRoles = data.roles;
             this.isExternalUser = data.isExternalUser;
             this.tan = data.tan
+            this.userToken = data.userToken;
             if (this.ecmrRoles.includes(EcmrRole.Sender)) {
                 this.changeRole(EcmrRole.Sender)
             } else {
@@ -143,7 +142,7 @@ export class ShareEcmrDialogComponent implements OnInit {
                 role: this.currentRole,
                 email: this.emailFormControl.value
             };
-            (this.isExternalUser ? this.externalUserService.shareEcmr(ecmrShare, this.ecmr.ecmrId, this.tan) : this.ecmrService.shareEcmr(ecmrShare, this.ecmr.ecmrId)).pipe(
+            (this.isExternalUser ? this.externalUserService.shareEcmr(ecmrShare, this.ecmr.ecmrId, this.userToken, this.tan) : this.ecmrService.shareEcmr(ecmrShare, this.ecmr.ecmrId)).pipe(
                 catchError(err => {
                     console.error(err);
                     if (err.status === 501) {
@@ -216,7 +215,7 @@ export class ShareEcmrDialogComponent implements OnInit {
     changeRole(role: EcmrRole) {
         this.currentRole = role
         if (this.ecmr.ecmrId) {
-            (this.isExternalUser ? this.externalUserService.getShareToken(this.ecmr.ecmrId, role, this.tan) : this.ecmrService.getShareToken(this.ecmr.ecmrId, role)).subscribe(token => {
+            (this.isExternalUser ? this.externalUserService.getShareToken(this.ecmr.ecmrId, role, this.userToken, this.tan) : this.ecmrService.getShareToken(this.ecmr.ecmrId, role)).subscribe(token => {
                 this.ecmrToken = token;
                 this.shareString = this.currentRole == EcmrRole.Carrier ?
                     `${this.carrierShareString}/${this.ecmr.ecmrId}/${this.ecmrToken}` :

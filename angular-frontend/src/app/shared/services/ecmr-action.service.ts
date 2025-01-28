@@ -24,9 +24,9 @@ export class EcmrActionService {
                 private router: Router) {
     }
 
-    downloadPdf(ecmrId: string, tan: string | null, referenceId: string) {
+    downloadPdf(ecmrId: string, userToken: string | null, tan: string | null, referenceId: string) {
         this.loadingService.showLoaderUntilCompleted(
-            (tan ? this.externalUserService.downloadPdf(ecmrId, tan) :
+            ((userToken && tan) ? this.externalUserService.downloadPdf(ecmrId, userToken,  tan) :
                 this.ecmrService.downloadPdf(ecmrId))
         ).subscribe((response: HttpResponse<Blob>) => {
             const contentDisposition = response.headers.get('Content-Disposition');

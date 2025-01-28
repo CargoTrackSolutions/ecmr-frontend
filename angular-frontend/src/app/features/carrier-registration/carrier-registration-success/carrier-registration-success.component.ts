@@ -45,6 +45,7 @@ export class CarrierRegistrationSuccessComponent implements AfterViewInit {
     carrierTan = new FormControl<string>('', Validators.required);
 
     ecmrId: string;
+    userToken: string;
     sub: Subscription;
 
     constructor(private ecmrTanService: ExternalUserService,
@@ -53,6 +54,7 @@ export class CarrierRegistrationSuccessComponent implements AfterViewInit {
                 private readonly changeDetectorRef: ChangeDetectorRef,) {
         this.sub = this.route.params.subscribe(params => {
             this.ecmrId = params['id'];
+            this.userToken = params['userToken'];
         });
     }
 
@@ -64,10 +66,10 @@ export class CarrierRegistrationSuccessComponent implements AfterViewInit {
 
     authenticate() {
         const tan = this.carrierTan.value;
-        if (this.carrierTan.valid && this.ecmrId && tan) {
-            this.ecmrTanService.isTanValid(this.ecmrId, tan).subscribe(res => {
+        if (this.carrierTan.valid && this.ecmrId && tan && this.userToken) {
+            this.ecmrTanService.isTanValid(this.ecmrId, this.userToken, tan).subscribe(res => {
                 if (res) {
-                    this.router.navigateByUrl(`/ecmr-tan/${this.ecmrId}/${tan}`)
+                    this.router.navigateByUrl(`/ecmr-tan/${this.ecmrId}/${this.userToken}/${tan}`)
                 }
             })
         }

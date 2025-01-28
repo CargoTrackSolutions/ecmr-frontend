@@ -332,6 +332,7 @@ export class EcmrEditorComponent implements OnInit {
     sub: Subscription;
     id: string;
     tan: string;
+    userToken: string;
     isExternalUser: boolean;
 
     authenticatedUser: AuthenticatedUser | null;
@@ -370,7 +371,8 @@ export class EcmrEditorComponent implements OnInit {
 
         this.id = this.route.snapshot.params['id'];
         this.tan = this.route.snapshot.params['tan'];
-        this.isExternalUser = !!this.tan;
+        this.userToken = this.route.snapshot.params['userToken'];
+        this.isExternalUser = !!this.tan && !!this.userToken;
         if (this.id) {
             this.editorMode = EditorMode.ECMR_EDIT;
         } else {
@@ -507,7 +509,7 @@ export class EcmrEditorComponent implements OnInit {
           switchMap(signResult => {
             this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
             return (this.isExternalUser ?
-                this.externalUserService.updateEcmr(this.ecmrToEdit, this.tan) :
+                this.externalUserService.updateEcmr(this.ecmrToEdit, this.userToken, this.tan) :
                 this.ecmrEditorService.updateEcmr(this.ecmrToEdit)
             ).pipe(map(() => signResult))
           }),
@@ -518,9 +520,9 @@ export class EcmrEditorComponent implements OnInit {
               city: city
             };
 
-            return this.isExternalUser ? this.externalUserService.signEcmr(signature, this.id, this.tan) : this.ecmrEditorService.signEcmr(signature, this.id);
+            return this.isExternalUser ? this.externalUserService.signEcmr(signature, this.id, this.userToken, this.tan) : this.ecmrEditorService.signEcmr(signature, this.id);
           }),
-          switchMap(() => this.isExternalUser ? this.externalUserService.getEcmrWithTan(this.id, this.tan) : this.ecmrEditorService.getEcmr(this.id))
+          switchMap(() => this.isExternalUser ? this.externalUserService.getEcmrWithTan(this.id, this.userToken, this.tan) : this.ecmrEditorService.getEcmr(this.id))
         );
     }
 
@@ -658,9 +660,9 @@ export class EcmrEditorComponent implements OnInit {
       this.setFormConstraints();
     }
     if (this.editorMode === EditorMode.ECMR_EDIT) {
-      if (this.tan != undefined) {
-        const loadEcmrObs = this.externalUserService.getEcmrWithTan(this.id, this.tan);
-        const loadRolesObs = this.externalUserService.getEcmrRolesForUser(this.id, this.tan);
+      if (this.tan != undefined && this.userToken != undefined) {
+        const loadEcmrObs = this.externalUserService.getEcmrWithTan(this.id, this.userToken, this.tan);
+        const loadRolesObs = this.externalUserService.getEcmrRolesForUser(this.id, this.userToken, this.tan);
         this.loadingService.showLoaderUntilCompleted(forkJoin({ecmr: loadEcmrObs, roles: loadRolesObs}))
           .subscribe(result => {
             this.loadEcmr(result.ecmr);
@@ -720,7 +722,8 @@ export class EcmrEditorComponent implements OnInit {
                 ecmr: ecmr,
                 roles: this.userEcmrRoles,
                 isExternalUser: this.isExternalUser,
-                tan: this.tan
+                tan: this.tan,
+                userToken: this.userToken
             }
         });
     }
@@ -773,7 +776,7 @@ export class EcmrEditorComponent implements OnInit {
         } else if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_EDIT)) {
             this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
 
-            const $updateObservable = this.isExternalUser ? this.externalUserService.updateEcmr(this.ecmrToEdit, this.tan) : this.ecmrEditorService.updateEcmr(this.ecmrToEdit)
+            const $updateObservable = this.isExternalUser ? this.externalUserService.updateEcmr(this.ecmrToEdit, this.userToken, this.tan) : this.ecmrEditorService.updateEcmr(this.ecmrToEdit)
 
             $updateObservable.subscribe({
                 next: ecmr => {
@@ -796,7 +799,7 @@ export class EcmrEditorComponent implements OnInit {
             const control = group.controls[controlName];
             if (control instanceof FormGroup) {
                 // recursive call for subgroups
-                const subResult = this.resetClearedControls(control)
+                this.resetClearedControls(control)
             } else if (control.value === '') {
                 control.reset();
             }

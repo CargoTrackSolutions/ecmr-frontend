@@ -26,45 +26,45 @@ export class ExternalUserService {
         this.http = new HttpClient(handler);
     }
 
-    getEcmrWithTan(ecmrId: string, tan: string) {
-        return this.http.get<Ecmr>(`${environment.backendUrl}/anonymous/ecmr/${ecmrId}`, {params: {'tan': tan}});
+    getEcmrWithTan(ecmrId: string, userToken: string, tan: string) {
+        return this.http.get<Ecmr>(`${environment.backendUrl}/anonymous/ecmr/${ecmrId}`, {params: {'tan': tan, 'userToken': userToken}});
     }
 
-    isTanValid(ecmrId: string, tan: string) {
-        return this.http.get<Ecmr>(`${environment.backendUrl}/anonymous/is-tan-valid`, {params: {'ecmrId': ecmrId, 'tan': tan}});
+    isTanValid(ecmrId: string, userToken: string, tan: string) {
+        return this.http.get<Ecmr>(`${environment.backendUrl}/anonymous/is-tan-valid`, {params: {'ecmrId': ecmrId, 'tan': tan, 'userToken': userToken}});
     }
 
-    getEcmrRolesForUser(ecmrId: string, tan: string): Observable<EcmrRole[]> {
-        return this.http.get<EcmrRole[]>(`${environment.backendUrl}/anonymous/ecmr-role`, {params: {'ecmrId': ecmrId, 'tan': tan}});
+    getEcmrRolesForUser(ecmrId: string, userToken: string, tan: string): Observable<EcmrRole[]> {
+        return this.http.get<EcmrRole[]>(`${environment.backendUrl}/anonymous/ecmr-role`, {params: {'ecmrId': ecmrId, 'tan': tan, 'userToken': userToken}});
     }
 
-    updateEcmr(ecmr: Ecmr, tan: string) {
-        return this.http.put<Ecmr>(`${environment.backendUrl}/anonymous/ecmr`, ecmr, {params: {'tan': tan}})
+    updateEcmr(ecmr: Ecmr, userToken: string, tan: string) {
+        return this.http.put<Ecmr>(`${environment.backendUrl}/anonymous/ecmr`, ecmr, {params: {'tan': tan, 'userToken': userToken}})
     }
 
-    signEcmr(signModel: Sign, id: string, tan: string) {
-        return this.http.post<Signature>(`${environment.backendUrl}/anonymous/ecmr/${id}/sign-on-glass`, signModel, {params: {'tan': tan}});
+    signEcmr(signModel: Sign, id: string, userToken: string, tan: string) {
+        return this.http.post<Signature>(`${environment.backendUrl}/anonymous/ecmr/${id}/sign-on-glass`, signModel, {params: {'tan': tan, 'userToken': userToken}});
     }
 
-    getShareToken(ecmrId: string, role: EcmrRole, tan: string) {
+    getShareToken(ecmrId: string, role: EcmrRole, userToken: string, tan: string) {
         return this.http.get(`${environment.backendUrl}/anonymous/ecmr/${ecmrId}/share-token`, {
-            params: {'ecmrRole': role, 'tan': tan},
+            params: {'ecmrRole': role, 'tan': tan, 'userToken': userToken},
             responseType: 'text'
         });
     }
 
-    downloadPdf(ecmrId: string, tan: string) {
+    downloadPdf(ecmrId: string, userToken: string, tan: string) {
         let headers = new HttpHeaders();
         headers = headers.set('Accept', 'application/pdf');
         return this.http.get(`${environment.backendUrl}/anonymous/ecmr/${ecmrId}/pdf`, {
             headers,
             responseType: 'blob',
             observe: 'response',
-            params: {'tan': tan}
+            params: {'tan': tan, 'userToken': userToken}
         });
     }
 
-    shareEcmr(ecmrShare: EcmrShare, ecmrId: string, tan: string) {
-        return this.http.patch<EcmrShareResponse>(`${environment.backendUrl}/anonymous/ecmr/${ecmrId}/share`, ecmrShare, {params: {'tan': tan}});
+    shareEcmr(ecmrShare: EcmrShare, ecmrId: string, userToken: string, tan: string) {
+        return this.http.patch<EcmrShareResponse>(`${environment.backendUrl}/anonymous/ecmr/${ecmrId}/share`, ecmrShare, {params: {'tan': tan, 'userToken': userToken}});
     }
 }
