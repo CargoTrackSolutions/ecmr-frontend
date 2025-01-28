@@ -7,6 +7,6 @@
  */
 
 export enum SignatureType {
-  SignOnGlass,
-  ESeal
+  SignOnGlass= 'SignOnGlass',
+  ESeal = 'ESeal'
 }

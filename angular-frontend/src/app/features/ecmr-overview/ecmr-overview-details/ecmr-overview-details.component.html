@@ -476,8 +476,12 @@
                         <mat-card appearance="outlined">
                             <mat-card-content>
                                 <div class="d-flex justify-content-center align-items-center flex-column">
-                                    <img [src]="selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.data"
-                                         alt="signature" class="img-fluid"/>
+                                    @if(selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.type === SignatureType.SignOnGlass) {
+                                        <img [src]="selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.data"
+                                             alt="signature" class="img-fluid"/>
+                                    } @else {
+                                        <p>{{"ecmr_editor.eseal_information" | translate}}</p>
+                                    }
                                     <span class="d-flex justify-content-center">
                                     {{ "signature.signed_on" | translate }}
                                         {{ toDateString(selectedEcmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature.timestamp) }}
@@ -497,8 +501,13 @@
                         <mat-card appearance="outlined">
                             <mat-card-content>
                                 <div class="d-flex justify-content-center align-items-center flex-column">
-                                    <img [src]="selectedEcmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature.data"
-                                         alt="signature" class="img-fluid"/>
+                                    @if(selectedEcmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature.type === SignatureType.SignOnGlass) {
+                                        <img [src]="selectedEcmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature.data"
+                                             alt="signature" class="img-fluid"/>
+                                    }@else {
+                                        <p>{{"ecmr_editor.eseal_information" | translate}}</p>
+                                    }
+
                                     <span class="d-flex justify-content-center">
                                     {{ "signature.signed_on" | translate }}
                                         {{ toDateString(selectedEcmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature.timestamp) }}
@@ -535,8 +544,13 @@
                         <mat-card appearance="outlined">
                             <mat-card-content>
                                 <div class="d-flex justify-content-center align-items-center flex-column">
-                                    <img [src]="selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature.data"
-                                         alt="signature" class="img-fluid"/>
+                                    @if(selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature.type === SignatureType.SignOnGlass) {
+                                        <img [src]="selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature.data"
+                                             alt="signature" class="img-fluid"/>
+                                    }@else {
+                                        <p>{{"ecmr_editor.eseal_information" | translate}}</p>
+                                    }
+
                                     <span class="d-flex justify-content-center">
                                             {{ "signature.signed_on" | translate }}
                                         {{ toDateString(selectedEcmr.ecmrConsignment.goodsReceived.consigneeSignature.timestamp) }}

@@ -25,6 +25,7 @@ import { EcmrStatus } from '../../../core/models/EcmrStatus';
 import { EcmrStatusComponent } from '../../../shared/components/ecmr-status/ecmr-status.component';
 import { EcmrTransportType } from '../../../core/models/EcmrTransportType';
 import { EcmrService } from '../../../shared/services/ecmr.service';
+import { SignatureType } from '../../../core/models/SignatureType';
 
 @Component({
     selector: 'app-ecmr-overview-details',
@@ -93,4 +94,5 @@ export class EcmrOverviewDetailsComponent {
     protected readonly EcmrTransportType = EcmrTransportType;
 
     protected readonly EcmrStatus = EcmrStatus;
+    protected readonly SignatureType = SignatureType;
 }
