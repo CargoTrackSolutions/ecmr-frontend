@@ -283,6 +283,7 @@
     "name": "Name",
     "search": "Search",
     "title": "Group management",
+    "delete_bad_request": "A group that has subgroups or assigned persons cannot be deleted",
     "tooltips": {
       "change_parent": "Change parent group",
       "create_new": "Create new group",

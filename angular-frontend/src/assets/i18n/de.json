@@ -284,6 +284,7 @@
     "name": "Name",
     "search": "Suchen",
     "title": "Gruppenverwaltung",
+    "delete_bad_request": "Eine Gruppe die Untergruppen oder zugewiesene Personen hat kann nicht gelöscht werden",
     "tooltips": {
       "change_parent": "Wechsel übergeordnete Gruppe",
       "create_new": "Erstelle neue Gruppe",

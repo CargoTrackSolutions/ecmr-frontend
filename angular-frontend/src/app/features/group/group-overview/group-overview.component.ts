@@ -10,23 +10,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { MatFormField, MatLabel, MatPrefix, MatSuffix } from '@angular/material/form-field';
-import { TranslateModule } from '@ngx-translate/core';
-import {
-    MatCell,
-    MatCellDef,
-    MatColumnDef,
-    MatHeaderCell,
-    MatHeaderCellDef,
-    MatHeaderRow,
-    MatHeaderRowDef,
-    MatRow,
-    MatRowDef,
-    MatTable,
-} from '@angular/material/table';
-import { CdkColumnDef } from '@angular/cdk/table';
+import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Group } from '../../../core/models/Group';
-import { MatPaginator } from '@angular/material/paginator';
 import { GroupService } from '../group.service';
 import { Router } from '@angular/router';
 import { MatTooltip } from '@angular/material/tooltip';
@@ -35,22 +21,15 @@ import { GroupEditDialogComponent } from '../group-edit-dialog/group-edit-dialog
 import { MatInput } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { filter, of, switchMap } from 'rxjs';
-import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
-import {
-    MatTree,
-    MatTreeFlatDataSource,
-    MatTreeFlattener,
-    MatTreeNode,
-    MatTreeNodeDef,
-    MatTreeNodePadding,
-    MatTreeNodeToggle
-} from '@angular/material/tree';
+import { MatTree, MatTreeFlatDataSource, MatTreeFlattener, MatTreeNode, MatTreeNodeDef, MatTreeNodePadding, MatTreeNodeToggle } from '@angular/material/tree';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { FlatGroupNode } from '../../../core/models/FlatGroupNode';
 import { FormsModule } from '@angular/forms';
 import { GroupChangeParentDialogComponent } from '../group-change-parent-dialog/group-change-parent-dialog.component';
 import { ConfirmationDialogComponent } from '../../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { HttpErrorResponse } from '@angular/common/http';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
     selector: 'app-group-overview',
@@ -62,27 +41,12 @@ import { ConfirmationDialogComponent } from '../../../shared/dialogs/confirmatio
         MatLabel,
         MatToolbarRow,
         TranslateModule,
-        MatTable,
-        CdkColumnDef,
-        MatCell,
-        MatCellDef,
-        MatColumnDef,
-        MatHeaderCell,
-        MatHeaderCellDef,
-        MatHeaderRow,
-        MatHeaderRowDef,
-        MatRow,
-        MatRowDef,
-        MatPaginator,
         MatIconButton,
         MatTooltip,
         MatFormField,
-        MatPrefix,
         MatInput,
         MatSuffix,
         MatSortModule,
-        MatDrawerContainer,
-        MatDrawer,
         MatTree,
         MatTreeNode,
         MatTreeNodeDef,
@@ -131,7 +95,9 @@ export class GroupOverviewComponent implements OnInit {
 
     constructor(private groupService: GroupService,
                 private matDialog: MatDialog,
-                private router: Router) {
+                private router: Router,
+                private snackbarService: SnackbarService,
+                private translateService: TranslateService) {
     }
 
     ngOnInit(): void {
@@ -251,10 +217,19 @@ export class GroupOverviewComponent implements OnInit {
                 }
                 return of(null)
             }))
-            .subscribe(groups => {
-                if (groups) {
-                    this.dataSource.data = groups;
-                    this.restoreExpandedState();
+            .subscribe({
+                next: groups => {
+                    if (groups) {
+                        this.dataSource.data = groups;
+                        this.restoreExpandedState();
+                    }
+                },
+                error: (err: HttpErrorResponse) => {
+                    if (err.status == 400) {
+                        this.snackbarService.openInfoSnackbar(this.translateService.instant('group_overview.delete_bad_request'));
+                    } else {
+                        this.snackbarService.openErrorSnackbar(err.error.message)
+                    }
                 }
             });
     }
