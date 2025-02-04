@@ -92,54 +92,59 @@
 
                 <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_2' | translate }}</h6>
                 <!-- Consignee -->
-                <!--Name-->
-                <app-ecmr-display-information-field
-                        [label]="'ecmr_editor.consignee.name'"
-                        [displayedContent]="selectedEcmr.ecmrConsignment.consigneeInformation.consigneeNameCompany ">
-                </app-ecmr-display-information-field>
+                <div *ngIf="!selectedEcmr.ecmrConsignment.multiConsigneeShipment.isMultiConsigneeShipment">
+                        <!--Name-->
+                        <app-ecmr-display-information-field
+                                [label]="'ecmr_editor.consignee.name'"
+                                [displayedContent]="selectedEcmr.ecmrConsignment.consigneeInformation.consigneeNameCompany ">
+                        </app-ecmr-display-information-field>
 
 
-                <!--Person Name-->
-                <app-ecmr-display-information-field
-                        [label]="'ecmr_editor.consignee.person_name'"
-                        [displayedContent]="selectedEcmr.ecmrConsignment.consigneeInformation.consigneeNamePerson">
-                </app-ecmr-display-information-field>
+                        <!--Person Name-->
+                        <app-ecmr-display-information-field
+                                [label]="'ecmr_editor.consignee.person_name'"
+                                [displayedContent]="selectedEcmr.ecmrConsignment.consigneeInformation.consigneeNamePerson">
+                        </app-ecmr-display-information-field>
 
-                <!--Street Name-->
-                <app-ecmr-display-information-field
-                        [label]="'ecmr_editor.consignee.street_name'"
-                        [displayedContent]="selectedEcmr.ecmrConsignment.consigneeInformation.consigneeStreet">
-                </app-ecmr-display-information-field>
+                        <!--Street Name-->
+                        <app-ecmr-display-information-field
+                                [label]="'ecmr_editor.consignee.street_name'"
+                                [displayedContent]="selectedEcmr.ecmrConsignment.consigneeInformation.consigneeStreet">
+                        </app-ecmr-display-information-field>
 
-                <div class="row">
-                    <!--Post Code-->
-                    <app-ecmr-display-information-field
-                            class="col"
-                            [label]="'ecmr_editor.consignee.post_code'"
-                            [displayedContent]="selectedEcmr.ecmrConsignment.consigneeInformation.consigneePostcode">
-                    </app-ecmr-display-information-field>
-                    <!--City Name-->
-                    <app-ecmr-display-information-field
-                            class="col"
-                            [label]="'ecmr_editor.consignee.city_name'"
-                            [displayedContent]="selectedEcmr.ecmrConsignment.consigneeInformation.consigneeCity">
-                    </app-ecmr-display-information-field>
+                        <div class="row">
+                        <!--Post Code-->
+                        <app-ecmr-display-information-field
+                                class="col"
+                                [label]="'ecmr_editor.consignee.post_code'"
+                                [displayedContent]="selectedEcmr.ecmrConsignment.consigneeInformation.consigneePostcode">
+                        </app-ecmr-display-information-field>
+                        <!--City Name-->
+                        <app-ecmr-display-information-field
+                                class="col"
+                                [label]="'ecmr_editor.consignee.city_name'"
+                                [displayedContent]="selectedEcmr.ecmrConsignment.consigneeInformation.consigneeCity">
+                        </app-ecmr-display-information-field>
+                        </div>
+                        <!-- Country -->
+                        <app-ecmr-display-information-field
+                                [label]="'ecmr_editor.consignee.country'"
+                                [displayedContent]="selectedEcmr.ecmrConsignment.consigneeInformation.consigneeCountryCode.value">
+                        </app-ecmr-display-information-field>
+                        <!-- Email -->
+                        <app-ecmr-display-information-field
+                                [label]="'ecmr_editor.consignee.email'"
+                                [displayedContent]="selectedEcmr.ecmrConsignment.consigneeInformation.consigneeContactInformation.email">
+                        </app-ecmr-display-information-field>
+                        <!-- Phone -->
+                        <app-ecmr-display-information-field
+                                [label]="'ecmr_editor.consignee.phone'"
+                                [displayedContent]="selectedEcmr.ecmrConsignment.consigneeInformation.consigneeContactInformation.phone">
+                        </app-ecmr-display-information-field>
                 </div>
-                <!-- Country -->
-                <app-ecmr-display-information-field
-                        [label]="'ecmr_editor.consignee.country'"
-                        [displayedContent]="selectedEcmr.ecmrConsignment.consigneeInformation.consigneeCountryCode.value">
-                </app-ecmr-display-information-field>
-                <!-- Email -->
-                <app-ecmr-display-information-field
-                        [label]="'ecmr_editor.consignee.email'"
-                        [displayedContent]="selectedEcmr.ecmrConsignment.consigneeInformation.consigneeContactInformation.email">
-                </app-ecmr-display-information-field>
-                <!-- Phone -->
-                <app-ecmr-display-information-field
-                        [label]="'ecmr_editor.consignee.phone'"
-                        [displayedContent]="selectedEcmr.ecmrConsignment.consigneeInformation.consigneeContactInformation.phone">
-                </app-ecmr-display-information-field>
+                <div *ngIf="selectedEcmr.ecmrConsignment.multiConsigneeShipment.isMultiConsigneeShipment">
+                        {{"ecmr_editor.multi_consignee_shipment.multi_consignee_shipment_notice" | translate }}
+                </div>
 
                 <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_3' | translate }}</h6>
                 <!-- Taking over the goods -->

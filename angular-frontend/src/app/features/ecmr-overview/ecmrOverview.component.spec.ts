@@ -78,6 +78,9 @@ describe('OverviewComponent', () => {
                     phone: "+15612331421"
                 }
             },
+            multiConsigneeShipment: {
+                isMultiConsigneeShipment: false
+            },
             consigneeInformation: {
                 consigneeNameCompany: 'Rhenus',
                 consigneeNamePerson: 'Martina Hill',

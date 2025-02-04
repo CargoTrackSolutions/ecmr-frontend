@@ -67,6 +67,11 @@
       "particulars": "Angaben",
       "title": "Bargeld bei Lieferung"
     },
+    "multi_consignee_shipment":{
+      "is_multi_consignee_shipment": "Mehrere Empfänger",
+      "multi_consignee_shipment_notice": "Das ist eine Sammelsendung. Die Emfänger Daten können auf den vom Fahrer mitgeführten Papieren gefunden werden können.",
+      "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR als eine Sammelsendung kennzeichen wollen? Alle Informationen in den Empfängerfeldern werden gelöscht."
+    },
     "consignee": {
       "city_name": "Stadtname",
       "country": "Land",

@@ -69,3 +69,7 @@
   padding-left: var(--bs-gutter-x);
   padding-right: var(--bs-gutter-x);
 }
+
+#sender-title.alignedWithConsigneeFields {
+  margin-top: calc(40px + 0.25rem);
+}

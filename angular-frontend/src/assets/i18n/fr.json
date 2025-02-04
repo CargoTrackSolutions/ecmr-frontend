@@ -66,6 +66,11 @@
       "particulars": "Particulars",
       "title": "Cash on Delivery"
     },
+    "multi_consignee_shipment":{
+      "is_multi_consignee_shipment": "Multiple Consignees",
+      "multi_consignee_shipment_notice": "This shipment has multple consignees. Information about consignees can be found in the documents carried by the driver.",
+      "confirmation_message": "Are you sure you want to mark this eCMR as a multiple consignee shipment? All information in the consignee's fields will be lost."
+    },
     "consignee": {
       "city_name": "City Name",
       "country": "Country",

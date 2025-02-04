@@ -76,6 +76,9 @@ export class EcmrEditorService {
                     phone: null
                 }
             },
+            multiConsigneeShipment: {
+                isMultiConsigneeShipment: false
+            },
             consigneeInformation: {
                 consigneeNameCompany: null,
                 consigneeNamePerson: null,

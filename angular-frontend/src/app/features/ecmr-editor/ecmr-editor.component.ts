@@ -76,6 +76,7 @@ import {UserRole} from '../../core/enums/UserRole';
 import {UserService} from '../../shared/services/user.service';
 import {SealModel} from "../../core/models/SealModel";
 import {SignatureType} from "../../core/models/SignatureType";
+import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 
 export enum EditorMode {
     ECMR_EDIT = 'ECMR_EDIT',
@@ -108,6 +109,7 @@ export enum EditorMode {
         DynamicDisableControlDirective,
         NgClass,
         EcmrStatusComponent,
+        MatCheckbox
     ],
     providers: [DatePipe, DateTimeService],
     templateUrl: './ecmr-editor.component.html',
@@ -121,6 +123,11 @@ export class EcmrEditorComponent implements OnInit {
     isMobile: boolean = false;
     isPhone: boolean = false;
     breakpointSubscription: Subscription | undefined;
+
+    alignSenderAndConsigneeFields: boolean = false;
+    // Calculated window width at which sender and consinee fields 
+    // are displayed as two columns in one row.
+    private readonly alignTwoColumnsBreakpoint: string = '(min-width: calc(483px + 3rem))'; 
 
     editorMode: EditorMode;
 
@@ -181,6 +188,9 @@ export class EcmrEditorComponent implements OnInit {
             })
         }),
         //Area 2
+        multiConsigneeShipment: new FormGroup({
+            isMultiConsigneeShipment: new FormControl<boolean|null>(false) //qq
+        }),
         consigneeInformation: new FormGroup({
             consigneeNameCompany: new FormControl<string | null>(null),
             consigneeNamePerson: new FormControl<string | null>(null),
@@ -362,10 +372,11 @@ export class EcmrEditorComponent implements OnInit {
 
     ngOnInit() {
         this.breakpointSubscription = this.breakpointObserver
-          .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium])
+          .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, this.alignTwoColumnsBreakpoint])
           .subscribe((result) => {
-             this.isMobile = result.matches;
+             this.isMobile = this.breakpointObserver.isMatched([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium]);
              this.isPhone = this.breakpointObserver.isMatched(Breakpoints.XSmall);
+             this.alignSenderAndConsigneeFields = this.breakpointObserver.isMatched(this.alignTwoColumnsBreakpoint);
           }
         );
 
@@ -530,7 +541,9 @@ export class EcmrEditorComponent implements OnInit {
         const invalidFields: AbstractControl[] = [];
         const invalidVolumes: AbstractControl[] = [];
         invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.senderInformation, ['senderNamePerson', 'region', 'email', 'phone']));
-        invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.consigneeInformation, ['consigneeNamePerson', 'region', 'email', 'phone']));
+        if(this.ecmrConsignmentFormGroup.controls.multiConsigneeShipment?.controls.isMultiConsigneeShipment?.getRawValue() !== true){
+            invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.consigneeInformation, ['consigneeNamePerson', 'region', 'email', 'phone']));
+        }
         invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.takingOverTheGoods, ['region']));
         invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.carrierInformation, ['carrierNamePerson','region', 'email', 'phone']));
         if (this.ecmrConsignmentFormGroup.controls.itemList.controls.length > 0) {
@@ -712,6 +725,40 @@ export class EcmrEditorComponent implements OnInit {
         this.senderSignature = this.ecmrConsignment.signatureOrStampOfTheSender.senderSignature;
         this.carrierSignature = this.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature;
         this.consigneeSignature = this.ecmrConsignment.goodsReceived.consigneeSignature;
+    }
+
+    isMultiConsigneeShipmentCheckboxChange($event: MatCheckboxChange) {
+        if ($event.checked && this.isFormGroupFilled(this.ecmrConsignmentFormGroup.controls.consigneeInformation)) {
+            this.matDialog.open(ConfirmationDialogComponent, {
+                data: {
+                    text: 'ecmr_editor.multi_consignee_shipment.confirmation_message',
+                }
+            }).afterClosed().pipe().subscribe(
+                ((dialogResult) => {
+                    if(dialogResult?.isConfirmed === true){
+                        this.ecmrConsignmentFormGroup.controls.consigneeInformation.reset();
+                    }else{
+                        this.ecmrConsignmentFormGroup.controls.multiConsigneeShipment.
+                                patchValue({ isMultiConsigneeShipment: false });
+                    }
+                })
+            )
+        }
+    }
+
+    private isFormGroupFilled(group:FormGroup): boolean{
+        for (const controlName in group.controls) {
+            const control = group.controls[controlName];
+            if (control instanceof FormGroup) {
+                // recursive call for subgroups
+                const subResult = this.isFormGroupFilled(control)
+                if(subResult)
+                    return true
+            } else if (control.value !== null && control.value !== '') {
+                return true
+            }
+        }
+        return false
     }
 
     shareEcmr(ecmr: Ecmr) {

@@ -28,9 +28,11 @@ import {NonContractualPartReservedForTheCarrier} from "./areas/twentyfive/NonCon
 import {ReferenceIdentificationNumber} from "./areas/twentysix/ReferenceIdentificationNumber";
 import { CarrierInformation } from './areas/six/CarrierInformation';
 import { DeliveryOfTheGoods } from './areas/four/DeliveryOfTheGoods';
+import { MultiConsigneeShipment } from "./areas/two/MultiConsigneeShipment";
 
 export interface EcmrConsignment {
   senderInformation: SenderInformation;
+  multiConsigneeShipment: MultiConsigneeShipment;
   consigneeInformation: ConsigneeInformation;
   takingOverTheGoods: TakingOverTheGoods;
   deliveryOfTheGoods: DeliveryOfTheGoods;
