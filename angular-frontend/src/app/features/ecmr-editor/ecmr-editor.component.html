@@ -236,14 +236,15 @@
                         <!-- Area 2 -->
 
                         <div class="d-flex gap-1 flex-column col">
-                            <div formGroupName="multiConsigneeShipment">
-                                <mat-checkbox
-                                    [dynamicDisable]="!canFillSenderFields"
-                                    (change)="isMultiConsigneeShipmentCheckboxChange($event)"
-                                    formControlName="isMultiConsigneeShipment">
-                                        {{ "ecmr_editor.multi_consignee_shipment.is_multi_consignee_shipment" | translate }}
-                                </mat-checkbox>
-                            </div>
+<!--                            TODO Add this section when legal issues are resolved -->
+<!--                            <div formGroupName="multiConsigneeShipment">-->
+<!--                                <mat-checkbox-->
+<!--                                    [dynamicDisable]="!canFillSenderFields"-->
+<!--                                    (change)="isMultiConsigneeShipmentCheckboxChange($event)"-->
+<!--                                    formControlName="isMultiConsigneeShipment">-->
+<!--                                        {{ "ecmr_editor.multi_consignee_shipment.is_multi_consignee_shipment" | translate }}-->
+<!--                                </mat-checkbox>-->
+<!--                            </div>-->
                             <h6>{{ "ecmr_editor.title_2" | translate }}</h6>                   
                             <div *ngIf="!ecmrConsignmentFormGroup.controls.multiConsigneeShipment.get('isMultiConsigneeShipment')?.value" 
                                     class="d-flex flex-column gap-1 flex-wrap"
