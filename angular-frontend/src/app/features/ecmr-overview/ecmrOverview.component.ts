@@ -40,6 +40,9 @@ import { EcmrPage } from '../../core/models/EcmrPage';
 import { LoadingService } from '../../core/services/loading.service';
 import { EcmrType } from '../../core/models/EcmrType';
 import { SnackbarService } from '../../core/services/snackbar.service';
+import {
+  ExternalEcmrImportDialogComponent
+} from "./dialog/external-ecmr-import-dialog/external-ecmr-import-dialog.component";
 
 @Component({
     selector: 'app-overview',
@@ -160,6 +163,24 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
             }
         });
     }*/
+
+    importExternalEcmr(){
+      this.dialog.open(ExternalEcmrImportDialogComponent,
+        {
+          width: '30vw'
+        }).afterClosed().pipe(
+          switchMap(result => {
+            if(result) {
+              return this.loadData()
+            }
+            return of(null)
+          })
+      ).subscribe(data => {
+        if(data) {
+          this.updateTableData(data);
+        }
+      })
+    }
 
     shareEcmr(ecmr: Ecmr) {
       if (ecmr?.ecmrId) {

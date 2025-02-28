@@ -20,16 +20,16 @@
                             <mat-icon iconPositionEnd>add</mat-icon>
                             {{ 'overview.create_new' | translate }}
                         </button>
-                        <!--                        TODO Will be implemented at a later date-->
-                        <!--                        @if (!isMobile) {-->
-                        <!--                            <button mat-flat-button (click)="importEcmr()">{{ 'overview.import' | translate }}-->
-                        <!--                                <mat-icon iconPositionEnd>upload_file</mat-icon>-->
-                        <!--                            </button>-->
-                        <!--                        } @else {-->
-                        <!--                            <button mat-flat-button class="download-button-mobile" (click)="importEcmr()">-->
-                        <!--                                <mat-icon>upload_file</mat-icon>-->
-                        <!--                            </button>-->
-                        <!--                        }-->
+                                                <!--TODO add internal export-->
+                                                @if (!isMobile) {
+                                                    <button mat-flat-button (click)="importExternalEcmr()">{{ 'overview.import' | translate }}
+                                                        <mat-icon iconPositionEnd>upload_file</mat-icon>
+                                                    </button>
+                                                } @else {
+                                                    <button mat-flat-button class="download-button-mobile" (click)="importExternalEcmr()">
+                                                        <mat-icon>upload_file</mat-icon>
+                                                    </button>
+                                                }
                     </div>
                 </mat-toolbar-row>
             </mat-toolbar>
@@ -111,7 +111,7 @@
                 matTooltip="{{'overview.tooltips.sign' | translate}}">
             <mat-icon>draw</mat-icon>
         </button>
-        <button mat-icon-button 
+        <button mat-icon-button
                 (click)="shareEcmr(ecmr);$event.stopPropagation()"
                 matTooltip="{{'overview.tooltips.share' | translate}}">
                 <mat-icon>share</mat-icon>
@@ -130,7 +130,7 @@
             <mat-icon style="transform: scale(1.4)">edit_note</mat-icon>
         </button>
         <button mat-icon-button class="my-3"
-                [disabled]="ecmr.ecmrStatus === EcmrStatus.ARRIVED_AT_DESTINATION" 
+                [disabled]="ecmr.ecmrStatus === EcmrStatus.ARRIVED_AT_DESTINATION"
                 (click)="signEcmr(ecmr.ecmrId)">
             <mat-icon style="transform: scale(1.4)">draw</mat-icon>
         </button>

@@ -6,6 +6,7 @@ include:
       stage: archive
       image_name: "$CI_COMMIT_REF_SLUG"
       image_tag: "latest"
+      dockerfile: "Dockerfile_development"
   - template: Code-Quality.gitlab-ci.yml
   - template: Jobs/Dependency-Scanning.gitlab-ci.yml
   - template: Jobs/Container-Scanning.gitlab-ci.yml

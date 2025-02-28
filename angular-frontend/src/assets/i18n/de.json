@@ -227,6 +227,16 @@
     "switch_camera": "Kamera wechseln",
     "title": "eCMR importieren"
   },
+  "ecmr_external_import": {
+    "title": "Externen eCMR importieren",
+    "import": "Importieren",
+    "success": "eCMR wurde erfolgreich importiert.",
+    "failure": "eCMR konnte nicht importiert werden.",
+    "required_error": "Bitte füllen Sie dieses Pflichtfeld aus.",
+    "share_token": "Share Token",
+    "url": "URL",
+    "ecmr_id": "eCMR ID"
+  },
   "ecmr_status": {
     "ARRIVED_AT_DESTINATION": "Am Zielort angekommen",
     "IN_TRANSPORT": "Im Transport",

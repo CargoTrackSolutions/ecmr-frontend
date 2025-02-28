@@ -142,7 +142,7 @@ export class ShareEcmrDialogComponent implements OnInit {
                 role: this.currentRole,
                 email: this.emailFormControl.value
             };
-            (this.isExternalUser ? this.externalUserService.shareEcmr(ecmrShare, this.ecmr.ecmrId, this.userToken, this.tan) : this.ecmrService.shareEcmr(ecmrShare, this.ecmr.ecmrId)).pipe(
+            (this.isExternalUser ? this.externalUserService.shareEcmr(ecmrShare, this.ecmr.ecmrId, this.userToken, this.tan) : this.ecmrService.shareEcmrExternal(ecmrShare, this.ecmr.ecmrId)).pipe(
                 catchError(err => {
                     console.error(err);
                     if (err.status === 501) {

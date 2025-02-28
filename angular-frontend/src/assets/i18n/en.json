@@ -226,6 +226,16 @@
     "switch_camera": "Switch camera",
     "title": "Import eCMR"
   },
+  "ecmr_external_import": {
+    "title": "Import external eCMR",
+    "import": "Import",
+    "success": "eCMR imported successfully.",
+    "failure": "eCMR could not be imported.",
+    "required_error": "This field is required.",
+    "share_token": "Share Token",
+    "url": "URL",
+    "ecmr_id": "eCMR ID"
+  },
   "ecmr_status": {
     "ARRIVED_AT_DESTINATION": "Arrived at destination",
     "IN_TRANSPORT": "In transport",

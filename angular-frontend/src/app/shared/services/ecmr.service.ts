@@ -18,6 +18,8 @@ import { EcmrShareResponse } from '../../core/models/EcmrShareResponse';
 import { EcmrShare } from '../../core/models/EcmrShare';
 import { EcmrPage } from '../../core/models/EcmrPage';
 import { EcmrTransportType } from '../../core/models/EcmrTransportType';
+import {GroupFlat} from "../../core/models/GroupFlat";
+import {Observable} from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -116,8 +118,25 @@ export class EcmrService {
         return this.http.patch<EcmrShareResponse>(`${environment.backendUrl}/ecmr/${ecmrId}/share`, ecmrShare);
     }
 
+    shareEcmrExternal( ecmrShare: EcmrShare, ecmrId: string) {
+      const params = new HttpParams()
+        .set('receiverEmail', ecmrShare.email)
+        .set('ecmrRole', ecmrShare.role);
+      return this.http.post<EcmrShareResponse>(`${environment.backendUrl}/external/ecmr/${ecmrId}/email`, null, {params: params})
+    }
+
     importEcmr(ecmrId: string) {
         return this.http.get<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}/import`);
+    }
+
+    importExternalEcmr(token: string, url: string, ecmrId: string, groups: GroupFlat[]): Observable<void> {
+      const groupIds = groups.map(group => group.id);
+      const params = new HttpParams()
+        .set('ecmrId', ecmrId)
+        .set('shareToken', token)
+        .set('groupId', groupIds.toString())
+        .set('url', url);
+      return this.http.post<void>(`${environment.backendUrl}/external/ecmr/import`,null,  {params: params});
     }
 
     getEcmrRolesForCurrentUser(ecmrId: string) {
