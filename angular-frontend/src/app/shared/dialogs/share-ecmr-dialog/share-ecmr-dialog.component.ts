@@ -148,6 +148,9 @@ export class ShareEcmrDialogComponent implements OnInit {
                     if (err.status === 501) {
                         this.snackBarService.openErrorSnackbar('error.not_implemented');
                     }
+                  if (err.status === 400) {
+                    this.snackBarService.openErrorSnackbar('share_ecmr_dialog.error_400');
+                  }
                     return of(null)
                 }),
                 filter(result => result?.result != null),

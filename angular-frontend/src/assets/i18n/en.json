@@ -231,6 +231,7 @@
     "import": "Import",
     "success": "eCMR imported successfully.",
     "failure": "eCMR could not be imported.",
+    "failure_409": "An eCMR with this id already exists.",
     "required_error": "This field is required.",
     "share_token": "Share Token",
     "url": "URL",
@@ -417,7 +418,8 @@
     "shared_external": "Shared with external user",
     "shared_internal": "Shared with internal user in Group {{ translateValue }}",
     "title": "Share eCMR",
-    "user_has_no_group": "User has no group"
+    "user_has_no_group": "User has no group",
+    "error_400": "The eCMR could not be shared. Is it correctly signed?"
   },
   "signature": {
     "by": "By:",

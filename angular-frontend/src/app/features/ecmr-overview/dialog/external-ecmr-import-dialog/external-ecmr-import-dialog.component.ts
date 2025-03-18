@@ -79,6 +79,9 @@ export class ExternalEcmrImportDialogComponent {
 
   submit() {
     if (this.form.valid) {
+      const shareToken = this.form.controls['shareToken'].value.trim();
+      const url = this.form.controls['url'].value.trim();
+      const ecmrId = this.form.controls['ecmrId'].value.trim();
 
       (this.authenticatedUser?.user.role === UserRole.Admin ?
         this.groupService.getAllGroupsAsFlatList(true) :
@@ -100,8 +103,7 @@ export class ExternalEcmrImportDialogComponent {
           map(groups => groups as GroupFlat[]),
           switchMap(groups => {
             return this.loadingService.showLoaderUntilCompleted(
-              this.ecmrService.importExternalEcmr(this.form.controls['shareToken'].value, this.form.controls['url'].value,
-                this.form.controls['ecmrId'].value, groups)
+              this.ecmrService.importExternalEcmr(shareToken, url,ecmrId, groups)
             )
           })
         ).subscribe({
@@ -109,8 +111,12 @@ export class ExternalEcmrImportDialogComponent {
           this.snackBarService.openSuccessSnackbar('ecmr_external_import.success');
           this.matDialogRef.close(true);
         },
-        error: () => {
-          this.snackBarService.openErrorSnackbar('ecmr_external_import.failure');
+        error: (err) => {
+          if (err.status === 409) {
+            this.snackBarService.openErrorSnackbar('ecmr_external_import.failure_409');
+          } else {
+            this.snackBarService.openErrorSnackbar('ecmr_external_import.failure');
+          }
         }
       })
 
