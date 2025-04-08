@@ -29,7 +29,7 @@ import { MatDivider } from '@angular/material/divider';
 import { MatFormField, MatLabel, MatPrefix, MatSuffix } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { MatSort, MatSortHeader, MatSortModule } from '@angular/material/sort';
+import { MatSort, MatSortHeader, MatSortModule, Sort} from '@angular/material/sort';
 import { MatTooltip } from '@angular/material/tooltip';
 import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -63,6 +63,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { DateFormatService } from '../../services/date-format.service';
 import { EcmrStatusComponent } from '../ecmr-status/ecmr-status.component';
+import { EcmrType } from '../../../core/models/EcmrType';
 
 @Component({
     selector: 'app-ecmr-table',
@@ -189,6 +190,8 @@ export class EcmrTableComponent implements OnInit {
     @Input() actionButtons: TemplateRef<object>;
     @Input() mobileActionButtons: TemplateRef<object>;
     @Input() ecmr: Ecmr[];
+    @Input() initialSort: Sort = {active: '', direction: ''};
+    @Input() ecmrType: EcmrType = EcmrType.ECMR;
     @Output() selectedEcmr = new EventEmitter<Ecmr>();
     @Output() filterRequest = new EventEmitter<FilterRequest>();
 
@@ -272,6 +275,9 @@ export class EcmrTableComponent implements OnInit {
 
     sortData() {
         this.filterRequest.emit(this.getFilterValues())
+        this.initialSort.active = this.sort.active || '';
+        this.initialSort.direction = this.sort.direction;
+        this.ecmrService.saveEcmrSort(this.initialSort, this.ecmrType);
     }
 
     //DragDrop function to move and save columns

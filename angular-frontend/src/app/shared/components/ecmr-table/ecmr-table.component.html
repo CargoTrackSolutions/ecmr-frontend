@@ -3,6 +3,8 @@
     @if (!isMobile) {
         <table class="ecmr-overview-table overflow-x-auto desktop" mat-table [dataSource]="dataSource" matSort
                (matSortChange)="sortData()"
+               [matSortActive]="initialSort.active"
+               [matSortDirection]="initialSort.direction"
                cdkDropList
                [cdkDropListSortPredicate]="sortPredicate"
                cdkDropListOrientation="horizontal"

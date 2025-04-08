@@ -20,6 +20,7 @@ import { EcmrPage } from '../../core/models/EcmrPage';
 import { EcmrTransportType } from '../../core/models/EcmrTransportType';
 import {GroupFlat} from "../../core/models/GroupFlat";
 import {Observable} from "rxjs";
+import { Sort } from '@angular/material/sort';
 
 @Injectable({
     providedIn: 'root'
@@ -79,6 +80,30 @@ export class EcmrService {
         } else {
             return null
         }
+    }
+
+    saveEcmrSort(sort: Sort, ecmrType: EcmrType) {
+        const key = this.getEcmrSortKey(ecmrType);
+        if(sort.active && sort.direction) {
+            const sortString: string = JSON.stringify(sort);
+            localStorage.setItem(key, sortString);
+        }else {
+            localStorage.removeItem(key);
+        }
+    }
+
+    getEcmrSort(ecmrType: EcmrType): Sort | null {
+        const key = this.getEcmrSortKey(ecmrType);
+        const sortString: string | null = localStorage.getItem(key);
+        if (sortString) {
+            return JSON.parse(sortString)
+        } else {
+            return null
+        }
+    }
+
+    private getEcmrSortKey(ecmrType: EcmrType): string {
+        return `sort_${ecmrType}`;
     }
 
     getTransportType(ecmr: Ecmr) {

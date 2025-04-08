@@ -12,7 +12,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatLabel } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltip } from '@angular/material/tooltip';
@@ -114,6 +114,9 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         consigneePostCode: null,
         lastEditor: null
     };
+    
+    initialSort: Sort = {active: '', direction: ''};
+    readonly ecmrType: EcmrType = EcmrType.ECMR;
 
     ngOnInit() {
         this.breakpointSubscription = this.breakpointObserver
@@ -124,6 +127,11 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
 
         const savedFilterRequest = this.ecmrService.getFilterRequest();
         if (savedFilterRequest) this.filterRequest = savedFilterRequest;
+
+        if(!this.isMobile){
+            const savedSort = this.ecmrService.getEcmrSort(this.ecmrType);
+            if (savedSort) this.initialSort = savedSort;
+        }
     }
 
     ngAfterViewInit() {
@@ -135,7 +143,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
 
     loadData(): Observable<EcmrPage> {
         const paginator = this.table.paginator
-        if (this.isMobile) {
+        if (this.isMobile || !this.table.sort?.active || !this.table.sort?.direction) {
             return this.loadingService.showLoaderUntilCompleted(this.ecmrService.getAllEcmr(this.filterRequest, EcmrType.ECMR, paginator.pageIndex, paginator.pageSize, 'creationDate', 'ASC'));
         } else {
             return this.loadingService.showLoaderUntilCompleted(this.ecmrService.getAllEcmr(this.filterRequest, EcmrType.ECMR, paginator.pageIndex, paginator.pageSize, this.table.sort.active, this.table.sort.direction.toUpperCase()));

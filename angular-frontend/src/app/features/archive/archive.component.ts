@@ -33,6 +33,7 @@ import { Router } from '@angular/router';
 import { EcmrType } from '../../core/models/EcmrType';
 import { LoadingService } from '../../core/services/loading.service';
 import { SnackbarService } from '../../core/services/snackbar.service';
+import { Sort } from '@angular/material/sort';
 
 @Component({
     selector: 'app-archive',
@@ -84,6 +85,9 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
         lastEditor: null
     };
 
+    initialSort: Sort = {active: '', direction: ''};
+    readonly ecmrType: EcmrType = EcmrType.ARCHIVED;
+
     constructor(public dialog: MatDialog, public snackbarService: SnackbarService, public ecmrService: EcmrService, private breakpointObserver: BreakpointObserver,
                 private translateService: TranslateService, protected ecmrActionService: EcmrActionService,private router: Router, private loadingService: LoadingService) {
     }
@@ -97,6 +101,11 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
         });
         const savedFilterRequest = this.ecmrService.getFilterRequest();
         if (savedFilterRequest) this.filterRequest = savedFilterRequest;
+
+        if(!this.isMobile){
+            const savedSort = this.ecmrService.getEcmrSort(this.ecmrType);
+            if (savedSort) this.initialSort = savedSort;
+        }
     }
 
     ngAfterViewInit() {
@@ -115,7 +124,7 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
 
     loadData(): Observable<EcmrPage> {
         const paginator = this.table.paginator
-        if (this.table.sort?.active) {
+        if (this.table.sort?.active && this.table.sort?.direction) {
             return this.loadingService.showLoaderUntilCompleted(this.ecmrService.getAllEcmr(this.filterRequest, EcmrType.ARCHIVED, paginator.pageIndex, paginator.pageSize, this.table.sort.active, this.table.sort.direction.toUpperCase()));
         } else {
             return this.loadingService.showLoaderUntilCompleted(this.ecmrService.getAllEcmr(this.filterRequest, EcmrType.ARCHIVED, paginator.pageIndex, paginator.pageSize, 'creationDate', 'ASC'));

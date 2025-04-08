@@ -61,7 +61,7 @@ describe('OverviewComponent', () => {
     let component: EcmrOverviewComponent;
     let fixture: ComponentFixture<EcmrOverviewComponent>;
 
-    const ecmrServiceSpy = jasmine.createSpyObj('EcmrService', ['getAllEcmr', 'getShowColumns', 'getDisplayedColumns', 'getFilterRequest']);
+    const ecmrServiceSpy = jasmine.createSpyObj('EcmrService', ['getAllEcmr', 'getShowColumns', 'getDisplayedColumns', 'getFilterRequest', 'getEcmrSort']);
 
     const testEcmr: Ecmr = {
         ecmrId: 'FhG-IML-504',
