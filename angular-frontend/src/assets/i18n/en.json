@@ -66,11 +66,6 @@
       "particulars": "Particulars",
       "title": "Cash on Delivery"
     },
-    "multi_consignee_shipment":{
-      "is_multi_consignee_shipment": "Multiple Consignees",
-      "multi_consignee_shipment_notice": "This shipment has multple consignees. Information about consignees can be found in the documents carried by the driver.",
-      "confirmation_message": "Are you sure you want to mark this eCMR as a multiple consignee shipment? All information in the consignee's fields will be lost."
-    },
     "consignee": {
       "city_name": "City Name",
       "country": "Country",
@@ -94,6 +89,8 @@
     "error_mandatory": "This field is required for signing.",
     "error_too_short": "Must be at least 2 characters long",
     "error_volume_min": "Must be greater than 0",
+    "eseal_confirmation": "Do you want to seal this ecmr with eSeal?",
+    "eseal_information": "This eCMR was signed with eSeal.",
     "established": {
       "in": "In",
       "on": "On"
@@ -110,6 +107,11 @@
     },
     "method_of_packing": {
       "type_text": "Type Text"
+    },
+    "multi_consignee_shipment": {
+      "confirmation_message": "Are you sure you want to mark this eCMR as a multiple consignee shipment? All information in the consignee\u0027s fields will be lost.",
+      "is_multi_consignee_shipment": "Multiple Consignees",
+      "multi_consignee_shipment_notice": "This shipment has multple consignees. Information about consignees can be found in the documents carried by the driver."
     },
     "nature_of_goods": {
       "identification_text": "Identification Text"
@@ -132,8 +134,8 @@
     "remarks": "Remarks",
     "reset_confirmation_message": "You are about to reset the eCMR, every field will be emptied. Continue?",
     "save_as_template": "Save as template",
-    "save_success": "eCMR saved successfully",
     "save_failure": "Could not save the eCMR",
+    "save_success": "eCMR saved successfully",
     "sender": {
       "city_name": "City Name",
       "country": "Country",
@@ -153,8 +155,6 @@
     "sign": "Sign",
     "sign_on_glass": "Sign on glass",
     "signature_successful": "Signature successful. eCMR Fields locked",
-    "eseal_confirmation": "Do you want to seal this ecmr with eSeal?",
-    "eseal_information": "This eCMR was signed with eSeal.",
     "special_agreements_sen_carr": {
       "special_agreements": "Special Agreements"
     },
@@ -220,22 +220,22 @@
       "volume": "Volume"
     }
   },
+  "ecmr_external_import": {
+    "ecmr_id": "eCMR ID",
+    "failure": "eCMR could not be imported.",
+    "failure_409": "An eCMR with this id already exists.",
+    "import": "Import",
+    "required_error": "This field is required.",
+    "share_token": "Share Token",
+    "success": "eCMR imported successfully.",
+    "title": "Import external eCMR",
+    "url": "URL"
+  },
   "ecmr_import": {
     "e_token": "E-Token",
     "import": "Import",
     "switch_camera": "Switch camera",
     "title": "Import eCMR"
-  },
-  "ecmr_external_import": {
-    "title": "Import external eCMR",
-    "import": "Import",
-    "success": "eCMR imported successfully.",
-    "failure": "eCMR could not be imported.",
-    "failure_409": "An eCMR with this id already exists.",
-    "required_error": "This field is required.",
-    "share_token": "Share Token",
-    "url": "URL",
-    "ecmr_id": "eCMR ID"
   },
   "ecmr_status": {
     "ARRIVED_AT_DESTINATION": "Arrived at destination",
@@ -287,6 +287,7 @@
   "group_overview": {
     "collapse_all": "Collapse all",
     "create_new": "Create new group",
+    "delete_bad_request": "A group that has subgroups or assigned persons cannot be deleted",
     "delete_confirm": "Are you sure you want to delete the group? All users and eCMRs are moved up one level.",
     "delete_group": "Delete group",
     "expand_all": "Expand all",
@@ -294,7 +295,6 @@
     "name": "Name",
     "search": "Search",
     "title": "Group management",
-    "delete_bad_request": "A group that has subgroups or assigned persons cannot be deleted",
     "tooltips": {
       "change_parent": "Change parent group",
       "create_new": "Create new group",
@@ -409,6 +409,7 @@
     "copy_qr": "Copy QR-Code",
     "download_qr": "Download QR-Code",
     "email": "E-Mail",
+    "error_400": "The eCMR could not be shared. Is it correctly signed?",
     "link_copied": "Link copied to clipboard",
     "no_qr_code_found": "No QR-Code found",
     "qr_copied": "QR-Code copied to clipboard",
@@ -418,8 +419,7 @@
     "shared_external": "Shared with external user",
     "shared_internal": "Shared with internal user in Group {{ translateValue }}",
     "title": "Share eCMR",
-    "user_has_no_group": "User has no group",
-    "error_400": "The eCMR could not be shared. Is it correctly signed?"
+    "user_has_no_group": "User has no group"
   },
   "signature": {
     "by": "By:",

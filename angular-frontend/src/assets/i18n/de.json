@@ -18,7 +18,6 @@
     "tan_message": "Tan wird in kürze per SMS zugestellt",
     "title": "Registrierung",
     "too_many_requests": "Es gab zu viele Versuche sich zu registrieren. Probieren Sie es in einer Stunde erneut."
-
   },
   "common": {
     "back": "Zurück",
@@ -67,11 +66,6 @@
       "particulars": "Angaben",
       "title": "Bargeld bei Lieferung"
     },
-    "multi_consignee_shipment":{
-      "is_multi_consignee_shipment": "Mehrere Empfänger",
-      "multi_consignee_shipment_notice": "Das ist eine Sammelsendung. Die Emfänger Daten können auf den vom Fahrer mitgeführten Papieren gefunden werden können.",
-      "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR als eine Sammelsendung kennzeichen wollen? Alle Informationen in den Empfängerfeldern werden gelöscht."
-    },
     "consignee": {
       "city_name": "Stadtname",
       "country": "Land",
@@ -95,6 +89,8 @@
     "error_mandatory": "Dieses Feld ist für die Signatur erforderlich.",
     "error_too_short": "Muss mindestens 2 Zeichen lang sein",
     "error_volume_min": "Muss größer als 0 sein",
+    "eseal_confirmation": "Möchten Sie diesen eCMR mit eSeal siegeln?",
+    "eseal_information": "Dieser eCMR wurde mit eSeal signiert.",
     "established": {
       "in": "In",
       "on": "Am"
@@ -111,6 +107,11 @@
     },
     "method_of_packing": {
       "type_text": "Art"
+    },
+    "multi_consignee_shipment": {
+      "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR als eine Sammelsendung kennzeichen wollen? Alle Informationen in den Empfängerfeldern werden gelöscht.",
+      "is_multi_consignee_shipment": "Mehrere Empfänger",
+      "multi_consignee_shipment_notice": "Das ist eine Sammelsendung. Die Emfänger Daten können auf den vom Fahrer mitgeführten Papieren gefunden werden können."
     },
     "nature_of_goods": {
       "identification_text": "Identifikationstext"
@@ -133,8 +134,8 @@
     "remarks": "Bemerkungen",
     "reset_confirmation_message": "Sie sind dabei den eCMR zurückzusetzen, dabei wird jedes Feld geleert. Fortfahren?",
     "save_as_template": "Speichern als Vorlage",
-    "save_success": "eCMR erfolgreich gespeichert",
     "save_failure": "eCMR konnte nicht gespeichert werden",
+    "save_success": "eCMR erfolgreich gespeichert",
     "sender": {
       "city_name": "Stadtname",
       "country": "Land",
@@ -154,8 +155,6 @@
     "sign": "Unterschreiben",
     "sign_on_glass": "Sign on glass",
     "signature_successful": "Unterschrift erfolgreich getätigt. eCMR Felder gesperrt",
-    "eseal_confirmation": "Möchten Sie diesen eCMR mit eSeal siegeln?",
-    "eseal_information": "Dieser eCMR wurde mit eSeal signiert.",
     "special_agreements_sen_carr": {
       "special_agreements": "Besondere Vereinbarungen"
     },
@@ -221,22 +220,22 @@
       "volume": "Volumen"
     }
   },
+  "ecmr_external_import": {
+    "ecmr_id": "eCMR ID",
+    "failure": "eCMR konnte nicht importiert werden.",
+    "failure_409": "Es existiert bereits ein eCMR mit dieser ID.",
+    "import": "Importieren",
+    "required_error": "Bitte füllen Sie dieses Pflichtfeld aus.",
+    "share_token": "Share Token",
+    "success": "eCMR wurde erfolgreich importiert.",
+    "title": "Externen eCMR importieren",
+    "url": "URL"
+  },
   "ecmr_import": {
     "e_token": "E-Token",
     "import": "Importieren",
     "switch_camera": "Kamera wechseln",
     "title": "eCMR importieren"
-  },
-  "ecmr_external_import": {
-    "title": "Externen eCMR importieren",
-    "import": "Importieren",
-    "success": "eCMR wurde erfolgreich importiert.",
-    "failure": "eCMR konnte nicht importiert werden.",
-    "failure_409": "Es existiert bereits ein eCMR mit dieser ID.",
-    "required_error": "Bitte füllen Sie dieses Pflichtfeld aus.",
-    "share_token": "Share Token",
-    "url": "URL",
-    "ecmr_id": "eCMR ID"
   },
   "ecmr_status": {
     "ARRIVED_AT_DESTINATION": "Am Zielort angekommen",
@@ -288,6 +287,7 @@
   "group_overview": {
     "collapse_all": "Alle einklappen",
     "create_new": "Neue Gruppe erstellen",
+    "delete_bad_request": "Eine Gruppe die Untergruppen oder zugewiesene Personen hat kann nicht gelöscht werden",
     "delete_confirm": "Sind Sie sich sicher, dass Sie die Gruppe löschen möchten? Alle Benutzer und eCMRs werden eine Ebene höher gruppiert.",
     "delete_group": "Gruppe löschen",
     "expand_all": "Alle ausklappen",
@@ -295,7 +295,6 @@
     "name": "Name",
     "search": "Suchen",
     "title": "Gruppenverwaltung",
-    "delete_bad_request": "Eine Gruppe die Untergruppen oder zugewiesene Personen hat kann nicht gelöscht werden",
     "tooltips": {
       "change_parent": "Wechsel übergeordnete Gruppe",
       "create_new": "Erstelle neue Gruppe",
@@ -410,6 +409,7 @@
     "copy_qr": "QR-Code kopieren",
     "download_qr": "QR-Code downloaden",
     "email": "E-Mail",
+    "error_400": "Der eCMR konnte nicht geteilt werden. Ist er korrekt signiert?",
     "link_copied": "Link wurde in die Zwischenablage kopiert",
     "no_qr_code_found": "Kein QR-Code gefunden",
     "qr_copied": "QR-Code wurde in die Zwischenablage kopiert",
@@ -419,8 +419,7 @@
     "shared_external": "Mit externem Benutzer geteilt",
     "shared_internal": "Mit internem Benutzer in Gruppe {{ translateValue }} geteilt.",
     "title": "eCMR Teilen",
-    "user_has_no_group": "Benutzer hat keine Gruppe",
-    "error_400": "Der eCMR konnte nicht geteilt werden. Ist er korrekt signiert?"
+    "user_has_no_group": "Benutzer hat keine Gruppe"
   },
   "signature": {
     "by": "Von:",
