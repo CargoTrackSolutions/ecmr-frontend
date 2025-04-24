@@ -521,7 +521,7 @@
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.carrier_information.license_plate" | translate }}</mat-label>
                                 <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierLicensePlate"
-                                       [minlength]="2" [maxlength]="15">
+                                       [minlength]="2" [maxlength]="30">
                                 @if (ecmrConsignmentFormGroup.controls.carrierInformation.get('carrierLicensePlate')?.hasError('mandatoryForSigning')) {
                                     <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                 }
