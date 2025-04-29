@@ -358,6 +358,7 @@
     "import": "Import",
     "move_to_archive_success": "eCMR successfully archived",
     "search": "Search",
+    "filter": "Filter by:",
     "table_header": {
       "carrier_name": "Carrier Name",
       "carrier_post_code": "Carrier Post Code",

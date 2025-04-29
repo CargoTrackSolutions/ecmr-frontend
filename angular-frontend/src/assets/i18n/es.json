@@ -358,6 +358,7 @@
     "import": "Importar",
     "move_to_archive_success": "eCMR archivado correctamente",
     "search": "Buscar",
+    "filter": "Filtrar por:",
     "table_header": {
       "carrier_name": "Nombre del transportista",
       "carrier_post_code": "Código postal del transportista",

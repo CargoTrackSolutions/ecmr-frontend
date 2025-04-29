@@ -340,6 +340,7 @@ export class EcmrTableComponent implements OnInit {
 
     protected readonly JSON = JSON;
     protected readonly EcmrStatus = EcmrStatus;
+    protected readonly allEcmrStatus: EcmrStatus[] = Object.values(EcmrStatus);
     protected readonly EcmrTransportType = EcmrTransportType;
 
     closeColumnSelection() {
