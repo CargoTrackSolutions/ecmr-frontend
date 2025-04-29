@@ -21,6 +21,7 @@ import { EcmrTransportType } from '../../core/models/EcmrTransportType';
 import {GroupFlat} from "../../core/models/GroupFlat";
 import {Observable} from "rxjs";
 import { Sort } from '@angular/material/sort';
+import { EcmrShareWithGroup } from '../../core/models/EcmrShareWithGroup';
 
 @Injectable({
     providedIn: 'root'
@@ -142,6 +143,10 @@ export class EcmrService {
     shareEcmr(ecmrShare: EcmrShare, ecmrId: string) {
         return this.http.patch<EcmrShareResponse>(`${environment.backendUrl}/ecmr/${ecmrId}/share`, ecmrShare);
     }
+
+    shareEcmrWithGroup(ecmrShareWithGroup: EcmrShareWithGroup, ecmrId: string) {
+        return this.http.patch<EcmrShareResponse>(`${environment.backendUrl}/ecmr/${ecmrId}/shareWithGroup`, ecmrShareWithGroup);
+    }    
 
     shareEcmrExternal( ecmrShare: EcmrShare, ecmrId: string) {
       const params = new HttpParams()

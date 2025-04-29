@@ -22,24 +22,69 @@
 
         @if (currentRole !== EcmrRole.Reader) {
             <div class="d-flex w-100 flex-wrap flex-column align-items-center mt-2">
-                <mat-form-field class="w-100">
-                    <mat-label>{{ 'share_ecmr_dialog.email' | translate }}</mat-label>
-                    <mat-icon matIconPrefix>email</mat-icon>
-                    <input matInput [formControl]="emailFormControl" [matAutocomplete]="emailAutoComplete">
-                    <mat-autocomplete #emailAutoComplete="matAutocomplete">
-                        @for (user of filteredUserList; track user) {
-                            <mat-option [value]="user">{{ user }}</mat-option>
-                        }
-                    </mat-autocomplete>
-                    @if (emailFormControl.hasError('required')) {
+                <mat-radio-group [(ngModel)]="selectedShareTargetType" (change)="onChangeShareTargetType($event)">
+                    <mat-radio-button [value]="ShareTargetType.InternalUser">{{ 'share_ecmr_dialog.with_internal' | translate }}</mat-radio-button>
+                    <mat-radio-button [value]="ShareTargetType.ExternalUser" *ngIf="!isExternalUser">{{ 'share_ecmr_dialog.with_external' | translate }}</mat-radio-button>
+                    <mat-radio-button [value]="ShareTargetType.GuestAccess" *ngIf="currentRole === EcmrRole.Carrier">{{ 'share_ecmr_dialog.with_guest' | translate }}</mat-radio-button>
+                </mat-radio-group>
+              </div>
+        }
+
+        @if (currentRole !== EcmrRole.Reader && selectedShareTargetType !== ShareTargetType.GuestAccess) {
+            <div class="d-flex w-100 flex-wrap flex-column align-items-center mt-2"> 
+                <mat-form-field class="w-100">        
+                    @if (selectedShareTargetType === ShareTargetType.InternalUser && canSelectSearch) {                   
+                        <button mat-button matPrefix [matMenuTriggerFor]="menu" (click)="preventInputFocusOnMenuClick($event)"> 
+                            <mat-icon>{{ selectedSearch.icon }}</mat-icon>
+                            <mat-icon>arrow_drop_down</mat-icon>
+                        </button>
+                    }@else{
+                        <mat-icon matIconPrefix>email</mat-icon>
+                    }
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="selectSearchMode(SearchMode.EMAIL)">
+                            <mat-icon>{{ searchOptionsMap.Email.icon }}</mat-icon>
+                            {{ searchOptionsMap.Email.labelKey| translate }}
+                        </button>
+                        <button mat-menu-item (click)="selectSearchMode(SearchMode.GROUP)">
+                            <mat-icon>{{ searchOptionsMap.Group.icon }}</mat-icon>
+                            {{ searchOptionsMap.Group.labelKey| translate }}
+                        </button>
+                    </mat-menu>
+    
+                    <mat-label>
+                        {{ selectedSearch.labelKey| translate }}
+                    </mat-label>
+                        
+                    @if(selectedSearch.mode === SearchMode.EMAIL) {                                       
+                        <input matInput [formControl]="emailFormControl" [matAutocomplete]="emailAutoComplete">
+                        <mat-autocomplete #emailAutoComplete="matAutocomplete">                       
+                            @for (user of filteredUserList; track user) {
+                                <mat-option [value]="user">{{ user }}</mat-option>
+                            }
+                        </mat-autocomplete>
+                    } @else {
+                        <input matInput [formControl]="groupFormControl" [matAutocomplete]="groupAutoComplete">
+                        <mat-autocomplete #groupAutoComplete="matAutocomplete" [displayWith]="displayGroupFn">                       
+                            @for (group of filteredGroupList; track group) {
+                                <mat-option [value]="group">{{ group.name}} <span class="description ms-1">{{ group.description }}</span></mat-option>
+                            }
+                        </mat-autocomplete> 
+                        <span class="description ms-1">{{getSelectedGroupOption()?.description}}</span>                         
+                    }
+
+                    @if ((selectedSearch.mode === SearchMode.EMAIL && emailFormControl.hasError('required') ) 
+                            || (selectedSearch.mode === SearchMode.GROUP && groupFormControl.hasError('required'))) {
                         <mat-error>{{ "error.required" | translate }}</mat-error>
                     }
                 </mat-form-field>
                 <button mat-flat-button color="primary" class="w-100" (click)="share()">{{ 'common.share' | translate }}</button>
             </div>
         }
-        @if (currentRole === EcmrRole.Carrier || currentRole === EcmrRole.Reader) {
+        @if ((currentRole === EcmrRole.Carrier && selectedShareTargetType === ShareTargetType.GuestAccess) 
+                    || currentRole === EcmrRole.Reader) {
             <div>
+                <!--
                 @if (currentRole === EcmrRole.Carrier) {
                     <div class="w-100 divide-container d-flex flex-row gap-3 align-items-center">
                         <div class="divider flex-grow-1"></div>
@@ -47,6 +92,7 @@
                         <div class="divider flex-grow-1"></div>
                     </div>
                 }
+               -->
                 <div class="d-flex w-100 justify-content-center">
                     <qrcode #qrcodeElement
                             [qrdata]="shareString"

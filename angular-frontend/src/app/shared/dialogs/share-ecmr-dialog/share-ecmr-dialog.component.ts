@@ -30,6 +30,25 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { environment } from '../../../../environments/environment';
 import { ExternalUserService } from '../../../features/ecmr-editor/ecmr-editor-service/external-user.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule} from '@angular/forms';
+import { ShareTargetType } from '../../../core/enums/ShareTargetType';
+import { MatMenuModule} from '@angular/material/menu';
+import { MatSelectModule} from '@angular/material/select';
+import { GroupService } from '../../../features/group/group.service';
+import { GroupFlat } from '../../../core/models/GroupFlat';
+import { EcmrShareWithGroup } from '../../../core/models/EcmrShareWithGroup';
+
+export enum SearchMode {
+    EMAIL = 'Email',
+    GROUP = 'Group'
+}
+
+interface SearchConfig {
+    mode: SearchMode;
+    icon: string;
+    labelKey: string;
+}
 
 @Component({
     selector: 'app-share-ecmr-dialog',
@@ -53,6 +72,10 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
         MatAutocompleteTrigger,
         MatOption,
         MatTooltip,
+        MatRadioModule,
+        FormsModule,
+        MatMenuModule,
+        MatSelectModule,
     ],
     templateUrl: './share-ecmr-dialog.component.html',
     styleUrl: './share-ecmr-dialog.component.scss'
@@ -60,6 +83,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 export class ShareEcmrDialogComponent implements OnInit {
 
     emailFormControl = new FormControl<string>('', Validators.required)
+    groupFormControl = new FormControl<string | GroupFlat>('', Validators.required)
     protected readonly EcmrRole = EcmrRole;
 
     @ViewChild('qrcodeElement', {static: true}) qrcodeElement: QRCodeComponent;
@@ -70,6 +94,20 @@ export class ShareEcmrDialogComponent implements OnInit {
 
     userList: string[] = [];
     filteredUserList: string[] = [];
+    groupList: GroupFlat[] = [];  
+    filteredGroupList: GroupFlat[] = [];
+
+    ShareTargetType = ShareTargetType;
+    selectedShareTargetType = ShareTargetType.InternalUser;
+
+    readonly searchOptionsMap: { [key in SearchMode]: SearchConfig } = {
+        [SearchMode.EMAIL]: {mode: SearchMode.EMAIL, icon: 'email', labelKey: 'share_ecmr_dialog.email'},
+        [SearchMode.GROUP]: {mode: SearchMode.GROUP, icon: 'groups', labelKey: 'share_ecmr_dialog.group'},
+  
+    };  
+    SearchMode = SearchMode;
+    selectedSearch = this.searchOptionsMap.Email;    
+    canSelectSearch = false;    
 
     carrierShareString = `${location.origin}/carrier-registration`;
     readerShareString = `${environment.backendUrl}/anonymous/ecmr`
@@ -89,7 +127,8 @@ export class ShareEcmrDialogComponent implements OnInit {
         private ecmrService: EcmrService,
         private breakpointObserver: BreakpointObserver,
         private userService: UserService,
-        private externalUserService: ExternalUserService
+        private externalUserService: ExternalUserService,
+        private groupService: GroupService,
     ) {
         this.breakpointSubscription = this.breakpointObserver
             .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium])
@@ -112,6 +151,10 @@ export class ShareEcmrDialogComponent implements OnInit {
                 this.userService.getAllUserMail().subscribe(userResult => {
                     this.userList = userResult;
                 })
+                this.groupService.getAllGroupsAsFlatList(false).subscribe(groupResult => {
+                    this.groupList = groupResult;
+                    this.canSelectSearch = this.groupList.length > 0;
+                })             
             }
         }
     }
@@ -126,23 +169,60 @@ export class ShareEcmrDialogComponent implements OnInit {
             .subscribe(filteredUsers => {
                 this.filteredUserList = filteredUsers;
             });
+        
+        this.filteredGroupList = this.groupList;        
+        this.groupFormControl.valueChanges
+            .pipe(
+                startWith(''),
+                map(value => this._filterGroups(value!))
+            )
+            .subscribe(filteredGroups => {
+                this.filteredGroupList = filteredGroups;                
+            });
+    }
+
+    preventInputFocusOnMenuClick(event: MouseEvent) {
+        event.stopPropagation();
     }
 
     private _filter(value: string): string[] {
         const filterValue = value.toLowerCase();
 
-        return this.userList.filter(mail =>
-            mail.toLowerCase().includes(filterValue)
-        );
+        if(this.selectedShareTargetType === ShareTargetType.InternalUser){
+            return this.userList.filter(mail =>
+                mail.toLowerCase().includes(filterValue)
+            );
+        } else {
+            return [];
+        }
+    }
+
+    private _filterGroups(value: string | GroupFlat): GroupFlat[] {
+        const filterValue = (typeof value === 'string' ? value : value?.name).toLowerCase();
+        
+        if(this.selectedShareTargetType === ShareTargetType.InternalUser){
+            return this.groupList.filter(group =>
+                group.name.toLowerCase().includes(filterValue)
+                || group.description?.toLocaleLowerCase().includes(filterValue)
+            );
+        } else {
+            return [];
+        }
+    }
+
+    displayGroupFn(group: GroupFlat): string {
+        return group && group.name ? group.name : '';
+    }
+
+    getSelectedGroupOption() : GroupFlat | null{
+        return (this.groupFormControl.value && typeof this.groupFormControl.value !== 'string') ?
+            this.groupFormControl.value : null
     }
 
     share() {
-        if (this.emailFormControl.valid && this.emailFormControl.value && this.currentRole && this.ecmr?.ecmrId) {
-            const ecmrShare: EcmrShare = {
-                role: this.currentRole,
-                email: this.emailFormControl.value
-            };
-            (this.isExternalUser ? this.externalUserService.shareEcmr(ecmrShare, this.ecmr.ecmrId, this.userToken, this.tan) : this.ecmrService.shareEcmrExternal(ecmrShare, this.ecmr.ecmrId)).pipe(
+        const shareResult$ = (this.selectedSearch.mode === SearchMode.EMAIL ? this.shareByEmail() : this.shareByGroup());
+        if(shareResult$){
+            shareResult$.pipe(
                 catchError(err => {
                     console.error(err);
                     if (err.status === 501) {
@@ -173,6 +253,86 @@ export class ShareEcmrDialogComponent implements OnInit {
                     }
                 }
             })
+        }
+    }
+
+    private shareByEmail() {       
+        if (this.emailFormControl.valid && this.emailFormControl.value && this.currentRole && this.ecmr?.ecmrId) {
+            const ecmrShare: EcmrShare = {
+                role: this.currentRole,
+                email: this.emailFormControl.value
+            };
+
+            if(this.isExternalUser){
+                return this.externalUserService.shareEcmr(ecmrShare, this.ecmr.ecmrId, this.userToken, this.tan);
+            } else {
+                switch (this.selectedShareTargetType){
+                    case ShareTargetType.InternalUser:
+                        return this.shareByEmailToInternalUser(ecmrShare, this.ecmr.ecmrId);
+                    case ShareTargetType.ExternalUser:
+                        return this.shareByEmailToExternalUser(ecmrShare, this.ecmr.ecmrId);
+                    default:
+                        return null;
+                }
+            }
+        } else {
+            return null;
+        }
+    }
+    private shareByEmailToInternalUser(ecmrShare: EcmrShare, ecmrId: string) {
+        if(this.userList.includes(ecmrShare.email)) {
+            return this.ecmrService.shareEcmr(ecmrShare, ecmrId);
+        } else {
+            this.snackBarService.openInfoSnackbar('share_ecmr_dialog.no_user_found');
+            return null;
+        }
+    }
+
+    private shareByEmailToExternalUser(ecmrShare: EcmrShare, ecmrId: string) {
+        if(this.userList.includes(ecmrShare.email)) {
+            this.snackBarService.openInfoSnackbar('share_ecmr_dialog.internal_user_found');
+            return null;
+        }
+        return this.ecmrService.shareEcmrExternal(ecmrShare, ecmrId);
+    }
+
+    private shareByGroup() {        
+        if (this.groupFormControl.valid && this.groupFormControl.value && this.currentRole && this.ecmr?.ecmrId) {
+            if(this.isExternalUser) { // not implemented
+                return null;
+            }
+          
+            const selectedGroupOption = this.getSelectedGroupOption();
+            let groupId: number;
+
+            if (selectedGroupOption) {
+                const anotherGroupWithThesSameNameAndDescription = this.groupList.find( group => group.name === selectedGroupOption.name
+                        && group.id !== selectedGroupOption.id && group.description === selectedGroupOption.description);
+                if(anotherGroupWithThesSameNameAndDescription) {
+                    this.snackBarService.openErrorSnackbar('share_ecmr_dialog.group_ambigous');
+                    return null;
+                }
+                groupId = selectedGroupOption.id;
+            } else { // no group selected, only group name entered
+                const matchingGroups = this.groupList.filter(group => group.name === this.groupFormControl.value);
+                if (matchingGroups.length === 1) {
+                    groupId = matchingGroups[0].id;
+                } else if (matchingGroups.length > 1) {
+                    this.snackBarService.openInfoSnackbar('share_ecmr_dialog.select_one_group');
+                    return null;
+                } else {
+                    this.snackBarService.openErrorSnackbar('share_ecmr_dialog.no_group_found');
+                    return null;
+                }
+            }
+
+            const ecmrShareWithGroup: EcmrShareWithGroup = {
+                role: this.currentRole,
+                groupId: groupId
+            };           
+            return this.ecmrService.shareEcmrWithGroup(ecmrShareWithGroup, this.ecmr.ecmrId);
+        } else {
+            return null;
         }
     }
 
@@ -225,6 +385,9 @@ export class ShareEcmrDialogComponent implements OnInit {
                     `${this.readerShareString}/${this.ecmr.ecmrId}/share-pdf?shareToken=${this.ecmrToken}`
             })
         }
+        if (this.selectedShareTargetType === this.ShareTargetType.GuestAccess && this.currentRole !== EcmrRole.Carrier) {
+            this.selectedShareTargetType = this.ShareTargetType.InternalUser;
+        }
 
     }
 
@@ -237,5 +400,19 @@ export class ShareEcmrDialogComponent implements OnInit {
 
     closeDialog() {
         this.dialogRef.close()
+    }
+
+    selectSearchMode(mode: SearchMode): void {
+        this.selectedSearch = this.searchOptionsMap[mode];
+    }
+
+    onChangeShareTargetType(event: any) {
+        this.selectedShareTargetType = event.value;
+        if(this.selectedShareTargetType === ShareTargetType.ExternalUser) {
+            this.selectedSearch = this.searchOptionsMap[SearchMode.EMAIL];
+        }
+        if(this.selectedShareTargetType !== ShareTargetType.InternalUser){
+            this.filteredUserList = [];
+        }
     }
 }
