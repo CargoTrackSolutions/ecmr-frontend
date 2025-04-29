@@ -76,7 +76,7 @@ import {UserRole} from '../../core/enums/UserRole';
 import {UserService} from '../../shared/services/user.service';
 import {SealModel} from "../../core/models/SealModel";
 import {SignatureType} from "../../core/models/SignatureType";
-import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 export enum EditorMode {
     ECMR_EDIT = 'ECMR_EDIT',
@@ -108,8 +108,7 @@ export enum EditorMode {
         MatSelectModule,
         DynamicDisableControlDirective,
         NgClass,
-        EcmrStatusComponent,
-        MatCheckbox
+        EcmrStatusComponent
     ],
     providers: [DatePipe, DateTimeService],
     templateUrl: './ecmr-editor.component.html',
@@ -373,7 +372,7 @@ export class EcmrEditorComponent implements OnInit {
     ngOnInit() {
         this.breakpointSubscription = this.breakpointObserver
           .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, this.alignTwoColumnsBreakpoint])
-          .subscribe((result) => {
+          .subscribe(() => {
              this.isMobile = this.breakpointObserver.isMatched([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium]);
              this.isPhone = this.breakpointObserver.isMatched(Breakpoints.XSmall);
              this.alignSenderAndConsigneeFields = this.breakpointObserver.isMatched(this.alignTwoColumnsBreakpoint);
@@ -1060,7 +1059,7 @@ export function phoneNumberValidator(): ValidatorFn {
             return null;
         }
 
-        const phoneRegex = /^(\+)?[0-9]*$/;
+        const phoneRegex = /^(\+)?(?=.*\d)[0-9\s\-().]+$/;
         const valid = phoneRegex.test(control.value);
         return valid ? null : {invalidPhoneNumber: true};
     };

@@ -8,18 +8,15 @@
 
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
-import { MatDrawerContent } from '@angular/material/sidenav';
 import { MatButton, MatIconButton } from '@angular/material/button';
-import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { AsyncPipe, KeyValuePipe, NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, KeyValuePipe, NgClass, NgIf } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { TranslateModule } from '@ngx-translate/core';
-import { DynamicDisableControlDirective } from '../../ecmr-editor/dynamic-disable-control.directive';
 import { CountryCode } from '../../../core/enums/CountryCode';
 import { GroupService } from '../../group/group.service';
 import { catchError, filter, map, Observable, of, startWith } from 'rxjs';
@@ -47,17 +44,13 @@ import { AuthService } from '../../../core/services/auth.service';
     selector: 'app-edit-user-dialog',
     standalone: true,
     imports: [
-        MatDrawerContent,
         MatDialogActions,
         MatDialogContent,
         MatDialogTitle,
         MatButton,
-        MatCard,
-        MatCardContent,
         MatFormField,
         MatInput,
         ReactiveFormsModule,
-        NgForOf,
         NgIf,
         MatLabel,
         MatIcon,
@@ -66,7 +59,6 @@ import { AuthService } from '../../../core/services/auth.service';
         MatAutocomplete,
         MatAutocompleteTrigger,
         TranslateModule,
-        DynamicDisableControlDirective,
         AsyncPipe,
         NgClass,
         MatIconButton,
@@ -76,8 +68,7 @@ import { AuthService } from '../../../core/services/auth.service';
         MatTreeNode,
         MatTreeNodeDef,
         MatTreeNodePadding,
-        MatTreeNodeToggle,
-        NgTemplateOutlet
+        MatTreeNodeToggle
     ],
     templateUrl: './edit-user-dialog.component.html',
     styleUrl: './edit-user-dialog.component.scss',
@@ -272,7 +263,7 @@ export function phoneNumberValidator(): ValidatorFn {
             return null;
         }
 
-        const phoneRegex = /^(\+)?[0-9]*$/;
+        const phoneRegex = /^(\+)?(?=.*\d)[0-9\s\-().]+$/;
         const valid = phoneRegex.test(control.value);
         return valid ? null : { invalidPhoneNumber: true };
     };

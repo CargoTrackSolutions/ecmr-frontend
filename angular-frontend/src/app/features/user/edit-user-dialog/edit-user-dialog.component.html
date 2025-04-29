@@ -31,7 +31,7 @@
             </mat-form-field>
             <mat-form-field class="col">
                 <mat-label>{{ "user.phone" | translate }}</mat-label>
-                <input matInput formControlName="phone"/>
+                <input matInput formControlName="phone" [maxlength]="32"/>
                 @if (userFormGroup.controls.phone.hasError('invalidPhoneNumber')) {
                     <mat-error>{{ "common.errors.invalid_phone" | translate }}</mat-error>
                 }
