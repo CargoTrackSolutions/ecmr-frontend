@@ -117,7 +117,7 @@ a{
 }
 
 .language-picker.extended {
-  height: 320px;
+  height: calc(40px * 8);;
 }
 
 .language-picker div:not(.selected-language) {
