@@ -1,0 +1,475 @@
+{
+  "archive": {
+    "confirmation_message": "Opravdu chcete znovu aktivovat tento eCMR?",
+    "move_to_overview_success": "eCMR úspěšně znovu aktivován",
+    "search": "Vyhledávání",
+    "title": "Archiv"
+  },
+  "carrier_registration": {
+    "authenticate": "Ověřit",
+    "authentication": "Autentizace",
+    "company": "Společnost",
+    "first_name": "Křestní jméno",
+    "last_name": "Příjmení",
+    "phone": "Telefon",
+    "register": "Rejstřík",
+    "registered_user": "Jako registrovaný uživatel nemáte přístup k registraci operátora.",
+    "tan": "Opálení",
+    "tan_message": "Tan bude brzy zaslána SMS",
+    "title": "Registrace",
+    "too_many_requests": "Bylo příliš mnoho pokusů o registraci. Zkuste to znovu za hodinu."
+  },
+  "common": {
+    "back": "Zadní",
+    "cancel": "Zrušit",
+    "close": "Blízko",
+    "copy": "Kopie",
+    "edit": "Upravit",
+    "errors": {
+      "invalid_countryCode": "Neplatný kód země",
+      "invalid_email": "Neplatný email",
+      "invalid_phone": "Neplatný telefon",
+      "required": "Požadovaný"
+    },
+    "reset": "Resetovat",
+    "save": "Uložit",
+    "search": "Vyhledávání",
+    "share": "Podíl"
+  },
+  "confirmation": {
+    "accept": "Přijmout",
+    "cancel": "Zrušit",
+    "checkbox": "Vytvořte upravitelnou kopii tohoto eCMR.",
+    "title": "Potvrzení"
+  },
+  "ecmr_editor": {
+    "add_item": "Přidat položku",
+    "carrier_information": {
+      "city_name": "Název města",
+      "country": "Země",
+      "email": "E-mail",
+      "license_plate": "SPZ",
+      "name": "Jméno",
+      "person_name": "Jméno osoby",
+      "phone": "Telefon",
+      "post_code": "PSČ",
+      "region": "Kraj",
+      "street_name": "Název ulice"
+    },
+    "carrier_signature": {
+      "signature": "Podpis"
+    },
+    "carriers_reservations": {
+      "reservation_and_observation": "Rezervace a pozorování"
+    },
+    "cash_on_delivery": {
+      "particulars": "Podrobnosti",
+      "title": "Dobírka"
+    },
+    "consignee": {
+      "city_name": "Název města",
+      "country": "Země",
+      "email": "E-mail",
+      "name": "Jméno",
+      "person_name": "Jméno osoby",
+      "phone": "Telefon",
+      "post_code": "PSČ",
+      "street_name": "Název ulice"
+    },
+    "create_new_title": "Vytvořit nový",
+    "delivery_of_the_goods": {
+      "opening_hours": "Otevírací doba",
+      "place": "Místo"
+    },
+    "documents_handed_to_carrier": {
+      "remarks": "Poznámky"
+    },
+    "edit_title": "Upravit",
+    "email": "E-mail",
+    "error_mandatory": "Toto pole je povinné pro podpis.",
+    "error_too_short": "Musí mít alespoň 2 znaky",
+    "error_volume_min": "Musí být větší než 0",
+    "eseal_confirmation": "Chcete toto ecmr zapečetit pomocí eSeal?",
+    "eseal_information": "Toto eCMR bylo podepsáno s eSeal.",
+    "established": {
+      "in": "V",
+      "on": "Na"
+    },
+    "gross_weight_in_kg": {
+      "gross_weight": "Hrubá hmotnost"
+    },
+    "items": "Položky",
+    "load_from_template": "Načíst ze šablony",
+    "mandatory_missing": "Vyplňte prosím všechna povinná pole.",
+    "marks_and_nos": {
+      "barcode_number": "Číslo čárového kódu",
+      "marking_text": "Označení textu"
+    },
+    "method_of_packing": {
+      "type_text": "Zadejte text"
+    },
+    "multi_consignee_shipment": {
+      "confirmation_message": "Opravdu chcete tento eCMR označit jako zásilku s více příjemci? Všechny informace v polích příjemce budou ztraceny.",
+      "is_multi_consignee_shipment": "Více příjemců",
+      "multi_consignee_shipment_notice": "Tato zásilka má více příjemců. Informace o příjemcích naleznete v dokumentech u řidiče."
+    },
+    "nature_of_goods": {
+      "identification_text": "Identifikační text"
+    },
+    "non_contractual_part_reserved_for_the_carrier": "Mimosmluvní část vyhrazena dopravci",
+    "number_of_packages": {
+      "item_quantity": "Množství položky"
+    },
+    "other_useful_particulars": {
+      "particulars": "Podrobnosti"
+    },
+    "phone": "Telefon",
+    "receival_signature": {
+      "date": "Datum",
+      "place": "Místo",
+      "remarks": "Poznámky příjemce",
+      "signature": "Podpis"
+    },
+    "reference_id": "Referenční ID",
+    "remarks": "Poznámky",
+    "reset_confirmation_message": "Chystáte se resetovat eCMR, každé pole bude prázdné. Pokračovat?",
+    "save_as_template": "Uložit jako šablonu",
+    "save_failure": "Nelze uložit eCMR",
+    "save_success": "eCMR úspěšně uložen",
+    "sender": {
+      "city_name": "Název města",
+      "country": "Země",
+      "email": "E-mail",
+      "name": "Jméno",
+      "person_name": "Jméno osoby",
+      "phone": "Telefon",
+      "post_code": "PSČ",
+      "street_name": "Název ulice"
+    },
+    "sender_signature": {
+      "signature": "Podpis"
+    },
+    "senders_instruction": {
+      "description": "Popis"
+    },
+    "sign": "Znamení",
+    "sign_on_glass": "Podepsat na skle",
+    "signature_successful": "Podpis byl úspěšný. Pole eCMR jsou uzamčena",
+    "special_agreements_sen_carr": {
+      "special_agreements": "Zvláštní dohody"
+    },
+    "successive_carrier_information": {
+      "city_name": "Název města",
+      "country": "Země",
+      "date": "Datum",
+      "email": "E-mail",
+      "name": "Název společnosti",
+      "person_name": "Jméno osoby",
+      "phone": "Telefon",
+      "post_code": "PSČ",
+      "region": "Kraj",
+      "signature": "Podpis",
+      "street_name": "Název ulice"
+    },
+    "taking_over_the_goods": {
+      "place": "Místo",
+      "time_of_arrival": "Čas příjezdu",
+      "time_of_departure": "Čas odjezdu"
+    },
+    "template": {
+      "create_new_title": "Vytvořit šablonu",
+      "edit_title": "Upravit šablonu"
+    },
+    "template_name": "Název šablony",
+    "template_save_success": "Šablona byla úspěšně uložena",
+    "title_1": "1. Odesílatel (jméno, adresa, země)",
+    "title_10": "10. Značky a čísla",
+    "title_11": "11. Počet balení",
+    "title_12": "12. Způsob balení",
+    "title_13": "13. Povaha zboží",
+    "title_14": "14. Hrubá hmotnost v kg",
+    "title_15": "15. Objem v m³",
+    "title_16": "16. Zvláštní ujednání mezi odesílatelem a dopravcem",
+    "title_17": "17. K zaplacení",
+    "title_18": "18. Další užitečné údaje",
+    "title_19": "19. Dobírka",
+    "title_2": "2. Příjemce (jméno, adresa, země)",
+    "title_20": "20. Na tuto přepravu se, bez ohledu na jakékoli opačné ustanovení, vztahuje Úmluva o smlouvě o mezinárodní silniční přepravě zboží",
+    "title_21": "21. Založeno",
+    "title_22": "22. Podpis nebo razítko odesílatele",
+    "title_23": "23. Podpis nebo razítko dopravce",
+    "title_24": "24. Přijaté zboží",
+    "title_24_signature": "Podpis nebo razítko příjemce",
+    "title_3": "3. Převzetí Zboží",
+    "title_4": "4. Dodání Zboží",
+    "title_5": "5. Pokyny odesílatele",
+    "title_6": "6. Přepravce (jméno, adresa, země, další údaje)",
+    "title_7": "7. Postupné nosiče",
+    "title_8": "8. Výhrady a připomínky dopravce k převzetí zboží",
+    "title_9": "9. Dokumenty předané dopravci odesílatelem",
+    "to_be_paid_by": {
+      "carriage_charges": "Poplatky za přepravu",
+      "currency": "Měna",
+      "custom_duties_charges": "Celní poplatky",
+      "other_charges": "Jiné poplatky",
+      "payer": "Plátce",
+      "supplementary_charges": "Dodatečné poplatky"
+    },
+    "user_guides_and_docs": "Uživatelská příručka a dokumenty",
+    "volume_in_m3": {
+      "volume": "Objem"
+    }
+  },
+  "ecmr_external_import": {
+    "ecmr_id": "eCMR ID",
+    "failure": "eCMR nebylo možné importovat.",
+    "failure_409": "eCMR s tímto ID již existuje.",
+    "import": "Importovat",
+    "required_error": "Toto pole je povinné.",
+    "share_token": "Sdílet token",
+    "success": "eCMR úspěšně importován.",
+    "title": "Importujte externí eCMR",
+    "url": "URL"
+  },
+  "ecmr_import": {
+    "e_token": "E-token",
+    "import": "Importovat",
+    "switch_camera": "Přepnout fotoaparát",
+    "title": "Importujte eCMR"
+  },
+  "ecmr_status": {
+    "ARRIVED_AT_DESTINATION": "Dorazil do cíle",
+    "IN_TRANSPORT": "V dopravě",
+    "LOADING": "Načítání",
+    "NEW": "Nový"
+  },
+  "edit_user_dialog": {
+    "already_exists": "Uživatel s e-mailem \u0027{{ translateValue }}\u0027 již existuje",
+    "create": "Vytvořit uživatele",
+    "edit": "Upravit uživatele",
+    "error_saving": "Chyba při ukládání uživatele!",
+    "group": "Skupina",
+    "location": "Umístění",
+    "locations_and_groups": "Místa a skupiny",
+    "successfully_created": "Uživatel byl úspěšně vytvořen.",
+    "successfully_saved": "Uživatel byl úspěšně uložen.",
+    "user_information": "Informace o uživateli"
+  },
+  "error": {
+    "default_group_required": "Musí být zvýhodněna alespoň jedna skupina",
+    "ecmr_not_found": "Ecmr nebyl nalezen",
+    "not_implemented": "Neimplementováno",
+    "pattern": "Neplatné číslo",
+    "required": "Pole nesmí být prázdné"
+  },
+  "general": {
+    "apply_button": "Použít",
+    "snackbar_action": "Blízko",
+    "snackbar_error": "Došlo k chybě. Zkuste to znovu později."
+  },
+  "group_change_parent": {
+    "parent_group": "Nadřazená skupina",
+    "title": "Změnit nadřazenou skupinu"
+  },
+  "group_detail": {
+    "remove_user": "Odebrat uživatele",
+    "title": "Správa uživatelů"
+  },
+  "group_edit_dialog": {
+    "create": "Vytvořit skupinu",
+    "description": "Popis",
+    "edit": "Upravit skupinu",
+    "group_save_success": "Skupina byla úspěšně uložena",
+    "location": "Umístění",
+    "name": "Jméno",
+    "parent_group": "Nadřazená skupina"
+  },
+  "group_overview": {
+    "collapse_all": "Sbalit vše",
+    "create_new": "Vytvořit novou skupinu",
+    "delete_bad_request": "Skupinu, která má podskupiny nebo přiřazené osoby, nelze smazat",
+    "delete_confirm": "Opravdu chcete smazat skupinu? Všichni uživatelé a eCMR jsou posunuti o jednu úroveň výše.",
+    "delete_group": "Smazat skupinu",
+    "expand_all": "Rozbalit vše",
+    "location_name": "Umístění",
+    "name": "Jméno",
+    "search": "Vyhledávání",
+    "title": "Vedení skupiny",
+    "tooltips": {
+      "change_parent": "Změnit nadřazenou skupinu",
+      "create_new": "Vytvořit novou skupinu",
+      "delete": "Smazat skupinu",
+      "edit_name": "Upravit skupinu",
+      "user": "Přiřazení uživatelé"
+    }
+  },
+  "history": {
+    "actiontype": {
+      "creation": "Vytvořeno",
+      "edit": "Upraveno"
+    },
+    "title": "Historie pro eCMR"
+  },
+  "imprint_legal_matter": {
+    "title": "Impressum a právní záležitost"
+  },
+  "item": {
+    "empty": "Prázdný"
+  },
+  "location": {
+    "city": "Město",
+    "countryCode": "Kód země",
+    "create": "Vytvořit umístění",
+    "delete": "Smazat místo",
+    "edit": "Upravit místo",
+    "error": {
+      "not_created": "Umístění se nepodařilo vytvořit",
+      "not_found": "Poloha nenalezena"
+    },
+    "name": "Jméno",
+    "officeNumber": "Číslo kanceláře",
+    "postcode": "PSČ",
+    "street": "Ulice",
+    "success": {
+      "created": "Místo bylo úspěšně vytvořeno",
+      "updated": "Poloha byla úspěšně aktualizována"
+    },
+    "title": "Správa umístění"
+  },
+  "menu": {
+    "archive": "Archiv",
+    "group_overview": "Vedení skupiny",
+    "imprint_legal": "Otisk, právní záležitost",
+    "location_overview": "Správa umístění",
+    "logout": "Odhlášení",
+    "overview": "Přehled eCMR",
+    "privacy": "Soukromí",
+    "templates": "Přehled šablon",
+    "user_overview": "Správa uživatelů"
+  },
+  "overview": {
+    "columns_settings": {
+      "configure_columns": "Konfigurace sloupců"
+    },
+    "confirmation_message": "Opravdu chcete přesunout tento eCMR do archivu?",
+    "create_new": "Vytvořit nový",
+    "delete_ecmr_dialog_text": "Opravdu chcete tento eCMR smazat? Toto nelze vrátit zpět.",
+    "delete_success": "eCMR úspěšně smazáno",
+    "filter": "",
+    "import": "Importovat",
+    "move_to_archive_success": "eCMR úspěšně archivován",
+    "search": "Vyhledávání",
+    "table_header": {
+      "carrier_name": "Jméno dopravce",
+      "carrier_post_code": "PSČ dopravce",
+      "consignee_post_code": "PSČ příjemce",
+      "creation_date": "Datum vytvoření",
+      "from": "Z",
+      "last_edit_date": "Datum poslední úpravy",
+      "last_editor": "Poslední redaktor",
+      "license_plate": "SPZ",
+      "ref_id": "Referenční ID",
+      "status": "Postavení",
+      "to": "Na",
+      "transport_type": "Typ dopravy",
+      "transport_types": {
+        "international": "Mezinárodní",
+        "national": "Národní"
+      }
+    },
+    "title": "Přehled eCMR",
+    "tooltips": {
+      "delete": "Smazat eCMR",
+      "delete_template": "Smazat šablonu",
+      "edit": "Upravit",
+      "guest_access": "Přístup pro hosty",
+      "history": "Dějiny",
+      "share": "Sdílejte eCMR",
+      "sign": "Podepište eCMR"
+    }
+  },
+  "privacy": {
+    "title": "Prohlášení o ochraně osobních údajů"
+  },
+  "quick_view_buttons": {
+    "archive": "Archiv",
+    "copy": "Kopie",
+    "edit": "Upravit",
+    "history": "Dějiny",
+    "pdf": "PDF",
+    "remove_archive": "Znovu aktivujte eCMR",
+    "share": "Podíl"
+  },
+  "share_create_dialog": {
+    "title": "Vyberte skupiny, které chcete sdílet"
+  },
+  "share_ecmr_dialog": {
+    "carrier": "Dopravce",
+    "consignee": "Příjemce",
+    "copy_link": "Zkopírujte odkaz",
+    "copy_qr": "Zkopírujte QR kód",
+    "download_qr": "Stáhněte si QR kód",
+    "email": "E-mail",
+    "error_400": "eCMR nebylo možné sdílet. Je to správně podepsané?",
+    "group": "",
+    "group_ambigous": "",
+    "internal_user_found": "",
+    "link_copied": "Odkaz zkopírován do schránky",
+    "no_group_found": "",
+    "no_qr_code_found": "Nebyl nalezen žádný QR kód",
+    "no_user_found": "",
+    "qr_copied": "QR kód zkopírován do schránky",
+    "select_one_group": "",
+    "sender": "Odesílatel",
+    "share_pdf": "Sdílet jako PDF",
+    "share_via_qr": "Nebo sdílejte pomocí QR-Code",
+    "shared_external": "Sdíleno s externím uživatelem",
+    "shared_internal": "Sdíleno s interním uživatelem ve skupině {{ translateValue }}",
+    "title": "Sdílejte eCMR",
+    "user_has_no_group": "Uživatel nemá žádnou skupinu",
+    "with_external": "",
+    "with_guest": "",
+    "with_internal": ""
+  },
+  "signature": {
+    "by": "Podle:",
+    "clear": "Vymazat podpis",
+    "confirm_text": "jsi si jistý? V eCMR již nebudete moci provádět změny.",
+    "signed_on": "Podepsáno dne:"
+  },
+  "template_overview": {
+    "clear_filter": "Vymazat filtr",
+    "delete_success": "Šablona byla úspěšně smazána",
+    "delete_template_dialog_text": "Opravdu chcete smazat tuto šablonu? Toto nelze vrátit zpět!",
+    "load_from_template_header": "Načíst data ze šablony",
+    "load_selected": "Vybráno zatížení",
+    "table_header": {
+      "name": "Jméno",
+      "number": "Číslo"
+    },
+    "title": "Přehled šablon"
+  },
+  "template_share_dialog": {
+    "success": "Šablona byla úspěšně sdílena",
+    "title": "Sdílet šablonu"
+  },
+  "title": "Služba eCMR",
+  "user": {
+    "email": "E-mail",
+    "first_name": "Křestní jméno",
+    "last_name": "Příjmení",
+    "phone": "Telefon",
+    "role": "Role"
+  },
+  "user_overview": {
+    "activate_dialog": "Opravdu chcete aktivovat tohoto uživatele?",
+    "activate_success": "Uživatel byl úspěšně aktivován",
+    "activate_user": "Aktivovat uživatele",
+    "create_user": "Vytvořit nového uživatele",
+    "deactivate_dialog": "Opravdu chcete tohoto uživatele deaktivovat?",
+    "deactivate_success": "Uživatel byl úspěšně deaktivován",
+    "deactivate_user": "Deaktivovat uživatele",
+    "edit_user": "Upravit uživatele",
+    "title": "Správa uživatelů"
+  }
+}

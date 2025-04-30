@@ -355,10 +355,10 @@
     "create_new": "Crear nuevo",
     "delete_ecmr_dialog_text": "¿Está seguro de que desea eliminar este eCMR? Esta acción no se puede deshacer.",
     "delete_success": "eCMR eliminado correctamente",
+    "filter": "Filtrar por:",
     "import": "Importar",
     "move_to_archive_success": "eCMR archivado correctamente",
     "search": "Buscar",
-    "filter": "Filtrar por:",
     "table_header": {
       "carrier_name": "Nombre del transportista",
       "carrier_post_code": "Código postal del transportista",
@@ -413,9 +413,9 @@
     "error_400": "No se ha podido compartir el eCMR. Está firmado correctamente?",
     "group": "Grupo",
     "group_ambigous": "La compartición es ambigua debido a nombres y descripciones de grupos duplicados.",
-    "internal_user_found": "Este correo electrónico pertenece a un usuario interno. Seleccione la opción 'usuario interno' para compartir.",
+    "internal_user_found": "Este correo electrónico pertenece a un usuario interno. Seleccione la opción \u0027usuario interno\u0027 para compartir.",
     "link_copied": "Enlace copiado al portapapeles",
-    "no_group_found": "No se encontró ningún grupo con este nombre.",     
+    "no_group_found": "No se encontró ningún grupo con este nombre.",
     "no_qr_code_found": "No se encontró código QR",
     "no_user_found": "No se encontró ningún usuario interno con este correo electrónico",
     "qr_copied": "Código QR copiado al portapapeles",
@@ -429,7 +429,7 @@
     "user_has_no_group": "El usuario no tiene grupo",
     "with_external": "usuario externo",
     "with_guest": "acceso de invitado",
-    "with_internal": "usuario interno"    
+    "with_internal": "usuario interno"
   },
   "signature": {
     "by": "Por:",

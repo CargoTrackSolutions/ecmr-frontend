@@ -49,7 +49,13 @@ export class AppComponent implements OnInit, OnDestroy {
     title = 'angular-frontend';
     languages = [
         {flag: '🇩🇪', code: 'de'},
-        {flag: '🇬🇧', code: 'en'}
+        {flag: '🇬🇧', code: 'en'},
+        {flag: '🇪🇸', code: 'es'},
+        {flag: '🇫🇷', code: 'fr'},
+        {flag: '🇮🇹', code: 'it'},
+        {flag: '🇵🇱', code: 'pl'},
+        {flag: '🇸🇰', code: 'sk'},
+        {flag: '🇨🇿', code: 'cs'}
     ];
     selectedLanguage: { flag: string, code: string };
     languagePickerExtended: boolean = false;

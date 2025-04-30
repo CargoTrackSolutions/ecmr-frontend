@@ -1,0 +1,475 @@
+{
+  "archive": {
+    "confirmation_message": "Czy na pewno chcesz ponownie aktywować ten eCMR?",
+    "move_to_overview_success": "eCMR pomyślnie ponownie aktywowany",
+    "search": "Szukaj",
+    "title": "Archiwum"
+  },
+  "carrier_registration": {
+    "authenticate": "Uwierzytelnij",
+    "authentication": "Uwierzytelnianie",
+    "company": "Firma",
+    "first_name": "Imię",
+    "last_name": "Nazwisko",
+    "phone": "Telefon",
+    "register": "Zarejestruj",
+    "registered_user": "Jako zarejestrowany użytkownik nie możesz uzyskać dostępu do rejestracji przewoźnika.",
+    "tan": "Tan",
+    "tan_message": "Tan zostanie wkrótce wysłany SMS-em",
+    "title": "Rejestracja",
+    "too_many_requests": "Podjęto zbyt wiele prób rejestracji. Spróbuj ponownie za godzinę."
+  },
+  "common": {
+    "back": "Wstecz",
+    "cancel": "Anuluj",
+    "close": "Zamknij",
+    "copy": "Kopiuj",
+    "edit": "Edytuj",
+    "errors": {
+      "invalid_countryCode": "Nieprawidłowy kod kraju",
+      "invalid_email": "Nieprawidłowy adres e-mail",
+      "invalid_phone": "Nieprawidłowy numer telefonu",
+      "required": "Wymagane"
+    },
+    "reset": "Resetuj",
+    "save": "Zapisz",
+    "search": "Szukaj",
+    "share": "Udostępnij"
+  },
+  "confirmation": {
+    "accept": "Akceptuj",
+    "cancel": "Anuluj",
+    "checkbox": "Utwórz edytowalną kopię tego eCMR.",
+    "title": "Potwierdzenie"
+  },
+  "ecmr_editor": {
+    "add_item": "Dodaj element",
+    "carrier_information": {
+      "city_name": "Nazwa miasta",
+      "country": "Kraj",
+      "email": "E-mail",
+      "license_plate": "Tabliczka rejestracyjna",
+      "name": "Imię",
+      "person_name": "Imię osoby",
+      "phone": "Telefon",
+      "post_code": "Kod pocztowy",
+      "region": "Region",
+      "street_name": "Nazwa ulicy"
+    },
+    "carrier_signature": {
+      "signature": "Podpis"
+    },
+    "carriers_reservations": {
+      "reservation_and_observation": "Rezerwacja i obserwacja"
+    },
+    "cash_on_delivery": {
+      "particulars": "Szczegóły",
+      "title": "Płatność przy odbiorze"
+    },
+    "consignee": {
+      "city_name": "Nazwa miasta",
+      "country": "Kraj",
+      "email": "E-mail",
+      "name": "Nazwa",
+      "person_name": "Imię osoby",
+      "phone": "Telefon",
+      "post_code": "Kod pocztowy",
+      "street_name": "Nazwa ulicy"
+    },
+    "create_new_title": "Utwórz nowy",
+    "delivery_of_the_goods": {
+      "opening_hours": "Godziny otwarcia",
+      "place": "Miejscowość"
+    },
+    "documents_handed_to_carrier": {
+      "remarks": "Uwagi"
+    },
+    "edit_title": "Edytuj",
+    "email": "E-mail",
+    "error_mandatory": "To pole jest wymagane do podpisania.",
+    "error_too_short": "Musi mieć co najmniej 2 znaki",
+    "error_volume_min": "Musi być większe niż 0",
+    "eseal_confirmation": "Czy chcesz zapieczętować ten ecmr za pomocą eSeal?",
+    "eseal_information": "Ten eCMR został podpisany za pomocą eSeal.",
+    "established": {
+      "in": "W",
+      "on": "Włączone"
+    },
+    "gross_weight_in_kg": {
+      "gross_weight": "Masa brutto"
+    },
+    "items": "Elementy",
+    "load_from_template": "Załaduj z szablonu",
+    "mandatory_missing": "Wypełnij wszystkie wymagane pola.",
+    "marks_and_nos": {
+      "barcode_number": "Numer kodu kreskowego",
+      "marking_text": "Tekst oznakowania"
+    },
+    "method_of_packing": {
+      "type_text": "Tekst typu"
+    },
+    "multi_consignee_shipment": {
+      "confirmation_message": "Czy na pewno chcesz oznaczyć ten eCMR jako przesyłkę z wieloma odbiorcami? Wszystkie informacje w polach odbiorcy zostaną utracone.",
+      "is_multi_consignee_shipment": "Wielu odbiorców",
+      "multi_consignee_shipment_notice": "Ta przesyłka ma wielu odbiorców. Informacje o odbiorcach można znaleźć w dokumentach przewożonych przez kierowcę."
+    },
+    "nature_of_goods": {
+      "identification_text": "Tekst identyfikacyjny"
+    },
+    "non_contractual_part_reserved_for_the_carrier": "Część nieobjęta umową zarezerwowana dla przewoźnika",
+    "number_of_packages": {
+      "item_quantity": "Ilość elementów"
+    },
+    "other_useful_particulars": {
+      "particulars": "Szczegóły"
+    },
+    "phone": "Telefon",
+    "receival_signature": {
+      "date": "Data",
+      "place": "Miejsce",
+      "remarks": "Uwagi odbiorcy",
+      "signature": "Podpis"
+    },
+    "reference_id": "ID referencyjny",
+    "remarks": "Uwagi",
+    "reset_confirmation_message": "Zamierzasz zresetować eCMR, wszystkie pola zostaną opróżnione. Kontynuować?",
+    "save_as_template": "Zapisz jako szablon",
+    "save_failure": "Nie można zapisać eCMR",
+    "save_success": "eCMR zapisano pomyślnie",
+    "sender": {
+      "city_name": "Nazwa miasta",
+      "country": "Kraj",
+      "email": "E-mail",
+      "name": "Nazwa",
+      "person_name": "Imię osoby",
+      "phone": "Telefon",
+      "post_code": "Kod pocztowy",
+      "street_name": "Nazwa ulicy"
+    },
+    "sender_signature": {
+      "signature": "Podpis"
+    },
+    "senders_instruction": {
+      "description": "Opis"
+    },
+    "sign": "Podpis",
+    "sign_on_glass": "Podpis na szkle",
+    "signature_successful": "Podpis pomyślny. Pola eCMR zablokowane",
+    "special_agreements_sen_carr": {
+      "special_agreements": "Umowy specjalne"
+    },
+    "successive_carrier_information": {
+      "city_name": "Nazwa miasta",
+      "country": "Kraj",
+      "date": "Data",
+      "email": "E-mail",
+      "name": "Nazwa firmy",
+      "person_name": "Imię osoby",
+      "phone": "Telefon",
+      "post_code": "Kod pocztowy",
+      "region": "Region",
+      "signature": "Podpis",
+      "street_name": "Nazwa ulicy"
+    },
+    "taking_over_the_goods": {
+      "place": "Miejscowość",
+      "time_of_arrival": "Czas przyjazdu",
+      "time_of_departure": "Godzina wyjazdu"
+    },
+    "template": {
+      "create_new_title": "Utwórz szablon",
+      "edit_title": "Edytuj szablon"
+    },
+    "template_name": "Nazwa szablonu",
+    "template_save_success": "Szablon zapisany pomyślnie",
+    "title_1": "1. Nadawca (nazwa, adres, kraj)",
+    "title_10": "10. Znaki i numery",
+    "title_11": "11. Liczba paczek",
+    "title_12": "12. Sposób pakowania",
+    "title_13": "13. Rodzaj towarów",
+    "title_14": "14. Masa brutto w kg",
+    "title_15": "15. Objętość w m³",
+    "title_16": "16. Specjalne umowy między nadawcą a przewoźnikiem",
+    "title_17": "17. Do zapłaty przez",
+    "title_18": "18. Inne przydatne szczegóły",
+    "title_19": "19. Płatność przy odbiorze",
+    "title_2": "2. Odbiorca (nazwa, adres, kraj)",
+    "title_20": "20. Niniejszy przewóz podlega, niezależnie od wszelkich przeciwnych postanowień, Konwencji o umowie międzynarodowego przewozu drogowego towarów",
+    "title_21": "21. Ustanowiony",
+    "title_22": "22. Podpis lub pieczęć nadawcy",
+    "title_23": "23. Podpis lub pieczęć przewoźnika",
+    "title_24": "24. Otrzymane towary",
+    "title_24_signature": "Podpis lub pieczęć odbiorcy",
+    "title_3": "3. Przejęcie towarów",
+    "title_4": "4. Dostawa towarów",
+    "title_5": "5. Nadawca instrukcje",
+    "title_6": "6. Przewoźnik (nazwa, adres, kraj, inne odniesienia)",
+    "title_7": "7. Kolejni przewoźnicy",
+    "title_8": "8. Zastrzeżenia i uwagi przewoźnika dotyczące przejęcia towarów",
+    "title_9": "9. Dokumenty przekazane przewoźnikowi przez nadawcę",
+    "to_be_paid_by": {
+      "carriage_charges": "Opłaty za przewóz",
+      "currency": "Waluta",
+      "custom_duties_charges": "Cła",
+      "other_charges": "Inne opłaty",
+      "payer": "Płatnik",
+      "supplementary_charges": "Opłaty dodatkowe"
+    },
+    "user_guides_and_docs": "Instrukcja obsługi i dokumenty",
+    "volume_in_m3": {
+      "volume": "Objętość"
+    }
+  },
+  "ecmr_external_import": {
+    "ecmr_id": "Identyfikator eCMR",
+    "failure": "Nie można zaimportować eCMR.",
+    "failure_409": "Istnieje już eCMR o tym identyfikatorze.",
+    "import": "Importuj",
+    "required_error": "To pole jest wymagane.",
+    "share_token": "Token udostępniania",
+    "success": "eCMR został pomyślnie zaimportowany.",
+    "title": "Importuj zewnętrzny eCMR",
+    "url": "URL"
+  },
+  "ecmr_import": {
+    "e_token": "E-Token",
+    "import": "Import",
+    "switch_camera": "Przełącz aparat",
+    "title": "Import eCMR"
+  },
+  "ecmr_status": {
+    "ARRIVED_AT_DESTINATION": "Dotarł do miejsca przeznaczenia",
+    "IN_TRANSPORT": "W transporcie",
+    "LOADING": "Załadunek",
+    "NEW": "Nowy"
+  },
+  "edit_user_dialog": {
+    "already_exists": "Użytkownik z adresem e-mail \u0027{{ translateValue }}\u0027 już istnieje",
+    "create": "Utwórz użytkownika",
+    "edit": "Edytuj użytkownika",
+    "error_saving": "Błąd podczas zapisywania użytkownika!",
+    "group": "Grupa",
+    "location": "Lokalizacja",
+    "locations_and_groups": "Lokalizacje i grupy",
+    "successfully_created": "Użytkownik został pomyślnie utworzony.",
+    "successfully_saved": "Użytkownik został pomyślnie zapisany.",
+    "user_information": "Informacje o użytkowniku"
+  },
+  "error": {
+    "default_group_required": "Co najmniej jedna grupa musi być faworyzowana",
+    "ecmr_not_found": "Nie znaleziono Ecmr",
+    "not_implemented": "Nie zaimplementowano",
+    "pattern": "Nieprawidłowy numer",
+    "required": "Pole nie może być puste"
+  },
+  "general": {
+    "apply_button": "Zastosuj",
+    "snackbar_action": "Zamknij",
+    "snackbar_error": "Wystąpił błąd. Spróbuj ponownie później."
+  },
+  "group_change_parent": {
+    "parent_group": "Grupa nadrzędna",
+    "title": "Zmień grupę nadrzędną"
+  },
+  "group_detail": {
+    "remove_user": "Usuń użytkownika",
+    "title": "Zarządzanie użytkownikami"
+  },
+  "group_edit_dialog": {
+    "create": "Utwórz grupę",
+    "description": "Opis",
+    "edit": "Edytuj grupę",
+    "group_save_success": "Grupa została pomyślnie zapisana",
+    "location": "Lokalizacja",
+    "name": "Nazwa",
+    "parent_group": "Grupa nadrzędna"
+  },
+  "group_overview": {
+    "collapse_all": "Zwiń wszystko",
+    "create_new": "Utwórz nową grupę",
+    "delete_bad_request": "Nie można usunąć grupy, która ma podgrupy lub przypisane osoby",
+    "delete_confirm": "Czy na pewno chcesz usunąć grupę? Wszyscy użytkownicy i eCMR-y zostaną przeniesieni o jeden poziom wyżej.",
+    "delete_group": "Usuń grupę",
+    "expand_all": "Rozwiń wszystko",
+    "location_name": "Lokalizacja",
+    "name": "Nazwa",
+    "search": "Szukaj",
+    "title": "Zarządzanie grupą",
+    "tooltips": {
+      "change_parent": "Zmień grupę nadrzędną",
+      "create_new": "Utwórz nową grupę",
+      "delete": "Usuń grupę",
+      "edit_name": "Edytuj grupę",
+      "user": "Przypisani użytkownicy"
+    }
+  },
+  "history": {
+    "actiontype": {
+      "creation": "Utworzono",
+      "edit": "Edytowano"
+    },
+    "title": "Historia dla eCMR"
+  },
+  "imprint_legal_matter": {
+    "title": "Odcisk i kwestie prawne"
+  },
+  "item": {
+    "empty": "Puste"
+  },
+  "location": {
+    "city": "Miasto",
+    "countryCode": "Kod kraju",
+    "create": "Utwórz lokalizację",
+    "delete": "Usuń lokalizację",
+    "edit": "Edytuj lokalizację",
+    "error": {
+      "not_created": "Nie można utworzyć lokalizacji",
+      "not_found": "Nie znaleziono lokalizacji"
+    },
+    "name": "Nazwa",
+    "officeNumber": "Numer biura",
+    "postcode": "Kod pocztowy",
+    "street": "Ulica",
+    "success": {
+      "created": "Lokalizacja została pomyślnie utworzona",
+      "updated": "Lokalizacja została pomyślnie zaktualizowana"
+    },
+    "title": "Zarządzanie lokalizacją"
+  },
+  "menu": {
+    "archive": "Archiwum",
+    "group_overview": "Zarządzanie grupą",
+    "imprint_legal": "Odcisk, Kwestie prawne",
+    "location_overview": "Zarządzanie lokalizacją",
+    "logout": "Wyloguj",
+    "overview": "Przegląd eCMR",
+    "privacy": "Prywatność",
+    "templates": "Przegląd szablonów",
+    "user_overview": "Zarządzanie użytkownikami"
+  },
+  "overview": {
+    "columns_settings": {
+      "configure_columns": "Konfiguruj kolumny"
+    },
+    "confirmation_message": "Czy na pewno chcesz przenieść ten eCMR do archiwum?",
+    "create_new": "Utwórz nowy",
+    "delete_ecmr_dialog_text": "Czy na pewno chcesz usunąć ten eCMR? Nie można tego cofnąć.",
+    "delete_success": "Pomyślnie usunięto eCMR",
+    "filter": "",
+    "import": "Importuj",
+    "move_to_archive_success": "eCMR pomyślnie zarchiwizowano",
+    "search": "Wyszukaj",
+    "table_header": {
+      "carrier_name": "Nazwa przewoźnika",
+      "carrier_post_code": "Kod pocztowy przewoźnika",
+      "consignee_post_code": "Kod pocztowy odbiorcy",
+      "creation_date": "Data utworzenia",
+      "from": "Od",
+      "last_edit_date": "Data ostatniej edycji",
+      "last_editor": "Ostatni redaktor",
+      "license_plate": "Tabliczka rejestracyjna",
+      "ref_id": "Identyfikator referencyjny",
+      "status": "Status",
+      "to": "Do",
+      "transport_type": "Typ transportu",
+      "transport_types": {
+        "international": "Międzynarodowy",
+        "national": "Krajowy"
+      }
+    },
+    "title": "Przegląd eCMR",
+    "tooltips": {
+      "delete": "Usuń eCMR",
+      "delete_template": "Usuń szablon",
+      "edit": "Edytuj",
+      "guest_access": "Dostęp gościa",
+      "history": "Historia",
+      "share": "Udostępnij eCMR",
+      "sign": "Podpisz eCMR"
+    }
+  },
+  "privacy": {
+    "title": "Zrzeczenie się odpowiedzialności za prywatność"
+  },
+  "quick_view_buttons": {
+    "archive": "Archiwum",
+    "copy": "Kopiuj",
+    "edit": "Edytuj",
+    "history": "Historia",
+    "pdf": "PDF",
+    "remove_archive": "Ponownie aktywuj eCMR",
+    "share": "Udostępnij"
+  },
+  "share_create_dialog": {
+    "title": "Wybierz grupy do udostępnienia"
+  },
+  "share_ecmr_dialog": {
+    "carrier": "Przewoźnik",
+    "consignee": "Odbiorca",
+    "copy_link": "Kopiuj link",
+    "copy_qr": "Kopiuj kod QR",
+    "download_qr": "Pobierz kod QR",
+    "email": "E-mail",
+    "error_400": "Nie można udostępnić eCMR. Czy jest on prawidłowo podpisany?",
+    "group": "",
+    "group_ambigous": "",
+    "internal_user_found": "",
+    "link_copied": "Link skopiowany do schowka",
+    "no_group_found": "",
+    "no_qr_code_found": "Nie znaleziono kodu QR",
+    "no_user_found": "",
+    "qr_copied": "Kod QR skopiowany do schowka",
+    "select_one_group": "",
+    "sender": "Nadawca",
+    "share_pdf": "Udostępnij jako PDF",
+    "share_via_qr": "Lub udostępnij za pomocą kodu QR",
+    "shared_external": "Udostępnione użytkownikowi zewnętrznemu",
+    "shared_internal": "Udostępnione użytkownikowi wewnętrznemu w grupie {{ translateValue }}",
+    "title": "Udostępnij eCMR",
+    "user_has_no_group": "Użytkownik nie ma grupy",
+    "with_external": "",
+    "with_guest": "",
+    "with_internal": ""
+  },
+  "signature": {
+    "by": "Przez:",
+    "clear": "Wyczyść podpis",
+    "confirm_text": "Czy na pewno? Nie będziesz już mógł wprowadzać zmian w eCMR.",
+    "signed_on": "Podpisano:"
+  },
+  "template_overview": {
+    "clear_filter": "Wyczyść filtr",
+    "delete_success": "Szablon został pomyślnie usunięty",
+    "delete_template_dialog_text": "Czy na pewno chcesz usunąć ten szablon? Tego nie można cofnąć!",
+    "load_from_template_header": "Załaduj dane z szablonu",
+    "load_selected": "Załaduj wybrane",
+    "table_header": {
+      "name": "Nazwa",
+      "number": "Numer"
+    },
+    "title": "Przegląd szablonów"
+  },
+  "template_share_dialog": {
+    "success": "Szablon udostępniony pomyślnie",
+    "title": "Udostępnij szablon"
+  },
+  "title": "Usługa eCMR",
+  "user": {
+    "email": "E-mail",
+    "first_name": "Imię",
+    "last_name": "Nazwisko",
+    "phone": "Telefon",
+    "role": "Rola"
+  },
+  "user_overview": {
+    "activate_dialog": "Czy na pewno chcesz aktywować tego użytkownika?",
+    "activate_success": "Użytkownik został pomyślnie aktywowany",
+    "activate_user": "Aktywuj użytkownika",
+    "create_user": "Utwórz nowego użytkownika",
+    "deactivate_dialog": "Czy na pewno chcesz dezaktywować tego użytkownika?",
+    "deactivate_success": "Użytkownik został pomyślnie dezaktywowany",
+    "deactivate_user": "Dezaktywuj użytkownika",
+    "edit_user": "Edytuj użytkownika",
+    "title": "Zarządzanie użytkownikami"
+  }
+}
