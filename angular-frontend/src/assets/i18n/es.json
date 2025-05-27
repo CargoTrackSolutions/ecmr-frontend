@@ -31,6 +31,7 @@
       "invalid_phone": "Teléfono inválido ",
       "required": "Requerido"
     },
+    "group": "Grupo",
     "reset": "Restablecer",
     "save": "Guardar",
     "search": "Buscar",
@@ -248,7 +249,6 @@
     "create": "Crear usuario",
     "edit": "Editar usuario",
     "error_saving": "¡Error al guardar el usuario!",
-    "group": "Grupo",
     "location": "Ubicación",
     "locations_and_groups": "Ubicaciones y grupos",
     "successfully_created": "Usuario creado correctamente.",
@@ -304,11 +304,14 @@
     }
   },
   "history": {
-    "actiontype": {
-      "creation": "Creado",
-      "edit": "Editado"
-    },
-    "title": "Historial de eCMR"
+    "log": {
+      "actiontype": {
+        "creation": "Creado",
+        "edit": "Editado"
+      },
+      "tab": "Historial",
+      "title": "Historial de eCMR"
+    }
   },
   "imprint_legal_matter": {
     "title": "Aviso legal y cuestiones jurídicas"
@@ -411,7 +414,6 @@
     "download_qr": "Descargar código QR",
     "email": "Correo electrónico",
     "error_400": "No se ha podido compartir el eCMR. Está firmado correctamente?",
-    "group": "Grupo",
     "group_ambigous": "La compartición es ambigua debido a nombres y descripciones de grupos duplicados.",
     "internal_user_found": "Este correo electrónico pertenece a un usuario interno. Seleccione la opción \u0027usuario interno\u0027 para compartir.",
     "link_copied": "Enlace copiado al portapapeles",

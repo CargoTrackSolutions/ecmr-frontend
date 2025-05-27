@@ -8,8 +8,8 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
-import { HistoryLog } from '../../../core/models/HistoryLog';
+import { HistoryLog } from '../../../../../core/models/HistoryLog';
+import { environment } from '../../../../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'

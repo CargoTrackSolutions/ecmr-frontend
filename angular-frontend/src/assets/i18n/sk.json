@@ -31,6 +31,7 @@
       "invalid_phone": "Neplatný telefón",
       "required": "Povinné"
     },
+    "group": "Skupina",
     "reset": "Resetovať",
     "save": "Uložiť",
     "search": "Hľadať",
@@ -248,7 +249,6 @@
     "create": "Vytvoriť používateľa",
     "edit": "Upraviť používateľa",
     "error_saving": "Chyba pri ukladaní používateľa!",
-    "group": "Skupina",
     "location": "Poloha",
     "locations_and_groups": "Miesta a skupiny",
     "successfully_created": "Používateľ bol úspešne vytvorený.",
@@ -304,11 +304,14 @@
     }
   },
   "history": {
-    "actiontype": {
-      "creation": "Vytvorené",
-      "edit": "Upravené"
-    },
-    "title": "História pre eCMR"
+    "log": {
+      "actiontype": {
+        "creation": "Vytvorené",
+        "edit": "Upravené"
+      },
+      "tab": "História",
+      "title": "História pre eCMR"
+    }
   },
   "imprint_legal_matter": {
     "title": "Impressum a právne záležitosti"
@@ -411,7 +414,6 @@
     "download_qr": "Stiahnite si QR kód",
     "email": "E-mail",
     "error_400": "eCMR nebolo možné zdieľať. Je to správne podpísané?",
-    "group": "",
     "group_ambigous": "",
     "internal_user_found": "",
     "link_copied": "Odkaz bol skopírovaný do schránky",

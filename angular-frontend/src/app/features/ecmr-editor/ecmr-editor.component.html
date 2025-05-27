@@ -22,7 +22,7 @@
             }
         }
         @if (!isTemplate()) {
-          <app-ecmr-status [status]="ecmrToEdit?.ecmrStatus ? ecmrToEdit.ecmrStatus : EcmrStatus.NEW" [isMobile]="isMobile"></app-ecmr-status>
+          <app-ecmr-status [status]="ecmrToEdit.ecmrStatus ? ecmrToEdit.ecmrStatus : EcmrStatus.NEW" [isMobile]="isMobile"></app-ecmr-status>
         }
     </div>
     @if (!isMobile) {

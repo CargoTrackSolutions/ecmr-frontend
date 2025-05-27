@@ -22,6 +22,7 @@ import {GroupFlat} from "../../core/models/GroupFlat";
 import {Observable} from "rxjs";
 import { Sort } from '@angular/material/sort';
 import { EcmrShareWithGroup } from '../../core/models/EcmrShareWithGroup';
+import { EcmrAssignment } from '../../core/models/EcmrAssignment';
 
 @Injectable({
     providedIn: 'root'
@@ -172,6 +173,11 @@ export class EcmrService {
     getEcmrRolesForCurrentUser(ecmrId: string) {
         return this.http.get<EcmrRole[]>(`${environment.backendUrl}/ecmr/${ecmrId}/role`);
     }
+
+    getEcmrAssignments(ecmrId: string): Observable<EcmrAssignment[]> {
+        return this.http.get<EcmrAssignment[]>(`${environment.backendUrl}/ecmr/${ecmrId}/assignments`);
+    }
+
 }
 
 export interface EcmrElement {

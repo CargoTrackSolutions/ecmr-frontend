@@ -31,6 +31,7 @@
       "invalid_phone": "Ungültige Telefonnummer",
       "required": "Feld darf nicht leer sein"
     },
+    "group": "Gruppe",
     "reset": "Zurücksetzen",
     "save": "Speichern",
     "search": "Suchen",
@@ -248,7 +249,6 @@
     "create": "Benutzer erstellen",
     "edit": "Benutzer bearbeiten",
     "error_saving": "Fehler beim Speichern des Benutzers!",
-    "group": "Gruppe",
     "location": "Standort",
     "locations_and_groups": "Standorte und Gruppen",
     "successfully_created": "Benutzer erfolgreich angelegt",
@@ -304,11 +304,19 @@
     }
   },
   "history": {
-    "actiontype": {
-      "creation": "Erstellt",
-      "edit": "Bearbeitet"
+    "access": {
+      "tab": "Zugriff",
+      "title": "Zugriff auf eCMR",
+      "external_user": "Externer Benutzer"
     },
-    "title": "Historie für eCMR"
+    "log": {
+      "actiontype": {
+        "creation": "Erstellt",
+        "edit": "Bearbeitet"
+      },
+      "tab": "Historie",
+      "title": "Historie für eCMR"
+    }
   },
   "imprint_legal_matter": {
     "title": "Impressum und rechtliche Hinweise"
@@ -411,7 +419,6 @@
     "download_qr": "QR-Code downloaden",
     "email": "E-Mail",
     "error_400": "Der eCMR konnte nicht geteilt werden. Ist er korrekt signiert?",
-    "group": "Gruppe",
     "group_ambigous": "Das Teilen ist aufgrund doppelter Gruppennamen und -beschreibungen mehrdeutig.",
     "internal_user_found": "Diese E-Mail gehört einem internen Benutzer. Wählen Sie die Option \u0027interner Benutzer\u0027 für das Teilen aus.",
     "link_copied": "Link wurde in die Zwischenablage kopiert",

@@ -1,0 +1,15 @@
+<mat-toolbar class="d-flex flex-row justify-content-between">
+    <button mat-flat-button color="primary" (click)="back()">
+        <mat-icon>arrow_back</mat-icon>
+        {{ 'common.back' | translate }}
+    </button>
+    <div class="fs-6">{{ headerTextKey | translate }}: {{ referenceId }}</div>
+</mat-toolbar>
+<mat-tab-group (selectedIndexChange)="onTabChange($event)" >
+    <mat-tab label="{{ 'history.log.tab' | translate }}">
+        <app-history-logs [ecmrId]="ecmrId" [referenceId]="referenceId"></app-history-logs>
+    </mat-tab>
+    <mat-tab label="{{ 'history.access.tab' | translate }}">
+        <app-ecmr-access [ecmrId]="ecmrId" [referenceId]="referenceId"></app-ecmr-access>
+    </mat-tab>
+</mat-tab-group>

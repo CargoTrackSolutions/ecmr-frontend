@@ -102,7 +102,7 @@ export class ShareEcmrDialogComponent implements OnInit {
 
     readonly searchOptionsMap: { [key in SearchMode]: SearchConfig } = {
         [SearchMode.EMAIL]: {mode: SearchMode.EMAIL, icon: 'email', labelKey: 'share_ecmr_dialog.email'},
-        [SearchMode.GROUP]: {mode: SearchMode.GROUP, icon: 'groups', labelKey: 'share_ecmr_dialog.group'},
+        [SearchMode.GROUP]: {mode: SearchMode.GROUP, icon: 'groups', labelKey: 'common.group'},
   
     };  
     SearchMode = SearchMode;

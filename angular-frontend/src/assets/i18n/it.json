@@ -31,6 +31,7 @@
       "invalid_phone": "Telefono non valido",
       "required": "Obbligatorio"
     },
+    "group": "Gruppo",
     "reset": "Reimposta",
     "save": "Salva",
     "search": "Cerca",
@@ -248,7 +249,6 @@
     "create": "Crea utente",
     "edit": "Modifica utente",
     "error_saving": "Errore durante il salvataggio dell\u0027utente!",
-    "group": "Gruppo",
     "location": "Posizione",
     "locations_and_groups": "Posizioni e gruppi",
     "successfully_created": "Utente creato correttamente.",
@@ -304,11 +304,14 @@
     }
   },
   "history": {
-    "actiontype": {
-      "creation": "Creato",
-      "edit": "Modificato"
-    },
-    "title": "Cronologia per eCMR"
+    "log": {
+      "actiontype": {
+        "creation": "Creato",
+        "edit": "Modificato"
+      },
+      "tab": "Cronologia",
+      "title": "Cronologia per eCMR"
+    }
   },
   "imprint_legal_matter": {
     "title": "Impronta e questione legale"
@@ -411,7 +414,6 @@
     "download_qr": "Scarica codice QR",
     "email": "E-mail",
     "error_400": "Impossibile condividere l\u0027eCMR. È firmato correttamente?",
-    "group": "",
     "group_ambigous": "",
     "internal_user_found": "",
     "link_copied": "Collegamento copiato negli appunti",

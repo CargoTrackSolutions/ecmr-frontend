@@ -31,6 +31,7 @@
       "invalid_phone": "Neplatný telefon",
       "required": "Požadovaný"
     },
+    "group": "Skupina",
     "reset": "Resetovat",
     "save": "Uložit",
     "search": "Vyhledávání",
@@ -248,7 +249,6 @@
     "create": "Vytvořit uživatele",
     "edit": "Upravit uživatele",
     "error_saving": "Chyba při ukládání uživatele!",
-    "group": "Skupina",
     "location": "Umístění",
     "locations_and_groups": "Místa a skupiny",
     "successfully_created": "Uživatel byl úspěšně vytvořen.",
@@ -304,11 +304,14 @@
     }
   },
   "history": {
-    "actiontype": {
-      "creation": "Vytvořeno",
-      "edit": "Upraveno"
-    },
-    "title": "Historie pro eCMR"
+    "log": {
+      "actiontype": {
+        "creation": "Vytvořeno",
+        "edit": "Upraveno"
+      },
+      "tab": "Historie",
+      "title": "Historie pro eCMR"
+    }
   },
   "imprint_legal_matter": {
     "title": "Impressum a právní záležitost"
@@ -411,7 +414,6 @@
     "download_qr": "Stáhněte si QR kód",
     "email": "E-mail",
     "error_400": "eCMR nebylo možné sdílet. Je to správně podepsané?",
-    "group": "",
     "group_ambigous": "",
     "internal_user_found": "",
     "link_copied": "Odkaz zkopírován do schránky",

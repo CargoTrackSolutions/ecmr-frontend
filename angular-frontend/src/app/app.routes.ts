@@ -23,7 +23,7 @@ import {
     CarrierRegistrationSuccessComponent
 } from './features/carrier-registration/carrier-registration-success/carrier-registration-success.component';
 import { UserRole } from './core/enums/UserRole';
-import { HistoryLogsComponent } from './features/history-logs/history-logs.component';
+import { HistoryComponent } from './features/history/history.component';
 
 export const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'ecmr-overview'},
@@ -44,5 +44,5 @@ export const routes: Routes = [
     {path: 'carrier-registration-success/:id/:userToken', component: CarrierRegistrationSuccessComponent},
     {path: 'privacy', component: PrivacyComponent},
     {path: 'imprint-legal-matter', component: LegalMatterComponent},
-    {path: 'history/:id/:refId', component: HistoryLogsComponent, canActivate: [AuthGuard]}
+    {path: 'history/:id/:refId', component: HistoryComponent, canActivate: [AuthGuard]}
 ];

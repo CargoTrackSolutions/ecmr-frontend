@@ -31,6 +31,7 @@
       "invalid_phone": "Invalid Phone",
       "required": "Required"
     },
+    "group": "Group",
     "reset": "Reset",
     "save": "Save",
     "search": "Search",
@@ -248,7 +249,6 @@
     "create": "Create user",
     "edit": "Edit user",
     "error_saving": "Error while saving the user!",
-    "group": "Group",
     "location": "Location",
     "locations_and_groups": "Locations and Groups",
     "successfully_created": "User successfully created.",
@@ -304,11 +304,19 @@
     }
   },
   "history": {
-    "actiontype": {
-      "creation": "Created",
-      "edit": "Edited"
+    "access": {
+      "tab": "Access",
+      "title": "Access to eCMR",
+      "external_user": "External user"
     },
-    "title": "History for eCMR"
+    "log": {
+      "actiontype": {
+        "creation": "Created",
+        "edit": "Edited"
+      },
+      "tab": "History",
+      "title": "History for eCMR"
+    }
   },
   "imprint_legal_matter": {
     "title": "Imprint and Legal Matter"
@@ -411,7 +419,6 @@
     "download_qr": "Download QR-Code",
     "email": "E-Mail",
     "error_400": "The eCMR could not be shared. Is it correctly signed?",
-    "group": "Group",
     "group_ambigous": "Sharing is ambiguous due to duplicate group names and descriptions.",
     "internal_user_found": "This email belongs to an internal user. Choose the \u0027internal user\u0027 option for sharing.",
     "link_copied": "Link copied to clipboard",
