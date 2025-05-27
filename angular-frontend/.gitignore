@@ -43,3 +43,4 @@ Thumbs.db
 
 #env
 src/environments/environment.development.ts
+/.nx/

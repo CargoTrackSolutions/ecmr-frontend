@@ -498,3 +498,4 @@ dmypy.json
 .history
 
 # End of https://www.toptal.com/developers/gitignore/api/java,maven,python,angular,eclipse,intellij+all,visualstudiocode,jupyternotebooks,node,sonar,sonarqube
+/angular-frontend/.nx/
