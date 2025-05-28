@@ -303,8 +303,8 @@
       "user": "Utilisateurs assignés"
     }
   },
-  "log": {
-    "history": {
+  "history": {
+    "log": {
       "actiontype": {
         "creation": "Créé",
         "edit": "Modifié"
