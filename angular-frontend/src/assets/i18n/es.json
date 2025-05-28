@@ -304,6 +304,11 @@
     }
   },
   "history": {
+    "access": {
+      "tab": "",
+      "title": "",
+      "external_user": ""
+    },
     "log": {
       "actiontype": {
         "creation": "Creado",
