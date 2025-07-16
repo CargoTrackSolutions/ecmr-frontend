@@ -24,21 +24,11 @@
   align-items: center;
 }
 
-.main-button {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  padding: 24px;
-}
-
-.dropdown-button {
-  min-width: 36px;
-  padding: 24px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
 .signed-content {
-  background-color: #eaeaea;
+  img {
+    background-color: white;
+  }
+  background-color: rgba(172, 171, 171, 0.5);
 }
 
 .id-input {
@@ -72,4 +62,18 @@
 
 #sender-title.alignedWithConsigneeFields {
   margin-top: calc(40px + 0.25rem);
+}
+
+.no-arrows {
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
 }

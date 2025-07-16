@@ -6,77 +6,65 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {MatCardModule} from '@angular/material/card';
-import {MatFormField} from '@angular/material/form-field';
-import {
-  AbstractControl,
-  FormArray,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
-  Validators
-} from '@angular/forms';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import {ActivatedRoute, Router} from '@angular/router';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {CountryCode} from '../../core/enums/CountryCode';
-import {catchError, filter, forkJoin, map, Observable, of, startWith, Subscription, switchMap} from 'rxjs';
-import {CommonModule, DatePipe, NgClass} from '@angular/common';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {CdkTextareaAutosize} from '@angular/cdk/text-field';
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
-import {EcmrConsignment} from '../../core/models/EcmrConsignment';
-import {TranslateModule, TranslateService} from '@ngx-translate/core';
-import {Signature} from '../../core/models/areas/signature/Signature';
-import {EcmrEditorService} from './ecmr-editor-service/ecmr-editor.service';
-import {Ecmr} from '../../core/models/Ecmr';
-import {PayerType} from '../../core/enums/PayerType';
-import {MatSelectModule} from '@angular/material/select';
-import {MatDialog} from '@angular/material/dialog';
-import {TemplateNameDialogComponent} from '../template-overview/template-name-dialog/template-name-dialog.component';
-import {
-  LoadFromTemplateDialogComponent
-} from '../template-overview/load-from-template-dialog/load-from-template-dialog.component';
-import {TemplateUser} from '../../core/models/TemplateUser';
-import {LoadingService} from '../../core/services/loading.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {DynamicDisableControlDirective} from './dynamic-disable-control.directive';
-import {GroupService} from '../group/group.service';
-import {EcmrCreateShareDialogComponent} from './ecmr-create-share-dialog/ecmr-create-share-dialog.component';
-import {GroupFlat} from '../../core/models/GroupFlat';
-import {ExternalUserService} from './ecmr-editor-service/external-user.service';
-import {SignaturePadDialogComponent} from '../signature-pad/signature-pad-dialog.component';
-import {Sign} from '../../core/models/Sign';
-import {Signer} from '../../core/enums/Signer';
-import {DateTimeService} from '../../shared/services/date-time.service';
-import {MatOptionModule} from '@angular/material/core';
-import {EcmrRole} from '../../core/enums/EcmrRole';
-import {EcmrStatus} from '../../core/models/EcmrStatus';
-import {EcmrService} from '../../shared/services/ecmr.service';
-import {SnackbarService} from '../../core/services/snackbar.service';
-import {ShareEcmrDialogComponent} from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component';
-import {EcmrActionService} from '../../shared/services/ecmr-action.service';
-import {
-  ConfirmationDialogComponent,
-  ConfirmationDialogResult
-} from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
-import {EcmrStatusComponent} from '../../shared/components/ecmr-status/ecmr-status.component';
-import {EcmrTransportType} from '../../core/models/EcmrTransportType';
-import {AuthService} from '../../core/services/auth.service';
-import {AuthenticatedUser} from '../../core/models/AuthenticatedUser';
-import {UserRole} from '../../core/enums/UserRole';
-import {UserService} from '../../shared/services/user.service';
-import {SealModel} from "../../core/models/SealModel";
-import {SignatureType} from "../../core/models/SignatureType";
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormField } from '@angular/material/form-field';
+import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { CountryCode } from '../../core/enums/CountryCode';
+import { catchError, filter, forkJoin, map, Observable, of, startWith, Subscription, switchMap, tap } from 'rxjs';
+import { CommonModule, DatePipe, NgClass } from '@angular/common';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
+import { EcmrConsignment } from '../../core/models/EcmrConsignment';
+import { TranslateModule } from '@ngx-translate/core';
+import { Signature } from '../../core/models/areas/signature/Signature';
+import { EcmrEditorService } from './ecmr-editor-service/ecmr-editor.service';
+import { Ecmr } from '../../core/models/Ecmr';
+import { PayerType } from '../../core/enums/PayerType';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDialog } from '@angular/material/dialog';
+import { TemplateNameDialogComponent } from '../template-overview/template-name-dialog/template-name-dialog.component';
+import { LoadFromTemplateDialogComponent } from '../template-overview/load-from-template-dialog/load-from-template-dialog.component';
+import { TemplateUser } from '../../core/models/TemplateUser';
+import { LoadingService } from '../../core/services/loading.service';
+import { DynamicDisableControlDirective } from './dynamic-disable-control.directive';
+import { GroupService } from '../group/group.service';
+import { EcmrCreateShareDialogComponent } from './ecmr-create-share-dialog/ecmr-create-share-dialog.component';
+import { GroupFlat } from '../../core/models/GroupFlat';
+import { ExternalUserService } from './ecmr-editor-service/external-user.service';
+import { SealModel } from '../../core/models/Sign';
+import { DateTimeService } from '../../shared/services/date-time.service';
+import { MatOptionModule } from '@angular/material/core';
+import { EcmrRole } from '../../core/enums/EcmrRole';
+import { EcmrStatus } from '../../core/models/EcmrStatus';
+import { EcmrService } from '../../shared/services/ecmr.service';
+import { SnackbarService } from '../../core/services/snackbar.service';
+import { ShareEcmrDialogComponent } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component';
+import { EcmrActionService } from '../../shared/services/ecmr-action.service';
+import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { EcmrStatusComponent } from '../../shared/components/ecmr-status/ecmr-status.component';
+import { EcmrTransportType } from '../../core/models/EcmrTransportType';
+import { AuthService } from '../../core/services/auth.service';
+import { AuthenticatedUser } from '../../core/models/AuthenticatedUser';
+import { UserRole } from '../../core/enums/UserRole';
+import { UserService } from '../../shared/services/user.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatChipEditedEvent, MatChipGrid, MatChipInput, MatChipInputEvent, MatChipRemove, MatChipRow } from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { LogisticsShippingMarksCustomBarcode } from '../../core/models/areas/ten/LogisticsShippingMarksCustomBarcode';
+import { SealedDocumentService } from '../../shared/services/sealed-document.service';
+import { SealedDocumentWithoutEcmr } from '../../core/models/SealedDocumentWithoutEcmr';
+import { TransportRole } from '../../core/models/TransportRole';
+import { EcmrSealComponent } from '../../shared/components/ecmr-seal/ecmr-seal.component';
 
 export enum EditorMode {
     ECMR_EDIT = 'ECMR_EDIT',
@@ -108,13 +96,19 @@ export enum EditorMode {
         MatSelectModule,
         DynamicDisableControlDirective,
         NgClass,
-        EcmrStatusComponent
+        EcmrStatusComponent,
+        MatChipGrid,
+        MatChipRow,
+        MatChipInput,
+        MatChipRemove,
+        EcmrSealComponent
     ],
     providers: [DatePipe, DateTimeService],
     templateUrl: './ecmr-editor.component.html',
     styleUrl: './ecmr-editor.component.scss'
 })
 export class EcmrEditorComponent implements OnInit {
+
     canFillSenderFields: boolean = false;
     canFillCarrierFields: boolean = false;
     canFillConsigneeFields: boolean = false;
@@ -126,13 +120,9 @@ export class EcmrEditorComponent implements OnInit {
     alignSenderAndConsigneeFields: boolean = false;
     // Calculated window width at which sender and consinee fields 
     // are displayed as two columns in one row.
-    private readonly alignTwoColumnsBreakpoint: string = '(min-width: calc(483px + 3rem))'; 
+    private readonly alignTwoColumnsBreakpoint: string = '(min-width: calc(483px + 3rem))';
 
     editorMode: EditorMode;
-
-    senderSignature: Signature | null;
-    carrierSignature: Signature | null;
-    consigneeSignature: Signature | null;
 
     userEcmrRoles: EcmrRole[] = [];
 
@@ -142,6 +132,7 @@ export class EcmrEditorComponent implements OnInit {
     ecmrToEdit: Ecmr;
     ecmrId: string | null;
     loadedTemplate: TemplateUser;
+    sealedDocument: SealedDocumentWithoutEcmr | null;
 
     payerType: PayerType[] = Object.values(PayerType);
 
@@ -149,7 +140,7 @@ export class EcmrEditorComponent implements OnInit {
         new FormGroup({
             marksAndNos: new FormGroup({
                 logisticsShippingMarksMarking: new FormControl<string | null>(null),
-                logisticsShippingMarksCustomBarcode: new FormControl<string | null>(null)
+                logisticsShippingMarksCustomBarcodeList: new FormControl<LogisticsShippingMarksCustomBarcode[] | null>(null, [maxArrayLengthValidator(32)])
             }),
             numberOfPackages: new FormGroup({
                 logisticsPackageItemQuantity: new FormControl<number | null>(null),
@@ -172,8 +163,8 @@ export class EcmrEditorComponent implements OnInit {
     ecmrConsignmentFormGroup = new FormGroup({
         //Area 1
         senderInformation: new FormGroup({
-            senderNameCompany: new FormControl<string | null>(null),
-            senderNamePerson: new FormControl<string | null>(null),
+            senderCompanyName: new FormControl<string | null>(null),
+            senderPersonName: new FormControl<string | null>(null),
             senderStreet: new FormControl<string | null>(null),
             senderPostcode: new FormControl<string | null>(null),
             senderCity: new FormControl<string | null>(null),
@@ -188,11 +179,11 @@ export class EcmrEditorComponent implements OnInit {
         }),
         //Area 2
         multiConsigneeShipment: new FormGroup({
-            isMultiConsigneeShipment: new FormControl<boolean|null>(false) //qq
+            isMultiConsigneeShipment: new FormControl<boolean | null>(false) //qq
         }),
         consigneeInformation: new FormGroup({
-            consigneeNameCompany: new FormControl<string | null>(null),
-            consigneeNamePerson: new FormControl<string | null>(null),
+            consigneeCompanyName: new FormControl<string | null>(null),
+            consigneePersonName: new FormControl<string | null>(null),
             consigneeStreet: new FormControl<string | null>(null),
             consigneePostcode: new FormControl<string | null>(null),
             consigneeCity: new FormControl<string | null>(null),
@@ -222,8 +213,8 @@ export class EcmrEditorComponent implements OnInit {
         }),
         //Area 6
         carrierInformation: new FormGroup({
-            carrierNameCompany: new FormControl<string | null>(null),
-            carrierNamePerson: new FormControl<string | null>(null),
+            carrierCompanyName: new FormControl<string | null>(null),
+            carrierDriverName: new FormControl<string | null>(null),
             carrierStreet: new FormControl<string | null>(null),
             carrierPostcode: new FormControl<string | null>(null),
             carrierCity: new FormControl<string | null>(null),
@@ -234,7 +225,8 @@ export class EcmrEditorComponent implements OnInit {
             carrierLicensePlate: new FormControl<string | null>(null),
             carrierContactInformation: new FormGroup({
                 email: new FormControl<string | null>(null, [emailValidator()]),
-                phone: new FormControl<string | null>(null, [phoneNumberValidator()])
+                carrierPhone: new FormControl<string | null>(null, [phoneNumberValidator()]),
+                driverPhone: new FormControl<string | null>(null, [phoneNumberValidator()])
             })
         }),
         //Area 7
@@ -244,14 +236,15 @@ export class EcmrEditorComponent implements OnInit {
                 value: new FormControl<string | null>(null),
                 region: new FormControl<string | null>(null),
             }),
-            successiveCarrierNameCompany: new FormControl<string | null>(null),
-            successiveCarrierNamePerson: new FormControl<string | null>(null),
+            successiveCarrierCompanyName: new FormControl<string | null>(null),
+            successiveCarrierDriverName: new FormControl<string | null>(null),
             successiveCarrierPostcode: new FormControl<string | null>(null),
             successiveCarrierSignature: new FormControl<Signature | null>(null),
             successiveCarrierStreet: new FormControl<string | null>(null),
             successiveCarrierContactInformation: new FormGroup({
                 email: new FormControl<string | null>(null, [emailValidator()]),
-                phone: new FormControl<string | null>(null, [phoneNumberValidator()])
+                carrierPhone: new FormControl<string | null>(null, [phoneNumberValidator()]),
+                driverPhone: new FormControl<string | null>(null, [phoneNumberValidator()])
             })
         }),
         //Area 8
@@ -305,13 +298,7 @@ export class EcmrEditorComponent implements OnInit {
             customEstablishedDate: new FormControl<Date | null>(null)
         }),
         //Area 22
-        signatureOrStampOfTheSender: new FormGroup({
-            senderSignature: new FormControl<Signature | null>(null)
-        }),
         //Area 23
-        signatureOrStampOfTheCarrier: new FormGroup({
-            carrierSignature: new FormControl<Signature | null>(null)
-        }),
         //Area 24
         goodsReceived: new FormGroup({
             consigneeSignatureDate: new FormControl<Date | null>(null),
@@ -346,16 +333,16 @@ export class EcmrEditorComponent implements OnInit {
 
     authenticatedUser: AuthenticatedUser | null;
 
+    readonly separatorKeysCodes = [ENTER, COMMA] as const;
+
     constructor(private breakpointObserver: BreakpointObserver,
                 private router: Router,
                 private ecmrEditorService: EcmrEditorService,
                 private route: ActivatedRoute,
-                private snackbar: MatSnackBar,
                 private groupService: GroupService,
                 private externalUserService: ExternalUserService,
-                private translateService: TranslateService,
                 private cd: ChangeDetectorRef,
-                private snackBarService: SnackbarService,
+                private snackbarService: SnackbarService,
                 protected ecmrActionService: EcmrActionService,
                 private loadingService: LoadingService,
                 protected dateTimeService: DateTimeService,
@@ -363,21 +350,22 @@ export class EcmrEditorComponent implements OnInit {
                 private ecmrService: EcmrService,
                 public authService: AuthService,
                 private userService: UserService,
-              ) {
-                  this.authService.getAuthenticatedUser().subscribe(user => {
-                    this.authenticatedUser = user;
-                });
+                private sealedDocumentService: SealedDocumentService
+    ) {
+        this.authService.getAuthenticatedUser().subscribe(user => {
+            this.authenticatedUser = user;
+        });
     }
 
     ngOnInit() {
         this.breakpointSubscription = this.breakpointObserver
-          .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, this.alignTwoColumnsBreakpoint])
-          .subscribe(() => {
-             this.isMobile = this.breakpointObserver.isMatched([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium]);
-             this.isPhone = this.breakpointObserver.isMatched(Breakpoints.XSmall);
-             this.alignSenderAndConsigneeFields = this.breakpointObserver.isMatched(this.alignTwoColumnsBreakpoint);
-          }
-        );
+            .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, this.alignTwoColumnsBreakpoint])
+            .subscribe(() => {
+                    this.isMobile = this.breakpointObserver.isMatched([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium]);
+                    this.isPhone = this.breakpointObserver.isMatched(Breakpoints.XSmall);
+                    this.alignSenderAndConsigneeFields = this.breakpointObserver.isMatched(this.alignTwoColumnsBreakpoint);
+                }
+            );
 
         this.id = this.route.snapshot.params['id'];
         this.tan = this.route.snapshot.params['tan'];
@@ -454,97 +442,81 @@ export class EcmrEditorComponent implements OnInit {
         if (this.userEcmrRoles.includes(EcmrRole.Consignee) && this.ecmrToEdit && this.ecmrToEdit.ecmrStatus == EcmrStatus.IN_TRANSPORT) {
             this.canFillConsigneeFields = true;
 
-            if(!this.ecmrToEdit.ecmrConsignment.goodsReceived.confirmedLogisticsLocationName){
+            if (!this.ecmrToEdit.ecmrConsignment.goodsReceived.confirmedLogisticsLocationName) {
                 const consigneeDefaultLocation = this.ecmrToEdit.ecmrConsignment.consigneeInformation.consigneeCity;
-                this.ecmrConsignmentFormGroup.controls.
-                    goodsReceived.controls.confirmedLogisticsLocationName.setValue(
-                        consigneeDefaultLocation);
+                this.ecmrConsignmentFormGroup.controls.goodsReceived.controls.confirmedLogisticsLocationName.setValue(
+                    consigneeDefaultLocation);
             }
-            this.ecmrConsignmentFormGroup.controls.
-                goodsReceived.controls.consigneeSignatureDate.setValue(new Date());
+            this.ecmrConsignmentFormGroup.controls.goodsReceived.controls.consigneeSignatureDate.setValue(new Date());
         }
     }
 
-    signSender(signatureType: SignatureType) {
+    sealSender() {
         this.resetClearedControls(this.ecmrConsignmentFormGroup);
         if (this.senderFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
-          let resultEcmr: Observable<Ecmr>;
-          if(signatureType == SignatureType.SignOnGlass){
-            resultEcmr = this.signOnGlass(Signer.Sender, this.ecmrConsignmentFormGroup.controls.established.controls.customEstablishedIn.value)
-          } else {
-            const sealModel: SealModel = {
-              signer: Signer.Sender,
-              precedingSeal: null,
-              city: this.ecmrConsignmentFormGroup.controls.established.controls.customEstablishedIn.value
-            };
-
-            resultEcmr = this.sealEcmr(sealModel)
-          }
-          resultEcmr.subscribe({
-            next: (ecmr) => {
-              this.snackBarService.openSuccessSnackbar("ecmr_editor.signature_successful");
-              this.loadEcmr(ecmr);
-              this.setFormConstraints();
-              this.cd.detectChanges();
-            }
-          });
+            this.seal(TransportRole.SENDER, this.ecmrConsignmentFormGroup.controls.established.controls.customEstablishedIn.value);
         } else {
+            for (const field in this.ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.controls) {
+                const form = this.ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get(field)!;
+                if (form!.invalid) {
+                    console.log(field, form);
+                }
+            }
             this.ecmrConsignmentFormGroup.markAllAsTouched();
-            this.snackBarService.openInfoSnackbar("ecmr_editor.mandatory_missing")
+            this.snackbarService.openInfoSnackbar('ecmr_editor.mandatory_missing')
         }
     }
 
-    sealEcmr(sealModel: SealModel): Observable<Ecmr>{
-      const dialogRef = this.matDialog.open(ConfirmationDialogComponent, {
-        data: {
-          text: this.translateService.instant("ecmr_editor.eseal_confirmation"),
-        }
-      });
-
-      return dialogRef.afterClosed().pipe(
-        filter((result: ConfirmationDialogResult) => result.isConfirmed),
-        switchMap(() => this.ecmrEditorService.sealEcmr(sealModel, this.id)),
-        switchMap(() => this.ecmrEditorService.getEcmr(this.id))
-      );
-    }
-
-    signOnGlass(signer: Signer, city: string|null): Observable<Ecmr> {
-      return this.matDialog.open(SignaturePadDialogComponent, {
-        width: '1000px',
-        maxWidth: '95vw',
-      })
-        .afterClosed()
-        .pipe(
-          filter(result => result),
-          switchMap(signResult => {
-            this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
-            return (this.isExternalUser ?
-                this.externalUserService.updateEcmr(this.ecmrToEdit, this.userToken, this.tan) :
-                this.ecmrEditorService.updateEcmr(this.ecmrToEdit)
-            ).pipe(map(() => signResult))
-          }),
-          switchMap(result => {
-            const signature: Sign = {
-              signer: signer,
-              data: result,
-              city: city
-            };
-
-            return this.isExternalUser ? this.externalUserService.signEcmr(signature, this.id, this.userToken, this.tan) : this.ecmrEditorService.signEcmr(signature, this.id);
-          }),
-          switchMap(() => this.isExternalUser ? this.externalUserService.getEcmrWithTan(this.id, this.userToken, this.tan) : this.ecmrEditorService.getEcmr(this.id))
-        );
+    seal(transportRole: TransportRole, city: string | null): void {
+        this.matDialog.open(ConfirmationDialogComponent, {
+            data: {
+                text: 'signature.confirm_text'
+            }
+        }).afterClosed()
+            .pipe(
+                filter(result => result && result.isConfirmed),
+                switchMap(() => {
+                    this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
+                    return (this.isExternalUser ?
+                        this.externalUserService.updateEcmr(this.ecmrToEdit, this.userToken, this.tan) :
+                        this.ecmrEditorService.updateEcmr(this.ecmrToEdit))
+                }),
+                switchMap(() => {
+                    const signature: SealModel = {
+                        transportRole: transportRole,
+                        city: city
+                    };
+                    return this.isExternalUser ? this.externalUserService.sealEcmr(signature, this.id, this.userToken, this.tan) : this.ecmrEditorService.sealEcmr(signature, this.id);
+                }),
+                switchMap(() => this.loadSealedDocument(this.isExternalUser).pipe(
+                    tap(sealedDocument => this.sealedDocument = sealedDocument)
+                )),
+                switchMap(() => this.isExternalUser ? this.externalUserService.getEcmrWithTan(this.id, this.userToken, this.tan) : this.ecmrEditorService.getEcmr(this.id))
+            ).subscribe({
+            next: (ecmr) => {
+                this.snackbarService.openSuccessSnackbar('ecmr_editor.signature_successful');
+                this.loadEcmr(ecmr);
+                this.setFormConstraints();
+                this.cd.detectChanges();
+            },
+            error: (err) => {
+                if (err.status === 400) {
+                    this.snackbarService.openErrorSnackbar('Validation error: ' + err.error.message);
+                }
+                console.error(err);
+            }
+        });
     }
 
     senderFieldsAreValid(): boolean {
         const invalidFields: AbstractControl[] = [];
         const invalidVolumes: AbstractControl[] = [];
-        invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.senderInformation, ['senderNamePerson', 'region', 'email', 'phone']));
-        if(this.ecmrConsignmentFormGroup.controls.multiConsigneeShipment?.controls.isMultiConsigneeShipment?.getRawValue() !== true){
-            invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.consigneeInformation, ['consigneeNamePerson', 'region', 'email', 'phone']));
+        invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.senderInformation, ['senderPersonName', 'region', 'email', 'phone']));
+        if (this.ecmrConsignmentFormGroup.controls.multiConsigneeShipment?.controls.isMultiConsigneeShipment?.getRawValue() !== true) {
+            invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.consigneeInformation, ['consigneePersonName', 'region', 'email', 'phone']));
         }
         invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.takingOverTheGoods, ['region']));
-        invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.carrierInformation, ['carrierNamePerson','region', 'email', 'phone']));
+        invalidFields.push(...this.checkControls(this.ecmrConsignmentFormGroup.controls.carrierInformation, ['carrierPersonName', 'region', 'email', 'carrierPhone', 'driverPhone']));
         if (this.ecmrConsignmentFormGroup.controls.itemList.controls.length > 0) {
             for (const itemGroup of this.itemList.controls) {
 
@@ -553,7 +525,6 @@ export class EcmrEditorComponent implements OnInit {
                     volumeControl.setErrors({'minValue': true});
                     invalidVolumes.push(volumeControl);
                 }
-
                 invalidFields.push(...this.checkControls(itemGroup, []))
             }
         }
@@ -566,56 +537,18 @@ export class EcmrEditorComponent implements OnInit {
         return invalidFields.length == 0 && invalidVolumes.length == 0;
     }
 
-    signCarrier(signatureType: SignatureType) {
+    sealCarrier() {
         this.resetClearedControls(this.ecmrConsignmentFormGroup);
-      let resultEcmr: Observable<Ecmr>;
-
-      if(signatureType == SignatureType.SignOnGlass) {
-        resultEcmr = this.signOnGlass(Signer.Carrier, null)
-      } else {
-        const sealModel: SealModel = {
-          signer: Signer.Carrier,
-          precedingSeal: this.senderSignature?.data,
-          city: null
-        }
-        resultEcmr = this.sealEcmr(sealModel);
-      }
-
-      resultEcmr
-        .subscribe(ecmr => {
-          this.snackBarService.openSuccessSnackbar("ecmr_editor.signature_successful");
-          this.loadEcmr(ecmr);
-          this.setFormConstraints();
-          this.cd.detectChanges();
-        });
-
+        this.seal(TransportRole.CARRIER, null);
     }
 
-    signConsignee(signatureType: SignatureType) {
+    sealConsignee() {
         this.resetClearedControls(this.ecmrConsignmentFormGroup);
         if (this.consigneeFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
-          let resultEcmr: Observable<Ecmr>;
-
-          if(signatureType == SignatureType.SignOnGlass) {
-            resultEcmr = this.signOnGlass(Signer.Consignee, this.ecmrConsignmentFormGroup.controls.takingOverTheGoods.controls.takingOverTheGoodsPlace.value!)
-          } else {
-            const sealModel: SealModel = {
-              signer: Signer.Consignee,
-              precedingSeal: this.carrierSignature?.data,
-              city: this.ecmrConsignmentFormGroup.controls.takingOverTheGoods.controls.takingOverTheGoodsPlace.value!
-            }
-            resultEcmr = this.sealEcmr(sealModel);
-          }
-          resultEcmr
-            .subscribe(ecmr => {
-              this.snackBarService.openSuccessSnackbar("ecmr_editor.signature_successful");
-              this.loadEcmr(ecmr);
-              this.setFormConstraints();
-              this.cd.detectChanges();
-            });
+            this.seal(TransportRole.CONSIGNEE, this.ecmrConsignmentFormGroup.controls.takingOverTheGoods.controls.takingOverTheGoodsPlace.value!);
         } else {
             this.ecmrConsignmentFormGroup.markAllAsTouched();
-            this.snackBarService.openInfoSnackbar("ecmr_editor.mandatory_missing");
+            this.snackbarService.openInfoSnackbar('ecmr_editor.mandatory_missing');
         }
     }
 
@@ -638,7 +571,7 @@ export class EcmrEditorComponent implements OnInit {
                 if (subResult.length > 0) {
                     invalidFields.push(...subResult);
                 }
-            } else if (!excludedElements.includes(controlName) && (control.value === null || control.value === '')) {
+            } else if (!excludedElements.includes(controlName) && (control.value === null || control.value === '' || control.value.length == 0)) {
                 invalidFields.push(control)
             }
         }
@@ -659,34 +592,46 @@ export class EcmrEditorComponent implements OnInit {
         }
     }
 
-  private initializeForm() {
-    if (this.editorMode === EditorMode.TEMPLATE_NEW || this.editorMode === EditorMode.TEMPLATE_EDIT) {
-      this.ecmrConsignmentFormGroup.controls.itemList.controls = [];
-      (this.ecmrConsignmentFormGroup.controls['itemList'].disable());
-      (this.ecmrConsignmentFormGroup.controls['goodsReceived'].disable());
-      (this.ecmrConsignmentFormGroup.controls['carriersReservationsAndObservationsOnTakingOverTheGoods'].disable());
-    }
-    if (this.editorMode === EditorMode.ECMR_NEW || this.editorMode === EditorMode.TEMPLATE_NEW) {
-      this.ecmrConsignment = this.ecmrEditorService.createEmptyEcmrConsignment();
-      this.userEcmrRoles = [EcmrRole.Sender];
-      this.setFormConstraints();
-    }
-    if (this.editorMode === EditorMode.ECMR_EDIT) {
-      if (this.tan != undefined && this.userToken != undefined) {
-        const loadEcmrObs = this.externalUserService.getEcmrWithTan(this.id, this.userToken, this.tan);
-        const loadRolesObs = this.externalUserService.getEcmrRolesForUser(this.id, this.userToken, this.tan);
-        this.loadingService.showLoaderUntilCompleted(forkJoin({ecmr: loadEcmrObs, roles: loadRolesObs}))
-          .subscribe(result => {
-            this.loadEcmr(result.ecmr);
-            this.userEcmrRoles = result.roles;
+    private initializeForm() {
+        if (this.editorMode === EditorMode.TEMPLATE_NEW || this.editorMode === EditorMode.TEMPLATE_EDIT) {
+            this.ecmrConsignmentFormGroup.controls.itemList.controls = [];
+            (this.ecmrConsignmentFormGroup.controls['itemList'].disable());
+            (this.ecmrConsignmentFormGroup.controls['goodsReceived'].disable());
+            (this.ecmrConsignmentFormGroup.controls['carriersReservationsAndObservationsOnTakingOverTheGoods'].disable());
+        }
+        if (this.editorMode === EditorMode.ECMR_NEW || this.editorMode === EditorMode.TEMPLATE_NEW) {
+            this.ecmrConsignment = this.ecmrEditorService.createEmptyEcmrConsignment();
+            this.userEcmrRoles = [EcmrRole.Sender];
             this.setFormConstraints();
-          })
+        }
+        if (this.editorMode === EditorMode.ECMR_EDIT) {
+            if (this.tan != undefined && this.userToken != undefined) {
+                const loadEcmrObs = this.externalUserService.getEcmrWithTan(this.id, this.userToken, this.tan);
+                const loadRolesObs = this.externalUserService.getEcmrRolesForUser(this.id, this.userToken, this.tan);
+                const loadSealedDocumentObs = this.loadSealedDocument(true);
+                this.loadingService.showLoaderUntilCompleted(forkJoin({
+                    ecmr: loadEcmrObs,
+                    roles: loadRolesObs,
+                    sealedDocument: loadSealedDocumentObs
+                }))
+                    .subscribe(result => {
+                        this.sealedDocument = result.sealedDocument;
+                        this.loadEcmr(result.ecmr);
+                        this.userEcmrRoles = result.roles;
+                        this.setFormConstraints();
+                    })
 
             } else {
                 const loadEcmrObs = this.ecmrEditorService.getEcmr(this.id);
                 const loadRolesObs = this.ecmrService.getEcmrRolesForCurrentUser(this.id);
-                this.loadingService.showLoaderUntilCompleted(forkJoin({ecmr: loadEcmrObs, roles: loadRolesObs}))
+                const loadSealedDocumentObs = this.loadSealedDocument(false);
+                this.loadingService.showLoaderUntilCompleted(forkJoin({
+                    ecmr: loadEcmrObs,
+                    roles: loadRolesObs,
+                    sealedDocument: loadSealedDocumentObs
+                }))
                     .subscribe(result => {
+                        this.sealedDocument = result.sealedDocument;
                         this.loadEcmr(result.ecmr);
                         this.userEcmrRoles = result.roles;
                         this.setFormConstraints();
@@ -712,6 +657,20 @@ export class EcmrEditorComponent implements OnInit {
         }
     }
 
+    private loadSealedDocument(isExternalUser: boolean) {
+        return (isExternalUser ? this.externalUserService.getSealedDocumentWithoutEcmr(this.id, this.userToken, this.tan) : this.sealedDocumentService.getSealedDocumentWithoutEcmr(this.id))
+            .pipe(
+                catchError(err => {
+                    if (err.status === 404) {
+                        return of(null);
+                    } else {
+                        this.snackbarService.openErrorSnackbar('general.snackbar_error')
+                        console.log(err);
+                        return of(null)
+                    }
+                }));
+    }
+
     private loadEcmr(data: Ecmr) {
         this.ecmrToEdit = data;
         this.ecmrConsignment = data.ecmrConsignment;
@@ -720,10 +679,6 @@ export class EcmrEditorComponent implements OnInit {
             this.addNewItem();
         });
         this.ecmrConsignmentFormGroup.patchValue(this.ecmrConsignment);
-
-        this.senderSignature = this.ecmrConsignment.signatureOrStampOfTheSender.senderSignature;
-        this.carrierSignature = this.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature;
-        this.consigneeSignature = this.ecmrConsignment.goodsReceived.consigneeSignature;
     }
 
     isMultiConsigneeShipmentCheckboxChange($event: MatCheckboxChange) {
@@ -734,24 +689,23 @@ export class EcmrEditorComponent implements OnInit {
                 }
             }).afterClosed().pipe().subscribe(
                 ((dialogResult) => {
-                    if(dialogResult?.isConfirmed === true){
+                    if (dialogResult?.isConfirmed === true) {
                         this.ecmrConsignmentFormGroup.controls.consigneeInformation.reset();
-                    }else{
-                        this.ecmrConsignmentFormGroup.controls.multiConsigneeShipment.
-                                patchValue({ isMultiConsigneeShipment: false });
+                    } else {
+                        this.ecmrConsignmentFormGroup.controls.multiConsigneeShipment.patchValue({isMultiConsigneeShipment: false});
                     }
                 })
             )
         }
     }
 
-    private isFormGroupFilled(group:FormGroup): boolean{
+    private isFormGroupFilled(group: FormGroup): boolean {
         for (const controlName in group.controls) {
             const control = group.controls[controlName];
             if (control instanceof FormGroup) {
                 // recursive call for subgroups
                 const subResult = this.isFormGroupFilled(control)
-                if(subResult)
+                if (subResult)
                     return true
             } else if (control.value !== null && control.value !== '') {
                 return true
@@ -789,36 +743,36 @@ export class EcmrEditorComponent implements OnInit {
             (this.authenticatedUser?.user.role === UserRole.Admin ?
                 this.groupService.getAllGroupsAsFlatList(true) :
                 this.userService.getCurrentUserGroups())
-                    .pipe(
-                        switchMap(groups => {
-                            if (groups.length > 1) {
-                                return this.matDialog.open(EcmrCreateShareDialogComponent, {
-                                    data: groups,
-                                    width: '60vw',
-                                    maxHeight: '800px'
-                                }).afterClosed()
-                            } else if (groups.length == 0) {
-                                return of([])
-                            } else {
-                                return of(groups)
-                          }
-                        }),
-                        map(groups => groups as GroupFlat[]),
-                        switchMap(groups => {
-                            return this.loadingService.showLoaderUntilCompleted(this.ecmrEditorService.saveEcmr(ecmr, groups))
-                        }),
-                      catchError(err => {
-                          console.warn(err);
-                          return of(null)
-                      })
-                    ).subscribe(ecmr => {
-                        if(ecmr === null) {
-                            this.snackBarService.openErrorSnackbar('ecmr_editor.save_failure');
+                .pipe(
+                    switchMap(groups => {
+                        if (groups.length > 1) {
+                            return this.matDialog.open(EcmrCreateShareDialogComponent, {
+                                data: groups,
+                                width: '60vw',
+                                maxHeight: '800px'
+                            }).afterClosed()
+                        } else if (groups.length == 0) {
+                            return of([])
                         } else {
-                            this.snackBarService.openSuccessSnackbar('ecmr_editor.save_success')
-                            if (ecmr && returnToOverview) this.returnToOverview();
+                            return of(groups)
                         }
+                    }),
+                    map(groups => groups as GroupFlat[]),
+                    switchMap(groups => {
+                        return this.loadingService.showLoaderUntilCompleted(this.ecmrEditorService.saveEcmr(ecmr, groups))
+                    }),
+                    catchError(err => {
+                        console.warn(err);
+                        return of(null)
                     })
+                ).subscribe(ecmr => {
+                if (ecmr === null) {
+                    this.snackbarService.openErrorSnackbar('ecmr_editor.save_failure');
+                } else {
+                    this.snackbarService.openSuccessSnackbar('ecmr_editor.save_success')
+                    if (ecmr && returnToOverview) this.returnToOverview();
+                }
+            })
         } else if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_EDIT)) {
             this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
 
@@ -827,11 +781,11 @@ export class EcmrEditorComponent implements OnInit {
             $updateObservable.subscribe({
                 next: ecmr => {
                     this.loadEcmr(ecmr)
-                    this.snackBarService.openSuccessSnackbar('ecmr_editor.save_success')
+                    this.snackbarService.openSuccessSnackbar('ecmr_editor.save_success')
                     if (returnToOverview) this.returnToOverview()
                 },
                 error: error => {
-                    this.snackBarService.openErrorSnackbar("general.snackbar_error");
+                    this.snackbarService.openErrorSnackbar('general.snackbar_error');
                     console.error(error)
                 }
             })
@@ -868,8 +822,8 @@ export class EcmrEditorComponent implements OnInit {
                     return this.ecmrEditorService.saveTemplate(ecmr, dialogResult);
                 })
             ).subscribe(() => {
-                this.snackBarService.openSuccessSnackbar('ecmr_editor.template_save_success');
-                if(this.isTemplate()) {
+                this.snackbarService.openSuccessSnackbar('ecmr_editor.template_save_success');
+                if (this.isTemplate()) {
                     this.returnToOverview();
                 }
             });
@@ -877,7 +831,7 @@ export class EcmrEditorComponent implements OnInit {
         if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.TEMPLATE_EDIT)) {
             this.loadedTemplate.ecmr.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
             this.ecmrEditorService.updateTemplate(this.loadedTemplate).subscribe(() => {
-                this.snackBarService.openSuccessSnackbar('ecmr_editor.template_save_success');
+                this.snackbarService.openSuccessSnackbar('ecmr_editor.template_save_success');
                 this.returnToOverview()
             })
         }
@@ -922,7 +876,7 @@ export class EcmrEditorComponent implements OnInit {
             new FormGroup({
                 marksAndNos: new FormGroup({
                     logisticsShippingMarksMarking: new FormControl(),
-                    logisticsShippingMarksCustomBarcode: new FormControl()
+                    logisticsShippingMarksCustomBarcodeList: new FormControl()
                 }),
                 numberOfPackages: new FormGroup({
                     logisticsPackageItemQuantity: new FormControl(),
@@ -972,13 +926,13 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     scrollToElement() {
-        const element = document.getElementById('ecmr-signature-scroll');
+        const element = document.getElementById('ecmr-seal-scroll');
         element?.scrollIntoView({behavior: 'smooth'});
     }
 
     scrollIfSigning() {
-        if(this.route.snapshot.queryParams['action'] === 'sign'){
-            const element = document.getElementById('ecmr-signature-scroll');
+        if (this.route.snapshot.queryParams['action'] === 'seal') {
+            const element = document.getElementById('ecmr-seal-scroll');
             element?.scrollIntoView();
         }
     }
@@ -1043,14 +997,47 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     public getTransportType(ecmr: Ecmr): EcmrTransportType | null {
-      return this.ecmrService.getTransportType(ecmr);
+        return this.ecmrService.getTransportType(ecmr);
     }
 
     protected readonly EcmrTransportType = EcmrTransportType;
 
     protected readonly EcmrStatus = EcmrStatus;
 
-  protected readonly SignatureType = SignatureType;
+    removeBarcode(barcode: LogisticsShippingMarksCustomBarcode, barcodeList: FormControl<LogisticsShippingMarksCustomBarcode[] | null>) {
+        const barcodes = barcodeList.value;
+        if (barcodes == null) {
+            return;
+        }
+        const index = barcodes.indexOf(barcode);
+        if (index >= 0) {
+            barcodes.splice(index, 1);
+            barcodeList.setValue(barcodes);
+        }
+    }
+
+    editBarcode(barcode: LogisticsShippingMarksCustomBarcode, event: MatChipEditedEvent, barcodeList: FormControl<LogisticsShippingMarksCustomBarcode[] | null>) {
+        if (!event.value) {
+            this.removeBarcode(barcode, barcodeList);
+            return;
+        }
+        const index = barcodeList.value!.indexOf(barcode);
+        if (index >= 0) {
+            barcodeList.value![index] = {barcode: event.value};
+        }
+    }
+
+    addBarcode(event: MatChipInputEvent, barcodeList: FormControl<LogisticsShippingMarksCustomBarcode[] | null>): void {
+        const value = (event.value || '').trim();
+        if (value) {
+            if (barcodeList.value) {
+                barcodeList.value.push({barcode: value})
+            } else {
+                barcodeList.setValue([{barcode: value}]);
+            }
+        }
+        event.chipInput!.clear();
+    }
 }
 
 export function phoneNumberValidator(): ValidatorFn {
@@ -1074,5 +1061,17 @@ export function emailValidator(): ValidatorFn {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         const valid = emailRegex.test(control.value);
         return valid ? null : {invalidEmail: true};
+    };
+}
+
+export function maxArrayLengthValidator(max: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        if (!control.value) {
+            return null;
+        }
+        if (Array.isArray(control.value) && control.value.length > max) {
+            return { maxLengthExceeded: { max, actual: control.value.length } };
+        }
+        return null;
     };
 }

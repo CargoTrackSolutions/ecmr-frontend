@@ -10,8 +10,8 @@ import { SenderContactInformation } from './SenderContactInformation';
 import { SenderCountryCode } from './SenderCountryCode';
 
 export interface SenderInformation {
-  senderNameCompany: string | null;
-  senderNamePerson: string | null;
+  senderCompanyName: string | null;
+  senderPersonName: string | null;
   senderStreet: string | null;
   senderPostcode: string | null;
   senderCity: string | null;

@@ -9,7 +9,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatButton, MatIconButton } from '@angular/material/button';
-import { MatCard, MatCardContent } from '@angular/material/card';
+import { MatCard } from '@angular/material/card';
 import {
   MatCell,
   MatCellDef,
@@ -24,7 +24,6 @@ import {
   MatTableDataSource
 } from '@angular/material/table';
 import { MatCheckbox } from '@angular/material/checkbox';
-import { MatDivider } from '@angular/material/divider';
 import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
@@ -56,12 +55,10 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
     CdkDropList,
     MatButton,
     MatCard,
-    MatCardContent,
     MatCell,
     MatCellDef,
     MatCheckbox,
     MatColumnDef,
-    MatDivider,
     MatFormField,
     MatHeaderCell,
     MatHeaderRow,
@@ -197,9 +194,9 @@ export class TemplateOverviewComponent implements OnInit {
         case 'refId':
           return compare(a.ecmr.ecmrConsignment.referenceIdentificationNumber.value, b.ecmr.ecmrConsignment.referenceIdentificationNumber.value, isAsc);
         case 'from':
-          return compare(a.ecmr.ecmrConsignment.senderInformation.senderNameCompany, b.ecmr.ecmrConsignment.senderInformation.senderNameCompany, isAsc);
+          return compare(a.ecmr.ecmrConsignment.senderInformation.senderCompanyName, b.ecmr.ecmrConsignment.senderInformation.senderCompanyName, isAsc);
         case 'to':
-          return compare(a.ecmr.ecmrConsignment.consigneeInformation.consigneeNameCompany, b.ecmr.ecmrConsignment.consigneeInformation.consigneeNameCompany, isAsc);
+          return compare(a.ecmr.ecmrConsignment.consigneeInformation.consigneeCompanyName, b.ecmr.ecmrConsignment.consigneeInformation.consigneeCompanyName, isAsc);
         default:
           return 0;
       }
@@ -224,12 +221,12 @@ export class TemplateOverviewComponent implements OnInit {
         }
 
         if (key === 'from') {
-          const nestedValue = data.ecmr.ecmrConsignment.senderInformation?.senderNameCompany;
+          const nestedValue = data.ecmr.ecmrConsignment.senderInformation?.senderCompanyName;
           return searchTerm ? nestedValue?.toString().toLowerCase().includes(searchTerm.toLowerCase()) : true;
         }
 
         if (key === 'to') {
-          const nestedValue = data.ecmr.ecmrConsignment?.consigneeInformation.consigneeNameCompany;
+          const nestedValue = data.ecmr.ecmrConsignment?.consigneeInformation.consigneeCompanyName;
           return searchTerm ? nestedValue?.toString().toLowerCase().includes(searchTerm.toLowerCase()) : true;
         }
 

@@ -9,3 +9,11 @@
 .row {
   align-items: end;
 }
+
+.signature-container {
+  img {
+    background-color: white;
+    margin-bottom: 10px;
+  }
+  flex: 1 1 200px;
+}

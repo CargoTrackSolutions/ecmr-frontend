@@ -6,8 +6,9 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-export interface CarrierContactInformation {
-    email: string | null;
-    carrierPhone: string | null;
-    driverPhone: string | null;
+import { SealedDocumentWithoutEcmr } from './SealedDocumentWithoutEcmr';
+import { Ecmr } from './Ecmr';
+
+export interface SealedDocument extends SealedDocumentWithoutEcmr {
+    ecmr: Ecmr;
 }

@@ -10,8 +10,8 @@ import { ConsigneeContactInformation } from './ConsigneeContactInformation';
 import { ConsigneeCountryCode } from './ConsigneeCountryCode';
 
 export interface ConsigneeInformation {
-  consigneeNameCompany: string | null;
-  consigneeNamePerson: string | null;
+  consigneeCompanyName: string | null;
+  consigneePersonName: string | null;
   consigneeStreet: string | null;
   consigneePostcode: string | null;
   consigneeCity: string | null;

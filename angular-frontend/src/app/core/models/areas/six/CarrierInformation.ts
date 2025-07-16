@@ -10,8 +10,8 @@ import { CarrierContactInformation } from './CarrierContactInformation';
 import { CarrierCountryCode } from './CarrierCountryCode';
 
 export interface CarrierInformation {
-  carrierNameCompany: string | null;
-  carrierNamePerson: string | null;
+  carrierCompanyName: string | null;
+  carrierDriverName: string | null;
   carrierStreet: string | null;
   carrierPostcode: string | null;
   carrierCity: string | null;

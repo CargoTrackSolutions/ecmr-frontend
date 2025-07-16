@@ -90,7 +90,6 @@
     "error_mandatory": "Questo campo è obbligatorio per la firma.",
     "error_too_short": "Deve essere lungo almeno 2 caratteri",
     "error_volume_min": "Deve essere maggiore di 0",
-    "eseal_confirmation": "Vuoi sigillare questo ecmr con eSeal?",
     "eseal_information": "Questo eCMR è stato firmato con eSeal.",
     "established": {
       "in": "In",
@@ -154,7 +153,6 @@
       "description": "Descrizione"
     },
     "sign": "Firma",
-    "sign_on_glass": "Firma su vetro",
     "signature_successful": "Firma riuscita. Campi eCMR bloccati",
     "special_agreements_sen_carr": {
       "special_agreements": "Accordi speciali"
@@ -197,10 +195,10 @@
     "title_2": "2. Destinatario (nome, indirizzo, stato)",
     "title_20": "20. Il presente trasporto è soggetto, nonostante qualsiasi clausola contraria, alla Convenzione sul contratto di trasporto internazionale di merci su strada",
     "title_21": "21. Stabilito",
-    "title_22": "22. Firma o timbro del mittente",
-    "title_23": "23. Firma o timbro del trasportatore",
+    "title_22": "22. Firma del mittente",
+    "title_23": "23. Firma del trasportatore",
     "title_24": "24. Merci ricevute",
-    "title_24_signature": "Firma o timbro del destinatario",
+    "title_24_signature": "Firma del destinatario",
     "title_3": "3. Presa in consegna della merce",
     "title_4": "4. Consegna della merce",
     "title_5": "5. Istruzioni del mittente",
@@ -239,7 +237,7 @@
     "title": "Importa eCMR"
   },
   "ecmr_status": {
-    "ARRIVED_AT_DESTINATION": "Arrivato a destinazione",
+    "DELIVERED": "Arrivato a destinazione",
     "IN_TRANSPORT": "In trasporto",
     "LOADING": "Caricamento",
     "NEW": "Nuovo"
@@ -442,7 +440,7 @@
     "by": "Da:",
     "clear": "Cancella firma",
     "confirm_text": "Sei sicuro? Non potrai più apportare modifiche all\u0027eCMR.",
-    "signed_on": "Accesso effettuato:"
+    "signed_on": ""
   },
   "template_overview": {
     "clear_filter": "Cancella filtro",

@@ -5,8 +5,9 @@
  * For details on the licensing terms, see the LICENSE file.
  * SPDX-License-Identifier: OLFL-1.3
  */
+import { LogisticsShippingMarksCustomBarcode } from './LogisticsShippingMarksCustomBarcode';
 
 export interface MarksAndNos {
-  logisticsShippingMarksMarking: string | null;
-  logisticsShippingMarksCustomBarcode: string | null;
+    logisticsShippingMarksMarking: string | null;
+    logisticsShippingMarksCustomBarcodeList: LogisticsShippingMarksCustomBarcode[] | null;
 }

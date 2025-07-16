@@ -19,7 +19,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { NgClass } from '@angular/common';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { EcmrOverviewDetailsComponent } from './ecmr-overview-details/ecmr-overview-details.component';
 
@@ -40,9 +40,9 @@ import { EcmrPage } from '../../core/models/EcmrPage';
 import { LoadingService } from '../../core/services/loading.service';
 import { EcmrType } from '../../core/models/EcmrType';
 import { SnackbarService } from '../../core/services/snackbar.service';
-import {
-  ExternalEcmrImportDialogComponent
-} from "./dialog/external-ecmr-import-dialog/external-ecmr-import-dialog.component";
+import { ExternalEcmrImportDialogComponent } from './dialog/external-ecmr-import-dialog/external-ecmr-import-dialog.component';
+import { SealedDocumentService } from '../../shared/services/sealed-document.service';
+import { SealedDocumentWithoutEcmr } from '../../core/models/SealedDocumentWithoutEcmr';
 
 @Component({
     selector: 'app-overview',
@@ -89,16 +89,17 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
                 public ecmrService: EcmrService,
                 private router: Router,
                 private loadingService: LoadingService,
-                private translateService: TranslateService,
                 private breakpointObserver: BreakpointObserver,
                 protected ecmrActionService: EcmrActionService,
-                private snackBarService: SnackbarService) {
+                private snackbarService: SnackbarService,
+                private sealedDocumentService: SealedDocumentService) {
     }
 
     // ecmr selected
     selectedEcmr: Ecmr | null = null;
     selectedEcmrRoles: EcmrRole[];
     shareButtonDisabled: boolean = true;
+    currentSealedDocument: SealedDocumentWithoutEcmr | null;
 
     ecmr: Ecmr[] = [];
 
@@ -114,7 +115,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         consigneePostCode: null,
         lastEditor: null
     };
-    
+
     initialSort: Sort = {active: '', direction: ''};
     readonly ecmrType: EcmrType = EcmrType.ECMR;
 
@@ -128,7 +129,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         const savedFilterRequest = this.ecmrService.getFilterRequest();
         if (savedFilterRequest) this.filterRequest = savedFilterRequest;
 
-        if(!this.isMobile){
+        if (!this.isMobile) {
             const savedSort = this.ecmrService.getEcmrSort(this.ecmrType);
             if (savedSort) this.initialSort = savedSort;
         }
@@ -172,40 +173,40 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         });
     }*/
 
-    importExternalEcmr(){
-      this.dialog.open(ExternalEcmrImportDialogComponent,
-        {
-          width: '30vw'
-        }).afterClosed().pipe(
-          switchMap(result => {
-            if(result) {
-              return this.loadData()
+    importExternalEcmr() {
+        this.dialog.open(ExternalEcmrImportDialogComponent,
+            {
+                width: '30vw'
+            }).afterClosed().pipe(
+            switchMap(result => {
+                if (result) {
+                    return this.loadData()
+                }
+                return of(null)
+            })
+        ).subscribe(data => {
+            if (data) {
+                this.updateTableData(data);
             }
-            return of(null)
-          })
-      ).subscribe(data => {
-        if(data) {
-          this.updateTableData(data);
-        }
-      })
+        })
     }
 
     shareEcmr(ecmr: Ecmr) {
-      if (ecmr?.ecmrId) {
-        this.ecmrService.getEcmrRolesForCurrentUser(ecmr?.ecmrId).subscribe(roles => {
-            this.selectedEcmrRoles = roles
-            this.shareButtonDisabled = (this.selectedEcmrRoles.includes(EcmrRole.Consignee) || this.selectedEcmrRoles.includes(EcmrRole.Reader)) && this.selectedEcmrRoles.length === 1;
-            this.dialog.open(ShareEcmrDialogComponent, {
-                width: '800px',
-                maxWidth: '90vw',
-                data: {
-                    ecmr: ecmr,
-                    roles: this.selectedEcmrRoles,
-                    isExternalUser: false
-                }
-            });
-        })
-      }
+        if (ecmr?.ecmrId) {
+            this.ecmrService.getEcmrRolesForCurrentUser(ecmr?.ecmrId).subscribe(roles => {
+                this.selectedEcmrRoles = roles
+                this.shareButtonDisabled = (this.selectedEcmrRoles.includes(EcmrRole.Consignee) || this.selectedEcmrRoles.includes(EcmrRole.Reader)) && this.selectedEcmrRoles.length === 1;
+                this.dialog.open(ShareEcmrDialogComponent, {
+                    width: '800px',
+                    maxWidth: '90vw',
+                    data: {
+                        ecmr: ecmr,
+                        roles: this.selectedEcmrRoles,
+                        isExternalUser: false
+                    }
+                });
+            })
+        }
     }
 
     editEcmr(ecmrId: string) {
@@ -213,7 +214,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     }
 
     signEcmr(ecmrId: string) {
-        if (ecmrId) this.router.navigateByUrl(`/ecmr-editor/${ecmrId}?action=sign`); // or /sign or sign=true
+        if (ecmrId) this.router.navigateByUrl(`/ecmr-editor/${ecmrId}?action=seal`); // or /seal or seal=true
     }
 
     deleteEcmr(ecmrId: string) {
@@ -226,14 +227,13 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
             switchMap(() => this.ecmrService.deleteEcmr(ecmrId)),
             switchMap(() => this.loadData())
         ).subscribe(data => {
-            this.snackBarService.openSuccessSnackbar("overview.delete_success");
+            this.snackbarService.openSuccessSnackbar('overview.delete_success');
             this.updateTableData(data);
         });
     }
 
     deleteButtonVisible(ecmr: Ecmr) {
-        return ecmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature === null
-            && ecmr.ecmrStatus === EcmrStatus.NEW
+        return ecmr.ecmrStatus === EcmrStatus.NEW
     }
 
 
@@ -258,13 +258,13 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
             }),
             switchMap(() => this.loadData()),
             catchError(err => {
-                this.snackBarService.openErrorSnackbar("general.snackbar_error");
+                this.snackbarService.openErrorSnackbar('general.snackbar_error');
                 console.error(err);
                 return of(null)
             }),
         ).subscribe(data => {
             if (data) {
-                this.snackBarService.openSuccessSnackbar("overview.move_to_archive_success");
+                this.snackbarService.openSuccessSnackbar('overview.move_to_archive_success');
                 this.updateTableData(data);
                 this.selectedEcmr = null;
             }
@@ -279,10 +279,26 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
 
     selectEcmr(ecmr: Ecmr | null) {
         if (ecmr?.ecmrId) {
-            this.ecmrService.getEcmrRolesForCurrentUser(ecmr?.ecmrId).subscribe(roles => {
+            this.ecmrService.getEcmrRolesForCurrentUser(ecmr.ecmrId).subscribe(roles => {
                 this.selectedEcmrRoles = roles
                 this.shareButtonDisabled = (this.selectedEcmrRoles.includes(EcmrRole.Consignee) || this.selectedEcmrRoles.includes(EcmrRole.Reader)) && this.selectedEcmrRoles.length === 1;
             })
+            this.sealedDocumentService.getSealedDocumentWithoutEcmr(ecmr.ecmrId)
+                .pipe(
+                    catchError(err => {
+                        if (err.status === 404) {
+                            return of(null);
+                        } else {
+                            this.snackbarService.openErrorSnackbar('general.snackbar_error')
+                            console.log(err);
+                            return of(null)
+                        }
+                    }))
+                .subscribe(sealedDocument => {
+                    if (sealedDocument) {
+                        this.currentSealedDocument = sealedDocument;
+                    }
+                })
         }
         this.selectedEcmr = ecmr;
     }

@@ -8,12 +8,15 @@
 
 import { Component, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatChip, MatChipSet } from '@angular/material/chips';
 
 @Component({
     selector: 'app-ecmr-display-information-field',
     standalone: true,
     imports: [
-        TranslateModule
+        TranslateModule,
+        MatChipSet,
+        MatChip
     ],
     templateUrl: './ecmr-display-information-field.component.html',
     styleUrl: './ecmr-display-information-field.component.scss'
@@ -21,5 +24,6 @@ import { TranslateModule } from '@ngx-translate/core';
 export class EcmrDisplayInformationFieldComponent {
 
     @Input() label: string;
-    @Input() displayedContent: string | number | null | Date;
+    @Input() displayedContent: string | string[] | number | null | Date;
+    protected readonly Array = Array;
 }

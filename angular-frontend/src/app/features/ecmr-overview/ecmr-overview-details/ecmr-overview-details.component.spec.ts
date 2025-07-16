@@ -15,7 +15,6 @@ import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/
 import { PayerType } from '../../../core/enums/PayerType';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
-import {SignatureType} from "../../../core/models/SignatureType";
 
 describe('EcmrOverviewDetailsComponent', () => {
     let component: EcmrOverviewDetailsComponent;
@@ -53,8 +52,8 @@ describe('EcmrOverviewDetailsComponent', () => {
             ecmrId: 'FhG-IML-504',
             ecmrConsignment: {
                 senderInformation: {
-                    senderNameCompany: 'IML',
-                    senderNamePerson: 'Peter Müller',
+                    senderCompanyName: 'IML',
+                    senderPersonName: 'Peter Müller',
                     senderStreet: 'Joseph-von-Fraunhofer-Str. 2-4',
                     senderPostcode: '44227',
                     senderCity: 'Dortmund',
@@ -68,8 +67,8 @@ describe('EcmrOverviewDetailsComponent', () => {
                     isMultiConsigneeShipment: false
                 },
                 consigneeInformation: {
-                    consigneeNameCompany: 'Rhenus',
-                    consigneeNamePerson: 'Martina Hill',
+                    consigneeCompanyName: 'Rhenus',
+                    consigneePersonName: 'Martina Hill',
                     consigneePostcode: '44227',
                     consigneeStreet: 'Test Straße 2',
                     consigneeCity: 'Dortmund',
@@ -92,8 +91,8 @@ describe('EcmrOverviewDetailsComponent', () => {
                     transportInstructionsDescription: 'Truck'
                 },
                 carrierInformation: {
-                    carrierNameCompany: 'DB Schenker',
-                    carrierNamePerson: 'Thorsten Baumann',
+                    carrierCompanyName: 'DB Schenker',
+                    carrierDriverName: 'Thorsten Baumann',
                     carrierPostcode: '44279',
                     carrierStreet: 'Test Straße 2',
                     carrierCity: 'Dortmund',
@@ -101,18 +100,18 @@ describe('EcmrOverviewDetailsComponent', () => {
                     carrierLicensePlate: 'UN-DO-1234',
                     carrierContactInformation: {
                         email: 'test@test.com',
-                        phone: '+15612331421'
+                        carrierPhone: '+15612331421',
+                        driverPhone: '+15612331421'
                     }
                 },
                 successiveCarrierInformation: {
                     successiveCarrierCity: 'Dortmund',
                     successiveCarrierCountryCode: {region: 'NRW', value: 'DE'},
-                    successiveCarrierNameCompany: 'DHL',
+                    successiveCarrierCompanyName: 'DHL',
                     successiveCarrierStreet: 'Straße 1234',
-                    successiveCarrierNamePerson: 'Angelika Trommel',
+                    successiveCarrierDriverName: 'Angelika Trommel',
                     successiveCarrierPostcode: '44809',
                     successiveCarrierSignature: {
-                        type: SignatureType.SignOnGlass,
                         userName: 'AT',
                         userCompany: 'DHL',
                         userStreet: 'Dahlacker 12',
@@ -124,13 +123,13 @@ describe('EcmrOverviewDetailsComponent', () => {
                     },
                     successiveCarrierContactInformation: {
                         email: 'test@test.com',
-                        phone: '+15612331421'
+                        carrierPhone: '+15612331421',
+                        driverPhone: '+15612331421'
                     }
                 },
                 carriersReservationsAndObservationsOnTakingOverTheGoods: {
                     carrierReservationsObservations: 'Observations',
                     senderReservationsObservationsSignature: {
-                        type: SignatureType.SignOnGlass,
                         userName: 'AT',
                         userCompany: 'DHL',
                         userStreet: 'Dahlacker 12',
@@ -148,7 +147,7 @@ describe('EcmrOverviewDetailsComponent', () => {
                     marksAndNos:
                         {
                             logisticsShippingMarksMarking: '',
-                            logisticsShippingMarksCustomBarcode: ''
+                            logisticsShippingMarksCustomBarcodeList: [{barcode: ''}]
                         },
                     numberOfPackages: {logisticsPackageItemQuantity: 5},
                     methodOfPacking: {logisticsPackageType: 'boxed'},
@@ -189,37 +188,10 @@ describe('EcmrOverviewDetailsComponent', () => {
                     customEstablishedDate: new Date(),
                     customEstablishedIn: ''
                 },
-                signatureOrStampOfTheSender: {
-                    senderSignature: {
-                        type: SignatureType.SignOnGlass,
-                        userName: 'Anna Tellman',
-                        userCompany: 'DHL',
-                        userStreet: 'Dahlacker 12',
-                        userPostCode: '44791',
-                        userCity: 'Bochum',
-                        userCountry: 'Germany',
-                        timestamp: new Date(),
-                        data: '123lasc123'
-                    }
-                },
-                signatureOrStampOfTheCarrier: {
-                    carrierSignature: {
-                        type: SignatureType.SignOnGlass,
-                        userName: 'AT',
-                        userCompany: 'DHL',
-                        userStreet: 'Dahlacker 12',
-                        userPostCode: '44791',
-                        userCity: 'Bochum',
-                        userCountry: 'Germany',
-                        timestamp: new Date(),
-                        data: '123lasc123'
-                    }
-                },
                 goodsReceived: {
                     confirmedLogisticsLocationName: '',
                     consigneeReservationsObservations: '',
                     consigneeSignature: {
-                        type: SignatureType.SignOnGlass,
                         userName: 'AT',
                         userCompany: 'DHL',
                         userStreet: 'Dahlacker 12',

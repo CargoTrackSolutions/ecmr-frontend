@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-
 export interface SharedCarrierInformation {
-    carrierNameCompany: string | null,
-    carrierNamePerson: string | null
+    carrierCompanyName: string | null,
+    carrierPersonName: string | null
 }

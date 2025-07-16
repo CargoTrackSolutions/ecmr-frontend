@@ -22,7 +22,7 @@
             }
         }
         @if (!isTemplate()) {
-          <app-ecmr-status [status]="ecmrToEdit.ecmrStatus ? ecmrToEdit.ecmrStatus : EcmrStatus.NEW" [isMobile]="isMobile"></app-ecmr-status>
+            <app-ecmr-status [status]="ecmrToEdit?.ecmrStatus ? ecmrToEdit.ecmrStatus : EcmrStatus.NEW" [isMobile]="isMobile"></app-ecmr-status>
         }
     </div>
     @if (!isMobile) {
@@ -65,7 +65,7 @@
         <div class="d-flex flex-row gap-2 align-items-center">
             <button mat-flat-button color="primary" *ngIf="!isTemplate() && !isPhone" (click)="scrollToElement()">
                 <mat-icon iconPositionEnd>draw</mat-icon>
-                  {{ "ecmr_editor.sign" | translate }}
+                {{ "ecmr_editor.sign" | translate }}
             </button>
             <button mat-mini-fab *ngIf="!isTemplate() && isPhone" (click)="scrollToElement()" (keyup.enter)="scrollToElement()" color="primary">
                 <mat-icon>draw</mat-icon>
@@ -103,15 +103,15 @@
     }
 </mat-toolbar>
 <div class="container-fluid" [formGroup]="ecmrConsignmentFormGroup">
-  <div class="row"  [class.custom-template-style]="isTemplate() && !isPhone">
-    <div class="m-3 d-flex flex-column gap-3 overflow-container col pb-3"
-         [class.mobile-container]="isMobile">
-      <mat-card class="header-card">
-        <mat-card-content class="d-flex flex-row justify-content-between align-items-center">
-          <div class="flex-grow-1 d-flex gap-3 flex-row align-items-center overflow-hidden" formGroupName="referenceIdentificationNumber">
-            <div class="ecmr-cmr-logo">
-              <div>CMR</div>
-            </div>
+    <div class="row" [class.custom-template-style]="isTemplate() && !isPhone">
+        <div class="m-3 d-flex flex-column gap-3 overflow-container col pb-3"
+             [class.mobile-container]="isMobile">
+            <mat-card class="header-card">
+                <mat-card-content class="d-flex flex-row justify-content-between align-items-center">
+                    <div class="flex-grow-1 d-flex gap-3 flex-row align-items-center overflow-hidden" formGroupName="referenceIdentificationNumber">
+                        <div class="ecmr-cmr-logo">
+                            <div>CMR</div>
+                        </div>
 
                         <!-- Area 26 -->
 
@@ -138,19 +138,20 @@
                         <!-- Area 1 -->
 
                         <div class="d-flex gap-1 flex-column col" formGroupName="senderInformation">
-                            <h6 id="sender-title" [class.alignedWithConsigneeFields]="alignSenderAndConsigneeFields">{{ "ecmr_editor.title_1" | translate }}</h6>
+                            <h6 id="sender-title"
+                                [class.alignedWithConsigneeFields]="alignSenderAndConsigneeFields">{{ "ecmr_editor.title_1" | translate }}</h6>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.sender.name" | translate }}</mat-label>
-                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="senderNameCompany">
-                                @if (ecmrConsignmentFormGroup.controls.senderInformation.get('senderNameCompany')?.hasError('mandatoryForSigning')) {
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="senderCompanyName">
+                                @if (ecmrConsignmentFormGroup.controls.senderInformation.get('senderCompanyName')?.hasError('mandatoryForSigning')) {
                                     <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                 }
                             </mat-form-field>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.sender.person_name" | translate }}</mat-label>
-                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="senderNamePerson"
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="senderPersonName"
                                        [minlength]="2" [maxlength]="60">
-                                @if (ecmrConsignmentFormGroup.controls.senderInformation.get('senderNamePerson')?.hasError('minlength')) {
+                                @if (ecmrConsignmentFormGroup.controls.senderInformation.get('senderPersonName')?.hasError('minlength')) {
                                     <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
                                 }
                             </mat-form-field>
@@ -236,40 +237,40 @@
                         <!-- Area 2 -->
 
                         <div class="d-flex gap-1 flex-column col">
-<!--                            TODO Add this section when legal issues are resolved -->
-<!--                            <div formGroupName="multiConsigneeShipment">-->
-<!--                                <mat-checkbox-->
-<!--                                    [dynamicDisable]="!canFillSenderFields"-->
-<!--                                    (change)="isMultiConsigneeShipmentCheckboxChange($event)"-->
-<!--                                    formControlName="isMultiConsigneeShipment">-->
-<!--                                        {{ "ecmr_editor.multi_consignee_shipment.is_multi_consignee_shipment" | translate }}-->
-<!--                                </mat-checkbox>-->
-<!--                            </div>-->
-                            <h6>{{ "ecmr_editor.title_2" | translate }}</h6>                   
-                            <div *ngIf="!ecmrConsignmentFormGroup.controls.multiConsigneeShipment.get('isMultiConsigneeShipment')?.value" 
-                                    class="d-flex flex-column gap-1 flex-wrap"
-                                    formGroupName="consigneeInformation">
-    
+                            <!--                            TODO Add this section when legal issues are resolved -->
+                            <!--                            <div formGroupName="multiConsigneeShipment">-->
+                            <!--                                <mat-checkbox-->
+                            <!--                                    [dynamicDisable]="!canFillSenderFields"-->
+                            <!--                                    (change)="isMultiConsigneeShipmentCheckboxChange($event)"-->
+                            <!--                                    formControlName="isMultiConsigneeShipment">-->
+                            <!--                                        {{ "ecmr_editor.multi_consignee_shipment.is_multi_consignee_shipment" | translate }}-->
+                            <!--                                </mat-checkbox>-->
+                            <!--                            </div>-->
+                            <h6>{{ "ecmr_editor.title_2" | translate }}</h6>
+                            <div *ngIf="!ecmrConsignmentFormGroup.controls.multiConsigneeShipment.get('isMultiConsigneeShipment')?.value"
+                                 class="d-flex flex-column gap-1 flex-wrap"
+                                 formGroupName="consigneeInformation">
+
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.consignee.name" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields"
-                                    matInput type="text" formControlName="consigneeNameCompany">
-                                    @if (ecmrConsignmentFormGroup.controls.consigneeInformation.get('consigneeNameCompany')?.invalid) {
+                                           matInput type="text" formControlName="consigneeCompanyName">
+                                    @if (ecmrConsignmentFormGroup.controls.consigneeInformation.get('consigneeCompanyName')?.invalid) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.consignee.person_name" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields"
-                                    matInput type="text" formControlName="consigneeNamePerson" [minlength]="2" [maxlength]="60">
-                                    @if (ecmrConsignmentFormGroup.controls.consigneeInformation.get('consigneeNamePerson')?.hasError('minlength')) {
+                                           matInput type="text" formControlName="consigneePersonName" [minlength]="2" [maxlength]="60">
+                                    @if (ecmrConsignmentFormGroup.controls.consigneeInformation.get('consigneePersonName')?.hasError('minlength')) {
                                         <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.consignee.street_name" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields"
-                                    matInput type="text" formControlName="consigneeStreet" [minlength]="2" [maxlength]="255">
+                                           matInput type="text" formControlName="consigneeStreet" [minlength]="2" [maxlength]="255">
                                     @if (ecmrConsignmentFormGroup.controls.consigneeInformation.get('consigneeStreet')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                     }
@@ -281,7 +282,7 @@
                                     <mat-form-field class="flex-grow-1">
                                         <mat-label>{{ "ecmr_editor.consignee.post_code" | translate }}</mat-label>
                                         <input [dynamicDisable]="!canFillSenderFields"
-                                        matInput type="text" formControlName="consigneePostcode" [minlength]="2" [maxlength]="17">
+                                               matInput type="text" formControlName="consigneePostcode" [minlength]="2" [maxlength]="17">
                                         @if (ecmrConsignmentFormGroup.controls.consigneeInformation.get('consigneePostcode')?.hasError('mandatoryForSigning')) {
                                             <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                         }
@@ -292,7 +293,7 @@
                                     <mat-form-field class="flex-grow-1">
                                         <mat-label>{{ "ecmr_editor.consignee.city_name" | translate }}</mat-label>
                                         <input [dynamicDisable]="!canFillSenderFields"
-                                        matInput type="text" formControlName="consigneeCity" [minlength]="2" [maxlength]="60">
+                                               matInput type="text" formControlName="consigneeCity" [minlength]="2" [maxlength]="60">
                                         @if (ecmrConsignmentFormGroup.controls.consigneeInformation.get('consigneeCity')?.hasError('mandatoryForSigning')) {
                                             <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                         }
@@ -305,10 +306,10 @@
                                     <mat-form-field class="flex-grow-1">
                                         <mat-label>{{ "ecmr_editor.consignee.country" | translate }}</mat-label>
                                         <input [dynamicDisable]="!canFillSenderFields"
-                                        matInput type="text" formControlName="value" maxlength="2"
-                                            (input)="transformToUppercase('consignee')"
-                                            (blur)="checkCountry('consignee')"
-                                            [matAutocomplete]="consigneeCountryAutocomplete">
+                                               matInput type="text" formControlName="value" maxlength="2"
+                                               (input)="transformToUppercase('consignee')"
+                                               (blur)="checkCountry('consignee')"
+                                               [matAutocomplete]="consigneeCountryAutocomplete">
                                         <mat-autocomplete #consigneeCountryAutocomplete="matAutocomplete">
                                             @for (country of filteredConsigneeCountries | async; track country) {
                                                 <mat-option [value]="country">{{ country }}</mat-option>
@@ -326,7 +327,7 @@
                                     <mat-form-field class="flex-grow-1">
                                         <mat-label>{{ "ecmr_editor.consignee.email" | translate }}</mat-label>
                                         <input [dynamicDisable]="!canFillSenderFields"
-                                        matInput type="text" formControlName="email" [maxlength]="255">
+                                               matInput type="text" formControlName="email" [maxlength]="255">
                                         @if (ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeContactInformation.get('email')?.hasError('mandatoryForSigning')) {
                                             <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                         }
@@ -337,18 +338,18 @@
                                     <mat-form-field class="flex-grow-1">
                                         <mat-label>{{ "ecmr_editor.consignee.phone" | translate }}</mat-label>
                                         <input [dynamicDisable]="!canFillSenderFields"
-                                        matInput type="text" formControlName="phone" [maxlength]="32">
+                                               matInput type="text" formControlName="phone" [maxlength]="32">
                                         @if (ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeContactInformation.get('phone')?.hasError('mandatoryForSigning')) {
                                             <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                         }
                                         @if (ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeContactInformation.get('phone')?.hasError('invalidPhoneNumber')) {
                                             <mat-error>{{ "common.errors.invalid_phone" | translate }}</mat-error>
                                         }
-                                    </mat-form-field>                               
+                                    </mat-form-field>
                                 </div>
-                            </div> 
+                            </div>
                             <div *ngIf="ecmrConsignmentFormGroup.controls.multiConsigneeShipment.get('isMultiConsigneeShipment')?.value">
-                                {{"ecmr_editor.multi_consignee_shipment.multi_consignee_shipment_notice" | translate }}
+                                {{ "ecmr_editor.multi_consignee_shipment.multi_consignee_shipment_notice" | translate }}
                             </div>
                         </div>
                     </div>
@@ -393,7 +394,7 @@
                                         <mat-datepicker-toggle matIconSuffix [for]="timeOfDeparturePicker"></mat-datepicker-toggle>
                                         @if (ecmrConsignmentFormGroup.controls.takingOverTheGoods.get('logisticsTimeOfDepartureDateTime')?.invalid) {
                                             <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
-                                          }
+                                        }
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -447,19 +448,19 @@
                             <h6>{{ "ecmr_editor.title_6" | translate }}</h6>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.carrier_information.name" | translate }}</mat-label>
-                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierNameCompany">
-                                @if (ecmrConsignmentFormGroup.controls.carrierInformation.get('carrierNameCompany')?.invalid) {
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierCompanyName">
+                                @if (ecmrConsignmentFormGroup.controls.carrierInformation.get('carrierCompanyName')?.invalid) {
                                     <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                 }
                             </mat-form-field>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.carrier_information.person_name" | translate }}</mat-label>
-                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierNamePerson"
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierDriverName"
                                        [minlength]="2" [maxlength]="60">
-                                @if (ecmrConsignmentFormGroup.controls.carrierInformation.get('carrierNamePerson')?.hasError('mandatoryForSigning')) {
+                                @if (ecmrConsignmentFormGroup.controls.carrierInformation.get('carrierPersonName')?.hasError('mandatoryForSigning')) {
                                     <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                 }
-                                @if (ecmrConsignmentFormGroup.controls.carrierInformation.get('carrierNamePerson')?.hasError('minlength')) {
+                                @if (ecmrConsignmentFormGroup.controls.carrierInformation.get('carrierPersonName')?.hasError('minlength')) {
                                     <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
                                 }
                             </mat-form-field>
@@ -541,12 +542,26 @@
                                     }
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.carrier_information.phone" | translate }}</mat-label>
-                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone" [maxlength]="32">
-                                    @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('phone')?.hasError('mandatoryForSigning')) {
+                                    <mat-label>{{ "ecmr_editor.carrier_information.driver_phone" | translate }}</mat-label>
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="driverPhone"
+                                           [maxlength]="32">
+                                    @if
+                                    (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('driverPhone')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                     }
-                                    @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('phone')?.hasError('invalidPhoneNumber')) {
+                                    @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('driverPhone')?.hasError('invalidPhoneNumber')) {
+                                        <mat-error>{{ "common.errors.invalid_phone" | translate }}</mat-error>
+                                    }
+                                </mat-form-field>
+                                <mat-form-field class="flex-grow-1">
+                                    <mat-label>{{ "ecmr_editor.carrier_information.carrier_phone" | translate }}</mat-label>
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierPhone"
+                                           [maxlength]="32">
+                                    @if
+                                    (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('carrierPhone')?.hasError('mandatoryForSigning')) {
+                                        <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                    }
+                                    @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('carrierPhone')?.hasError('invalidPhoneNumber')) {
                                         <mat-error>{{ "common.errors.invalid_phone" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
@@ -559,13 +574,13 @@
                             <h6>{{ "ecmr_editor.title_7" | translate }}</h6>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.successive_carrier_information.name" | translate }}</mat-label>
-                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="successiveCarrierNameCompany">
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="successiveCarrierCompanyName">
                             </mat-form-field>
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.successive_carrier_information.person_name" | translate }}</mat-label>
-                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="successiveCarrierNamePerson"
+                                <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="successiveCarrierDriverName"
                                        [minlength]="2" [maxlength]="255">
-                                @if (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.get('successiveCarrierNamePerson')?.hasError('minlength')) {
+                                @if (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.get('successiveCarrierPersonName')?.hasError('minlength')) {
                                     <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
                                 }
                             </mat-form-field>
@@ -624,9 +639,23 @@
                                     }
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.successive_carrier_information.phone" | translate }}</mat-label>
-                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone" [maxlength]="32">
-                                    @if (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierContactInformation.get('phone')?.hasError('invalidPhoneNumber')) {
+                                    <mat-label>{{ "ecmr_editor.successive_carrier_information.driver_phone" | translate }}</mat-label>
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="driverPhone"
+                                           [maxlength]="32">
+                                    @if
+                                    (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierContactInformation.get('driverPhone')?.hasError('invalidPhoneNumber')) {
+                                        <mat-error>{{ "common.errors.invalid_phone" | translate }}</mat-error>
+                                    }
+                                </mat-form-field>
+                                <mat-form-field class="flex-grow-1">
+                                    <mat-label>{{ "ecmr_editor.carrier_information.carrier_phone" | translate }}</mat-label>
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierPhone"
+                                           [maxlength]="32">
+                                    @if
+                                    (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierContactInformation.get('carrierPhone')?.hasError('mandatoryForSigning')) {
+                                        <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                    }
+                                    @if (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierContactInformation.get('carrierPhone')?.hasError('invalidPhoneNumber')) {
                                         <mat-error>{{ "common.errors.invalid_phone" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
@@ -841,213 +870,123 @@
                     </div>
                 </mat-card-content>
             </mat-card>
-            @if(!isTemplate()) {
-              <mat-card id="ecmr-signature-scroll">
-                  <mat-card-content class="container-fluid">
-                      <div class="row">
+            @if (!isTemplate()) {
+                <mat-card id="ecmr-seal-scroll">
+                    <mat-card-content class="container-fluid">
+                        <div class="row">
 
-                          <!-- Area 21 -->
+                            <!-- Area 21 -->
 
-                          <div class="flex-grow-1 d-flex gap-1 flex-column col"
-                              formGroupName="established">
-                              <h6>{{ "ecmr_editor.title_21" | translate }}</h6>
-                              <div class="d-flex flex-row flex-wrap gap-2 mb-3">
-                                  <mat-form-field class="flex-grow-1">
-                                      <mat-label>{{ "ecmr_editor.established.in" | translate }}</mat-label>
-                                      <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="customEstablishedIn"
-                                            [minlength]="2" [maxlength]="30">
-                                      @if (ecmrConsignmentFormGroup.controls.established.get('customEstablishedIn')?.hasError('mandatoryForSigning')) {
-                                          <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
-                                      }
-                                      @if (ecmrConsignmentFormGroup.controls.established.get('customEstablishedIn')?.hasError('minlength')) {
-                                          <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
-                                      }
-                                  </mat-form-field>
-                                  <mat-form-field class="flex-grow-1">
-                                      <mat-label>{{ "ecmr_editor.established.on" | translate }}</mat-label>
-                                      <input [dynamicDisable]="!canFillSenderFields" matInput formControlName="customEstablishedDate"
-                                            [matDatepicker]="establishedDatePicker">
-                                      <mat-datepicker #establishedDatePicker></mat-datepicker>
-                                      <mat-datepicker-toggle matIconSuffix [for]="establishedDatePicker"></mat-datepicker-toggle>
-                                      @if (ecmrConsignmentFormGroup.controls.established.get('customEstablishedDate')?.invalid) {
-                                          <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
-                                      }
-                                  </mat-form-field>
-                              </div>
+                            <div class="flex-grow-1 d-flex gap-1 flex-column col"
+                                 formGroupName="established">
+                                <h6>{{ "ecmr_editor.title_21" | translate }}</h6>
+                                <div class="d-flex flex-row flex-wrap gap-2 mb-3">
+                                    <mat-form-field class="flex-grow-1">
+                                        <mat-label>{{ "ecmr_editor.established.in" | translate }}</mat-label>
+                                        <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="customEstablishedIn"
+                                               [minlength]="2" [maxlength]="30">
+                                        @if (ecmrConsignmentFormGroup.controls.established.get('customEstablishedIn')?.hasError('mandatoryForSigning')) {
+                                            <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                        }
+                                        @if (ecmrConsignmentFormGroup.controls.established.get('customEstablishedIn')?.hasError('minlength')) {
+                                            <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
+                                        }
+                                    </mat-form-field>
+                                    <mat-form-field class="flex-grow-1">
+                                        <mat-label>{{ "ecmr_editor.established.on" | translate }}</mat-label>
+                                        <input [dynamicDisable]="!canFillSenderFields" matInput formControlName="customEstablishedDate"
+                                               [matDatepicker]="establishedDatePicker">
+                                        <mat-datepicker #establishedDatePicker></mat-datepicker>
+                                        <mat-datepicker-toggle matIconSuffix [for]="establishedDatePicker"></mat-datepicker-toggle>
+                                        @if (ecmrConsignmentFormGroup.controls.established.get('customEstablishedDate')?.invalid) {
+                                            <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                        }
+                                    </mat-form-field>
+                                </div>
 
-                              <!-- Area 22 -->
+                                <!-- Area 22 -->
+                                <h6>{{ "ecmr_editor.title_22" | translate }}</h6>
+                                <app-ecmr-seal [sealed]="!!sealedDocument"
+                                               [seal]="sealedDocument?.senderSeal"
+                                               [buttonDisabled]="!canFillSenderFields || this.editorMode !== EditorMode.ECMR_EDIT"
+                                               (buttonClicked)="sealSender()"
+                                />
 
-                              <h6>{{ "ecmr_editor.title_22" | translate }}</h6>
-                            @if (senderSignature) {
-                              <div
-                                class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
-                                @if (senderSignature.type === SignatureType.SignOnGlass) {
-                                  <img [src]="senderSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
-                                } @else {
-                                  <p>{{"ecmr_editor.eseal_information" | translate}}</p>
-                                }
-                                <span
-                                  class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(senderSignature.timestamp) }}</span>
-                                <p
-                                  class="text-center mt-2">{{ "signature.by" | translate }} {{ senderSignature.userName }}</p>
-                              </div>
-                            } @else {
-                                  <div class="action-button-group">
-                                      <button [disabled]="!canFillSenderFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
-                                              class="main-button mb-3" color="primary"
-                                              (click)="signSender(SignatureType.SignOnGlass)">
-                                          {{ "ecmr_editor.sign_on_glass" | translate }}
-                                      </button>
-                                      <button [disabled]="!canFillSenderFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
-                                              class="dropdown-button mb-3" color="primary"
-                                              [matMenuTriggerFor]="menu">
-                                          <mat-icon>arrow_drop_down</mat-icon>
-                                      </button>
-                                  </div>
+                                <!-- Area 23 -->
+                                <h6>{{ "ecmr_editor.title_23" | translate }}</h6>
+                                <app-ecmr-seal [sealed]="!!sealedDocument?.carrierSeal"
+                                               [seal]="sealedDocument?.carrierSeal"
+                                               [buttonDisabled]="!canFillCarrierFields || this.editorMode !== EditorMode.ECMR_EDIT"
+                                               (buttonClicked)="sealCarrier()"
+                                />
+                            </div>
 
-                                  <mat-menu #menu="matMenu">
-                                      <button (click)="signSender(SignatureType.ESeal)" mat-menu-item>
-                                          E-Sign
-                                      </button>
-                                  </mat-menu>
-                              }
+                            <!-- Area 24 -->
+                            <div class="flex-grow-1 d-flex gap-1 flex-column col"
+                                 formGroupName="goodsReceived">
+                                <h6>{{ "ecmr_editor.title_24" | translate }}</h6>
+                                <div class="d-flex flex-row flex-wrap gap-2">
+                                    <mat-form-field class="flex-grow-1">
+                                        <mat-label>{{ "ecmr_editor.receival_signature.place" | translate }}</mat-label>
+                                        <input [dynamicDisable]="!canFillConsigneeFields" matInput type="text"
+                                               formControlName="confirmedLogisticsLocationName" [minlength]="2" [maxlength]="60">
+                                        @if (ecmrConsignmentFormGroup.controls.goodsReceived.get('confirmedLogisticsLocationName')?.hasError('mandatoryForSigning')) {
+                                            <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                        }
+                                        @if (ecmrConsignmentFormGroup.controls.goodsReceived.get('confirmedLogisticsLocationName')?.hasError('minlength')) {
+                                            <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
+                                        }
+                                    </mat-form-field>
+                                    <mat-form-field class="flex-grow-1">
+                                        <mat-label>{{ "ecmr_editor.receival_signature.date" | translate }}</mat-label>
+                                        <input [dynamicDisable]="!canFillConsigneeFields" matInput formControlName="consigneeSignatureDate"
+                                               [matDatepicker]="consigneeSignatureDatePicker">
+                                        <mat-datepicker #consigneeSignatureDatePicker></mat-datepicker>
+                                        <mat-datepicker-toggle matIconSuffix [for]="consigneeSignatureDatePicker"></mat-datepicker-toggle>
+                                        @if (ecmrConsignmentFormGroup.controls.goodsReceived.get('consigneeSignatureDate')?.invalid) {
+                                            <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                        }
+                                    </mat-form-field>
+                                    <mat-form-field class="flex-grow-1">
+                                        <mat-label>{{ "ecmr_editor.receival_signature.remarks" | translate }}</mat-label>
+                                        <textarea [dynamicDisable]="!canFillConsigneeFields" matInput cdkTextareaAutosize rows="5"
+                                                  formControlName="consigneeReservationsObservations" [minlength]="2" [maxlength]="512"></textarea>
+                                        @if (ecmrConsignmentFormGroup.controls.goodsReceived.get('consigneeReservationsObservations')?.hasError('minlength')) {
+                                            <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
+                                        }
+                                    </mat-form-field>
+                                </div>
+                                <h6>{{ "ecmr_editor.title_24_signature" | translate }}</h6>
+                                <app-ecmr-seal [sealed]="!!sealedDocument?.consigneeSeal"
+                                               [seal]="sealedDocument?.consigneeSeal"
+                                               [buttonDisabled]="!canFillConsigneeFields || this.editorMode !== EditorMode.ECMR_EDIT"
+                                               (buttonClicked)="sealConsignee()"
+                                />
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+                <mat-card>
+                    <mat-card-content class="container-fluid">
+                        <div class="row">
 
+                            <!-- Area 25 -->
 
-                              <!-- Area 23 -->
-
-                              <h6>{{ "ecmr_editor.title_23" | translate }}</h6>
-                            @if (carrierSignature) {
-                              <div
-                                class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
-                                @if (carrierSignature.type === SignatureType.SignOnGlass) {
-                                  <img [src]="carrierSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
-                                } @else {
-                                  <p>{{ "ecmr_editor.eseal_information" | translate }}</p>
-                                }
-                                <span
-                                  class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(carrierSignature.timestamp) }}</span>
-                                <p
-                                  class="text-center mt-2">{{ "signature.by" | translate }} {{ carrierSignature.userName }}</p>
-                              </div>
-                            } @else {
-                                  <div class="action-button-group">
-                                      <button [disabled]="!canFillCarrierFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
-                                              class="main-button mb-3" color="primary"
-                                              (click)="signCarrier(SignatureType.SignOnGlass)">
-                                          {{ "ecmr_editor.sign_on_glass" | translate }}
-                                      </button>
-                                      <button [disabled]="!canFillCarrierFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
-                                              class="dropdown-button mb-3" color="primary"
-                                              [matMenuTriggerFor]="menu">
-                                          <mat-icon>arrow_drop_down</mat-icon>
-                                      </button>
-                                  </div>
-
-                                  <mat-menu #menu="matMenu">
-                                      <button mat-menu-item (click)="signCarrier(SignatureType.ESeal)">
-                                          E-Sign
-                                      </button>
-                                  </mat-menu>
-                              }
-                          </div>
-
-                          <!-- Area 24 -->
-
-                          <div class="flex-grow-1 d-flex gap-1 flex-column col"
-                              formGroupName="goodsReceived">
-                              <h6>{{ "ecmr_editor.title_24" | translate }}</h6>
-                              <div class="d-flex flex-row flex-wrap gap-2">
-                                  <mat-form-field class="flex-grow-1">
-                                      <mat-label>{{ "ecmr_editor.receival_signature.place" | translate }}</mat-label>
-                                      <input [dynamicDisable]="!canFillConsigneeFields" matInput type="text"
-                                            formControlName="confirmedLogisticsLocationName" [minlength]="2" [maxlength]="60">
-                                      @if
-                                      (ecmrConsignmentFormGroup.controls.goodsReceived.get('confirmedLogisticsLocationName')?.hasError('mandatoryForSigning')) {
-                                          <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
-                                      }
-                                      @if (ecmrConsignmentFormGroup.controls.goodsReceived.get('confirmedLogisticsLocationName')?.hasError('minlength')) {
-                                          <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
-                                      }
-                                  </mat-form-field>
-                                  <mat-form-field class="flex-grow-1">
-                                      <mat-label>{{ "ecmr_editor.receival_signature.date" | translate }}</mat-label>
-                                      <input [dynamicDisable]="!canFillConsigneeFields" matInput formControlName="consigneeSignatureDate"
-                                            [matDatepicker]="consigneeSignatureDatePicker">
-                                      <mat-datepicker #consigneeSignatureDatePicker></mat-datepicker>
-                                      <mat-datepicker-toggle matIconSuffix [for]="consigneeSignatureDatePicker"></mat-datepicker-toggle>
-                                      @if (ecmrConsignmentFormGroup.controls.goodsReceived.get('consigneeSignatureDate')?.invalid) {
-                                          <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
-                                      }
-                                  </mat-form-field>
-                                  <mat-form-field class="flex-grow-1">
-                                      <mat-label>{{ "ecmr_editor.receival_signature.remarks" | translate }}</mat-label>
-                                      <textarea [dynamicDisable]="!canFillConsigneeFields" matInput cdkTextareaAutosize rows="5"
-                                          formControlName="consigneeReservationsObservations" [minlength]="2" [maxlength]="512"></textarea>
-                                      @if (ecmrConsignmentFormGroup.controls.goodsReceived.get('consigneeReservationsObservations')?.hasError('minlength')) {
-                                          <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
-                                      }                                   
-                                  </mat-form-field>
-                              </div>
-                              <h6>{{ "ecmr_editor.title_24_signature" | translate }}</h6>
-                            @if (consigneeSignature) {
-                              <div
-                                class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
-                                @if (consigneeSignature.type === SignatureType.SignOnGlass) {
-                                  <img [src]="consigneeSignature.data" alt="signature" class="img-fluid rounded mb-2"/>
-                                } @else {
-                                  <p>{{ "ecmr_editor.eseal_information" | translate }}</p>
-                                }
-                                <span
-                                  class="signature-date d-flex justify-content-center mt-2">{{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(consigneeSignature.timestamp) }}</span>
-                                <p
-                                  class="text-center mt-2">{{ "signature.by" | translate }} {{ consigneeSignature.userName }}</p>
-                              </div>
-                            } @else {
-                                  <div class="action-button-group">
-                                      <button [disabled]="!canFillConsigneeFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
-                                              class="main-button" color="primary"
-                                              (click)="signConsignee(SignatureType.SignOnGlass)">
-                                          {{ "ecmr_editor.sign_on_glass" | translate }}
-                                      </button>
-                                      <button [disabled]="!canFillConsigneeFields || this.editorMode !== EditorMode.ECMR_EDIT" mat-flat-button
-                                              class="dropdown-button" color="primary"
-                                              [matMenuTriggerFor]="menu">
-                                          <mat-icon>arrow_drop_down</mat-icon>
-                                      </button>
-                                  </div>
-
-                                  <mat-menu #menu="matMenu">
-                                      <button mat-menu-item (click)="signConsignee(SignatureType.ESeal)">
-                                          E-Sign
-                                      </button>
-                                  </mat-menu>
-                              }
-                          </div>
-                      </div>
-                  </mat-card-content>
-              </mat-card>
-              <mat-card>
-                  <mat-card-content class="container-fluid">
-                      <div class="row">
-
-                          <!-- Area 25 -->
-
-                          <div class="flex-grow-1 d-flex gap-1 flex-column"
-                              formGroupName="nonContractualPartReservedForTheCarrier">
-                              <h6>{{ "ecmr_editor.non_contractual_part_reserved_for_the_carrier" | translate }}</h6>
-                              <mat-form-field class="flex-grow-1">
-                                  <mat-label>{{ "ecmr_editor.remarks" | translate }}</mat-label>
-                                  <textarea [dynamicDisable]="!canFillCarrierFields" matInput cdkTextareaAutosize rows="5"
-                                            formControlName="nonContractualCarrierRemarks" [minlength]="2" [maxlength]="512"></textarea>
-                                  @if
-                                  (ecmrConsignmentFormGroup.controls.nonContractualPartReservedForTheCarrier.controls.nonContractualCarrierRemarks.get('confirmedLogisticsLocationName')?.hasError('minlength')) {
-                                      <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
-                                  }
-                              </mat-form-field>
-                          </div>
-                      </div>
-                  </mat-card-content>
-              </mat-card>
+                            <div class="flex-grow-1 d-flex gap-1 flex-column"
+                                 formGroupName="nonContractualPartReservedForTheCarrier">
+                                <h6>{{ "ecmr_editor.non_contractual_part_reserved_for_the_carrier" | translate }}</h6>
+                                <mat-form-field class="flex-grow-1">
+                                    <mat-label>{{ "ecmr_editor.remarks" | translate }}</mat-label>
+                                    <textarea [dynamicDisable]="!canFillCarrierFields" matInput cdkTextareaAutosize rows="5"
+                                              formControlName="nonContractualCarrierRemarks" [minlength]="2" [maxlength]="512"></textarea>
+                                    @if (ecmrConsignmentFormGroup.controls.nonContractualPartReservedForTheCarrier.controls.nonContractualCarrierRemarks.get('confirmedLogisticsLocationName')?.hasError('minlength')) {
+                                        <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
+                                    }
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
             }
         </div>
         <div class="col-lg-6  m-3 gap-3 overflow-container" *ngIf="!isMobile && !isTemplate()">
@@ -1097,17 +1036,38 @@
                                         @if (item.controls.marksAndNos.get('logisticsShippingMarksMarking')?.hasError('minlength')) {
                                             <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
                                         }
+
                                     </mat-form-field>
-                                    <mat-form-field>
+                                    <mat-form-field appearance="fill" class="w-100">
+                                        <!-- Only needed to show the error correctly-->
                                         <mat-label>{{ "ecmr_editor.marks_and_nos.barcode_number" | translate }}</mat-label>
-                                        <input [dynamicDisable]="!canFillSenderFields" matInput type="text"
-                                               formControlName="logisticsShippingMarksCustomBarcode" [minlength]="2" [maxlength]="35">
-                                        @if (item.controls.marksAndNos.get('logisticsShippingMarksCustomBarcode')?.hasError('mandatoryForSigning')) {
+                                        <mat-chip-grid #chipGrid aria-label="Enter Tags" [disabled]="!canFillSenderFields">
+                                            @for (
+                                                barcode of item.controls.marksAndNos.controls.logisticsShippingMarksCustomBarcodeList.value; track barcode) {
+                                                <mat-chip-row
+                                                        (removed)="removeBarcode(barcode, item.controls.marksAndNos.controls.logisticsShippingMarksCustomBarcodeList)"
+                                                        [editable]="canFillSenderFields"
+                                                        (edited)="editBarcode(barcode, $event, item.controls.marksAndNos.controls.logisticsShippingMarksCustomBarcodeList)"
+                                                        [aria-description]="'press enter to edit ' + barcode">
+                                                    {{ barcode.barcode }}
+                                                    @if (canFillSenderFields) {
+                                                        <button matChipRemove [attr.aria-label]="'remove ' + barcode">
+                                                            <mat-icon>cancel</mat-icon>
+                                                        </button>
+                                                    }
+                                                </mat-chip-row>
+                                            }
+                                            <input matInput type="text" [minLength]="2" [maxLength]="35"
+                                                   [disabled]="!canFillSenderFields"
+                                                   [matChipInputFor]="chipGrid"
+                                                   [matChipInputAddOnBlur]="true"
+                                                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                   (matChipInputTokenEnd)="addBarcode($event, item.controls.marksAndNos.controls.logisticsShippingMarksCustomBarcodeList)">
+                                        </mat-chip-grid>
+                                        @if (item.controls.marksAndNos.controls.logisticsShippingMarksCustomBarcodeList.hasError('mandatoryForSigning')) {
                                             <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                         }
-                                        @if (item.controls.marksAndNos.get('logisticsShippingMarksCustomBarcode')?.hasError('minlength')) {
-                                            <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
-                                        }
+
                                     </mat-form-field>
                                 </div>
 
@@ -1182,7 +1142,7 @@
                                         <h6>{{ "ecmr_editor.title_15" | translate }}</h6>
                                         <mat-form-field>
                                             <mat-label>{{ "ecmr_editor.volume_in_m3.volume" | translate }}</mat-label>
-                                            <input [dynamicDisable]="!canFillSenderFields" matInput type="number"
+                                            <input class="no-arrows" [dynamicDisable]="!canFillSenderFields" matInput type="number"
                                                    formControlName="supplyChainConsignmentItemGrossVolume" [max]="9999">
                                             @if (item.controls.volumeInM3.get('supplyChainConsignmentItemGrossVolume')?.hasError('mandatoryForSigning')) {
                                                 <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
@@ -1201,22 +1161,22 @@
             }
         </mat-accordion>
         @if (!isTemplate()) {
-          <div class="d-flex flex-row justify-content-between">
-            <button [disabled]="!canFillSenderFields" mat-stroked-button color="primary" class="mt-2" (click)="addNewItem()">
-              <mat-icon iconPositionEnd>add</mat-icon>
-              {{ "ecmr_editor.add_item" | translate }}
-            </button>
-              <div class="d-flex gap-2 flex-row">
-                  <button mat-icon-button color="accent" class="custom-stroked-icon-button"
-                          (click)="accordion.openAll()">
-                      <mat-icon>expand</mat-icon>
-                  </button>
-                  <button mat-icon-button color="accent" class="custom-stroked-icon-button"
-                          (click)="accordion.closeAll()">
-                      <mat-icon>compress</mat-icon>
-                  </button>
-              </div>
-          </div>
+            <div class="d-flex flex-row justify-content-between">
+                <button [disabled]="!canFillSenderFields" mat-stroked-button color="primary" class="mt-2" (click)="addNewItem()">
+                    <mat-icon iconPositionEnd>add</mat-icon>
+                    {{ "ecmr_editor.add_item" | translate }}
+                </button>
+                <div class="d-flex gap-2 flex-row">
+                    <button mat-icon-button color="accent" class="custom-stroked-icon-button"
+                            (click)="accordion.openAll()">
+                        <mat-icon>expand</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" class="custom-stroked-icon-button"
+                            (click)="accordion.closeAll()">
+                        <mat-icon>compress</mat-icon>
+                    </button>
+                </div>
+            </div>
         }
     </ng-template>
- </div>
+</div>

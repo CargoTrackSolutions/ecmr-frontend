@@ -90,7 +90,6 @@
     "error_mandatory": "To pole jest wymagane do podpisania.",
     "error_too_short": "Musi mieć co najmniej 2 znaki",
     "error_volume_min": "Musi być większe niż 0",
-    "eseal_confirmation": "Czy chcesz zapieczętować ten ecmr za pomocą eSeal?",
     "eseal_information": "Ten eCMR został podpisany za pomocą eSeal.",
     "established": {
       "in": "W",
@@ -154,7 +153,6 @@
       "description": "Opis"
     },
     "sign": "Podpis",
-    "sign_on_glass": "Podpis na szkle",
     "signature_successful": "Podpis pomyślny. Pola eCMR zablokowane",
     "special_agreements_sen_carr": {
       "special_agreements": "Umowy specjalne"
@@ -197,10 +195,10 @@
     "title_2": "2. Odbiorca (nazwa, adres, kraj)",
     "title_20": "20. Niniejszy przewóz podlega, niezależnie od wszelkich przeciwnych postanowień, Konwencji o umowie międzynarodowego przewozu drogowego towarów",
     "title_21": "21. Ustanowiony",
-    "title_22": "22. Podpis lub pieczęć nadawcy",
-    "title_23": "23. Podpis lub pieczęć przewoźnika",
+    "title_22": "22. Podpis nadawcy",
+    "title_23": "23. Podpis przewoźnika",
     "title_24": "24. Otrzymane towary",
-    "title_24_signature": "Podpis lub pieczęć odbiorcy",
+    "title_24_signature": "Podpis odbiorcy",
     "title_3": "3. Przejęcie towarów",
     "title_4": "4. Dostawa towarów",
     "title_5": "5. Nadawca instrukcje",
@@ -239,7 +237,7 @@
     "title": "Import eCMR"
   },
   "ecmr_status": {
-    "ARRIVED_AT_DESTINATION": "Dotarł do miejsca przeznaczenia",
+    "DELIVERED": "Dotarł do miejsca przeznaczenia",
     "IN_TRANSPORT": "W transporcie",
     "LOADING": "Załadunek",
     "NEW": "Nowy"
@@ -442,7 +440,7 @@
     "by": "Przez:",
     "clear": "Wyczyść podpis",
     "confirm_text": "Czy na pewno? Nie będziesz już mógł wprowadzać zmian w eCMR.",
-    "signed_on": "Podpisano:"
+    "signed_on": ""
   },
   "template_overview": {
     "clear_filter": "Wyczyść filtr",

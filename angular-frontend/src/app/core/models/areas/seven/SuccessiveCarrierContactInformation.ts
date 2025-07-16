@@ -8,5 +8,6 @@
 
 export interface SuccessiveCarrierContactInformation {
     email: string | null;
-    phone: string | null;
+    carrierPhone: string | null;
+    driverPhone: string | null;
 }

@@ -1,4 +1,12 @@
 <div class="d-flex flex-column content-container mt-3">
     <div class="label">{{ label | translate }}</div>
-    <div class="pb-1">{{ displayedContent }}</div>
+    @if (Array.isArray(displayedContent)) {
+        <mat-chip-set aria-label="Barcodes">
+            @for (barcode of displayedContent; track barcode) {
+                <mat-chip>{{ barcode }}</mat-chip>
+            }
+        </mat-chip-set>
+    } @else {
+        <div class="pb-1">{{ displayedContent }}</div>
+    }
 </div>

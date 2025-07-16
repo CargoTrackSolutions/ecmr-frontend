@@ -70,8 +70,8 @@ export class CarrierRegistrationComponent {
         
         this.carrierRegistrationService.getEcmrCarrierInfo(this.ecmrId, this.ecmrToken).subscribe({
             next: carrierInfo => {
-                this.externalCarrier.controls.company.setValue(carrierInfo.carrierNameCompany);
-                const carrierName = carrierInfo.carrierNamePerson;
+                this.externalCarrier.controls.company.setValue(carrierInfo.carrierCompanyName);
+                const carrierName = carrierInfo.carrierPersonName;
                 const carrierFirstName = carrierName?.substring(0, carrierName.indexOf(" ")) || null;
                 const carrierLastName = carrierName?.substring(carrierName.indexOf(" ")) || null;
                 this.externalCarrier.controls.firstName.setValue(carrierFirstName);

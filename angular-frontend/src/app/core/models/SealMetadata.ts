@@ -6,7 +6,11 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-export enum SignatureType {
-  SignOnGlass= 'SignOnGlass',
-  ESeal = 'ESeal'
+import { TransportRole } from './TransportRole';
+
+export interface SealMetadata {
+    sealer: string;
+    role: TransportRole;
+    seal: string;
+    timestamp: Date;
 }

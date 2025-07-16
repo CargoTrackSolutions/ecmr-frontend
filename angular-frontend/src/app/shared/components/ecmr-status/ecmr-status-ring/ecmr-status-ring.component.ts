@@ -32,7 +32,7 @@ export class EcmrStatusRingComponent {
             EcmrStatus.NEW,
             EcmrStatus.LOADING,
             EcmrStatus.IN_TRANSPORT,
-            EcmrStatus.ARRIVED_AT_DESTINATION
+            EcmrStatus.DELIVERED
         ];
         if (this.status) {
             const currentStatusIndex = statusHierarchy.indexOf(this.status);

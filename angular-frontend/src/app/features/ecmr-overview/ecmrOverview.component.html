@@ -7,7 +7,7 @@
                                        [quickViewButtons]="quickViewButtons"
                                        [mobileQuickViewButtons]="mobileQuickViewButtons"
                                        [isMobile]="isMobile"
-                                       [selectedEcmr]="selectedEcmr"></app-ecmr-overview-details>
+                                       [selectedEcmr]="selectedEcmr" [currentSealedDocument]="currentSealedDocument"></app-ecmr-overview-details>
         }
     </mat-drawer>
     <article class="h-100">
@@ -55,7 +55,7 @@
                 <mat-icon iconPositionEnd>picture_as_pdf</mat-icon>
             </button>
             <button class="m-1" mat-flat-button color="primary"
-                    [disabled]="ecmr.ecmrStatus === EcmrStatus.ARRIVED_AT_DESTINATION"
+                    [disabled]="ecmr.ecmrStatus === EcmrStatus.DELIVERED"
                     (click)="editEcmr(ecmr.ecmrId)">
                 {{ 'quick_view_buttons.edit' | translate }}
                 <mat-icon iconPositionEnd>edit_note</mat-icon>
@@ -89,7 +89,7 @@
                 <mat-icon>picture_as_pdf</mat-icon>
             </button>
             <button class="m-1" mat-menu-item
-                    [disabled]="ecmr.ecmrStatus === EcmrStatus.ARRIVED_AT_DESTINATION"
+                    [disabled]="ecmr.ecmrStatus === EcmrStatus.DELIVERED"
                     (click)="editEcmr(ecmr.ecmrId)">
                 {{ 'quick_view_buttons.edit' | translate }}
                 <mat-icon>edit_note</mat-icon>
@@ -108,7 +108,7 @@
 
     <ng-template #actionButtons let-ecmr>
         <button mat-icon-button (click)="signEcmr(ecmr.ecmrId);$event.stopPropagation()"
-                [disabled]="ecmr.ecmrStatus === EcmrStatus.ARRIVED_AT_DESTINATION"
+                [disabled]="ecmr.ecmrStatus === EcmrStatus.DELIVERED"
                 matTooltip="{{'overview.tooltips.sign' | translate}}">
             <mat-icon>draw</mat-icon>
         </button>
@@ -126,12 +126,12 @@
     </ng-template>
     <ng-template #mobileActionButtons let-ecmr>
         <button mat-icon-button class="my-3"
-                [disabled]="ecmr.ecmrStatus === EcmrStatus.ARRIVED_AT_DESTINATION"
+                [disabled]="ecmr.ecmrStatus === EcmrStatus.DELIVERED"
                 (click)="editEcmr(ecmr.ecmrId)">
             <mat-icon style="transform: scale(1.4)">edit_note</mat-icon>
         </button>
         <button mat-icon-button class="my-3"
-                [disabled]="ecmr.ecmrStatus === EcmrStatus.ARRIVED_AT_DESTINATION"
+                [disabled]="ecmr.ecmrStatus === EcmrStatus.DELIVERED"
                 (click)="signEcmr(ecmr.ecmrId)">
             <mat-icon style="transform: scale(1.4)">draw</mat-icon>
         </button>

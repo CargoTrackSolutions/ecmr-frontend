@@ -90,7 +90,6 @@
     "error_mandatory": "This field is required for signing.",
     "error_too_short": "Must be at least 2 characters long",
     "error_volume_min": "Must be greater than 0",
-    "eseal_confirmation": "Do you want to seal this ecmr with eSeal?",
     "eseal_information": "This eCMR was signed with eSeal.",
     "established": {
       "in": "In",
@@ -154,7 +153,6 @@
       "description": "Description"
     },
     "sign": "Sign",
-    "sign_on_glass": "Sign on glass",
     "signature_successful": "Signature successful. eCMR Fields locked",
     "special_agreements_sen_carr": {
       "special_agreements": "Special Agreements"
@@ -197,10 +195,10 @@
     "title_2": "2. Consignee (name, address, country)",
     "title_20": "20. This carriage is subject, notwithstanding any clause to the contrary, to the Convention on the Contract for the international Carriage of Goods by Road",
     "title_21": "21. Established",
-    "title_22": "22. Signature or Stamp of the sender",
-    "title_23": "23. Signature or Stamp of the carrier",
+    "title_22": "22. Signature of the sender",
+    "title_23": "23. Signature of the carrier",
     "title_24": "24. Goods received",
-    "title_24_signature": "Signature or Stamp of the consignee",
+    "title_24_signature": "Signature of the consignee",
     "title_3": "3. Taking over the Goods",
     "title_4": "4. Delivery of the Goods",
     "title_5": "5. Sender\u0027s instructions",
@@ -239,7 +237,7 @@
     "title": "Import eCMR"
   },
   "ecmr_status": {
-    "ARRIVED_AT_DESTINATION": "Arrived at destination",
+    "DELIVERED": "Delivered",
     "IN_TRANSPORT": "In transport",
     "LOADING": "Loading",
     "NEW": "New"
@@ -442,7 +440,7 @@
     "by": "By:",
     "clear": "Clear Signature",
     "confirm_text": "Are you sure? You will not be able to make changes to the eCMR anymore.",
-    "signed_on": "Signed on:"
+    "signed_on": "Sealed on:"
   },
   "template_overview": {
     "clear_filter": "Clear Filter",

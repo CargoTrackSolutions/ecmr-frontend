@@ -90,7 +90,6 @@
     "error_mandatory": "Ce champ est obligatoire pour la signature.",
     "error_too_short": "Doit comporter au moins 2 caractères",
     "error_volume_min": "Doit être supérieur à 0",
-    "eseal_confirmation": "Souhaitez-vous sceller ce eCMR avec un sceau électronique ?",
     "eseal_information": "Ce eCMR a été signé avec un sceau électronique.",
     "established": {
       "in": "Dans",
@@ -154,7 +153,6 @@
       "description": "Description"
     },
     "sign": "Panneau",
-    "sign_on_glass": "Panneau sur verre",
     "signature_successful": "Signature réussie. Champs eCMR verrouillés",
     "special_agreements_sen_carr": {
       "special_agreements": "Accords spéciaux"
@@ -197,10 +195,10 @@
     "title_2": "2. Destinataire (nom, adresse, pays)",
     "title_20": "20. Ce transport est soumis, nonobstant toute clause contraire, à la Convention relative au contrat de transport international de marchandises par route",
     "title_21": "21. Établissement",
-    "title_22": "22. Signature ou cachet de l\u0027expéditeur",
-    "title_23": "23. Signature ou cachet du transporteur",
+    "title_22": "22. Signature de l\u0027expéditeur",
+    "title_23": "23. Signature du transporteur",
     "title_24": "24. Marchandises reçues",
-    "title_24_signature": "Signature ou cachet du destinataire",
+    "title_24_signature": "Signature du destinataire",
     "title_3": "3. Prise en charge des marchandises",
     "title_4": "4. Livraison des marchandises",
     "title_5": "5. Instructions de l\u0027expéditeur",
@@ -239,7 +237,7 @@
     "title": "Importer eCMR"
   },
   "ecmr_status": {
-    "ARRIVED_AT_DESTINATION": "Arrivé à destination",
+    "DELIVERED": "Arrivé à destination",
     "IN_TRANSPORT": "En cours de transport",
     "LOADING": "Chargement",
     "NEW": "Nouveau"
@@ -442,7 +440,7 @@
     "by": "Par :",
     "clear": "Signature claire",
     "confirm_text": "Êtes-vous sûr ? Vous ne pourrez plus modifier l\u0027eCMR.",
-    "signed_on": "Connexion :"
+    "signed_on": ""
   },
   "template_overview": {
     "clear_filter": "Effacer le filtre",

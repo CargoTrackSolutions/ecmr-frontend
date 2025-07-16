@@ -6,10 +6,9 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {Signer} from "../enums/Signer";
-
-export interface SealModel {
-  signer: Signer,
-  precedingSeal: string | null | undefined;
-  city: string | null;
+export enum TransportRole {
+    SENDER = 'SENDER',
+    CARRIER = 'CARRIER',
+    SUCCESSIVE_CARRIER = 'SUCCESSIVE_CARRIER',
+    CONSIGNEE = 'CONSIGNEE'
 }

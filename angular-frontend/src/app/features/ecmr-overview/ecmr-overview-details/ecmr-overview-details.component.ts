@@ -7,16 +7,13 @@
  */
 
 import { Component, EventEmitter, Inject, Input, LOCALE_ID, Output, TemplateRef } from '@angular/core';
-import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIconButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { MatDivider } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
 import { Ecmr } from '../../../core/models/Ecmr';
-import { MatList, MatListItem } from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
 import { MatAccordion, MatExpansionModule, MatExpansionPanel, MatExpansionPanelTitle } from '@angular/material/expansion';
-import { formatDate, NgIf, NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
+import { formatDate, NgIf, NgTemplateOutlet } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { EcmrDisplayInformationFieldComponent } from './ecmr-display-information-field/ecmr-display-information-field.component';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
@@ -25,26 +22,21 @@ import { EcmrStatus } from '../../../core/models/EcmrStatus';
 import { EcmrStatusComponent } from '../../../shared/components/ecmr-status/ecmr-status.component';
 import { EcmrTransportType } from '../../../core/models/EcmrTransportType';
 import { EcmrService } from '../../../shared/services/ecmr.service';
-import { SignatureType } from '../../../core/models/SignatureType';
+import { LogisticsShippingMarksCustomBarcode } from '../../../core/models/areas/ten/LogisticsShippingMarksCustomBarcode';
+import { SealedDocumentWithoutEcmr } from '../../../core/models/SealedDocumentWithoutEcmr';
 
 @Component({
     selector: 'app-ecmr-overview-details',
     standalone: true,
     imports: [
-        MatButton,
         MatCard,
         MatCardContent,
-        MatDivider,
         MatIcon,
-        MatList,
-        MatListItem,
         MatFormFieldModule,
-        MatInput,
         MatExpansionModule,
         MatAccordion,
         MatExpansionPanel,
         MatExpansionPanelTitle,
-        NgOptimizedImage,
         NgIf,
         TranslateModule,
         NgTemplateOutlet,
@@ -67,6 +59,7 @@ export class EcmrOverviewDetailsComponent {
     }
 
     @Input() selectedEcmr!: Ecmr;
+    @Input() currentSealedDocument!: SealedDocumentWithoutEcmr | null;
 
     @Input() quickViewButtons: TemplateRef<object>;
     @Input() mobileQuickViewButtons!: TemplateRef<object>;
@@ -86,13 +79,17 @@ export class EcmrOverviewDetailsComponent {
             return ''
     }
 
+    mapToStringArray(barcodes: LogisticsShippingMarksCustomBarcode[] | null) {
+        if(barcodes == null) return [];
+        return barcodes?.map(item => item.barcode);
+    }
 
-  public getTransportType(ecmr: Ecmr): EcmrTransportType | null {
-    return this.ecmrService.getTransportType(ecmr);
-  }
+
+    public getTransportType(ecmr: Ecmr): EcmrTransportType | null {
+        return this.ecmrService.getTransportType(ecmr);
+    }
 
     protected readonly EcmrTransportType = EcmrTransportType;
 
     protected readonly EcmrStatus = EcmrStatus;
-    protected readonly SignatureType = SignatureType;
 }

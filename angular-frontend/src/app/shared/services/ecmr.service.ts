@@ -179,27 +179,3 @@ export class EcmrService {
     }
 
 }
-
-export interface EcmrElement {
-    id: string;
-    referenceId: string;
-    from: string;
-    to: string;
-    transportType: TransportType;
-    lastEditor: string;
-    status: Status;
-    lastEditDate: string;
-    creationDate: string;
-}
-
-enum Status {
-    NEW = 'New',
-    LOADING = 'Loading',
-    IN_TRANSPORT = 'In Transport',
-    ARRIVED_AT_DESTINATION = 'Arrived at destination'
-}
-
-enum TransportType {
-    National = 'national',
-    International = 'international'
-}

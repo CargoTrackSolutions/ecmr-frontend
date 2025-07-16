@@ -90,7 +90,6 @@
     "error_mandatory": "Toto pole je povinné pro podpis.",
     "error_too_short": "Musí mít alespoň 2 znaky",
     "error_volume_min": "Musí být větší než 0",
-    "eseal_confirmation": "Chcete toto ecmr zapečetit pomocí eSeal?",
     "eseal_information": "Toto eCMR bylo podepsáno s eSeal.",
     "established": {
       "in": "V",
@@ -154,7 +153,6 @@
       "description": "Popis"
     },
     "sign": "Znamení",
-    "sign_on_glass": "Podepsat na skle",
     "signature_successful": "Podpis byl úspěšný. Pole eCMR jsou uzamčena",
     "special_agreements_sen_carr": {
       "special_agreements": "Zvláštní dohody"
@@ -197,10 +195,10 @@
     "title_2": "2. Příjemce (jméno, adresa, země)",
     "title_20": "20. Na tuto přepravu se, bez ohledu na jakékoli opačné ustanovení, vztahuje Úmluva o smlouvě o mezinárodní silniční přepravě zboží",
     "title_21": "21. Založeno",
-    "title_22": "22. Podpis nebo razítko odesílatele",
-    "title_23": "23. Podpis nebo razítko dopravce",
+    "title_22": "22. Podpis odesílatele",
+    "title_23": "23. Podpis dopravce",
     "title_24": "24. Přijaté zboží",
-    "title_24_signature": "Podpis nebo razítko příjemce",
+    "title_24_signature": "Podpis příjemce",
     "title_3": "3. Převzetí Zboží",
     "title_4": "4. Dodání Zboží",
     "title_5": "5. Pokyny odesílatele",
@@ -239,7 +237,7 @@
     "title": "Importujte eCMR"
   },
   "ecmr_status": {
-    "ARRIVED_AT_DESTINATION": "Dorazil do cíle",
+    "DELIVERED": "Dorazil do cíle",
     "IN_TRANSPORT": "V dopravě",
     "LOADING": "Načítání",
     "NEW": "Nový"
@@ -442,7 +440,7 @@
     "by": "Podle:",
     "clear": "Vymazat podpis",
     "confirm_text": "jsi si jistý? V eCMR již nebudete moci provádět změny.",
-    "signed_on": "Podepsáno dne:"
+    "signed_on": ""
   },
   "template_overview": {
     "clear_filter": "Vymazat filtr",

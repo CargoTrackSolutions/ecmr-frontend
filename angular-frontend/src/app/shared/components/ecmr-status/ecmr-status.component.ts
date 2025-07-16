@@ -8,8 +8,6 @@
 
 import { Component, Input } from '@angular/core';
 import { EcmrStatus } from '../../../core/models/EcmrStatus';
-import { MatIcon } from '@angular/material/icon';
-import { NgClass } from '@angular/common';
 import { MatTooltip } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { EcmrStatusRingComponent } from './ecmr-status-ring/ecmr-status-ring.component';
@@ -18,8 +16,6 @@ import { EcmrStatusRingComponent } from './ecmr-status-ring/ecmr-status-ring.com
     selector: 'app-ecmr-status',
     standalone: true,
     imports: [
-        MatIcon,
-        NgClass,
         MatTooltip,
         TranslateModule,
         EcmrStatusRingComponent
@@ -37,7 +33,7 @@ export class EcmrStatusComponent {
         if (this.status === EcmrStatus.NEW) return 'fiber_new'
         else if (this.status === EcmrStatus.LOADING) return 'forklift'
         else if (this.status === EcmrStatus.IN_TRANSPORT) return 'local_shipping'
-        else if (this.status === EcmrStatus.ARRIVED_AT_DESTINATION) return 'where_to_vote'
+        else if (this.status === EcmrStatus.DELIVERED) return 'where_to_vote'
         return '';
     }
 }

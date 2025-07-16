@@ -90,7 +90,6 @@
     "error_mandatory": "Este campo es obligatorio para firmar.",
     "error_too_short": "Debe tener al menos 2 caracteres",
     "error_volume_min": "Debe ser mayor que 0",
-    "eseal_confirmation": "¿Desea sellar este eCMR con eSeal?",
     "eseal_information": "Este eCMR se firmó con eSeal.",
     "established": {
       "in": "En",
@@ -154,7 +153,6 @@
       "description": "Descripción"
     },
     "sign": "Firmar",
-    "sign_on_glass": "Firmar en pantalla",
     "signature_successful": "Firma correcta. Campos del eCMR bloqueados",
     "special_agreements_sen_carr": {
       "special_agreements": "Acuerdos especiales"
@@ -197,10 +195,10 @@
     "title_2": "2. Destinatario (nombre, dirección, país)",
     "title_20": "20. Este transporte está sujeto, salvo cláusula en contrario, al Convenio sobre el Contrato de Transporte Internacional de Mercancías por Carretera",
     "title_21": "21. Establecido",
-    "title_22": "22. Firma o sello del remitente",
-    "title_23": "23. Firma o sello del transportista",
+    "title_22": "22. Firma del remitente",
+    "title_23": "23. Firma del transportista",
     "title_24": "24. Mercancías recibidas",
-    "title_24_signature": "Firma o sello del destinatario",
+    "title_24_signature": "Firma del destinatario",
     "title_3": "3. Recepción de las mercancías",
     "title_4": "4. Entrega de las mercancías",
     "title_5": "5. Instrucciones del remitente",
@@ -239,7 +237,7 @@
     "title": "Importar eCMR"
   },
   "ecmr_status": {
-    "ARRIVED_AT_DESTINATION": "Llegada a destino",
+    "DELIVERED": "Llegada a destino",
     "IN_TRANSPORT": "En transporte",
     "LOADING": "Cargando",
     "NEW": "Nuevo"
@@ -442,7 +440,7 @@
     "by": "Por:",
     "clear": "Borrar firma",
     "confirm_text": "¿Está seguro? Ya no podrá realizar cambios en el eCMR.",
-    "signed_on": "Fecha de inicio de sesión:"
+    "signed_on": ""
   },
   "template_overview": {
     "clear_filter": "Borrar filtro",

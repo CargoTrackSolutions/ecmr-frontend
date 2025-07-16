@@ -127,7 +127,7 @@
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
-                >{{ ecmr.ecmrConsignment.senderInformation.senderNameCompany }}
+                >{{ ecmr.ecmrConsignment.senderInformation.senderCompanyName }}
                 </td>
             </ng-container>
 
@@ -145,7 +145,7 @@
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
-                >{{ ecmr.ecmrConsignment.consigneeInformation.consigneeNameCompany }}
+                >{{ ecmr.ecmrConsignment.consigneeInformation.consigneeCompanyName }}
                 </td>
             </ng-container>
 
@@ -276,7 +276,7 @@
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
-                >{{ ecmr.ecmrConsignment.carrierInformation.carrierNameCompany }}
+                >{{ ecmr.ecmrConsignment.carrierInformation.carrierCompanyName }}
                 </td>
             </ng-container>
 
@@ -452,10 +452,10 @@
                         </div>
                         <div class="d-flex flex-column justify-content-between gap-3">
                             <div class="fw-bold fs-5">
-                                {{ ecmr.ecmrConsignment.senderInformation.senderNameCompany }}
+                                {{ ecmr.ecmrConsignment.senderInformation.senderCompanyName }}
                             </div>
                             <div class="fw-bold fs-5">
-                                {{ ecmr.ecmrConsignment.consigneeInformation.consigneeNameCompany }}
+                                {{ ecmr.ecmrConsignment.consigneeInformation.consigneeCompanyName }}
                             </div>
                         </div>
                     </div>

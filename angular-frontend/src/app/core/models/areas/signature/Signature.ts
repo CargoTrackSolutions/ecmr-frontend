@@ -6,10 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {SignatureType} from "../../SignatureType";
-
 export interface Signature {
-  type: SignatureType;
   userName: string;
   userCompany: string;
   userStreet: string;

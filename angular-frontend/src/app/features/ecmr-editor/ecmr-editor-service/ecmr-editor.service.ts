@@ -14,9 +14,8 @@ import { environment } from '../../../../environments/environment';
 import { TemplateUser } from '../../../core/models/TemplateUser';
 import { GroupFlat } from '../../../core/models/GroupFlat';
 import { Signature } from '../../../core/models/areas/signature/Signature';
-import { Sign } from '../../../core/models/Sign';
+import { SealModel } from '../../../core/models/Sign';
 import { EcmrStatus } from '../../../core/models/EcmrStatus';
-import {SealModel} from "../../../core/models/SealModel";
 
 @Injectable({
     providedIn: 'root'
@@ -51,19 +50,15 @@ export class EcmrEditorService {
         return this.http.put<Ecmr>(`${environment.backendUrl}/ecmr`, ecmr)
     }
 
-    signEcmr(signModel: Sign, id: string) {
-        return this.http.post<Signature>(`${environment.backendUrl}/ecmr/${id}/sign-on-glass`, signModel);
-    }
-
-    sealEcmr(sealModel: SealModel, id: string) {
-        return this.http.post<Signature>(`${environment.backendUrl}/ecmr/${id}/seal`, sealModel);
+    sealEcmr(signModel: SealModel, id: string) {
+        return this.http.post<Signature>(`${environment.backendUrl}/ecmr/${id}/seal`, signModel);
     }
 
     createEmptyEcmrConsignment(): EcmrConsignment {
         return {
             senderInformation: {
-                senderNameCompany: null,
-                senderNamePerson: null,
+                senderCompanyName: null,
+                senderPersonName: null,
                 senderStreet: null,
                 senderPostcode: null,
                 senderCity: null,
@@ -73,15 +68,15 @@ export class EcmrEditorService {
                 },
                 senderContactInformation: {
                     email: null,
-                    phone: null
+                    phone: null,
                 }
             },
             multiConsigneeShipment: {
                 isMultiConsigneeShipment: false
             },
             consigneeInformation: {
-                consigneeNameCompany: null,
-                consigneeNamePerson: null,
+                consigneeCompanyName: null,
+                consigneePersonName: null,
                 consigneePostcode: null,
                 consigneeStreet: null,
                 consigneeCity: null,
@@ -107,8 +102,8 @@ export class EcmrEditorService {
                 transportInstructionsDescription: null
             },
             carrierInformation: {
-                carrierNameCompany: null,
-                carrierNamePerson: null,
+                carrierCompanyName: null,
+                carrierDriverName: null,
                 carrierPostcode: null,
                 carrierStreet: null,
                 carrierCity: null,
@@ -119,7 +114,8 @@ export class EcmrEditorService {
                 carrierLicensePlate: null,
                 carrierContactInformation: {
                     email: null,
-                    phone: null
+                    carrierPhone: null,
+                    driverPhone: null
                 }
             },
             successiveCarrierInformation: {
@@ -128,14 +124,15 @@ export class EcmrEditorService {
                     value: null,
                     region: null
                 },
-                successiveCarrierNameCompany: null,
-                successiveCarrierNamePerson: null,
+                successiveCarrierCompanyName: null,
+                successiveCarrierDriverName: null,
                 successiveCarrierPostcode: null,
                 successiveCarrierSignature: null,
                 successiveCarrierStreet: null,
                 successiveCarrierContactInformation: {
                     email: null,
-                    phone: null
+                    carrierPhone: null,
+                    driverPhone: null
                 }
             },
             carriersReservationsAndObservationsOnTakingOverTheGoods: {
@@ -175,12 +172,6 @@ export class EcmrEditorService {
                 customEstablishedDate: null,
                 customEstablishedIn: null
             },
-            signatureOrStampOfTheSender: {
-                senderSignature: null
-            },
-            signatureOrStampOfTheCarrier: {
-                carrierSignature: null
-            },
             goodsReceived: {
                 confirmedLogisticsLocationName: null,
                 consigneeReservationsObservations: null,
@@ -200,8 +191,6 @@ export class EcmrEditorService {
         // Reset Id
         ecmr.ecmrId = null;
         // Reset Signature
-        ecmr.ecmrConsignment.signatureOrStampOfTheCarrier.carrierSignature = null;
-        ecmr.ecmrConsignment.signatureOrStampOfTheSender.senderSignature = null;
         ecmr.ecmrConsignment.goodsReceived.consigneeSignature = null;
         // Reset Carrier Reservation
         ecmr.ecmrConsignment.carriersReservationsAndObservationsOnTakingOverTheGoods.senderReservationsObservationsSignature = null;
