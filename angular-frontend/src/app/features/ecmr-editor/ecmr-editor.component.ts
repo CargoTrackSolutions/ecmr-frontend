@@ -477,7 +477,7 @@ export class EcmrEditorComponent implements OnInit {
                 filter(result => result && result.isConfirmed),
                 switchMap(() => {
                     this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
-                    return (this.isExternalUser ?
+                    return this.loadingService.showLoaderUntilCompleted(this.isExternalUser ?
                         this.externalUserService.updateEcmr(this.ecmrToEdit, this.userToken, this.tan) :
                         this.ecmrEditorService.updateEcmr(this.ecmrToEdit))
                 }),
