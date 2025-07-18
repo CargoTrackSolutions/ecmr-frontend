@@ -545,8 +545,7 @@
                                     <mat-label>{{ "ecmr_editor.carrier_information.driver_phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="driverPhone"
                                            [maxlength]="32">
-                                    @if
-                                    (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('driverPhone')?.hasError('mandatoryForSigning')) {
+                                    @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('driverPhone')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                     }
                                     @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('driverPhone')?.hasError('invalidPhoneNumber')) {
@@ -557,8 +556,7 @@
                                     <mat-label>{{ "ecmr_editor.carrier_information.carrier_phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierPhone"
                                            [maxlength]="32">
-                                    @if
-                                    (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('carrierPhone')?.hasError('mandatoryForSigning')) {
+                                    @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('carrierPhone')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                     }
                                     @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('carrierPhone')?.hasError('invalidPhoneNumber')) {
@@ -642,8 +640,7 @@
                                     <mat-label>{{ "ecmr_editor.successive_carrier_information.driver_phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="driverPhone"
                                            [maxlength]="32">
-                                    @if
-                                    (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierContactInformation.get('driverPhone')?.hasError('invalidPhoneNumber')) {
+                                    @if (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierContactInformation.get('driverPhone')?.hasError('invalidPhoneNumber')) {
                                         <mat-error>{{ "common.errors.invalid_phone" | translate }}</mat-error>
                                     }
                                 </mat-form-field>
@@ -651,8 +648,7 @@
                                     <mat-label>{{ "ecmr_editor.carrier_information.carrier_phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierPhone"
                                            [maxlength]="32">
-                                    @if
-                                    (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierContactInformation.get('carrierPhone')?.hasError('mandatoryForSigning')) {
+                                    @if (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierContactInformation.get('carrierPhone')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                     }
                                     @if (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierContactInformation.get('carrierPhone')?.hasError('invalidPhoneNumber')) {
@@ -1064,10 +1060,6 @@
                                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                                    (matChipInputTokenEnd)="addBarcode($event, item.controls.marksAndNos.controls.logisticsShippingMarksCustomBarcodeList)">
                                         </mat-chip-grid>
-                                        @if (item.controls.marksAndNos.controls.logisticsShippingMarksCustomBarcodeList.hasError('mandatoryForSigning')) {
-                                            <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
-                                        }
-
                                     </mat-form-field>
                                 </div>
 

@@ -278,6 +278,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     }
 
     selectEcmr(ecmr: Ecmr | null) {
+        this.currentSealedDocument = null;
         if (ecmr?.ecmrId) {
             this.ecmrService.getEcmrRolesForCurrentUser(ecmr.ecmrId).subscribe(roles => {
                 this.selectedEcmrRoles = roles

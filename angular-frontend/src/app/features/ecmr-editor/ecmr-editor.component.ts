@@ -525,7 +525,7 @@ export class EcmrEditorComponent implements OnInit {
                     volumeControl.setErrors({'minValue': true});
                     invalidVolumes.push(volumeControl);
                 }
-                invalidFields.push(...this.checkControls(itemGroup, []))
+                invalidFields.push(...this.checkControls(itemGroup, ['logisticsShippingMarksCustomBarcodeList']))
             }
         }
 

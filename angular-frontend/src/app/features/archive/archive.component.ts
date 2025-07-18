@@ -9,11 +9,10 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { EcmrTableComponent } from '../../shared/components/ecmr-table/ecmr-table.component';
 import { MatButton, MatIconButton } from '@angular/material/button';
-import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
-import { MatInput } from '@angular/material/input';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EcmrService } from '../../shared/services/ecmr.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -34,6 +33,8 @@ import { EcmrType } from '../../core/models/EcmrType';
 import { LoadingService } from '../../core/services/loading.service';
 import { SnackbarService } from '../../core/services/snackbar.service';
 import { Sort } from '@angular/material/sort';
+import { SealedDocumentWithoutEcmr } from '../../core/models/SealedDocumentWithoutEcmr';
+import { SealedDocumentService } from '../../shared/services/sealed-document.service';
 
 @Component({
     selector: 'app-archive',
@@ -41,11 +42,8 @@ import { Sort } from '@angular/material/sort';
     imports: [
         EcmrTableComponent,
         MatButton,
-        MatFormField,
         MatIcon,
-        MatInput,
         MatLabel,
-        MatSuffix,
         MatToolbar,
         MatToolbarRow,
         TranslateModule,
@@ -66,6 +64,7 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
     @ViewChild(EcmrTableComponent) table: EcmrTableComponent;
 
     selectedEcmr: Ecmr | null = null;
+    currentSealedDocument: SealedDocumentWithoutEcmr | null;
 
     ecmr: Ecmr[] = [];
 
@@ -88,8 +87,14 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
     initialSort: Sort = {active: '', direction: ''};
     readonly ecmrType: EcmrType = EcmrType.ARCHIVED;
 
-    constructor(public dialog: MatDialog, public snackbarService: SnackbarService, public ecmrService: EcmrService, private breakpointObserver: BreakpointObserver,
-                private translateService: TranslateService, protected ecmrActionService: EcmrActionService,private router: Router, private loadingService: LoadingService) {
+    constructor(public dialog: MatDialog,
+                public snackbarService: SnackbarService,
+                public ecmrService: EcmrService,
+                private breakpointObserver: BreakpointObserver,
+                protected ecmrActionService: EcmrActionService,
+                private router: Router,
+                private loadingService: LoadingService,
+                private sealedDocumentService: SealedDocumentService) {
     }
 
     ngOnInit() {
@@ -102,7 +107,7 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
         const savedFilterRequest = this.ecmrService.getFilterRequest();
         if (savedFilterRequest) this.filterRequest = savedFilterRequest;
 
-        if(!this.isMobile){
+        if (!this.isMobile) {
             const savedSort = this.ecmrService.getEcmrSort(this.ecmrType);
             if (savedSort) this.initialSort = savedSort;
         }
@@ -142,7 +147,7 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
             switchMap(() => this.ecmrService.moveOutOfArchive(ecmrId)),
             switchMap(() => this.loadData()),
             catchError(err => {
-                this.snackbarService.openErrorSnackbar("general.snackbar_error")
+                this.snackbarService.openErrorSnackbar('general.snackbar_error')
                 console.log(err);
                 return of(null)
             })
@@ -150,12 +155,31 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
             if (result) {
                 this.updateTableData(result);
                 this.selectedEcmr = null;
-                this.snackbarService.openSuccessSnackbar("archive.move_to_overview_success");
+                this.snackbarService.openSuccessSnackbar('archive.move_to_overview_success');
             }
         });
     }
 
     selectEcmr(ecmr: Ecmr | null) {
+        this.currentSealedDocument = null;
+        if (ecmr?.ecmrId) {
+            this.sealedDocumentService.getSealedDocumentWithoutEcmr(ecmr.ecmrId)
+                .pipe(
+                    catchError(err => {
+                        if (err.status === 404) {
+                            return of(null);
+                        } else {
+                            this.snackbarService.openErrorSnackbar('general.snackbar_error')
+                            console.log(err);
+                            return of(null)
+                        }
+                    }))
+                .subscribe(sealedDocument => {
+                    if (sealedDocument) {
+                        this.currentSealedDocument = sealedDocument;
+                    }
+                })
+        }
         this.selectedEcmr = ecmr;
     }
 
