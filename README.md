@@ -62,6 +62,17 @@ We welcome contributions from the community! Please read our [CONTRIBUTING.md](.
 Licensed under the Open Logistics Foundation License 1.3.
 For details on the licensing terms, see the LICENSE file.
 
+## 📣 Give Feedback
+
+We welcome your input to help improve and shape the future of the open source eCMR.
+
+If you have suggestions, questions, or would like to share your use case, feel free to contact us:
+
+📧 **ecmr-feedback@lists.openlogisticsfoundation.org**
+
+Your feedback ensures the project stays relevant to real-world needs across industries and borders.
+
+
 ## Maintainers & Contact
 
 This component is maintained by the **Open Logistics Foundation Working Group "Electronic Transport Documents"**.
