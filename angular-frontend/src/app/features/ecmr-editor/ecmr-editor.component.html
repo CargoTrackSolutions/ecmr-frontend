@@ -1121,6 +1121,8 @@
                                         <mat-form-field>
                                             <mat-label>{{ "ecmr_editor.gross_weight_in_kg.gross_weight" | translate }}</mat-label>
                                             <input [dynamicDisable]="!canFillSenderFields" matInput type="text"
+                                                   (blur)="onDecimalBlur($event,
+                                                   item.controls.grossWeightInKg.get('supplyChainConsignmentItemGrossWeight'))"
                                                    formControlName="supplyChainConsignmentItemGrossWeight">
                                             @if (item.controls.grossWeightInKg.get('supplyChainConsignmentItemGrossWeight')?.hasError('mandatoryForSigning')) {
                                                 <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
@@ -1138,6 +1140,8 @@
                                         <mat-form-field>
                                             <mat-label>{{ "ecmr_editor.volume_in_m3.volume" | translate }}</mat-label>
                                             <input class="no-arrows" [dynamicDisable]="!canFillSenderFields" matInput type="text"
+                                                   (blur)="onDecimalBlur($event,
+                                                   item.controls.volumeInM3.get('supplyChainConsignmentItemGrossVolume'))"
                                                    formControlName="supplyChainConsignmentItemGrossVolume">
                                             @if (item.controls.volumeInM3.get('supplyChainConsignmentItemGrossVolume')?.hasError('mandatoryForSigning')) {
                                                 <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>

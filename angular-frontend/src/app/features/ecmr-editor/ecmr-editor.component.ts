@@ -1038,6 +1038,27 @@ export class EcmrEditorComponent implements OnInit {
         }
         event.chipInput!.clear();
     }
+
+    onDecimalBlur(event: FocusEvent, control: AbstractControl | null): void {
+        const inputElement = event.target as HTMLInputElement;
+        const rawValue = inputElement.value;
+
+        if (!control) return;
+
+        const normalizedValue = this.parseDecimal(rawValue);
+
+        if (normalizedValue !== null && !isNaN(normalizedValue)) {
+            control.setValue(normalizedValue);
+            inputElement.value = rawValue.replaceAll(',', '.');
+        } else {
+            control.setValue(null);
+        }
+    }
+
+    parseDecimal(value: string): number | null {
+        const parsed = parseFloat(value.replaceAll(',', '.').trim());
+        return isNaN(parsed) ? null : parsed;
+    }
 }
 
 export function phoneNumberValidator(): ValidatorFn {
