@@ -645,7 +645,7 @@
                                     }
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
-                                    <mat-label>{{ "ecmr_editor.carrier_information.carrier_phone" | translate }}</mat-label>
+                                    <mat-label>{{ "ecmr_editor.successive_carrier_information.carrier_phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierPhone"
                                            [maxlength]="32">
                                     @if (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierContactInformation.get('carrierPhone')?.hasError('mandatoryForSigning')) {
@@ -1120,10 +1120,13 @@
                                         <h6>{{ "ecmr_editor.title_14" | translate }}</h6>
                                         <mat-form-field>
                                             <mat-label>{{ "ecmr_editor.gross_weight_in_kg.gross_weight" | translate }}</mat-label>
-                                            <input [dynamicDisable]="!canFillSenderFields" matInput type="number"
-                                                   formControlName="supplyChainConsignmentItemGrossWeight" [min]="0" [max]="99999">
-                                            @if (item.controls.grossWeightInKg.get('supplyChainConsignmentItemGrossWeight')?.invalid) {
+                                            <input [dynamicDisable]="!canFillSenderFields" matInput type="text"
+                                                   formControlName="supplyChainConsignmentItemGrossWeight">
+                                            @if (item.controls.grossWeightInKg.get('supplyChainConsignmentItemGrossWeight')?.hasError('mandatoryForSigning')) {
                                                 <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
+                                            }
+                                            @if (item.controls.grossWeightInKg.get('supplyChainConsignmentItemGrossWeight')?.hasError('invalidFormat')) {
+                                                <mat-error>{{ "ecmr_editor.error_weight_format" | translate }}</mat-error>
                                             }
                                         </mat-form-field>
                                     </div>
@@ -1134,14 +1137,18 @@
                                         <h6>{{ "ecmr_editor.title_15" | translate }}</h6>
                                         <mat-form-field>
                                             <mat-label>{{ "ecmr_editor.volume_in_m3.volume" | translate }}</mat-label>
-                                            <input class="no-arrows" [dynamicDisable]="!canFillSenderFields" matInput type="number"
-                                                   formControlName="supplyChainConsignmentItemGrossVolume" [max]="9999">
+                                            <input class="no-arrows" [dynamicDisable]="!canFillSenderFields" matInput type="text"
+                                                   formControlName="supplyChainConsignmentItemGrossVolume">
                                             @if (item.controls.volumeInM3.get('supplyChainConsignmentItemGrossVolume')?.hasError('mandatoryForSigning')) {
                                                 <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                             }
 
                                             @if (item.controls.volumeInM3.get('supplyChainConsignmentItemGrossVolume')?.hasError('minValue')) {
                                                 <mat-error>{{ "ecmr_editor.error_volume_min" | translate }}</mat-error>
+                                            }
+
+                                            @if (item.controls.volumeInM3.get('supplyChainConsignmentItemGrossVolume')?.hasError('invalidFormat')) {
+                                                <mat-error>{{ "ecmr_editor.error_volume_format" | translate }}</mat-error>
                                             }
                                         </mat-form-field>
                                     </div>

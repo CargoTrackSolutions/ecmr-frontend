@@ -152,10 +152,10 @@ export class EcmrEditorComponent implements OnInit {
                 transportCargoIdentification: new FormControl<string | null>(null),
             }),
             grossWeightInKg: new FormGroup({
-                supplyChainConsignmentItemGrossWeight: new FormControl<number | null>(null),
+                supplyChainConsignmentItemGrossWeight: new FormControl<number | null>(null, [grossWeightValidator()]),
             }),
             volumeInM3: new FormGroup({
-                supplyChainConsignmentItemGrossVolume: new FormControl<number | null>(null)
+                supplyChainConsignmentItemGrossVolume: new FormControl<number | null>(null, [grossVolumeValidator()])
             })
         })
     ]);
@@ -1072,6 +1072,76 @@ export function maxArrayLengthValidator(max: number): ValidatorFn {
         if (Array.isArray(control.value) && control.value.length > max) {
             return { maxLengthExceeded: { max, actual: control.value.length } };
         }
+        return null;
+    };
+}
+
+export function grossWeightValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const rawValue = control.value;
+
+        if (rawValue === null || rawValue === undefined || rawValue === '') {
+            return null;
+        }
+
+        const value = String(rawValue).trim();
+
+        const regex = /^\d{1,5}([.,]\d{1,5})?$/;
+
+        if (!regex.test(value)) {
+            return { invalidFormat: true };
+        }
+
+        const normalized = value.replace(',', '.');
+        const num = Number(normalized);
+
+        if (isNaN(num)) {
+            return { invalidFormat: true };
+        }
+
+        if (num < 0) {
+            return { invalidFormat: true };
+        }
+
+        if (num > 99999) {
+            return { invalidFormat: true };
+        }
+
+        return null;
+    };
+}
+
+export function grossVolumeValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const rawValue = control.value;
+
+        if (rawValue === null || rawValue === undefined || rawValue === '') {
+            return null;
+        }
+
+        const value = String(rawValue).trim();
+
+        const regex = /^\d{1,4}([.,]\d{1,5})?$/;
+
+        if (!regex.test(value)) {
+            return { invalidFormat: true };
+        }
+
+        const normalized = value.replace(',', '.');
+        const num = Number(normalized);
+
+        if (isNaN(num)) {
+            return { invalidFormat: true };
+        }
+
+        if (num < 0) {
+            return { invalidFormat: true };
+        }
+
+        if (num > 9999) {
+            return { invalidFormat: true };
+        }
+
         return null;
     };
 }
