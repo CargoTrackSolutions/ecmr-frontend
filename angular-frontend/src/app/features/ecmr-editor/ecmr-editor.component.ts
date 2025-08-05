@@ -152,10 +152,10 @@ export class EcmrEditorComponent implements OnInit {
                 transportCargoIdentification: new FormControl<string | null>(null),
             }),
             grossWeightInKg: new FormGroup({
-                supplyChainConsignmentItemGrossWeight: new FormControl<number | null>(null, [grossWeightValidator()]),
+                supplyChainConsignmentItemGrossWeight: new FormControl<number | null>(null, [floatingNumbersValidator(5, 99999)]),
             }),
             volumeInM3: new FormGroup({
-                supplyChainConsignmentItemGrossVolume: new FormControl<number | null>(null, [grossVolumeValidator()])
+                supplyChainConsignmentItemGrossVolume: new FormControl<number | null>(null, [floatingNumbersValidator(4, 9999)])
             })
         })
     ]);
@@ -1076,7 +1076,7 @@ export function maxArrayLengthValidator(max: number): ValidatorFn {
     };
 }
 
-export function grossWeightValidator(): ValidatorFn {
+export function floatingNumbersValidator(maxDigits: number, maxValue: number): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
         const rawValue = control.value;
 
@@ -1085,10 +1085,9 @@ export function grossWeightValidator(): ValidatorFn {
         }
 
         const value = String(rawValue).trim();
+        const pattern = new RegExp(`^\\d{1,${maxDigits}}([.,]\\d{1,5})?$`);
 
-        const regex = /^\d{1,5}([.,]\d{1,5})?$/;
-
-        if (!regex.test(value)) {
+        if (!pattern.test(value)) {
             return { invalidFormat: true };
         }
 
@@ -1103,42 +1102,7 @@ export function grossWeightValidator(): ValidatorFn {
             return { invalidFormat: true };
         }
 
-        if (num > 99999) {
-            return { invalidFormat: true };
-        }
-
-        return null;
-    };
-}
-
-export function grossVolumeValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-        const rawValue = control.value;
-
-        if (rawValue === null || rawValue === undefined || rawValue === '') {
-            return null;
-        }
-
-        const value = String(rawValue).trim();
-
-        const regex = /^\d{1,4}([.,]\d{1,5})?$/;
-
-        if (!regex.test(value)) {
-            return { invalidFormat: true };
-        }
-
-        const normalized = value.replace(',', '.');
-        const num = Number(normalized);
-
-        if (isNaN(num)) {
-            return { invalidFormat: true };
-        }
-
-        if (num < 0) {
-            return { invalidFormat: true };
-        }
-
-        if (num > 9999) {
+        if (num > maxValue) {
             return { invalidFormat: true };
         }
 

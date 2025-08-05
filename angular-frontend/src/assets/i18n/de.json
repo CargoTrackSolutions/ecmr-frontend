@@ -91,8 +91,8 @@
     "error_mandatory": "Dieses Feld ist für die Signatur erforderlich.",
     "error_too_short": "Muss mindestens 2 Zeichen lang sein",
     "error_volume_min": "Muss größer als 0 sein",
-    "error_volume_format": "Format inkorrekt. Zahl mit bis zu 5 Ziffern und maximal 5 Nachkommastellen eingeben (z.B. 12345,12345).",
-    "error_weight_format": "Format inkorrekt. Zahl mit bis zu 4 Ziffern und maximal 5 Nachkommastellen eingeben (z.B. 1234,12345).",
+    "error_volume_format": "Format inkorrekt. (5 Ziffern und maximal 5 Nachkommastellen)",
+    "error_weight_format": "Format inkorrekt. (4 Ziffern und maximal 5 Nachkommastellen)",
     "eseal_information": "Dieser eCMR wurde mit eSeal signiert.",
     "established": {
       "in": "In",
