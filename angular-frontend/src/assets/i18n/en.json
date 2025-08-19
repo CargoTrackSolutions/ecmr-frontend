@@ -5,7 +5,7 @@
     "search": "Search",
     "title": "Archive"
   },
-  "carrier_registration": {
+  "external_user_registration": {
     "authenticate": "Authenticate",
     "authentication": "Authentication",
     "company": "Company",
@@ -422,7 +422,7 @@
     "copy_qr": "Copy QR-Code",
     "download_qr": "Download QR-Code",
     "email": "E-Mail",
-    "error_400": "The eCMR could not be shared. Is it correctly signed?",
+    "error_400": "The eCMR could not be shared. \n Message: {{ translateValue }}",
     "group_ambigous": "Sharing is ambiguous due to duplicate group names and descriptions.",
     "internal_user_found": "This email belongs to an internal user. Choose the \u0027internal user\u0027 option for sharing.",
     "link_copied": "Link copied to clipboard",

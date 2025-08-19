@@ -7,7 +7,6 @@
  */
 
 export enum ShareTargetType {
-    InternalUser = 'InternalUser',
-    ExternalUser = 'ExternalUser',
+    User = 'User',
     GuestAccess = 'GuestAccess'
 }

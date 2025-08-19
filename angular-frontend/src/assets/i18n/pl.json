@@ -5,7 +5,7 @@
     "search": "Szukaj",
     "title": "Archiwum"
   },
-  "carrier_registration": {
+  "external_user_registration": {
     "authenticate": "Uwierzytelnij",
     "authentication": "Uwierzytelnianie",
     "company": "Firma",
@@ -416,7 +416,7 @@
     "copy_qr": "Kopiuj kod QR",
     "download_qr": "Pobierz kod QR",
     "email": "E-mail",
-    "error_400": "Nie można udostępnić eCMR. Czy jest on prawidłowo podpisany?",
+    "error_400": "Nie można udostępnić eCMR. Wiadomość: {{ translateValue }}",
     "group_ambigous": "",
     "internal_user_found": "",
     "link_copied": "Link skopiowany do schowka",

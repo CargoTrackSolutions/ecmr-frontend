@@ -720,6 +720,7 @@ export class EcmrEditorComponent implements OnInit {
             maxWidth: '90vw',
             data: {
                 ecmr: ecmr,
+                sealedDocument: this.sealedDocument,
                 roles: this.userEcmrRoles,
                 isExternalUser: this.isExternalUser,
                 tan: this.tan,

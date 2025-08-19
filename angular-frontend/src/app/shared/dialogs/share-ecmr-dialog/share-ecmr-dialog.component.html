@@ -3,37 +3,38 @@
     <div class="d-flex flex-column w-100 mt-2 gap-2">
 
         <mat-button-toggle-group name="Ecmr Role" aria-label="Ecmr Role" #buttonToggle [vertical]="this.isMobile">
-            <mat-button-toggle [value]="EcmrRole.Sender" [checked]="ecmrRoles.includes(EcmrRole.Sender)" class="flex-grow-1"
-                               (change)="changeRole(EcmrRole.Sender)"
-                               *ngIf="ecmrRoles.includes(EcmrRole.Sender)">
-                {{ 'share_ecmr_dialog.sender' | translate }}
-            </mat-button-toggle>
-            <mat-button-toggle [value]="EcmrRole.Carrier" [checked]="!ecmrRoles.includes(EcmrRole.Sender)" class="flex-grow-1"
-                               (change)="changeRole(EcmrRole.Carrier)">
-                {{ 'share_ecmr_dialog.carrier' | translate }}
-            </mat-button-toggle>
-            <mat-button-toggle [value]="EcmrRole.Consignee" class="flex-grow-1" (change)="changeRole(EcmrRole.Consignee)">
-                {{ 'share_ecmr_dialog.consignee' | translate }}
-            </mat-button-toggle>
-            <mat-button-toggle [value]="EcmrRole.Reader" class="flex-grow-1" (change)="changeRole(EcmrRole.Reader)">
+            @if (senderSharable) {
+                <mat-button-toggle [value]="EcmrRole.Sender" [checked]="currentRole === EcmrRole.Sender" class="flex-grow-1"
+                                   (change)="changeRole(EcmrRole.Sender)">
+                    {{ 'share_ecmr_dialog.sender' | translate }}
+                </mat-button-toggle>
+            }
+            @if (carrierSharable) {
+                <mat-button-toggle [value]="EcmrRole.Carrier" [checked]="currentRole === EcmrRole.Carrier" class="flex-grow-1"
+                                   (change)="changeRole(EcmrRole.Carrier)"
+                                   *ngIf="(ecmrRoles.includes(EcmrRole.Sender) || ecmrRoles.includes(EcmrRole.Carrier)) && (!sealedDocument ||
+                               sealedDocument.carrierSeal === null)">
+                    {{ 'share_ecmr_dialog.carrier' | translate }}
+                </mat-button-toggle>
+            }
+            @if (consigneeSharable) {
+                <mat-button-toggle [value]="EcmrRole.Consignee" class="flex-grow-1" [checked]="currentRole === EcmrRole.Consignee"
+                                   (change)="changeRole(EcmrRole.Consignee)"
+                                   *ngIf="(ecmrRoles.includes(EcmrRole.Sender) || ecmrRoles.includes(EcmrRole.Carrier) ||
+                               ecmrRoles.includes(EcmrRole.Consignee)) && (!sealedDocument || sealedDocument.consigneeSeal === null)">
+                    {{ 'share_ecmr_dialog.consignee' | translate }}
+                </mat-button-toggle>
+            }
+            <mat-button-toggle [value]="EcmrRole.Reader" class="flex-grow-1" [checked]="currentRole === EcmrRole.Reader"
+                               (change)="changeRole(EcmrRole.Reader)">
                 {{ 'share_ecmr_dialog.share_pdf' | translate }}
             </mat-button-toggle>
         </mat-button-toggle-group>
 
         @if (currentRole !== EcmrRole.Reader) {
-            <div class="d-flex w-100 flex-wrap flex-column align-items-center mt-2">
-                <mat-radio-group [(ngModel)]="selectedShareTargetType" (change)="onChangeShareTargetType($event)">
-                    <mat-radio-button [value]="ShareTargetType.InternalUser">{{ 'share_ecmr_dialog.with_internal' | translate }}</mat-radio-button>
-                    <mat-radio-button [value]="ShareTargetType.ExternalUser" *ngIf="!isExternalUser">{{ 'share_ecmr_dialog.with_external' | translate }}</mat-radio-button>
-                    <mat-radio-button [value]="ShareTargetType.GuestAccess" *ngIf="currentRole === EcmrRole.Carrier">{{ 'share_ecmr_dialog.with_guest' | translate }}</mat-radio-button>
-                </mat-radio-group>
-              </div>
-        }
-
-        @if (currentRole !== EcmrRole.Reader && selectedShareTargetType !== ShareTargetType.GuestAccess) {
             <div class="d-flex w-100 flex-wrap flex-column align-items-center mt-2"> 
                 <mat-form-field class="w-100">        
-                    @if (selectedShareTargetType === ShareTargetType.InternalUser && canSelectSearch) {                   
+                    @if (canSelectSearch) {
                         <button mat-button matPrefix [matMenuTriggerFor]="menu" (click)="preventInputFocusOnMenuClick($event)"> 
                             <mat-icon>{{ selectedSearch.icon }}</mat-icon>
                             <mat-icon>arrow_drop_down</mat-icon>
@@ -79,21 +80,15 @@
                     }
                 </mat-form-field>
                 <button mat-flat-button color="primary" class="w-100" (click)="share()">{{ 'common.share' | translate }}</button>
-            </div>
-        }
-        @if ((currentRole === EcmrRole.Carrier && selectedShareTargetType === ShareTargetType.GuestAccess) 
-                    || currentRole === EcmrRole.Reader) {
-            <div>
-                <!--
-                @if (currentRole === EcmrRole.Carrier) {
-                    <div class="w-100 divide-container d-flex flex-row gap-3 align-items-center">
-                        <div class="divider flex-grow-1"></div>
-                        <div class="divide-text">{{ 'share_ecmr_dialog.share_via_qr' | translate }}</div>
+                <div class="w-100 divide-container d-flex flex-row gap-3 align-items-center">
+                    <div class="divider flex-grow-1"></div>
+                    <div class="divide-text">{{ 'share_ecmr_dialog.share_via_qr' | translate }}</div>
                         <div class="divider flex-grow-1"></div>
                     </div>
-                }
-               -->
-                <div class="d-flex w-100 justify-content-center">
+            </div>
+        }
+            <div>
+                <div class="d-flex w-100 justify-content-center mt-2">
                     <qrcode #qrcodeElement
                             [qrdata]="shareString"
                             [allowEmptyString]="true"
@@ -104,21 +99,13 @@
                             [width]="300"></qrcode>
                 </div>
                 <div class="d-flex flex-row w-100 justify-content-center gap-2">
-                    <button matTooltip="{{'share_ecmr_dialog.copy_qr' | translate}}" mat-icon-button color="accent" aria-label="Copy Qr-Code"
-                            (click)="copyQRCode(qrcodeElement)">
-                        <mat-icon>file_copy</mat-icon>
-                    </button>
-                    <button matTooltip="{{'share_ecmr_dialog.download_qr' | translate}}" mat-icon-button color="accent" aria-label="Download Qr-Code"
-                            (click)="downloadQRCode(qrcodeElement)">
-                        <mat-icon>download</mat-icon>
-                    </button>
                     <button matTooltip="{{'share_ecmr_dialog.copy_link' | translate}}" mat-icon-button color="accent" aria-label="Copy Link"
                             (click)="copyLink()">
                         <mat-icon>content_copy</mat-icon>
                     </button>
                 </div>
             </div>
-        }
+
     </div>
 </mat-dialog-content>
 <mat-dialog-actions [align]="'end'">

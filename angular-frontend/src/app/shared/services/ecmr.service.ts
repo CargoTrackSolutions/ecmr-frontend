@@ -147,13 +147,6 @@ export class EcmrService {
 
     shareEcmrWithGroup(ecmrShareWithGroup: EcmrShareWithGroup, ecmrId: string) {
         return this.http.patch<EcmrShareResponse>(`${environment.backendUrl}/ecmr/${ecmrId}/shareWithGroup`, ecmrShareWithGroup);
-    }    
-
-    shareEcmrExternal( ecmrShare: EcmrShare, ecmrId: string) {
-      const params = new HttpParams()
-        .set('receiverEmail', ecmrShare.email)
-        .set('ecmrRole', ecmrShare.role);
-      return this.http.post<EcmrShareResponse>(`${environment.backendUrl}/external/ecmr/${ecmrId}/email`, null, {params: params})
     }
 
     importEcmr(ecmrId: string) {

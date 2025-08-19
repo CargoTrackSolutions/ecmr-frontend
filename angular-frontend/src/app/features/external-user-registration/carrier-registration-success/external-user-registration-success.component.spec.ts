@@ -8,7 +8,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CarrierRegistrationSuccessComponent } from './carrier-registration-success.component';
+import { ExternalUserRegistrationSuccessComponent } from './external-user-registration-success.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../app.component';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -19,12 +19,12 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 describe('CarrierRegistrationSuccessComponent', () => {
-    let component: CarrierRegistrationSuccessComponent;
-    let fixture: ComponentFixture<CarrierRegistrationSuccessComponent>;
+    let component: ExternalUserRegistrationSuccessComponent;
+    let fixture: ComponentFixture<ExternalUserRegistrationSuccessComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-    imports: [CarrierRegistrationSuccessComponent,
+    imports: [ExternalUserRegistrationSuccessComponent,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -47,7 +47,7 @@ describe('CarrierRegistrationSuccessComponent', () => {
 })
             .compileComponents();
 
-        fixture = TestBed.createComponent(CarrierRegistrationSuccessComponent);
+        fixture = TestBed.createComponent(ExternalUserRegistrationSuccessComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

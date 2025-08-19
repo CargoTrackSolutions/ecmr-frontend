@@ -5,7 +5,7 @@
     "search": "Vyhledávání",
     "title": "Archiv"
   },
-  "carrier_registration": {
+  "external_user_registration": {
     "authenticate": "Ověřit",
     "authentication": "Autentizace",
     "company": "Společnost",
@@ -416,7 +416,7 @@
     "copy_qr": "Zkopírujte QR kód",
     "download_qr": "Stáhněte si QR kód",
     "email": "E-mail",
-    "error_400": "eCMR nebylo možné sdílet. Je to správně podepsané?",
+    "error_400": "eCMR nebylo možné sdílet. Zpráva: {{ translateValue }}",
     "group_ambigous": "",
     "internal_user_found": "",
     "link_copied": "Odkaz zkopírován do schránky",

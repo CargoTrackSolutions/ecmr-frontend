@@ -12,4 +12,5 @@ import { Group } from './Group';
 export interface EcmrShareResponse {
     result: ShareEcmrResult,
     group: Group
+    url: string;
 }

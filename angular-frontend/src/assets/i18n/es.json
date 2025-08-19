@@ -5,7 +5,7 @@
     "search": "Buscar",
     "title": "Archivo"
   },
-  "carrier_registration": {
+  "external_user_registration": {
     "authenticate": "Autentificar",
     "authentication": "Autentificación",
     "company": "Empresa",
@@ -416,7 +416,7 @@
     "copy_qr": "Copiar código QR",
     "download_qr": "Descargar código QR",
     "email": "Correo electrónico",
-    "error_400": "No se ha podido compartir el eCMR. Está firmado correctamente?",
+    "error_400": "No se ha podido compartir el eCMR. Mensaje: {{ translateValue }}",
     "group_ambigous": "La compartición es ambigua debido a nombres y descripciones de grupos duplicados.",
     "internal_user_found": "Este correo electrónico pertenece a un usuario interno. Seleccione la opción \u0027usuario interno\u0027 para compartir.",
     "link_copied": "Enlace copiado al portapapeles",

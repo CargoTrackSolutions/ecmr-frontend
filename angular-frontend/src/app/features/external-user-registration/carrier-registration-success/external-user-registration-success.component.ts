@@ -6,9 +6,8 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {Component, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef} from '@angular/core';
-import { MatError, MatFormField, MatInput, MatLabel, MatPrefix } from '@angular/material/input';
-import { NgForOf } from '@angular/common';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardHeader, MatCardTitle } from '@angular/material/card';
@@ -19,11 +18,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'app-carrier-registration-success',
+    selector: 'app-external-user-registration-success',
     standalone: true,
     imports: [
         MatInput,
-        NgForOf,
         FormsModule,
         MatFormField,
         MatButton,
@@ -33,14 +31,13 @@ import { Subscription } from 'rxjs';
         MatError,
         MatIcon,
         MatLabel,
-        MatPrefix,
         ReactiveFormsModule,
         TranslateModule
     ],
-    templateUrl: './carrier-registration-success.component.html',
-    styleUrl: './carrier-registration-success.component.scss'
+    templateUrl: './external-user-registration-success.component.html',
+    styleUrl: './external-user-registration-success.component.scss'
 })
-export class CarrierRegistrationSuccessComponent implements AfterViewInit {
+export class ExternalUserRegistrationSuccessComponent implements AfterViewInit {
 
     carrierTan = new FormControl<string>('', Validators.required);
 

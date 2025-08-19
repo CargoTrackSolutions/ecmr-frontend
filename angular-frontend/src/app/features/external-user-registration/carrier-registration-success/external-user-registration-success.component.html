@@ -1,21 +1,21 @@
 <div class="w-100 h-100 d-flex justify-content-center align-items-center">
     <mat-card class="d-flex flex-column gap-2 registration-container p-3">
         <mat-card-header>
-            <mat-card-title>{{ 'carrier_registration.authentication' | translate }}</mat-card-title>
+            <mat-card-title>{{ 'external_user_registration.authentication' | translate }}</mat-card-title>
         </mat-card-header>
         <div class="success-message d-flex justify-content-center align-items-center gap-2 fw-bold">
             <mat-icon class="load-animation">sms</mat-icon>
-            {{ 'carrier_registration.tan_message' | translate }}
+            {{ 'external_user_registration.tan_message' | translate }}
         </div>
         <mat-form-field>
-            <mat-label>{{ 'carrier_registration.tan' | translate }}</mat-label>
+            <mat-label>{{ 'external_user_registration.tan' | translate }}</mat-label>
             <input #focusedInput matInput type="text" [formControl]="carrierTan">
             @if (carrierTan.hasError('required')) {
                 <mat-error>{{ "error.required" | translate }}</mat-error>
             }
         </mat-form-field>
         <button mat-flat-button color="primary" [disabled]="carrierTan.invalid" (click)="authenticate()">
-            {{ 'carrier_registration.authenticate' | translate }}
+            {{ 'external_user_registration.authenticate' | translate }}
         </button>
         <div class="d-flex justify-content-center align-items-center w-100 mt-3">
             <div class="ecmr-cmr-logo">

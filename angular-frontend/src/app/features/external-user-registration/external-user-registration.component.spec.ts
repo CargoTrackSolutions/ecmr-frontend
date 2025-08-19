@@ -8,7 +8,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CarrierRegistrationComponent } from './carrier-registration.component';
+import { ExternalUserRegistrationComponent } from './external-user-registration.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../app.component';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -21,15 +21,15 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { UserService } from '../../shared/services/user.service';
 
 describe('CarrierRegistrationComponent', () => {
-    let component: CarrierRegistrationComponent;
-    let fixture: ComponentFixture<CarrierRegistrationComponent>;
+    let component: ExternalUserRegistrationComponent;
+    let fixture: ComponentFixture<ExternalUserRegistrationComponent>;
     let mockAuthService;
 
     beforeEach(async () => {
         mockAuthService = jasmine.createSpyObj('AuthService', ['isAuthenticated', 'getAuthenticatedUser']);
         mockAuthService.getAuthenticatedUser.and.returnValue(of(null));
         await TestBed.configureTestingModule({
-    imports: [CarrierRegistrationComponent,
+    imports: [ExternalUserRegistrationComponent,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -54,7 +54,7 @@ describe('CarrierRegistrationComponent', () => {
 })
             .compileComponents();
 
-        fixture = TestBed.createComponent(CarrierRegistrationComponent);
+        fixture = TestBed.createComponent(ExternalUserRegistrationComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -10,21 +10,22 @@ import { Injectable } from '@angular/core';
 import { Registration } from '../../core/models/Registration';
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { SharedCarrierInformation } from '../../core/models/SharedCarrierInformation';
+import { SharedInformation } from '../../core/models/SharedInformation';
 import { Observable } from 'rxjs';
 import { RegistrationResponse } from '../../core/models/RegistrationResponse';
+import { EcmrRole } from '../../core/enums/EcmrRole';
 
 @Injectable({
     providedIn: 'root'
 })
-export class CarrierRegistrationService {
+export class ExternalUserRegistrationService {
 
     constructor(private http: HttpClient, handler: HttpBackend) {
         this.http = new HttpClient(handler);
     }
 
-    getEcmrCarrierInfo(ecmrId: string, shareToken: string) {
-        return this.http.get<SharedCarrierInformation>(`${environment.backendUrl}/anonymous/ecmr-carrier/${ecmrId}/${shareToken}`)
+    getExternalUserRegistrationInfo(ecmrId: string, shareToken: string, roleToRegister: EcmrRole) {
+        return this.http.get<SharedInformation>(`${environment.backendUrl}/anonymous/registration-info/${ecmrId}/${shareToken}`, {params: {'roleToRegister': roleToRegister}});
     }
 
     sendRegistration(registration: Registration): Observable<RegistrationResponse> {

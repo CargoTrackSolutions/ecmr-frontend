@@ -8,19 +8,19 @@
 
 import { TestBed } from '@angular/core/testing';
 
-import { CarrierRegistrationService } from './carrier-registration.service';
+import { ExternalUserRegistrationService } from './external-user-registration.service';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-describe('CarrierRegistrationService', () => {
-    let service: CarrierRegistrationService;
+describe('ExternalUserRegistrationService', () => {
+    let service: ExternalUserRegistrationService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
     imports: [],
     providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
 });
-        service = TestBed.inject(CarrierRegistrationService);
+        service = TestBed.inject(ExternalUserRegistrationService);
     });
 
     it('should be created', () => {

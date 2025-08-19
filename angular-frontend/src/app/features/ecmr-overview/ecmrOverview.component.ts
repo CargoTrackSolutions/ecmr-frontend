@@ -26,7 +26,7 @@ import { EcmrOverviewDetailsComponent } from './ecmr-overview-details/ecmr-overv
 
 import { Ecmr } from '../../core/models/Ecmr';
 import { EcmrTableComponent } from '../../shared/components/ecmr-table/ecmr-table.component';
-import { catchError, filter, Observable, of, Subscription, switchMap } from 'rxjs';
+import { catchError, filter, forkJoin, Observable, of, Subscription, switchMap } from 'rxjs';
 import { EcmrService } from '../../shared/services/ecmr.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
@@ -193,18 +193,24 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
 
     shareEcmr(ecmr: Ecmr) {
         if (ecmr?.ecmrId) {
-            this.ecmrService.getEcmrRolesForCurrentUser(ecmr?.ecmrId).subscribe(roles => {
-                this.selectedEcmrRoles = roles
-                this.shareButtonDisabled = (this.selectedEcmrRoles.includes(EcmrRole.Consignee) || this.selectedEcmrRoles.includes(EcmrRole.Reader)) && this.selectedEcmrRoles.length === 1;
-                this.dialog.open(ShareEcmrDialogComponent, {
-                    width: '800px',
-                    maxWidth: '90vw',
-                    data: {
-                        ecmr: ecmr,
-                        roles: this.selectedEcmrRoles,
-                        isExternalUser: false
-                    }
-                });
+            this.loadingService.showLoaderUntilCompleted(forkJoin({
+                sealedDocument: this.loadSealedDocument(ecmr.ecmrId),
+                roles: this.ecmrService.getEcmrRolesForCurrentUser(ecmr.ecmrId)
+            })).subscribe(result => {
+                if(result.roles.includes(EcmrRole.Reader) && result.roles.length === 1) {
+                    this.snackbarService.openErrorSnackbar("TODO Teilen nicht möglich.")
+                } else {
+                    this.dialog.open(ShareEcmrDialogComponent, {
+                        width: '800px',
+                        maxWidth: '90vw',
+                        data: {
+                            ecmr: ecmr,
+                            sealedDocument: result.sealedDocument,
+                            roles: result.roles,
+                            isExternalUser: false
+                        }
+                    });
+                }
             })
         }
     }
@@ -282,26 +288,29 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         if (ecmr?.ecmrId) {
             this.ecmrService.getEcmrRolesForCurrentUser(ecmr.ecmrId).subscribe(roles => {
                 this.selectedEcmrRoles = roles
-                this.shareButtonDisabled = (this.selectedEcmrRoles.includes(EcmrRole.Consignee) || this.selectedEcmrRoles.includes(EcmrRole.Reader)) && this.selectedEcmrRoles.length === 1;
+                this.shareButtonDisabled = this.selectedEcmrRoles.includes(EcmrRole.Reader) && this.selectedEcmrRoles.length === 1;
             })
-            this.sealedDocumentService.getSealedDocumentWithoutEcmr(ecmr.ecmrId)
-                .pipe(
-                    catchError(err => {
-                        if (err.status === 404) {
-                            return of(null);
-                        } else {
-                            this.snackbarService.openErrorSnackbar('general.snackbar_error')
-                            console.log(err);
-                            return of(null)
-                        }
-                    }))
-                .subscribe(sealedDocument => {
+            this.loadSealedDocument(ecmr.ecmrId).subscribe(sealedDocument => {
                     if (sealedDocument) {
                         this.currentSealedDocument = sealedDocument;
                     }
                 })
         }
         this.selectedEcmr = ecmr;
+    }
+
+    private loadSealedDocument(ecmrId: string):Observable<SealedDocumentWithoutEcmr | null> {
+        return this.sealedDocumentService.getSealedDocumentWithoutEcmr(ecmrId)
+            .pipe(
+                catchError(err => {
+                    if (err.status === 404) {
+                        return of(null);
+                    } else {
+                        this.snackbarService.openErrorSnackbar('general.snackbar_error')
+                        console.log(err);
+                        return of(null)
+                    }
+                }))
     }
 
     closeDetailView($event: boolean) {

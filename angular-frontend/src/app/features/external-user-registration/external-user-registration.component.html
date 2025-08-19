@@ -1,45 +1,45 @@
 <div class="w-100 h-100 d-flex justify-content-center align-items-center">
-    <mat-card [formGroup]="externalCarrier" class="d-flex flex-column gap-2 registration-container p-3">
+    <mat-card [formGroup]="externalUser" class="d-flex flex-column gap-2 registration-container p-3">
         <mat-card-header>
-            <mat-card-title>{{ 'carrier_registration.title' | translate }}</mat-card-title>
+            <mat-card-title>{{ 'external_user_registration.title' | translate }}</mat-card-title>
         </mat-card-header>
         <mat-form-field>
-            <mat-label>{{ 'carrier_registration.first_name' | translate }}</mat-label>
+            <mat-label>{{ 'external_user_registration.first_name' | translate }}</mat-label>
             <input matInput formControlName="firstName">
             <mat-icon matIconPrefix>badge</mat-icon>
-            @if (externalCarrier.controls.firstName.hasError('required')) {
+            @if (externalUser.controls.firstName.hasError('required')) {
                 <mat-error>{{ "error.required" | translate }}</mat-error>
             }
         </mat-form-field>
         <mat-form-field>
-            <mat-label>{{ 'carrier_registration.last_name' | translate }}</mat-label>
+            <mat-label>{{ 'external_user_registration.last_name' | translate }}</mat-label>
             <input matInput formControlName="lastName">
             <mat-icon matIconPrefix>badge</mat-icon>
-            @if (externalCarrier.controls.lastName.hasError('required')) {
+            @if (externalUser.controls.lastName.hasError('required')) {
                 <mat-error>{{ "error.required" | translate }}</mat-error>
             }
         </mat-form-field>
         <mat-form-field>
-            <mat-label>{{ 'carrier_registration.phone' | translate }}</mat-label>
+            <mat-label>{{ 'external_user_registration.phone' | translate }}</mat-label>
             <input matInput formControlName="phone">
             <mat-icon matIconPrefix>call</mat-icon>
-            @if (externalCarrier.controls.phone.hasError('required')) {
+            @if (externalUser.controls.phone.hasError('required')) {
                 <mat-error>{{ "error.required" | translate }}</mat-error>
             }
-            @if (externalCarrier.controls.phone.hasError('pattern')) {
+            @if (externalUser.controls.phone.hasError('pattern')) {
                 <mat-error>{{ "error.pattern" | translate }}</mat-error>
             }
         </mat-form-field>
         <mat-form-field>
-            <mat-label>{{ 'carrier_registration.company' | translate }}</mat-label>
+            <mat-label>{{ 'external_user_registration.company' | translate }}</mat-label>
             <input matInput formControlName="company">
             <mat-icon matIconPrefix>apartment</mat-icon>
-            @if (externalCarrier.controls.company.hasError('required')) {
+            @if (externalUser.controls.company.hasError('required')) {
                 <mat-error>{{ "error.required" | translate }}</mat-error>
             }
         </mat-form-field>
-        <button mat-flat-button color="primary" [disabled]="externalCarrier.invalid" (click)="sendRegistration()">
-            {{ 'carrier_registration.register' | translate }}
+        <button mat-flat-button color="primary" [disabled]="externalUser.invalid" (click)="sendRegistration()">
+            {{ 'external_user_registration.register' | translate }}
         </button>
         <div class="d-flex justify-content-center align-items-center w-100 mt-3">
             <div class="ecmr-cmr-logo">

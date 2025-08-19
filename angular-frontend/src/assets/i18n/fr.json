@@ -5,7 +5,7 @@
     "search": "Recherche",
     "title": "Archives"
   },
-  "carrier_registration": {
+  "external_user_registration": {
     "authenticate": "Authentification",
     "authentication": "Authentification",
     "company": "Entreprise",
@@ -416,7 +416,7 @@
     "copy_qr": "Copier le QR-Code",
     "download_qr": "Télécharger le QR-Code",
     "email": "E-mail",
-    "error_400": "Impossible de partager l\u0027eCMR. Est-il correctement signé ?",
+    "error_400": "Impossible de partager l\u0027eCMR. Message: {{ translateValue }}",
     "group_ambigous": "",
     "internal_user_found": "",
     "link_copied": "Lien copié dans le presse-papiers",

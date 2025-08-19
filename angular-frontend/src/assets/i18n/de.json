@@ -5,7 +5,7 @@
     "search": "Suchen",
     "title": "Archiv"
   },
-  "carrier_registration": {
+  "external_user_registration": {
     "authenticate": "Authentifizieren",
     "authentication": "Authentifizierung",
     "company": "Unternehmen",
@@ -420,7 +420,7 @@
     "copy_qr": "QR-Code kopieren",
     "download_qr": "QR-Code downloaden",
     "email": "E-Mail",
-    "error_400": "Der eCMR konnte nicht geteilt werden. Ist er korrekt signiert?",
+    "error_400": "Der eCMR konnte nicht geteilt werden. \n Nachricht: {{ translateValue }}",
     "group_ambigous": "Das Teilen ist aufgrund doppelter Gruppennamen und -beschreibungen mehrdeutig.",
     "internal_user_found": "Diese E-Mail gehört einem internen Benutzer. Wählen Sie die Option \u0027interner Benutzer\u0027 für das Teilen aus.",
     "link_copied": "Link wurde in die Zwischenablage kopiert",
@@ -433,6 +433,7 @@
     "share_pdf": "Als PDF teilen",
     "share_via_qr": "Oder teile mit dem QR-Code",
     "shared_external": "Mit externem Benutzer geteilt",
+    "shared_external_instance": "Mit externer Instanz ({{ translateValue }}) geteilt",
     "shared_internal": "Mit internem Benutzer in Gruppe {{ translateValue }} geteilt.",
     "title": "eCMR Teilen",
     "user_has_no_group": "Benutzer hat keine Gruppe",

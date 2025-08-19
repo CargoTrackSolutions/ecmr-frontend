@@ -5,7 +5,7 @@
     "search": "Hľadať",
     "title": "Archív"
   },
-  "carrier_registration": {
+  "external_user_registration": {
     "authenticate": "Overiť",
     "authentication": "Autentifikácia",
     "company": "Spoločnosť",
@@ -416,7 +416,7 @@
     "copy_qr": "Skopírujte QR kód",
     "download_qr": "Stiahnite si QR kód",
     "email": "E-mail",
-    "error_400": "eCMR nebolo možné zdieľať. Je to správne podpísané?",
+    "error_400": "eCMR nebolo možné zdieľať. Správa: {{ translateValue }}",
     "group_ambigous": "",
     "internal_user_found": "",
     "link_copied": "Odkaz bol skopírovaný do schránky",
