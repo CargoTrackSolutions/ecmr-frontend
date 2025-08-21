@@ -13,7 +13,6 @@ import { environment } from '../../../environments/environment';
 import { SharedInformation } from '../../core/models/SharedInformation';
 import { Observable } from 'rxjs';
 import { RegistrationResponse } from '../../core/models/RegistrationResponse';
-import { EcmrRole } from '../../core/enums/EcmrRole';
 
 @Injectable({
     providedIn: 'root'
@@ -24,8 +23,8 @@ export class ExternalUserRegistrationService {
         this.http = new HttpClient(handler);
     }
 
-    getExternalUserRegistrationInfo(ecmrId: string, shareToken: string, roleToRegister: EcmrRole) {
-        return this.http.get<SharedInformation>(`${environment.backendUrl}/anonymous/registration-info/${ecmrId}/${shareToken}`, {params: {'roleToRegister': roleToRegister}});
+    getExternalUserRegistrationInfo(ecmrId: string, shareToken: string) {
+        return this.http.get<SharedInformation>(`${environment.backendUrl}/anonymous/registration-info/${ecmrId}`, {params: {'token': shareToken}});
     }
 
     sendRegistration(registration: Registration): Observable<RegistrationResponse> {

@@ -435,6 +435,7 @@
     "share_pdf": "Share as PDF",
     "share_via_qr": "Or share via QR-Code",
     "shared_external": "Shared with external user",
+    "shared_external_instance": "Shared with external instance ({{ translateValue }})",
     "shared_internal": "Shared with internal user in Group {{ translateValue }}",
     "title": "Share eCMR",
     "user_has_no_group": "User has no group",

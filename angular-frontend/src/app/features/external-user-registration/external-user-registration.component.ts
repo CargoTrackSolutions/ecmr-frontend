@@ -21,6 +21,7 @@ import { ExternalUserRegistrationService } from './external-user-registration.se
 import { AuthService } from '../../core/services/auth.service';
 import { SnackbarService } from '../../core/services/snackbar.service';
 import { EcmrRole } from '../../core/enums/EcmrRole';
+import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
     selector: 'app-external-user-registration',
@@ -56,7 +57,8 @@ export class ExternalUserRegistrationComponent {
                 private externalUserRegistrationService: ExternalUserRegistrationService,
                 private router: Router,
                 authService: AuthService,
-                private snackBarService: SnackbarService) {
+                private snackBarService: SnackbarService,
+                private readonly loadingService: LoadingService) {
         authService.getAuthenticatedUser().pipe(takeWhile(user => !user, true))
             .subscribe(user => {
                 if (user) {
@@ -69,23 +71,27 @@ export class ExternalUserRegistrationComponent {
             .pipe(
                 tap(params => {
                     this.ecmrId = params['id'];
-                    this.ecmrToken = params['token'];
-                    this.roleToShare = params['role'];
+                }),
+                switchMap(() => this.route.queryParams),
+                tap(queryParams => {
+                    this.ecmrToken = queryParams['token'];
+                    this.roleToShare = queryParams['role'];
                 }),
                 filter(() => this.roleToShare != EcmrRole.Reader),
-                switchMap(() => this.externalUserRegistrationService.getExternalUserRegistrationInfo(this.ecmrId, this.ecmrToken, this.roleToShare))
+                switchMap(() => this.externalUserRegistrationService.getExternalUserRegistrationInfo(this.ecmrId, this.ecmrToken))
             )
             .subscribe({
-                next: carrierInfo => {
-                    this.externalUser.controls.company.setValue(carrierInfo.companyName);
+                next: sharedInfo => {
+                    this.externalUser.controls.company.setValue(sharedInfo.companyName);
                     if(this.roleToShare == EcmrRole.Carrier) {
-                        const carrierFirstName = carrierInfo.driverName?.substring(0, carrierInfo.driverName.indexOf(" ")) || null;
-                        const carrierLastName = carrierInfo.driverName?.substring(carrierInfo.driverName.indexOf(" ")) || null;
-                        this.externalUser.controls.firstName.setValue(carrierFirstName);
-                        this.externalUser.controls.lastName.setValue(carrierLastName);
+                        const driverFirstName = sharedInfo.driverName?.substring(0, sharedInfo.driverName.indexOf(" ")) || null;
+                        const driverLastName = sharedInfo.driverName?.substring(sharedInfo.driverName.indexOf(" ")) || null;
+                        this.externalUser.controls.firstName.setValue(driverFirstName);
+                        this.externalUser.controls.lastName.setValue(driverLastName);
                     }
                 },
                 error: () => {
+                    this.snackBarService.openErrorSnackbar('general.snackbar_error');
                 }
             });
     }
@@ -102,9 +108,9 @@ export class ExternalUserRegistrationComponent {
                 shareToken: this.ecmrToken
             }
 
-            this.externalUserRegistrationService.sendRegistration(registration).subscribe({
+            this.loadingService.showLoaderUntilCompleted(this.externalUserRegistrationService.sendRegistration(registration)).subscribe({
                 next: (registrationResponse) => {
-                    this.router.navigateByUrl(`/external-user-registration-success/${this.ecmrId}/${registrationResponse.userToken}`)
+                    this.router.navigate(['/external-user-registration-success', this.ecmrId], {queryParams: {token: registrationResponse.userToken}});
                 },
                 error: (err) => {
                     if(err.status == 429) {

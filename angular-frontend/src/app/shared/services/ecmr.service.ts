@@ -153,14 +153,8 @@ export class EcmrService {
         return this.http.get<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}/import`);
     }
 
-    importExternalEcmr(token: string, url: string, ecmrId: string, groups: GroupFlat[]): Observable<void> {
-      const groupIds = groups.map(group => group.id);
-      const params = new HttpParams()
-        .set('ecmrId', ecmrId)
-        .set('shareToken', token)
-        .set('groupId', groupIds.toString())
-        .set('url', url);
-      return this.http.post<void>(`${environment.backendUrl}/external/ecmr/import`,null,  {params: params});
+    importExternalEcmr( url: string, ecmrId: string, token: string ): Observable<void> {
+      return this.http.post<void>(`${environment.backendUrl}/ecmr/import-external`, {url: url, ecmrId: ecmrId, shareToken: token});
     }
 
     getEcmrRolesForCurrentUser(ecmrId: string) {

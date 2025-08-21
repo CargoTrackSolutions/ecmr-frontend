@@ -15,7 +15,7 @@ import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { ExternalUserService } from '../../ecmr-editor/ecmr-editor-service/external-user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, switchMap, tap } from 'rxjs';
 
 @Component({
     selector: 'app-external-user-registration-success',
@@ -42,20 +42,26 @@ export class ExternalUserRegistrationSuccessComponent implements AfterViewInit {
     carrierTan = new FormControl<string>('', Validators.required);
 
     ecmrId: string;
-    userToken: string;
+    token: string;
     sub: Subscription;
 
     constructor(private ecmrTanService: ExternalUserService,
                 private router: Router,
                 private route: ActivatedRoute,
-                private readonly changeDetectorRef: ChangeDetectorRef,) {
-        this.sub = this.route.params.subscribe(params => {
-            this.ecmrId = params['id'];
-            this.userToken = params['userToken'];
-        });
+                private readonly changeDetectorRef: ChangeDetectorRef) {
+        this.sub = this.route.params.pipe(
+            tap(params => {
+                this.ecmrId = params['id'];
+            }),
+            switchMap(() => this.route.queryParams),
+            tap(queryParams => {
+                this.token = queryParams['token'];
+            })
+        ).subscribe();
     }
 
-    @ViewChild("focusedInput") focusedInputField: ElementRef;
+    @ViewChild('focusedInput') focusedInputField: ElementRef;
+
     ngAfterViewInit() {
         this.focusedInputField.nativeElement.focus();
         this.changeDetectorRef.detectChanges();
@@ -63,10 +69,10 @@ export class ExternalUserRegistrationSuccessComponent implements AfterViewInit {
 
     authenticate() {
         const tan = this.carrierTan.value;
-        if (this.carrierTan.valid && this.ecmrId && tan && this.userToken) {
-            this.ecmrTanService.isTanValid(this.ecmrId, this.userToken, tan).subscribe(res => {
+        if (this.carrierTan.valid && this.ecmrId && tan && this.token) {
+            this.ecmrTanService.isTanValid(this.ecmrId, this.token, tan).subscribe(res => {
                 if (res) {
-                    this.router.navigateByUrl(`/ecmr-tan/${this.ecmrId}/${this.userToken}/${tan}`)
+                    this.router.navigateByUrl(`/ecmr-tan/${this.ecmrId}/${this.token}/${tan}`)
                 }
             })
         }

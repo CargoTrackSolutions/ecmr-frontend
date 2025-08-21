@@ -37,6 +37,7 @@ import { GroupService } from '../../../features/group/group.service';
 import { GroupFlat } from '../../../core/models/GroupFlat';
 import { EcmrShareWithGroup } from '../../../core/models/EcmrShareWithGroup';
 import { SealedDocumentWithoutEcmr } from '../../../core/models/SealedDocumentWithoutEcmr';
+import { LoadingService } from '../../../core/services/loading.service';
 
 export enum SearchMode {
     EMAIL = 'Email',
@@ -137,6 +138,7 @@ export class ShareEcmrDialogComponent implements OnInit {
         private userService: UserService,
         private externalUserService: ExternalUserService,
         private groupService: GroupService,
+        private loadingService: LoadingService
     ) {
         this.breakpointSubscription = this.breakpointObserver
             .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium])
@@ -243,7 +245,7 @@ export class ShareEcmrDialogComponent implements OnInit {
     share() {
         const shareResult$ = (this.selectedSearch.mode === SearchMode.EMAIL ? this.shareByEmail() : this.shareByGroup());
         if (shareResult$) {
-            shareResult$.pipe(
+            this.loadingService.showLoaderUntilCompleted(shareResult$.pipe(
                 catchError(err => {
                     console.error(err);
                     if (err.status === 501) {
@@ -256,7 +258,7 @@ export class ShareEcmrDialogComponent implements OnInit {
                 }),
                 filter(result => result?.result != null),
                 map(result => result)
-            ).subscribe(response => {
+            )).subscribe(response => {
                 if (response?.result) {
                     const shareResult: ShareEcmrResult = response.result;
                     switch (shareResult) {
@@ -342,7 +344,7 @@ export class ShareEcmrDialogComponent implements OnInit {
             (this.isExternalUser ? this.externalUserService.getShareToken(this.ecmr.ecmrId, role, this.userToken, this.tan) : this.ecmrService.getShareToken(this.ecmr.ecmrId, role)).subscribe(token => {
                 this.ecmrToken = token;
                 this.shareString = this.currentRole !== EcmrRole.Reader ?
-                    `${this.externalUserShareString}/${this.ecmr.ecmrId}/${this.ecmrToken}` :
+                    `${this.externalUserShareString}/${this.ecmr.ecmrId}?token=${this.ecmrToken}&role=${this.currentRole}` :
                     `${this.readerShareString}/${this.ecmr.ecmrId}/share-pdf?shareToken=${this.ecmrToken}`
             })
         }
