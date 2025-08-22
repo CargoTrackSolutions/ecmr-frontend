@@ -416,9 +416,6 @@
     "copy_qr": "Skopírujte QR kód",
     "download_qr": "Stiahnite si QR kód",
     "email": "E-mail",
-    "error_400": "eCMR nebolo možné zdieľať. Správa: {{ translateValue }}",
-    "group_ambigous": "",
-    "internal_user_found": "",
     "link_copied": "Odkaz bol skopírovaný do schránky",
     "no_group_found": "",
     "no_qr_code_found": "Nenašiel sa žiadny QR kód",
@@ -432,6 +429,8 @@
     "shared_internal": "Zdieľané s interným používateľom v skupine {{ translateValue }}",
     "title": "Zdieľať eCMR",
     "user_has_no_group": "Používateľ nemá žiadnu skupinu",
+    "group_ambigous": "",
+    "error_400": "eCMR nebolo možné zdieľať.",
     "with_external": "",
     "with_guest": "",
     "with_internal": ""

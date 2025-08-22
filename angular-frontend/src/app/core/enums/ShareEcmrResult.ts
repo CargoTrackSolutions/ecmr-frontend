@@ -9,5 +9,7 @@
 export enum ShareEcmrResult {
     SharedInternal = 'SharedInternal',
     SharedExternal = 'SharedExternal',
-    ErrorInternalUserHasNoGroup = 'ErrorInternalUserHasNoGroup'
+    ErrorInternalUserHasNoGroup = 'ErrorInternalUserHasNoGroup',
+    ErrorSealMandatoryForExternal = 'ErrorSealMandatoryForExternal',
+    ErrorPreviousSealMandatoryForExternalInstance = 'ErrorPreviousSealMandatoryForExternalInstance'
 }

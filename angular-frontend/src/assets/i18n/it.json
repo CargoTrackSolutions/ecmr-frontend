@@ -416,9 +416,6 @@
     "copy_qr": "Copia codice QR",
     "download_qr": "Scarica codice QR",
     "email": "E-mail",
-    "error_400": "Impossibile condividere l\u0027eCMR. \n Messaggio: {{ translateValue }}",
-    "group_ambigous": "",
-    "internal_user_found": "",
     "link_copied": "Collegamento copiato negli appunti",
     "no_group_found": "",
     "no_qr_code_found": "Nessun codice QR trovato",
@@ -432,6 +429,8 @@
     "shared_internal": "Condiviso con utente interno nel gruppo {{ translateValue }}",
     "title": "Condividi eCMR",
     "user_has_no_group": "L\u0027utente non ha un gruppo",
+    "group_ambigous": "",
+    "error_400": "Impossibile condividere l\u0027eCMR.",
     "with_external": "",
     "with_guest": "",
     "with_internal": ""

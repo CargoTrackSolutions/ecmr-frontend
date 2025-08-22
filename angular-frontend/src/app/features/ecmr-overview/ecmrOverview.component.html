@@ -64,9 +64,8 @@
             <button class="m-1" mat-stroked-button (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">{{ 'quick_view_buttons.copy' | translate }}
                 <mat-icon iconPositionEnd>content_copy</mat-icon>
             </button>
-            <button class="m-1" mat-stroked-button (click)="shareEcmr(ecmr)"
-                    [disabled]="shareButtonDisabled">{{ 'quick_view_buttons.share' | translate }}
-                <mat-icon iconPositionEnd>share</mat-icon>
+            <button class="m-1" mat-stroked-button (click)="shareEcmr(ecmr)">
+                {{ 'quick_view_buttons.share' | translate }}<mat-icon iconPositionEnd>share</mat-icon>
             </button>
             <button class="m-1" mat-stroked-button
                     (click)="historyOfEcmr(ecmr.ecmrId,ecmr.ecmrConsignment.referenceIdentificationNumber.value);">
@@ -98,7 +97,7 @@
             <button class="m-1" mat-menu-item (click)="this.ecmrActionService.onCopyEcmr(ecmr.ecmrId)">{{ 'quick_view_buttons.copy' | translate }}
                 <mat-icon>content_copy</mat-icon>
             </button>
-            <button class="m-1" mat-menu-item (click)="shareEcmr(ecmr)" [disabled]="shareButtonDisabled">{{
+            <button class="m-1" mat-menu-item (click)="shareEcmr(ecmr)">{{
                     'quick_view_buttons.share' |
                         translate
                 }}

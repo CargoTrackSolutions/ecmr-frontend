@@ -98,7 +98,6 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     // ecmr selected
     selectedEcmr: Ecmr | null = null;
     selectedEcmrRoles: EcmrRole[];
-    shareButtonDisabled: boolean = true;
     currentSealedDocument: SealedDocumentWithoutEcmr | null;
 
     ecmr: Ecmr[] = [];
@@ -197,20 +196,16 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
                 sealedDocument: this.loadSealedDocument(ecmr.ecmrId),
                 roles: this.ecmrService.getEcmrRolesForCurrentUser(ecmr.ecmrId)
             })).subscribe(result => {
-                if(result.roles.includes(EcmrRole.Reader) && result.roles.length === 1) {
-                    this.snackbarService.openErrorSnackbar("TODO Teilen nicht möglich.")
-                } else {
-                    this.dialog.open(ShareEcmrDialogComponent, {
-                        width: '800px',
-                        maxWidth: '90vw',
-                        data: {
-                            ecmr: ecmr,
-                            sealedDocument: result.sealedDocument,
-                            roles: result.roles,
-                            isExternalUser: false
-                        }
-                    });
-                }
+                this.dialog.open(ShareEcmrDialogComponent, {
+                    width: '800px',
+                    maxWidth: '90vw',
+                    data: {
+                        ecmr: ecmr,
+                        sealedDocument: result.sealedDocument,
+                        roles: result.roles,
+                        isExternalUser: false
+                    }
+                });
             })
         }
     }
@@ -288,18 +283,17 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         if (ecmr?.ecmrId) {
             this.ecmrService.getEcmrRolesForCurrentUser(ecmr.ecmrId).subscribe(roles => {
                 this.selectedEcmrRoles = roles
-                this.shareButtonDisabled = this.selectedEcmrRoles.includes(EcmrRole.Reader) && this.selectedEcmrRoles.length === 1;
             })
             this.loadSealedDocument(ecmr.ecmrId).subscribe(sealedDocument => {
-                    if (sealedDocument) {
-                        this.currentSealedDocument = sealedDocument;
-                    }
-                })
+                if (sealedDocument) {
+                    this.currentSealedDocument = sealedDocument;
+                }
+            })
         }
         this.selectedEcmr = ecmr;
     }
 
-    private loadSealedDocument(ecmrId: string):Observable<SealedDocumentWithoutEcmr | null> {
+    private loadSealedDocument(ecmrId: string): Observable<SealedDocumentWithoutEcmr | null> {
         return this.sealedDocumentService.getSealedDocumentWithoutEcmr(ecmrId)
             .pipe(
                 catchError(err => {

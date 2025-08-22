@@ -468,19 +468,10 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     seal(transportRole: TransportRole, city: string | null): void {
-        this.matDialog.open(ConfirmationDialogComponent, {
-            data: {
-                text: 'signature.confirm_text'
-            }
-        }).afterClosed()
+        const sealObs$ = this.loadingService.showLoaderUntilCompleted((this.isExternalUser ?
+            this.externalUserService.updateEcmr(this.ecmrToEdit, this.userToken, this.tan) :
+            this.ecmrEditorService.updateEcmr(this.ecmrToEdit))
             .pipe(
-                filter(result => result && result.isConfirmed),
-                switchMap(() => {
-                    this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
-                    return this.loadingService.showLoaderUntilCompleted(this.isExternalUser ?
-                        this.externalUserService.updateEcmr(this.ecmrToEdit, this.userToken, this.tan) :
-                        this.ecmrEditorService.updateEcmr(this.ecmrToEdit))
-                }),
                 switchMap(() => {
                     const signature: SealModel = {
                         transportRole: transportRole,
@@ -492,6 +483,17 @@ export class EcmrEditorComponent implements OnInit {
                     tap(sealedDocument => this.sealedDocument = sealedDocument)
                 )),
                 switchMap(() => this.isExternalUser ? this.externalUserService.getEcmrWithTan(this.id, this.userToken, this.tan) : this.ecmrEditorService.getEcmr(this.id))
+            ));
+
+        this.matDialog.open(ConfirmationDialogComponent, {
+            data: {
+                text: 'signature.confirm_text'
+            }
+        }).afterClosed()
+            .pipe(
+                filter(result => result && result.isConfirmed),
+                tap(() => this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue()),
+                switchMap(() => sealObs$)
             ).subscribe({
             next: (ecmr) => {
                 this.snackbarService.openSuccessSnackbar('ecmr_editor.signature_successful');
@@ -1092,7 +1094,7 @@ export function maxArrayLengthValidator(max: number): ValidatorFn {
             return null;
         }
         if (Array.isArray(control.value) && control.value.length > max) {
-            return { maxLengthExceeded: { max, actual: control.value.length } };
+            return {maxLengthExceeded: {max, actual: control.value.length}};
         }
         return null;
     };
@@ -1110,22 +1112,22 @@ export function floatingNumbersValidator(maxDigits: number, maxValue: number): V
         const pattern = new RegExp(`^\\d{1,${maxDigits}}([.,]\\d{1,5})?$`);
 
         if (!pattern.test(value)) {
-            return { invalidFormat: true };
+            return {invalidFormat: true};
         }
 
         const normalized = value.replace(',', '.');
         const num = Number(normalized);
 
         if (isNaN(num)) {
-            return { invalidFormat: true };
+            return {invalidFormat: true};
         }
 
         if (num < 0) {
-            return { invalidFormat: true };
+            return {invalidFormat: true};
         }
 
         if (num > maxValue) {
-            return { invalidFormat: true };
+            return {invalidFormat: true};
         }
 
         return null;

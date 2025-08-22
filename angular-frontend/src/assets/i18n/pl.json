@@ -416,9 +416,6 @@
     "copy_qr": "Kopiuj kod QR",
     "download_qr": "Pobierz kod QR",
     "email": "E-mail",
-    "error_400": "Nie można udostępnić eCMR. Wiadomość: {{ translateValue }}",
-    "group_ambigous": "",
-    "internal_user_found": "",
     "link_copied": "Link skopiowany do schowka",
     "no_group_found": "",
     "no_qr_code_found": "Nie znaleziono kodu QR",
@@ -432,6 +429,8 @@
     "shared_internal": "Udostępnione użytkownikowi wewnętrznemu w grupie {{ translateValue }}",
     "title": "Udostępnij eCMR",
     "user_has_no_group": "Użytkownik nie ma grupy",
+    "error_400": "Nie można udostępnić eCMR.",
+    "group_ambigous": "",
     "with_external": "",
     "with_guest": "",
     "with_internal": ""

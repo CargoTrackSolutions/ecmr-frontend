@@ -251,8 +251,11 @@ export class ShareEcmrDialogComponent implements OnInit {
                     if (err.status === 501) {
                         this.snackBarService.openErrorSnackbar('error.not_implemented');
                     }
-                    if (err.status === 400) {
-                        this.snackBarService.openErrorSnackbarWithTranslationValue('share_ecmr_dialog.error_400', err.error.message);
+                    else if (err.status === 400) {
+                        this.snackBarService.openErrorSnackbar('share_ecmr_dialog.error_400');
+                    }
+                    else {
+                        this.snackBarService.openErrorSnackbar('general.snackbar_error')
                     }
                     return of(null)
                 }),
@@ -276,6 +279,12 @@ export class ShareEcmrDialogComponent implements OnInit {
                             break;
                         case ShareEcmrResult.ErrorInternalUserHasNoGroup:
                             this.snackBarService.openErrorSnackbar('share_ecmr_dialog.user_has_no_group');
+                            break;
+                        case ShareEcmrResult.ErrorSealMandatoryForExternal:
+                            this.snackBarService.openErrorSnackbar('share_ecmr_dialog.seal_mandatory_for_external');
+                            break;
+                        case ShareEcmrResult.ErrorPreviousSealMandatoryForExternalInstance:
+                            this.snackBarService.openErrorSnackbar('share_ecmr_dialog.previous_seal_mandatory_for_external_instance');
                             break;
                     }
                 }

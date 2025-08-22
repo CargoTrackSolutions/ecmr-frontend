@@ -416,9 +416,6 @@
     "copy_qr": "Copiar código QR",
     "download_qr": "Descargar código QR",
     "email": "Correo electrónico",
-    "error_400": "No se ha podido compartir el eCMR. Mensaje: {{ translateValue }}",
-    "group_ambigous": "La compartición es ambigua debido a nombres y descripciones de grupos duplicados.",
-    "internal_user_found": "Este correo electrónico pertenece a un usuario interno. Seleccione la opción \u0027usuario interno\u0027 para compartir.",
     "link_copied": "Enlace copiado al portapapeles",
     "no_group_found": "No se encontró ningún grupo con este nombre.",
     "no_qr_code_found": "No se encontró código QR",
@@ -432,6 +429,8 @@
     "shared_internal": "Compartido con un usuario interno en el grupo {{ translateValue }}",
     "title": "Compartir eCMR",
     "user_has_no_group": "El usuario no tiene grupo",
+    "group_ambigous": "La compartición es ambigua debido a nombres y descripciones de grupos duplicados.",
+    "error_400": "No se ha podido compartir el eCMR.",
     "with_external": "usuario externo",
     "with_guest": "acceso de invitado",
     "with_internal": "usuario interno"
