@@ -312,14 +312,16 @@
                     <mat-accordion>
                         @for (item of selectedEcmr.ecmrConsignment.itemList; track item; let index = $index) {
                             <mat-expansion-panel class="exp-panel">
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>{{
-                                            'Item ' + (index + 1) + ' - ' + item.numberOfPackages.logisticsPackageItemQuantity + ' x ' +
-                                            item.marksAndNos.logisticsShippingMarksMarking
-                                        }}
+                                <mat-expansion-panel-header class="flex-wrap" [collapsedHeight]="isMobile ? 'auto' : ''">
+                                    <mat-panel-title>
+                                        <div><b>{{ (index + 1) + ')' }}&nbsp;&nbsp;&nbsp;</b></div>
+                                        <div>{{ item.numberOfPackages.logisticsPackageItemQuantity + ' x '
+                                        + item.marksAndNos.logisticsShippingMarksMarking 
+                                        +    ' | ' + item.methodOfPacking.logisticsPackageType
+                                        +    ' | ' + item.grossWeightInKg.supplyChainConsignmentItemGrossWeight + '&nbsp;kg'
+                                        +    ' | ' + item.volumeInM3.supplyChainConsignmentItemGrossVolume + '&nbsp;m³'}} </div>
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
-
                                 <h6 class="fw-bold mb-2 mt-2">{{ 'ecmr_editor.title_10' | translate }}</h6>
                                 <app-ecmr-display-information-field
                                         [label]="'ecmr_editor.marks_and_nos.marking_text'"
