@@ -773,7 +773,7 @@ export class EcmrEditorComponent implements OnInit {
                     this.snackbarService.openErrorSnackbar('ecmr_editor.save_failure');
                 } else {
                     this.snackbarService.openSuccessSnackbar('ecmr_editor.save_success')
-                    if (ecmr && returnToOverview) this.returnToOverview();
+                    if (ecmr && returnToOverview) this.returnToOverview(ecmr);
                 }
             })
         } else if (this.ecmrConsignmentFormGroup.valid && (this.editorMode == EditorMode.ECMR_EDIT)) {
@@ -785,7 +785,7 @@ export class EcmrEditorComponent implements OnInit {
                 next: ecmr => {
                     this.loadEcmr(ecmr)
                     this.snackbarService.openSuccessSnackbar('ecmr_editor.save_success')
-                    if (returnToOverview) this.returnToOverview()
+                    if (returnToOverview) this.returnToOverview(ecmr)
                 },
                 error: error => {
                     this.snackbarService.openErrorSnackbar('general.snackbar_error');
@@ -908,9 +908,9 @@ export class EcmrEditorComponent implements OnInit {
         this.ecmrConsignmentFormGroup.controls.itemList.updateValueAndValidity();
     }
 
-    returnToOverview() {
+    returnToOverview(ecmr? : Ecmr) {
         if (!this.isTemplate()) {
-            this.router.navigate(['/ecmr-overview'])
+            this.router.navigate(['/ecmr-overview'], { state: { selectedEcmr: ecmr } } )
         } else {
             this.router.navigate(['/templates-overview'])
         }

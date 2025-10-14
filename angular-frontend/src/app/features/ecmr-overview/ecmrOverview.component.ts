@@ -20,7 +20,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { NgClass } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { Router } from '@angular/router';
+import { Event, Router, RouterEvent, NavigationEnd } from '@angular/router';
 import { EcmrOverviewDetailsComponent } from './ecmr-overview-details/ecmr-overview-details.component';
 
 
@@ -93,6 +93,18 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
                 protected ecmrActionService: EcmrActionService,
                 private snackbarService: SnackbarService,
                 private sealedDocumentService: SealedDocumentService) {
+                    router.events.pipe(
+                        filter((e: Event | RouterEvent): e is NavigationEnd => e instanceof NavigationEnd)
+                    ).subscribe((ev: NavigationEnd) => {
+                        if (ev.url === "/ecmr-overview") {
+                            const nav = this.router.getCurrentNavigation();
+                            if (nav?.extras?.state) {
+                                if (nav.extras.state['selectedEcmr'] !== undefined) {
+                                    this.selectEcmr(nav.extras.state['selectedEcmr']);
+                                }
+                            }
+                        }
+                    });
     }
 
     // ecmr selected

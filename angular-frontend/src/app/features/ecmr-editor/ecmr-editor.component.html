@@ -28,7 +28,7 @@
     @if (!isMobile) {
         <div class="d-flex gap-2 align-items-center">
             @if (!isExternalUser) {
-                <button mat-flat-button color="warn" (click)="returnToOverview()">
+                <button mat-flat-button color="warn" (click)="returnToOverview(ecmrToEdit)">
                     <mat-icon>arrow_back</mat-icon>
                     {{ "common.back" | translate }}
                 </button>
