@@ -108,6 +108,8 @@
     "method_of_packing": {
       "type_text": "Texte de type"
     },
+    "total_item_count": "Nombre total",
+    "counting_unit": "pce",
     "multi_consignee_shipment": {
       "confirmation_message": "Êtes-vous sûr de vouloir marquer cet eCMR comme un envoi à destinataires multiples ? Toutes les informations relatives au destinataire seront perdues.",
       "is_multi_consignee_shipment": "Destinataires multiples",

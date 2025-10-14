@@ -108,6 +108,8 @@
     "method_of_packing": {
       "type_text": "Tekst typu"
     },
+    "total_item_count": "Ilość całkowita",
+    "counting_unit": "szt",
     "multi_consignee_shipment": {
       "confirmation_message": "Czy na pewno chcesz oznaczyć ten eCMR jako przesyłkę z wieloma odbiorcami? Wszystkie informacje w polach odbiorcy zostaną utracone.",
       "is_multi_consignee_shipment": "Wielu odbiorców",

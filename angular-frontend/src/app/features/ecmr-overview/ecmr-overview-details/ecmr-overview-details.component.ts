@@ -24,6 +24,7 @@ import { EcmrTransportType } from '../../../core/models/EcmrTransportType';
 import { EcmrService } from '../../../shared/services/ecmr.service';
 import { LogisticsShippingMarksCustomBarcode } from '../../../core/models/areas/ten/LogisticsShippingMarksCustomBarcode';
 import { SealedDocumentWithoutEcmr } from '../../../core/models/SealedDocumentWithoutEcmr';
+import { Item } from '../../../core/models/compositions/Item';
 
 @Component({
     selector: 'app-ecmr-overview-details',
@@ -87,6 +88,16 @@ export class EcmrOverviewDetailsComponent {
 
     public getTransportType(ecmr: Ecmr): EcmrTransportType | null {
         return this.ecmrService.getTransportType(ecmr);
+    }
+
+    public getTotalItemCount(itemList: Item[]): number | null {
+        var count = 0;
+        for(const item of itemList){
+            if(item.numberOfPackages.logisticsPackageItemQuantity != null)  {
+                count += item.numberOfPackages.logisticsPackageItemQuantity;
+            }
+        }
+        return count;
     }
 
     protected readonly EcmrTransportType = EcmrTransportType;

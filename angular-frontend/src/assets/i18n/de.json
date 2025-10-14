@@ -111,6 +111,8 @@
     "method_of_packing": {
       "type_text": "Art"
     },
+    "total_item_count": "Gesamtanzahl",
+    "counting_unit": "Stk.",
     "multi_consignee_shipment": {
       "confirmation_message": "Sind Sie sicher, dass Sie diesen eCMR als eine Sammelsendung kennzeichen wollen? Alle Informationen in den Empfängerfeldern werden gelöscht.",
       "is_multi_consignee_shipment": "Mehrere Empfänger",

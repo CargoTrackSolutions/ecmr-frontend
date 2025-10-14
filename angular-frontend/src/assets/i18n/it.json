@@ -108,6 +108,8 @@
     "method_of_packing": {
       "type_text": "Tipo di testo"
     },
+    "total_item_count": "Quantità totale",
+    "counting_unit": "pz",
     "multi_consignee_shipment": {
       "confirmation_message": "Vuoi davvero contrassegnare questa eCMR come spedizione con più destinatari? Tutte le informazioni nei campi relativi ai destinatari andranno perse.",
       "is_multi_consignee_shipment": "Più destinatari",

@@ -108,6 +108,8 @@
     "method_of_packing": {
       "type_text": "Zadejte text"
     },
+    "total_item_count": "Celkový počet",
+    "counting_unit": "ks",
     "multi_consignee_shipment": {
       "confirmation_message": "Opravdu chcete tento eCMR označit jako zásilku s více příjemci? Všechny informace v polích příjemce budou ztraceny.",
       "is_multi_consignee_shipment": "Více příjemců",

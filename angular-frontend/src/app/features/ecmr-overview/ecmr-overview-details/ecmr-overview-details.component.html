@@ -368,6 +368,15 @@
                                 </div>
                             </mat-expansion-panel>
                         }
+                        <div class="fake-panel">
+                                <div class="mat-expansion-panel-header">
+                                        <span class="mat-content">
+                                                <strong>{{ 'ecmr_editor.total_item_count' | translate }}:</strong>&nbsp;
+                                                {{getTotalItemCount(selectedEcmr.ecmrConsignment.itemList)}}
+                                                {{ 'ecmr_editor.counting_unit' | translate }}
+                                        </span>
+                                </div>
+                        </div>
                     </mat-accordion>
                 }
 

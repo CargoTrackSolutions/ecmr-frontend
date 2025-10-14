@@ -108,6 +108,8 @@
     "method_of_packing": {
       "type_text": "Tipo de texto"
     },
+    "total_item_count": "Cantidad total",
+    "counting_unit": "ud",
     "multi_consignee_shipment": {
       "confirmation_message": "¿Está seguro de que desea marcar este eCMR como un envío con varios destinatarios? Se perderá toda la información de los campos del destinatario.",
       "is_multi_consignee_shipment": "Múltiples receptores",

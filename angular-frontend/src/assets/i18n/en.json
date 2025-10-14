@@ -112,6 +112,8 @@
     "method_of_packing": {
       "type_text": "Type Text"
     },
+    "total_item_count": "Total Amount",
+    "counting_unit": "pcs",
     "multi_consignee_shipment": {
       "confirmation_message": "Are you sure you want to mark this eCMR as a multiple consignee shipment? All information in the consignee\u0027s fields will be lost.",
       "is_multi_consignee_shipment": "Multiple Consignees",
