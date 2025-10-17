@@ -88,6 +88,7 @@ export class ExternalUserRegistrationComponent {
                         const driverLastName = sharedInfo.driverName?.substring(sharedInfo.driverName.indexOf(" ")) || null;
                         this.externalUser.controls.firstName.setValue(driverFirstName);
                         this.externalUser.controls.lastName.setValue(driverLastName);
+                        this.externalUser.controls.phone.setValue(sharedInfo.driverPhone);
                     }
                 },
                 error: () => {

@@ -6,7 +6,8 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-export interface SharedInformation {
+export interface ExternalUserInformation {
     companyName: string | null,
-    driverName: string | null
+    driverName: string | null,
+    driverPhone: string | null,
 }

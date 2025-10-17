@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 import { Registration } from '../../core/models/Registration';
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { SharedInformation } from '../../core/models/SharedInformation';
+import { ExternalUserInformation } from '../../core/models/ExternalUserInformation';
 import { Observable } from 'rxjs';
 import { RegistrationResponse } from '../../core/models/RegistrationResponse';
 
@@ -24,7 +24,7 @@ export class ExternalUserRegistrationService {
     }
 
     getExternalUserRegistrationInfo(ecmrId: string, shareToken: string) {
-        return this.http.get<SharedInformation>(`${environment.backendUrl}/anonymous/registration-info/${ecmrId}`, {params: {'token': shareToken}});
+        return this.http.get<ExternalUserInformation>(`${environment.backendUrl}/anonymous/registration-info/${ecmrId}`, {params: {'token': shareToken}});
     }
 
     sendRegistration(registration: Registration): Observable<RegistrationResponse> {
