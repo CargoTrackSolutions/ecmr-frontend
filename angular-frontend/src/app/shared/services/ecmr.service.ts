@@ -126,6 +126,10 @@ export class EcmrService {
         return this.http.patch<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}/archive`, {}, {})
     }
 
+    bulkMoveToArchive(ecmrIds: string[]) {
+        return this.http.patch<Ecmr[]>(`${environment.backendUrl}/ecmr/archive`, { ecmrIds });
+    }
+
     moveOutOfArchive(ecmrId: string) {
         return this.http.patch<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}/reactivate`, {}, {})
     }
@@ -139,6 +143,10 @@ export class EcmrService {
     deleteEcmr(ecmrId: string) {
         const params = {'type': EcmrType[EcmrType.ECMR]}
         return this.http.delete(`${environment.backendUrl}/ecmr/${ecmrId}`, {params: params});
+    }
+
+    bulkDeleteEcmr(ecmrIds: string[]) {
+        return this.http.delete<Ecmr[]>(`${environment.backendUrl}/ecmr/selected`, { body: { ecmrIds } });
     }
 
     shareEcmr(ecmrShare: EcmrShare, ecmrId: string) {

@@ -15,8 +15,31 @@
         <section class="d-flex flex-column h-100 overflow-hidden">
             <mat-toolbar>
                 <mat-toolbar-row class="d-flex flex-row justify-content-between">
-                    <mat-label>{{ 'overview.title' | translate }}</mat-label>
-                    <div class="search-bar-container">
+                    <div class="d-flex align-items-center">
+                        <mat-label>{{ 'overview.title' | translate }}</mat-label>
+                    </div>
+                    <div class="search-bar-container d-flex gap-2">
+                    <!-- Multiselection action buttons -->
+                    @if (selectedEcmrs.length > 0) {
+                        <button mat-flat-button color="primary" (click)="bulkMoveToArchive()">
+                            <mat-icon iconPositionEnd>archive</mat-icon>
+                            {{ 'overview.multiselect.archive' | translate }}
+                        </button>
+                        @if(bulkDeleteButtonVisible()) {
+                            @if(!isMobile) {
+                                <button mat-flat-button color="warn" (click)="bulkDelete()">
+                                    <mat-icon iconPositionEnd>delete</mat-icon>
+                                    {{ 'overview.multiselect.delete' | translate }}
+                                </button>
+                            }
+                            @else {
+                                <button mat-flat-button class="button-mobile" color="warn" (click)="bulkDelete()">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            }
+                        }
+                    }
+                    @else {
                         <button mat-flat-button class="search-bar-button" color="primary" (click)="createNewEcmr()">
                             <mat-icon iconPositionEnd>add</mat-icon>
                             {{ 'overview.create_new' | translate }}
@@ -27,10 +50,11 @@
                                                         <mat-icon iconPositionEnd>upload_file</mat-icon>
                                                     </button>
                                                 } @else {
-                                                    <button mat-flat-button class="download-button-mobile" (click)="importExternalEcmr()">
+                                                    <button mat-flat-button class="button-mobile" (click)="importExternalEcmr()">
                                                         <mat-icon>upload_file</mat-icon>
                                                     </button>
                                                 }
+                    }
                     </div>
                 </mat-toolbar-row>
             </mat-toolbar>
@@ -38,7 +62,9 @@
             <!-- Overview Table Container -->
             <app-ecmr-table [actionButtons]="actionButtons" [mobileActionButtons]="mobileActionButtons" [ecmr]="ecmr"
                             [initialSort]="initialSort" [ecmrType]="ecmrType"
+                            [enableMultiselection]="true"
                             (selectedEcmr)="selectEcmr($event)"
+                            (selectedEcmrs)="onSelectedEcmrs($event)"
                             (filterRequest)="onFilterRequest($event)"
                             class="h-100 overflow-x-auto overflow-y-hidden">
             </app-ecmr-table>

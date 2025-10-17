@@ -394,6 +394,17 @@
       "history": "História",
       "share": "Zdieľať eCMR",
       "sign": "Podpíšte eCMR"
+    },
+    "multiselect": {
+      "archive": "Archivovať",
+      "delete": "Odstrániť",
+      "archive_confirmation_message": "Ste si istí, že chcete archivovať {{count}} vybraných eCMRs?",
+      "delete_confirmation_message": "Ste si istí, že chcete zmazať {{count}} vybraných eCMRs? Túto akciu nie je možné vrátiť späť.",
+      "archive_success": "Vybrané eCMRs boli úspešne archivované.",
+      "delete_success": "Vybrané eCMRs boli úspešne zmazané.",
+      "enable_multiselect": "Vybrať eCMRs",
+      "select_all": "Vybrať všetko",
+      "deselect_all": "Zrušiť výber všetkých"
     }
   },
   "privacy": {

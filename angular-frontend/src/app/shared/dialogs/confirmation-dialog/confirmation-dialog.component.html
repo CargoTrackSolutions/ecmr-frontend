@@ -2,7 +2,7 @@
 <h2 mat-dialog-title> {{ 'confirmation.title' | translate }} </h2>
 <section>
     <mat-dialog-content class="py-0 overflow-hidden d-flex justify-content-start flex-column gap-2">
-        <h5 class="content">{{ data.text  | translate }}</h5>
+        <h5 class="content">{{ data.text  | translate: data.textParams }}</h5>
         @if (data.checkBoxText) {
             <mat-checkbox class="text-start" [checked]="dialogResult.isCheckboxTicked" (change)="toggleCreateCopy()">
                 {{ data.checkBoxText | translate }}

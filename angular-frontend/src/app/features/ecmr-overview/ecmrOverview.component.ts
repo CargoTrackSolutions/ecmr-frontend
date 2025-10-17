@@ -48,31 +48,31 @@ import { SealedDocumentWithoutEcmr } from '../../core/models/SealedDocumentWitho
     selector: 'app-overview',
     standalone: true,
     imports: [
-        MatToolbar,
-        MatToolbarRow,
-        MatIcon,
-        MatButton,
-        MatLabel,
-        MatTableModule,
-        MatSortModule,
-        MatIconButton,
-        ReactiveFormsModule,
-        MatTooltip,
-        MatMenu,
-        MatMenuTrigger,
-        MatMenuItem,
-        TranslateModule,
-        EcmrTableComponent,
-        MatTooltip,
-        MatMenu,
-        MatMenuTrigger,
-        MatMenuItem,
-        TranslateModule,
-        EcmrOverviewDetailsComponent,
-        MatDrawer,
-        MatDrawerContainer,
-        NgClass
-    ],
+    MatToolbar,
+    MatToolbarRow,
+    MatIcon,
+    MatButton,
+    MatLabel,
+    MatTableModule,
+    MatSortModule,
+    MatIconButton,
+    ReactiveFormsModule,
+    MatTooltip,
+    MatMenu,
+    MatMenuTrigger,
+    MatMenuItem,
+    TranslateModule,
+    EcmrTableComponent,
+    MatTooltip,
+    MatMenu,
+    MatMenuTrigger,
+    MatMenuItem,
+    TranslateModule,
+    EcmrOverviewDetailsComponent,
+    MatDrawer,
+    MatDrawerContainer,
+    NgClass,
+],
     templateUrl: './ecmrOverview.component.html',
     styleUrl: './ecmrOverview.component.scss'
 })
@@ -111,6 +111,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     selectedEcmr: Ecmr | null = null;
     selectedEcmrRoles: EcmrRole[];
     currentSealedDocument: SealedDocumentWithoutEcmr | null;
+    selectedEcmrs: Ecmr[] = [];
 
     ecmr: Ecmr[] = [];
 
@@ -167,6 +168,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         this.table.ecmr = data.ecmrs;
         this.ecmr = data.ecmrs;
         this.table.paginator.length = data.totalElements;
+        this.clearMultiSelection();
     }
 
     createNewEcmr() {
@@ -249,6 +251,9 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         return ecmr.ecmrStatus === EcmrStatus.NEW
     }
 
+    bulkDeleteButtonVisible(){
+      return this.selectedEcmrs.every(ecmr => ecmr.ecmrStatus === EcmrStatus.NEW);
+    }
 
     historyOfEcmr(ecmrId: string, refId: string) {
         if (ecmrId) this.router.navigateByUrl(`/history/${ecmrId}/${refId}`);
@@ -328,6 +333,80 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         this.filterRequest = request;
         this.loadData().subscribe(data => {
             this.updateTableData(data);
+        });
+    }
+
+    onSelectedEcmrs(ecmrs: Ecmr[]) {
+        this.selectedEcmrs = ecmrs;
+    }
+
+    clearMultiSelection() {
+        this.selectedEcmrs = [];
+        this.table?.clearSelection();
+    }
+
+    bulkMoveToArchive() {
+      if(this.selectedEcmrs.length === 0) return;
+
+      const dialogData = this.selectedEcmrs.length === 1 ? {
+        text: 'overview.confirmation_message'
+      }: {
+        text: 'overview.multiselect.archive_confirmation_message',
+        textParams: { count: this.selectedEcmrs.length }
+      };
+
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+              data: dialogData,
+          });
+          dialogRef.afterClosed().pipe(
+              filter(result => result.isConfirmed),
+              switchMap(() => {
+                const ecmrIds = this.selectedEcmrs.flatMap(ecmr => ecmr.ecmrId ? [ecmr.ecmrId] : []);
+                return this.ecmrService.bulkMoveToArchive(ecmrIds);
+              }),
+              switchMap(() => this.loadData()),
+              catchError(err => {
+                  this.snackbarService.openErrorSnackbar('general.snackbar_error');
+                  console.error(err);
+                  return of(null)
+              }),
+          ).subscribe(data => {
+              if (data) {
+                  this.snackbarService.openSuccessSnackbar('overview.multiselect.archive_success');
+                  this.updateTableData(data);
+              }
+          });
+    }
+
+    bulkDelete() {
+      if(this.selectedEcmrs.length === 0) return;
+
+      const dialogData = this.selectedEcmrs.length === 1 ? {
+        text: 'overview.delete_ecmr_dialog_text'
+      }: {
+        text: 'overview.multiselect.delete_confirmation_message',
+        textParams: { count: this.selectedEcmrs.length }
+      };
+
+      this.dialog.open(ConfirmationDialogComponent, {
+            data: dialogData,
+        }).afterClosed().pipe(
+            filter(dialogResult => dialogResult.isConfirmed === true),
+            switchMap(() => {
+                const ecmrIds = this.selectedEcmrs.flatMap(ecmr => ecmr.ecmrId ? [ecmr.ecmrId] : []);
+                return this.ecmrService.bulkDeleteEcmr(ecmrIds);
+              }),
+            switchMap(() => this.loadData()),
+            catchError(err => {
+                  this.snackbarService.openErrorSnackbar('general.snackbar_error');
+                  console.error(err);
+                  return of(null)
+              }),
+        ).subscribe(data => {
+            if(data){
+                this.snackbarService.openSuccessSnackbar('overview.multiselect.delete_success');
+                this.updateTableData(data);
+            }
         });
     }
 

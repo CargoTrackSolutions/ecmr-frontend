@@ -400,6 +400,17 @@
       "history": "History",
       "share": "Share eCMR",
       "sign": "Sign eCMR"
+    },
+    "multiselect": {
+      "archive": "Archive",
+      "delete": "Delete",
+      "archive_confirmation_message": "Are you sure you want to move {{count}} selected eCMRs to the archive?",
+      "delete_confirmation_message": "Are you sure you want to delete {{count}} selected eCMRs? This cannot be undone.",
+      "archive_success": "The selected eCMRs have been successfully archived.",
+      "delete_success": "The selected eCMRs have been successfully deleted.",
+      "enable_multiselect": "Select eCMRs",
+      "select_all": "Select all",
+      "deselect_all": "Deselect all"
     }
   },
   "privacy": {

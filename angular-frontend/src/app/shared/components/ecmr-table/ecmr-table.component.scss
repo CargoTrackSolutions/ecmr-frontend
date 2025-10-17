@@ -99,3 +99,30 @@ tr.expanded-row {
   align-items: center;
   gap: 10px;
 }
+
+.cdk-column-select {
+  width: 65px;
+  min-width: 65px;
+  max-width: 65px;
+  flex: 0 0 65px;
+
+  text-overflow: unset;
+}
+
+.mobile-checkbox-container {
+  .mobile-checkbox {
+    transform: scale(1.5);
+    transform-origin: center;
+  }
+}
+
+.checkbox {
+  --mdc-checkbox-state-layer-size: 48px;
+}
+
+.multiselect-button-mobile {
+  width: 35px;
+  min-width: unset;
+  padding-left: 12px;
+  padding-right: 0;
+}

@@ -398,6 +398,17 @@
       "history": "Historie",
       "share": "eCMR teilen",
       "sign": "Unterschreiben"
+    },
+    "multiselect": {
+      "archive": "Archivieren",
+      "delete": "Löschen",
+      "archive_confirmation_message": "Sind Sie sicher, dass Sie {{count}} ausgewählte eCMRs archivieren wollen?",
+      "delete_confirmation_message": "Sind Sie sicher, dass Sie {{count}} ausgewählte eCMRs löschen wollen? Dies kann nicht rückgängig gemacht werden.",
+      "archive_success": "Die ausgewählten eCMRs wurden erfolgreich archiviert.",
+      "delete_success": "Die ausgewählten eCMRs wurden erfolgreich gelöscht.",
+      "enable_multiselect": "eCMRs auswählen",
+      "select_all": "Alle auswählen",
+      "deselect_all": "Alle abwählen"
     }
   },
   "privacy": {

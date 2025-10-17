@@ -15,6 +15,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
 export interface ConfirmationDialogData {
   text: string;
   checkBoxText?: string;
+  textParams?: {[key: string]: any};
 }
 
 export interface ConfirmationDialogResult {

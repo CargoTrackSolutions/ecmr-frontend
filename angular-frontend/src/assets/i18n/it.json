@@ -394,6 +394,17 @@
       "history": "Cronologia",
       "share": "Condividi eCMR",
       "sign": "Firma eCMR"
+    },
+    "multiselect": {
+      "archive": "Archivia",
+      "delete": "Elimina",
+      "archive_confirmation_message": "Sei sicuro di voler archiviare {{count}} eCMRs selezionati?",
+      "delete_confirmation_message": "Sei sicuro di voler eliminare {{count}} eCMRs selezionati? Questa azione non può essere annullata.",
+      "archive_success": "Gli eCMRs selezionati sono stati archiviati con successo.",
+      "delete_success": "Gli eCMRs selezionati sono stati eliminati con successo.",
+      "enable_multiselect": "Seleziona eCMRs",
+      "select_all": "Seleziona tutto",
+      "deselect_all": "Deseleziona tutto"
     }
   },
   "privacy": {

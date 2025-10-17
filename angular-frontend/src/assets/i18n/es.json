@@ -394,6 +394,17 @@
       "history": "Historial",
       "share": "Compartir eCMR",
       "sign": "Firmar eCMR"
+    },
+    "multiselect": {
+      "archive": "Archivar",
+      "delete": "Eliminar",
+      "archive_confirmation_message": "¿Está seguro de que desea archivar {{count}} eCMRs seleccionados?",
+      "delete_confirmation_message": "¿Está seguro de que desea eliminar {{count}} eCMRs seleccionados? Esta acción no se puede deshacer.",
+      "archive_success": "Los eCMRs seleccionados se han archivado correctamente.",
+      "delete_success": "Los eCMRs seleccionados se han eliminado correctamente.",
+      "enable_multiselect": "Seleccionar eCMRs",
+      "select_all": "Seleccionar todo",
+      "deselect_all": "Deseleccionar todo"
     }
   },
   "privacy": {

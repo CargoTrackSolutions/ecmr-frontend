@@ -64,6 +64,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { DateFormatService } from '../../services/date-format.service';
 import { EcmrStatusComponent } from '../ecmr-status/ecmr-status.component';
 import { EcmrType } from '../../../core/models/EcmrType';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
     selector: 'app-ecmr-table',
@@ -155,6 +156,7 @@ export class EcmrTableComponent implements OnInit {
     // toggle for filter selection
     showColumSelection: boolean = false;
     showFilter: boolean = false;
+    showCheckboxes: boolean = false;
 
     // toggle for display of columns
     showColumns: ShowColumns = {
@@ -192,10 +194,14 @@ export class EcmrTableComponent implements OnInit {
     @Input() ecmr: Ecmr[];
     @Input() initialSort: Sort = {active: '', direction: ''};
     @Input() ecmrType: EcmrType = EcmrType.ECMR;
+    @Input() enableMultiselection = false;
     @Output() selectedEcmr = new EventEmitter<Ecmr>();
     @Output() filterRequest = new EventEmitter<FilterRequest>();
+    @Output() selectedEcmrs = new EventEmitter<Ecmr[]>();
 
     toggledColumns = [this.showColumns.referenceId, this.showColumns.from, this.showColumns.to, this.showColumns.transportType, this.showColumns.lastEditor, this.showColumns.status, this.showColumns.lastEditDate, this.showColumns.creationDate];
+
+    selection = new SelectionModel<Ecmr>(true, []);
 
     constructor(public dialog: MatDialog,
                 public snackbar: MatSnackBar,
@@ -217,6 +223,10 @@ export class EcmrTableComponent implements OnInit {
             });
 
         this.initColumns();
+
+        this.selection.changed.subscribe(() => {
+          this.selectedEcmrs.emit(this.selection.selected);
+        });
     }
 
     showDetailsForEcmrAtIndex(index: number) {
@@ -270,7 +280,12 @@ export class EcmrTableComponent implements OnInit {
     }
 
     updateDisplayedColumns() {
-        this.displayedColumns = this.columns.filter(column => this.showColumns[column as keyof ShowColumns]);
+        let filteredColumns = this.columns.filter(column => this.showColumns[column as keyof ShowColumns]);
+        if(this.enableMultiselection) {
+          filteredColumns = ['select', ...filteredColumns];
+        }
+
+        this.displayedColumns = filteredColumns;
     }
 
     sortData() {
@@ -314,6 +329,13 @@ export class EcmrTableComponent implements OnInit {
         this.showFilter = !this.showFilter;
     }
 
+    toggleMultiselectEcmrs() {
+      this.showCheckboxes = !this.showCheckboxes;
+      if(!this.showCheckboxes) {
+        this.clearSelection();
+      }
+    }
+
     getFilterListIcon() {
         return this.showFilter ? 'filter_list_off' : 'filter_list';
     }
@@ -355,5 +377,34 @@ export class EcmrTableComponent implements OnInit {
 
     public getTransportType(ecmr: Ecmr): EcmrTransportType | null {
       return this.ecmrService.getTransportType(ecmr);
+    }
+
+    isAllSelected(): boolean {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.dataSource.data.length;
+        return numSelected === numRows;
+    }
+
+    toggleAllRows(): void {
+      if(this.isAllSelected()){
+        this.selection.clear();
+        return;
+      }
+      this.selection.select(...this.dataSource.data);
+    }
+
+    checkboxLabel(row?: Ecmr): string {
+        if (!row) {
+            return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+        }
+        return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.ecmrId}`;
+    }
+
+    toggleRow(row: Ecmr): void {
+      this.selection.toggle(row);
+    }
+
+    clearSelection(): void {
+        this.selection.clear();
     }
 }
