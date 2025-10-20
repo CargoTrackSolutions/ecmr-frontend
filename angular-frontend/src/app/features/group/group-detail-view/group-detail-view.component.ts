@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatButton, MatIconButton } from '@angular/material/button';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
 import {
     MatCell,
     MatCellDef,
@@ -34,12 +34,11 @@ import { ActivatedRoute } from '@angular/router';
 import { GroupService } from '../group.service';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatInput } from '@angular/material/input';
+import { MatChip } from '@angular/material/chips';
 
 @Component({
     selector: 'app-group-detail-view',
-    standalone: true,
     imports: [
-        MatButton,
         MatCellDef,
         MatColumnDef,
         MatHeaderCell,
@@ -61,12 +60,16 @@ import { MatInput } from '@angular/material/input';
         MatSortModule,
         MatFormField,
         MatInput,
-        MatSuffix
+        MatSuffix,
+        MatChip
     ],
     templateUrl: './group-detail-view.component.html',
     styleUrl: './group-detail-view.component.scss'
 })
 export class GroupDetailViewComponent implements OnInit {
+    private route = inject(ActivatedRoute);
+    private groupService = inject(GroupService);
+
 
     dataSource = new MatTableDataSource<EcmrUser>();
 
@@ -82,11 +85,6 @@ export class GroupDetailViewComponent implements OnInit {
     groupId: number;
 
     sub: Subscription;
-
-    constructor(
-        private route: ActivatedRoute,
-        private groupService: GroupService) {
-    }
 
     ngOnInit() {
         this.sub = this.route.params.pipe(

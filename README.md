@@ -40,10 +40,10 @@ whose goal is to define and implement digital document standards (like eCMR, del
 
 ### Important runtime versions
 
-* trion/ng-cli-karma:18.2.11 - CI Pipeline Base Image
-* Node.js: 22.11.0 (as used by the trion/ng-cli-karma:18.2.11 image to build the application)
+* trion/ng-cli-karma:20.3.5 - CI Pipeline Base Image
+* Node.js: 22.12.0 (as used by the trion/ng-cli-karma:20.3.5 image to build the application)
 * npm: 10.9.0 (as used by the given Node version)
-* Angular CLI: 18.2.12
+* Angular CLI: 20.3.5
 
 ## Documentation
 

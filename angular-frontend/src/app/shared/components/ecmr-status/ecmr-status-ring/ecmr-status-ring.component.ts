@@ -6,14 +6,13 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { EcmrStatus } from '../../../../core/models/EcmrStatus';
 import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-ecmr-status-ring',
-    standalone: true,
     imports: [
         MatIcon,
         NgClass
@@ -23,8 +22,8 @@ import { NgClass } from '@angular/common';
 })
 export class EcmrStatusRingComponent {
 
-    @Input() icon: string;
-    @Input() status: EcmrStatus | undefined;
+    readonly icon = input<string>();
+    readonly status = input<EcmrStatus>();
     protected readonly EcmrStatus = EcmrStatus;
 
     isActive(status: EcmrStatus) {
@@ -34,8 +33,9 @@ export class EcmrStatusRingComponent {
             EcmrStatus.IN_TRANSPORT,
             EcmrStatus.DELIVERED
         ];
-        if (this.status) {
-            const currentStatusIndex = statusHierarchy.indexOf(this.status);
+        const statusValue = this.status();
+        if (statusValue) {
+            const currentStatusIndex = statusHierarchy.indexOf(statusValue);
             const checkStatusIndex = statusHierarchy.indexOf(status);
             return checkStatusIndex <= currentStatusIndex;
         } else {

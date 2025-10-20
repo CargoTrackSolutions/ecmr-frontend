@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { EcmrType } from '../../core/models/EcmrType';
 import { Ecmr } from '../../core/models/Ecmr';
@@ -18,8 +18,7 @@ import { EcmrShareResponse } from '../../core/models/EcmrShareResponse';
 import { EcmrShare } from '../../core/models/EcmrShare';
 import { EcmrPage } from '../../core/models/EcmrPage';
 import { EcmrTransportType } from '../../core/models/EcmrTransportType';
-import {GroupFlat} from "../../core/models/GroupFlat";
-import {Observable} from "rxjs";
+import { Observable } from 'rxjs';
 import { Sort } from '@angular/material/sort';
 import { EcmrShareWithGroup } from '../../core/models/EcmrShareWithGroup';
 import { EcmrAssignment } from '../../core/models/EcmrAssignment';
@@ -28,9 +27,8 @@ import { EcmrAssignment } from '../../core/models/EcmrAssignment';
     providedIn: 'root'
 })
 export class EcmrService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) {
-    }
 
     getAllEcmr(filterRequest: FilterRequest, ecmrType: EcmrType, page: number, size: number, sortBy: string | null, sortingOrder: string) {
         let params: HttpParams = new HttpParams().set('type', ecmrType).set('page', page).set('size', size).set('sortingOrder', sortingOrder);

@@ -3,14 +3,14 @@
         @if (selectedTemplate && selectedTemplate.ecmr) {
             <app-ecmr-overview-details (closeDetails)="closeDetailView($event)"
                                        [quickViewButtons]="quickViewButtons"
-                                       [selectedEcmr]="selectedTemplate!.ecmr"></app-ecmr-overview-details>
+                                       [selectedEcmr]="selectedTemplate!.ecmr"/>
         }
     </mat-drawer>
     <article class="h-100">
         <section class="d-flex flex-column h-100 overflow-hidden">
             <mat-toolbar>
                 <mat-toolbar-row>
-                    <mat-label>{{ 'template_overview.title' | translate }}</mat-label>
+                    <h6>{{ 'template_overview.title' | translate }}</h6>
                     <div class="button-bar-container">
                         <button mat-flat-button class="search-bar-button" color="primary" (click)="createNewTemplate()">
                             <mat-icon iconPositionEnd>add</mat-icon>
@@ -33,7 +33,7 @@
                             <button mat-icon-button (click)="toggleColumnSelectionMenu()">
                                 <mat-icon>tune</mat-icon>
                             </button>
-                            <ng-container *ngIf="showColumSelection">
+                            @if (showColumSelection) {
                                 <mat-card id="column-selection">
                                     <button mat-stroked-button
                                             (click)="updateColumns()">{{ 'overview.columns_settings.configure_columns' | translate }}
@@ -61,31 +61,33 @@
                                         </button>
                                     </div>
                                 </mat-card>
-                            </ng-container>
+                            }
                             <button mat-icon-button (click)="showFilter = !showFilter;">
                                 <mat-icon>{{ showFilter ? 'filter_list_off' : 'filter_list' }}</mat-icon>
                             </button>
-                            <button mat-icon-button color="warn" *ngIf="showFilter && filterFormGroup.dirty" (click)="filterFormGroup.reset()"
+                            @if (showFilter && filterFormGroup.dirty) {
+                                <button mat-icon-button color="warn" (click)="filterFormGroup.reset()"
                                     matTooltip="{{
                 'template_overview.clear_filter' | translate}}">
-                                <mat-icon>clear</mat-icon>
-                            </button>
+                                    <mat-icon>clear</mat-icon>
+                                </button>
+                            }
 
                         </th>
                         <td id="icons" mat-cell *matCellDef="let templateUser; let i = index;">
-                              <span>
-                                  <button mat-icon-button (click)="shareTemplate(templateUser);$event.stopPropagation()"
-                                          matTooltip="{{'overview.tooltips.share' | translate}}">
-                                    <mat-icon>share</mat-icon>
-                                  </button>
-                                  <button mat-icon-button (click)="editTemplate(templateUser)" matTooltip="{{'overview.tooltips.edit' | translate}}">
-                                    <mat-icon>edit_note</mat-icon>
-                                  </button>
-                                  <button mat-icon-button (click)="deleteTemplate(templateUser);$event.stopPropagation()"
-                                          matTooltip="{{'overview.tooltips.delete_template' | translate}}">
-                                    <mat-icon color="warn">delete</mat-icon>
-                                  </button>
-                                </span>
+              <span>
+                <button mat-icon-button (click)="shareTemplate(templateUser);$event.stopPropagation()"
+                        matTooltip="{{'overview.tooltips.share' | translate}}">
+                  <mat-icon>share</mat-icon>
+                </button>
+                <button mat-icon-button (click)="editTemplate(templateUser)" matTooltip="{{'overview.tooltips.edit' | translate}}">
+                  <mat-icon>edit_note</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteTemplate(templateUser);$event.stopPropagation()"
+                        matTooltip="{{'overview.tooltips.delete_template' | translate}}">
+                  <mat-icon color="warn">delete</mat-icon>
+                </button>
+              </span>
                         </td>
                     </ng-container>
 
@@ -95,10 +97,13 @@
                             <div class="my-3">
                                 <span class="float-start fw-bold">{{ 'template_overview.table_header.number' | translate }}</span>
                                 <br>
-                                <mat-form-field appearance="fill" *ngIf="showFilter" (click)="$event.stopPropagation()">
-                                    <input matInput formControlName="templateUserNumber" (keydown)="$event.stopPropagation()">
-                                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.templateUserNumber.reset()">close</mat-icon>
-                                </mat-form-field>
+                                @if (showFilter) {
+                                    <mat-form-field appearance="fill" (click)="$event.stopPropagation()">
+                                        <input matInput formControlName="templateUserNumber" (keydown)="$event.stopPropagation()">
+                                        <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.templateUserNumber.reset()">close
+                                        </mat-icon>
+                                    </mat-form-field>
+                                }
                             </div>
                         </th>
                         <td mat-cell *matCellDef="let templateUser; let i = index;">{{ templateUser.templateUserNumber }}
@@ -110,10 +115,12 @@
                             <div class="my-3">
                                 <span class="float-start fw-bold">{{ 'template_overview.table_header.name' | translate }}</span>
                                 <br>
-                                <mat-form-field appearance="fill" *ngIf="showFilter" (click)="$event.stopPropagation()">
-                                    <input matInput formControlName="name" (keydown)="$event.stopPropagation()">
-                                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.name.reset()">close</mat-icon>
-                                </mat-form-field>
+                                @if (showFilter) {
+                                    <mat-form-field appearance="fill" (click)="$event.stopPropagation()">
+                                        <input matInput formControlName="name" (keydown)="$event.stopPropagation()">
+                                        <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.name.reset()">close</mat-icon>
+                                    </mat-form-field>
+                                }
                             </div>
                         </th>
                         <td mat-cell *matCellDef="let templateUser; let i = index;">{{ templateUser.name }}
@@ -126,10 +133,12 @@
                             <div class="my-3">
                                 <span class="float-start fw-bold">{{ 'overview.table_header.ref_id' | translate }}</span>
                                 <br>
-                                <mat-form-field appearance="fill" *ngIf="showFilter" (click)="$event.stopPropagation()">
-                                    <input matInput formControlName="refId" (keydown)="$event.stopPropagation()">
-                                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.refId.reset()">close</mat-icon>
-                                </mat-form-field>
+                                @if (showFilter) {
+                                    <mat-form-field appearance="fill" (click)="$event.stopPropagation()">
+                                        <input matInput formControlName="refId" (keydown)="$event.stopPropagation()">
+                                        <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.refId.reset()">close</mat-icon>
+                                    </mat-form-field>
+                                }
                             </div>
                         </th>
                         <td mat-cell
@@ -143,10 +152,12 @@
                             <div class="my-3">
                                 <span class="float-start fw-bold">{{ 'overview.table_header.from' | translate }}</span>
                                 <br>
-                                <mat-form-field appearance="fill" *ngIf="showFilter" (click)="$event.stopPropagation()">
-                                    <input matInput formControlName="from" (keydown)="$event.stopPropagation()">
-                                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.from.reset()">close</mat-icon>
-                                </mat-form-field>
+                                @if (showFilter) {
+                                    <mat-form-field appearance="fill" (click)="$event.stopPropagation()">
+                                        <input matInput formControlName="from" (keydown)="$event.stopPropagation()">
+                                        <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.from.reset()">close</mat-icon>
+                                    </mat-form-field>
+                                }
                             </div>
                         </th>
                         <td mat-cell
@@ -160,10 +171,12 @@
                             <div class="my-3">
                                 <span class="float-start fw-bold">{{ 'overview.table_header.to' | translate }}</span>
                                 <br>
-                                <mat-form-field appearance="fill" *ngIf="showFilter" (click)="$event.stopPropagation()">
-                                    <input matInput formControlName="to" (keydown)="$event.stopPropagation()">
-                                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.to.reset()">close</mat-icon>
-                                </mat-form-field>
+                                @if (showFilter) {
+                                    <mat-form-field appearance="fill" (click)="$event.stopPropagation()">
+                                        <input matInput formControlName="to" (keydown)="$event.stopPropagation()">
+                                        <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.to.reset()">close</mat-icon>
+                                    </mat-form-field>
+                                }
                             </div>
                         </th>
                         <td mat-cell
@@ -177,7 +190,7 @@
                 </table>
             </div>
             <mat-paginator [showFirstLastButtons]="true" class="mat-paginator-sticky"
-                           [pageSize]="10"></mat-paginator>
+                           [pageSize]="10"/>
         </section>
     </article>
     <ng-template #quickViewButtons let-ecmr>

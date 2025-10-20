@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
-import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatButton } from '@angular/material/button';
 import {
     MatCell,
     MatCellDef,
@@ -26,18 +26,16 @@ import { EcmrUser } from '../../../core/models/EcmrUser';
 import { UserService } from '../../services/user.service';
 import { MatIcon } from '@angular/material/icon';
 import { MatSort, MatSortHeader, MatSortModule } from '@angular/material/sort';
-import { MatTooltip } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatFormField, MatLabel, MatPrefix, MatSuffix } from '@angular/material/form-field';
+import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { TemplateUser } from '../../../core/models/TemplateUser';
 import { TemplateOverviewService } from '../../../features/template-overview/template-overview-service/template-overview.service';
 
 @Component({
     selector: 'app-share-template-dialog',
-    standalone: true,
     imports: [
         MatDialogTitle,
         MatDialogContent,
@@ -51,11 +49,9 @@ import { TemplateOverviewService } from '../../../features/template-overview/tem
         MatHeaderRow,
         MatHeaderRowDef,
         MatIcon,
-        MatIconButton,
         MatRow,
         MatRowDef,
         MatSortHeader,
-        MatTooltip,
         TranslateModule,
         MatHeaderCellDef,
         MatSortModule,
@@ -63,13 +59,19 @@ import { TemplateOverviewService } from '../../../features/template-overview/tem
         MatFormField,
         MatInput,
         MatLabel,
-        MatPrefix,
         MatSuffix
     ],
     templateUrl: './share-template-dialog.component.html',
     styleUrl: './share-template-dialog.component.scss'
 })
 export class ShareTemplateDialogComponent {
+    dialogRef = inject<MatDialogRef<ShareTemplateDialogComponent>>(MatDialogRef);
+    private userService = inject(UserService);
+    private templateService = inject(TemplateOverviewService);
+    data = inject<{
+        template: TemplateUser;
+    }>(MAT_DIALOG_DATA);
+
 
     dataSource: MatTableDataSource<EcmrUser> = new MatTableDataSource<EcmrUser>();
     displayedColumns: string[] = ['select', 'firstName', 'lastName', 'email'];
@@ -79,10 +81,7 @@ export class ShareTemplateDialogComponent {
 
     templateUserToShare: TemplateUser;
 
-    constructor(public dialogRef: MatDialogRef<ShareTemplateDialogComponent>,
-                private userService: UserService,
-                private templateService: TemplateOverviewService,
-                @Inject(MAT_DIALOG_DATA) public data: { template: TemplateUser }) {
+    constructor() {
         this.templateUserToShare = this.data.template;
         this.userService.getAllUsers().subscribe(users => {
             this.dataSource.data = users;

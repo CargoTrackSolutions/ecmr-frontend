@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
@@ -16,11 +16,11 @@ import { EcmrRole } from '../../../core/enums/EcmrRole';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { QRCodeComponent, QRCodeModule } from 'angularx-qrcode';
+import { QRCodeComponent } from 'angularx-qrcode';
 import { MatIcon } from '@angular/material/icon';
 import { SnackbarService } from '../../../core/services/snackbar.service';
 import { EcmrService } from '../../services/ecmr.service';
-import { NgIf } from '@angular/common';
+
 import { UserService } from '../../services/user.service';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 import { catchError, filter, map, of, startWith, Subscription } from 'rxjs';
@@ -52,7 +52,6 @@ interface SearchConfig {
 
 @Component({
     selector: 'app-share-ecmr-dialog',
-    standalone: true,
     imports: [
         MatButton,
         MatDialogActions,
@@ -64,10 +63,8 @@ interface SearchConfig {
         MatFormFieldModule,
         MatInput,
         ReactiveFormsModule,
-        QRCodeModule,
         MatIcon,
         MatIconButton,
-        NgIf,
         MatAutocomplete,
         MatAutocompleteTrigger,
         MatOption,
@@ -76,11 +73,29 @@ interface SearchConfig {
         FormsModule,
         MatMenuModule,
         MatSelectModule,
+        QRCodeComponent
     ],
     templateUrl: './share-ecmr-dialog.component.html',
     styleUrl: './share-ecmr-dialog.component.scss'
 })
 export class ShareEcmrDialogComponent implements OnInit {
+    data = inject<{
+        ecmr: Ecmr;
+        sealedDocument: SealedDocumentWithoutEcmr;
+        roles: EcmrRole[];
+        isExternalUser: boolean;
+        userToken: string;
+        tan: string;
+    }>(MAT_DIALOG_DATA);
+    dialogRef = inject<MatDialogRef<ShareEcmrDialogComponent>>(MatDialogRef);
+    private snackBarService = inject(SnackbarService);
+    private ecmrService = inject(EcmrService);
+    private breakpointObserver = inject(BreakpointObserver);
+    private userService = inject(UserService);
+    private externalUserService = inject(ExternalUserService);
+    private groupService = inject(GroupService);
+    private loadingService = inject(LoadingService);
+
 
     emailFormControl = new FormControl<string>('', Validators.required)
     groupFormControl = new FormControl<string | GroupFlat>('', Validators.required)
@@ -122,24 +137,9 @@ export class ShareEcmrDialogComponent implements OnInit {
     carrierSharable: boolean = false;
     consigneeSharable: boolean = false;
 
-    constructor(
-        @Inject(MAT_DIALOG_DATA) public data: {
-            ecmr: Ecmr,
-            sealedDocument: SealedDocumentWithoutEcmr,
-            roles: EcmrRole[],
-            isExternalUser: boolean,
-            userToken: string,
-            tan: string
-        },
-        public dialogRef: MatDialogRef<ShareEcmrDialogComponent>,
-        private snackBarService: SnackbarService,
-        private ecmrService: EcmrService,
-        private breakpointObserver: BreakpointObserver,
-        private userService: UserService,
-        private externalUserService: ExternalUserService,
-        private groupService: GroupService,
-        private loadingService: LoadingService
-    ) {
+    constructor() {
+        const data = this.data;
+
         this.breakpointSubscription = this.breakpointObserver
             .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium])
             .subscribe(result => {

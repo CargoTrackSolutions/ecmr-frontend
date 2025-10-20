@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatCard } from '@angular/material/card';
@@ -24,13 +24,13 @@ import {
   MatTableDataSource
 } from '@angular/material/table';
 import { MatCheckbox } from '@angular/material/checkbox';
-import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatFormField, MatSuffix } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatSort, MatSortHeader, Sort } from '@angular/material/sort';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { MatTooltip } from '@angular/material/tooltip';
-import { NgIf } from '@angular/common';
+
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatDialog } from '@angular/material/dialog';
@@ -48,47 +48,53 @@ import { SnackbarService } from '../../core/services/snackbar.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-template-overview',
-  standalone: true,
-  imports: [
-    CdkDrag,
-    CdkDropList,
-    MatButton,
-    MatCard,
-    MatCell,
-    MatCellDef,
-    MatCheckbox,
-    MatColumnDef,
-    MatFormField,
-    MatHeaderCell,
-    MatHeaderRow,
-    MatHeaderRowDef,
-    MatIcon,
-    MatIconButton,
-    MatInput,
-    MatLabel,
-    MatRow,
-    MatRowDef,
-    MatSort,
-    MatSortHeader,
-    MatSuffix,
-    MatTable,
-    MatToolbar,
-    MatToolbarRow,
-    MatTooltip,
-    NgIf,
-    TranslateModule,
-    MatHeaderCellDef,
-    EcmrOverviewDetailsComponent,
-    MatDrawer,
-    MatDrawerContainer,
-    MatPaginator,
-    ReactiveFormsModule
-  ],
-  templateUrl: './template-overview.component.html',
-  styleUrl: './template-overview.component.scss'
+    selector: 'app-template-overview',
+    imports: [
+      CdkDrag,
+      CdkDropList,
+      MatButton,
+      MatCard,
+      MatCell,
+      MatCellDef,
+      MatCheckbox,
+      MatColumnDef,
+      MatFormField,
+      MatHeaderCell,
+      MatHeaderRow,
+      MatHeaderRowDef,
+      MatIcon,
+      MatIconButton,
+      MatInput,
+      MatRow,
+      MatRowDef,
+      MatSort,
+      MatSortHeader,
+      MatSuffix,
+      MatTable,
+      MatToolbar,
+      MatToolbarRow,
+      MatTooltip,
+      TranslateModule,
+      MatHeaderCellDef,
+      EcmrOverviewDetailsComponent,
+      MatDrawer,
+      MatDrawerContainer,
+      MatPaginator,
+      ReactiveFormsModule
+    ],
+    templateUrl: './template-overview.component.html',
+    styleUrl: './template-overview.component.scss'
 })
 export class TemplateOverviewComponent implements OnInit {
+    private _liveAnnouncer = inject(LiveAnnouncer);
+    dialog = inject(MatDialog);
+    private snackBarService = inject(SnackbarService);
+    snackbar = inject(MatSnackBar);
+    overviewService = inject(TemplateOverviewService);
+    private router = inject(Router);
+    templateOverviewService = inject(TemplateOverviewService);
+    translateService = inject(TranslateService);
+
   displayedColumns: string[] = ['id', 'number', 'name', 'refId', 'from', 'to'];
   columns: string[] = ['id', 'number', 'name', 'refId', 'from', 'to'];
   filteredColumns: string[] = [];
@@ -117,12 +123,6 @@ export class TemplateOverviewComponent implements OnInit {
 
 
   protected readonly JSON = JSON;
-
-  constructor(private _liveAnnouncer: LiveAnnouncer,
-              public dialog: MatDialog, private snackBarService: SnackbarService,
-              public snackbar: MatSnackBar, public overviewService: TemplateOverviewService,
-              private router: Router, public templateOverviewService: TemplateOverviewService, public translateService: TranslateService) {
-  }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort = new MatSort();

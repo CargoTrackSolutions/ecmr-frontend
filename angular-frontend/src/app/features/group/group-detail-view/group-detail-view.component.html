@@ -1,12 +1,13 @@
 <mat-toolbar>
     <mat-toolbar-row class="d-flex flex-row justify-content-between">
         <div class="d-flex flex-row align-items-center gap-3">
-            <div class="detail-header-label mat-background-primary text-white">
+            <h6 class="detail-header-label">
                 {{ 'group_detail.title' | translate }}
-            </div>
-            {{ selectedGroup?.name }}
+            </h6>
+            <mat-chip>{{ selectedGroup?.name }}</mat-chip>
+
         </div>
-        <mat-form-field class="mt-4 search-field">
+        <mat-form-field class="mt-4 search-field" appearance="outline">
             <mat-label>{{ 'group_overview.search' | translate }}</mat-label>
             <input matInput (keyup)="applyFilter($event)">
             <mat-icon matSuffix>search</mat-icon>
@@ -48,4 +49,4 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 </div>
-<mat-paginator showFirstLastButtons [pageSize]="10" [pageSizeOptions]="[5,10,20]" class="mat-paginator-sticky"></mat-paginator>
+<mat-paginator showFirstLastButtons [pageSize]="10" [pageSizeOptions]="[5,10,20]" class="mat-paginator-sticky"/>

@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { HistoryLogsService } from './history-logs-service/history-logs.service';
@@ -21,7 +21,6 @@ import { ActionType } from '../../../../core/enums/ActionType';
 
 @Component({
     selector: 'app-history-logs',
-    standalone: true,
     imports: [
         TranslateModule,
         MatIcon
@@ -31,21 +30,18 @@ import { ActionType } from '../../../../core/enums/ActionType';
     styleUrl: './history-logs.component.scss'
 })
 export class HistoryLogsComponent implements OnInit {
+    private loadingService = inject(LoadingService);
+    protected dateTimeService = inject(DateTimeService);
+    private historyLogService = inject(HistoryLogsService);
+
 
 
     historyLogs: HistoryLog[] = [];
-    @Input()
-    ecmrId: string = '';
-    @Input()
-    referenceId: string = '';
-
-    constructor(private loadingService: LoadingService,
-                protected dateTimeService: DateTimeService,
-                private historyLogService: HistoryLogsService) {
-    }
+    readonly ecmrId = input<string>('');
+    readonly referenceId = input<string>('');
 
     ngOnInit(): void {
-        this.loadingService.showLoaderUntilCompleted(this.historyLogService.getHistoryLogs(this.ecmrId)).subscribe(historyLogs => {
+        this.loadingService.showLoaderUntilCompleted(this.historyLogService.getHistoryLogs(this.ecmrId())).subscribe(historyLogs => {
             this.historyLogs = historyLogs;
         })
     }

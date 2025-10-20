@@ -12,7 +12,7 @@ variables:
   # with them.
   # These variables are not intended to be overridden by jobs extending the job templates.
   ##################################################################################################
-  NPM_ANGULAR_DOCKER_IMAGE: trion/ng-cli-karma:18.2.11
+  NPM_ANGULAR_DOCKER_IMAGE: trion/ng-cli-karma:20.3.5
 
   ##################################################################################################
   # Definition of variables for project-specific configuration of the pipeline jobs.

@@ -1,19 +1,20 @@
-
 <h2 mat-dialog-title> {{ 'confirmation.title' | translate }} </h2>
-<section>
-    <mat-dialog-content class="py-0 overflow-hidden d-flex justify-content-start flex-column gap-2">
-        <h5 class="content">{{ data.text  | translate: data.textParams }}</h5>
-        @if (data.checkBoxText) {
-            <mat-checkbox class="text-start" [checked]="dialogResult.isCheckboxTicked" (change)="toggleCreateCopy()">
-                {{ data.checkBoxText | translate }}
-            </mat-checkbox>
-        }
-    </mat-dialog-content>
+<mat-dialog-content class="py-0 overflow-hidden d-flex justify-content-start flex-column gap-2">
+    <h5 class="content">{{ data.text  | translate: data.textParams }}</h5>
+    @if (data.checkBoxText) {
+        <mat-checkbox class="text-start" [checked]="dialogResult.isCheckboxTicked" (change)="toggleCreateCopy()">
+            {{ data.checkBoxText | translate }}
+        </mat-checkbox>
+    }
+</mat-dialog-content>
 
-    <mat-dialog-actions>
-      <div class="button-box">
-          <button mat-flat-button (click)="close(false)" color="warn">{{ 'confirmation.cancel' | translate }}</button>
-          <button mat-flat-button class="m-0" (click)="close(true)" color="primary">{{ 'confirmation.accept' | translate }}</button>
-      </div>
-    </mat-dialog-actions>
-</section>
+<mat-dialog-actions align="end">
+    <button matButton class="mat-warn" (click)="close(false)">
+        {{ 'confirmation.cancel' | translate }}
+        <mat-icon>close</mat-icon>
+    </button>
+    <button matButton (click)="close(true)">
+        {{ 'confirmation.accept' | translate }}
+        <mat-icon>check</mat-icon>
+    </button>
+</mat-dialog-actions>

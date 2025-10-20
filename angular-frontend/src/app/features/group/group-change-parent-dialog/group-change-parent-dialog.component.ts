@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButton } from '@angular/material/button';
@@ -17,10 +17,10 @@ import { MatOption } from '@angular/material/autocomplete';
 import { MatSelect } from '@angular/material/select';
 import { GroupService } from '../group.service';
 import { GroupParentUpdate } from '../../../core/models/GroupParentUpdate';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-group-change-parent-dialog',
-    standalone: true,
     imports: [
         MatDialogTitle,
         TranslateModule,
@@ -32,20 +32,25 @@ import { GroupParentUpdate } from '../../../core/models/GroupParentUpdate';
         MatLabel,
         MatOption,
         MatSelect,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatIcon
     ],
     templateUrl: './group-change-parent-dialog.component.html',
     styleUrl: './group-change-parent-dialog.component.scss'
 })
 export class GroupChangeParentDialogComponent {
+    private dialogRef = inject<MatDialogRef<GroupChangeParentDialogComponent>>(MatDialogRef);
+    private groupService = inject(GroupService);
+    data = inject<Group>(MAT_DIALOG_DATA);
+
 
     parentId = new FormControl<Group | null>(null)
     groups: Group[];
     groupToEdit: Group;
 
-    constructor(private dialogRef: MatDialogRef<GroupChangeParentDialogComponent>,
-                private groupService: GroupService,
-                @Inject(MAT_DIALOG_DATA) public data: Group) {
+    constructor() {
+        const data = this.data;
+
         this.groupToEdit = data
 
         this.groupService.getAllGroups(true).subscribe(groups => {

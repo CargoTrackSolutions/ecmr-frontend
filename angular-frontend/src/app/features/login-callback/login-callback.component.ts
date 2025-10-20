@@ -6,21 +6,23 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
     selector: 'app-login-callback',
-    standalone: true,
     imports: [],
     templateUrl: './login-callback.component.html',
     styleUrl: './login-callback.component.scss'
 })
 export class LoginCallbackComponent implements OnInit {
-    constructor(private authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute, private loadingService: LoadingService) {
-    }
+    private authService = inject(AuthService);
+    private router = inject(Router);
+    private activatedRoute = inject(ActivatedRoute);
+    private loadingService = inject(LoadingService);
+
 
     ngOnInit(): void {
         this.loadingService.showLoaderUntilCompleted(this.authService.login())

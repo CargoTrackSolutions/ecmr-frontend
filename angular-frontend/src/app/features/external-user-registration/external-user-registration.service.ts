@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Registration } from '../../core/models/Registration';
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -18,8 +18,12 @@ import { RegistrationResponse } from '../../core/models/RegistrationResponse';
     providedIn: 'root'
 })
 export class ExternalUserRegistrationService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient, handler: HttpBackend) {
+
+    constructor() {
+        const handler = inject(HttpBackend);
+
         this.http = new HttpClient(handler);
     }
 

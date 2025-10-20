@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CustomSnackbarComponent } from '../../shared/components/custom-snackbar/custom-snackbar.component';
 
@@ -14,9 +14,8 @@ import { CustomSnackbarComponent } from '../../shared/components/custom-snackbar
     providedIn: 'root'
 })
 export class SnackbarService {
+    private _snackBar = inject(MatSnackBar);
 
-    constructor(private _snackBar: MatSnackBar) {
-    }
 
     openErrorSnackbarWithDuration(message: string, duration: number): void {
         this._snackBar.openFromComponent(CustomSnackbarComponent, {

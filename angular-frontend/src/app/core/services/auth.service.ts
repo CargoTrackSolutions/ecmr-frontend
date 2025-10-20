@@ -20,11 +20,16 @@ import { UserRole } from '../enums/UserRole';
     providedIn: 'root'
 })
 export class AuthService {
+    private oauthService = inject(OAuthService);
+    private httpClient = inject(HttpClient);
+    private userService = inject(UserService);
+    private router = inject(Router);
+
 
     private authenticatedUserSubject = new BehaviorSubject<AuthenticatedUser | null>(null);
     private authStatus = new BehaviorSubject<boolean>(false);
 
-    constructor(private oauthService: OAuthService, private httpClient: HttpClient, private userService: UserService, private router: Router) {
+    constructor() {
         this.oauthService.setStorage(localStorage);
         this.oauthService.configure(environment.authConfig);
         this.oauthService.loadDiscoveryDocument()

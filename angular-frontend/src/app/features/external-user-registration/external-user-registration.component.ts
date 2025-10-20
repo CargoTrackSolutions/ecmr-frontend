@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, Subscription, switchMap, takeWhile, tap } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -26,7 +26,6 @@ import { PhoneValidatorService } from '../../shared/services/phone-format.servic
 
 @Component({
     selector: 'app-external-user-registration',
-    standalone: true,
     imports: [
         MatFormFieldModule,
         MatIcon,
@@ -41,6 +40,12 @@ import { PhoneValidatorService } from '../../shared/services/phone-format.servic
     styleUrl: './external-user-registration.component.scss'
 })
 export class ExternalUserRegistrationComponent {
+    private route = inject(ActivatedRoute);
+    private externalUserRegistrationService = inject(ExternalUserRegistrationService);
+    private router = inject(Router);
+    private snackBarService = inject(SnackbarService);
+    private readonly loadingService = inject(LoadingService);
+
 
     sub: Subscription;
     ecmrId: string;
@@ -54,12 +59,10 @@ export class ExternalUserRegistrationComponent {
         company: new FormControl<string>('', [Validators.required]),
     })
 
-    constructor(private route: ActivatedRoute,
-                private externalUserRegistrationService: ExternalUserRegistrationService,
-                private router: Router,
-                authService: AuthService,
-                private snackBarService: SnackbarService,
-                private readonly loadingService: LoadingService) {
+    constructor() {
+        const authService = inject(AuthService);
+        const snackBarService = this.snackBarService;
+
         authService.getAuthenticatedUser().pipe(takeWhile(user => !user, true))
             .subscribe(user => {
                 if (user) {

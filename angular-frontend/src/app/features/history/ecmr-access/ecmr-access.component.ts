@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, input, OnInit, ViewChild } from '@angular/core';
 import { EcmrService } from '../../../shared/services/ecmr.service';
 import { LoadingService } from '../../../core/services/loading.service';
 import { MatIcon } from '@angular/material/icon';
@@ -34,7 +34,6 @@ import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-ecmr-access',
-    standalone: true,
     imports: [
         MatIcon,
         MatTable,
@@ -57,6 +56,10 @@ import { TranslatePipe } from '@ngx-translate/core';
     styleUrl: './ecmr-access.component.scss'
 })
 export class EcmrAccessComponent implements OnInit, AfterViewInit {
+    private readonly ecmrService = inject(EcmrService);
+    private readonly loadingService = inject(LoadingService);
+    private _location = inject(Location);
+
 
     displayedColumns: string[] = ['role', 'group_user'];
     dataSource: MatTableDataSource<EcmrAssignment> = new MatTableDataSource();
@@ -65,23 +68,22 @@ export class EcmrAccessComponent implements OnInit, AfterViewInit {
 
     assignments: EcmrAssignment[] = [];
 
-    @Input()
-    ecmrId: string;
-    @Input()
-    referenceId: string = '';
+    readonly ecmrId = input<string>();
+    readonly referenceId = input<string>('');
 
     isOverlayOpen = false;
     overlayOrigin: CdkOverlayOrigin | FlexibleConnectedPositionStrategyOrigin | null;
     overlayUser: ExternalUser | null;
 
-    constructor(private readonly ecmrService: EcmrService, private readonly loadingService: LoadingService, private _location: Location) {
-    }
-
     ngOnInit(): void {
-        this.loadingService.showLoaderUntilCompleted(this.ecmrService.getEcmrAssignments(this.ecmrId)).subscribe(assignments => {
-            this.assignments = assignments;
-            this.dataSource.data = this.assignments;
-        });
+        const ecmrId = this.ecmrId();
+        if (ecmrId) {
+            this.loadingService.showLoaderUntilCompleted(this.ecmrService.getEcmrAssignments(ecmrId)).subscribe(assignments => {
+                this.assignments = assignments;
+                this.dataSource.data = this.assignments;
+            });
+        }
+
     }
 
     ngAfterViewInit(): void {

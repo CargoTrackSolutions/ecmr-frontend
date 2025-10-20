@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {HttpClient} from '@angular/common/http';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDrawer, MatDrawerContainer, MatSidenavModule } from '@angular/material/sidenav';
@@ -34,18 +34,23 @@ import { MatTooltip } from '@angular/material/tooltip';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
+    return new TranslateHttpLoader(http);
 }
-
 @Component({
     selector: 'app-root',
-    standalone: true,
     imports: [RouterOutlet, MatToolbarModule, MatDrawerContainer, MatDrawer, MatButtonModule, MatSidenavModule, FormsModule, MatCheckboxModule, MatIconModule, EcmrIconComponent, EcmrDoneIconComponent, EcmrTemplateIconComponent, RouterLink, RouterLinkActive, CommonModule, MatRipple, TranslateModule, LoadingOverlayComponent, MatTooltip],
     providers: [],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit, OnDestroy {
+    private breakpointObserver = inject(BreakpointObserver);
+    private router = inject(Router);
+    private themeService = inject(ThemeService);
+    private loadingService = inject(LoadingService);
+    authService = inject(AuthService);
+    private translate = inject(TranslateService);
+
     title = 'angular-frontend';
     languages = [
         {flag: '🇩🇪', code: 'de'},
@@ -71,12 +76,7 @@ export class AppComponent implements OnInit, OnDestroy {
     @ViewChild('drawer') drawer: MatDrawer;
     authenticatedUser: AuthenticatedUser | null;
 
-    constructor(private breakpointObserver: BreakpointObserver,
-                private router: Router,
-                private themeService: ThemeService,
-                private loadingService: LoadingService,
-                public authService: AuthService,
-                private translate: TranslateService) {
+    constructor() {
 
         const storedLanguageCode = localStorage.getItem('selectedLanguage') || 'en';
         this.selectedLanguage = this.languages.find(lang => lang.code === storedLanguageCode) || this.languages[1];

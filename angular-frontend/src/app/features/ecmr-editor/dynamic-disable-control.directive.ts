@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {Directive, Input, OnChanges} from '@angular/core';
+import { Directive, inject, input, OnChanges } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 @Directive({
@@ -15,13 +15,13 @@ import { NgControl } from '@angular/forms';
   standalone: true
 })
 export class DynamicDisableControlDirective implements OnChanges {
-  @Input() dynamicDisable: boolean;
+  private ngControl = inject(NgControl);
 
-  constructor(private ngControl: NgControl) {}
+  readonly dynamicDisable = input<boolean>();
 
   ngOnChanges() {
     if (this.ngControl.control) {
-      if (this.dynamicDisable) {
+      if (this.dynamicDisable()) {
         this.ngControl.control.disable();
       } else {
         this.ngControl.control.enable();

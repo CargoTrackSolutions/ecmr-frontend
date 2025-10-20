@@ -6,36 +6,29 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {Component, OnInit} from '@angular/core';
-import {MatLabel} from "@angular/material/form-field";
-import {EcmrTableComponent} from "../../shared/components/ecmr-table/ecmr-table.component";
-import {MatButton} from "@angular/material/button";
-import {MatIcon} from "@angular/material/icon";
-import {MatToolbar, MatToolbarRow} from "@angular/material/toolbar";
-import {TranslateModule, TranslateService} from "@ngx-translate/core";
-import { HttpClient } from "@angular/common/http";
+import { Component, inject, OnInit } from '@angular/core';
+import { MatLabel } from '@angular/material/form-field';
+import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-privacy',
-  standalone: true,
-  imports: [
-    MatLabel,
-    EcmrTableComponent,
-    MatButton,
-    MatIcon,
-    MatToolbar,
-    MatToolbarRow,
-    TranslateModule
-  ],
-  templateUrl: './privacy.component.html',
-  styleUrl: './privacy.component.scss'
+    selector: 'app-privacy',
+    imports: [
+        MatLabel,
+        MatToolbar,
+        MatToolbarRow,
+        TranslateModule
+    ],
+    templateUrl: './privacy.component.html',
+    styleUrl: './privacy.component.scss'
 })
 export class PrivacyComponent implements OnInit {
+    private http = inject(HttpClient);
+    private translateService = inject(TranslateService);
+
 
   privacyText: string;
-
-  constructor(private http: HttpClient, private translateService: TranslateService) {
-  }
 
   ngOnInit() {
     this.translateService.onLangChange.subscribe(data => {

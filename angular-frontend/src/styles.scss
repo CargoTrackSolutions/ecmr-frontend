@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
-@import "custom-theme";
-@import "bootstrap/scss/bootstrap";
+@use 'palettes/theme-colors' as theme-colors;
+@use 'material-overrides/material-overrides';
+@use "bootstrap/scss/bootstrap";
 
 /* Global Styles */
 html, body {
@@ -10,6 +11,15 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  @include mat.theme((
+          color: (
+                  primary: theme-colors.$primary-palette,
+                  tertiary: theme-colors.$tertiary-palette
+          ),
+          typography: (
+                  plain-family: "Roboto"
+          )
+  ));
 }
 
 @font-face {
@@ -18,11 +28,10 @@ body {
   src: url('https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1/dist/TwemojiCountryFlags.woff2') format('woff2');
 }
 
-@include mat.all-component-themes($light-theme);
+
 
 .dark-theme {
-  @include mat.all-component-colors($dark-theme);
-
+  color-scheme: dark;
   .action-row .mat-icon:not(.delete) {
     color: white !important;
   }
@@ -30,23 +39,19 @@ body {
 
 /* Custom Classes */
 .primary-fill {
-  fill: $primary-color;
+  fill: var(--mat-sys-primary);
 }
 
 .primary-letter-fill {
-  fill: white;
+  fill: var(--mat-sys-on-primary);
 }
 
 .primary-stroke {
-  stroke: $primary-color;
+  stroke: var(--mat-sys-primary);
 }
 
 .primary-color {
-  color: $primary-color;
-}
-
-.mat-background-primary {
-  background-color: $primary-color !important;
+  color: var(--mat-sys-primary);
 }
 
 .active .mat-icon {
@@ -54,37 +59,39 @@ body {
 }
 
 .active .primary-fill {
-  fill: white !important;
+  fill: var(--mat-sys-on-primary) !important;
 }
 
 .active .primary-letter-fill {
-  fill: $primary-color;
+  fill: var(--mat-sys-on-primary-container);
 }
 
 .active .primary-stroke {
-  stroke: white !important;
+  stroke: var(--mat-sys-on-primary) !important;
+}
+
+.primary-icon {
+  color: var(--mat-sys-primary) !important;
+}
+
+.active .primary-icon {
+  color: var(--mat-sys-on-primary) !important;
 }
 
 .sidenav-container__icon-container:hover,
 .sidenav__icon:hover:not(.active),
 .footer-line:hover {
-  background-color: mat.m2-get-color-from-palette($my-accent, 500);
+  background-color: var(--mat-sys-primary-container);
   cursor: pointer;
 }
 
 .active {
-  background-color: mat.m2-get-color-from-palette($my-primary, 500);
-}
-
-.container-header {
-  width: 100%;
-  border-bottom: $primary-color 2px solid;
+  background-color: var(--mat-sys-primary);
 }
 
 .mat-mdc-dialog-title {
-  background-color: $primary-color;
-  color: white !important;
   font-weight: bold !important;
+  color: var(--mat-sys-on-surface) !important;
 }
 
 app-ecmr-editor ::-webkit-scrollbar-thumb,
@@ -98,7 +105,7 @@ app-share-template-dialog ::-webkit-scrollbar-thumb,
 app-ecmr-table ::-webkit-scrollbar-thumb {
   border-radius: 5px;
   cursor: pointer;
-  background: mat.m2-get-color-from-palette($my-primary, 500) !important;
+  background: var(--mat-sys-primary) !important;
 }
 
 app-ecmr-editor ::-webkit-scrollbar-thumb:hover,
@@ -110,11 +117,7 @@ app-template-overview ::-webkit-scrollbar-thumb:hover,
 app-ecmr-create-share-dialog ::-webkit-scrollbar-thumb:hover,
 app-share-template-dialog ::-webkit-scrollbar-thumb:hover,
 app-ecmr-table ::-webkit-scrollbar-thumb:hover {
-  background: mat.m2-get-color-from-palette($my-accent, 500) !important;
-}
-
-.mat-mdc-unelevated-button.mat-primary {
-  color: #fff !important;
+  background: var(--mat-sys-primary-container) !important;
 }
 
 $logo-multiplier: 0.75;
@@ -138,8 +141,8 @@ $logo-multiplier: 0.75;
 }
 
 .action-bar-shadow {
-  -webkit-box-shadow: 0px 2px 2px 0px rgba(184, 184, 184, 0.5);
-  box-shadow: 0px 2px 2px 0px rgba(184, 184, 184, 0.5);;
+  -webkit-box-shadow: 0 2px 2px 0 rgba(184, 184, 184, 0.5);
+  box-shadow: 0 2px 2px 0 rgba(184, 184, 184, 0.5);;
   z-index: 5000;
 }
 
@@ -241,36 +244,36 @@ mat-tree-node .action-row button:nth-child(5) {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    border: 2px solid $primary-color;
+    border: 2px solid var(--mat-sys-primary);
   }
 
   .filled {
-    background-color: $primary-color;
+    background-color: var(--mat-sys-primary);
   }
 
   .line {
     width: 3px;
     height: 20px;
-    background-color: $primary-color;
+    background-color: var(--mat-sys-primary);
   }
 }
 
 //loading-screen-component
 #ring-one {
   path {
-    fill: $primary-color !important;
+    fill: var(--mat-sys-primary) !important;
   }
 }
 
 #ring-two {
   path {
-    fill: $accent-color !important;
+    fill: var(--mat-sys-secondary) !important;
   }
 }
 
 #ring-three {
   path {
-    fill: #464646 !important;
+    fill: var(--mat-sys-tertiary) !important;
   }
 }
 
@@ -285,23 +288,37 @@ mat-tree-node .action-row button:nth-child(5) {
 
 // Status icons bar
 .active-icon {
-  background-color: $primary-color !important;
+  background-color: var(--mat-sys-primary) !important;
   color: white;
   transition: background-color 1s linear;
 }
 
 #ring-one.active {
-  fill: $primary-color !important;
+  fill: var(--mat-sys-primary) !important;
 }
 
 #ring-two.active {
-  fill: $primary-color !important;
+  fill: var(--mat-sys-primary) !important;
 }
 
 #ring-three.active {
-  fill: $primary-color !important;
+  fill: var(--mat-sys-primary) !important;
 }
 
 #ring-four.active {
-  fill: $primary-color !important;
+  fill: var(--mat-sys-primary) !important;
+}
+
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+}
+
+mat-toolbar {
+  h6 {
+    font-weight: bold !important;
+    text-transform: uppercase;
+    color: var(--mat-sys-primary);
+  }
 }

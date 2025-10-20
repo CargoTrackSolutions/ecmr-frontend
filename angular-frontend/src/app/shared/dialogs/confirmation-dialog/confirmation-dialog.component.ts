@@ -6,11 +6,12 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatCheckbox } from '@angular/material/checkbox';
+import { MatIcon } from '@angular/material/icon';
 
 export interface ConfirmationDialogData {
   text: string;
@@ -24,30 +25,28 @@ export interface ConfirmationDialogResult {
   }
 
 @Component({
-  selector: 'app-confirmation-dialog',
-  standalone: true,
+    selector: 'app-confirmation-dialog',
     imports: [
         MatDialogContent,
         MatDialogActions,
         MatButton,
         TranslateModule,
         MatDialogTitle,
-        MatCheckbox
+        MatCheckbox,
+        MatIcon
     ],
-  templateUrl: './confirmation-dialog.component.html',
-  styleUrl: './confirmation-dialog.component.scss'
+    templateUrl: './confirmation-dialog.component.html',
+    styleUrl: './confirmation-dialog.component.scss'
 })
 export class ConfirmationDialogComponent {
+    data = inject<ConfirmationDialogData>(MAT_DIALOG_DATA);
+    dialogRef = inject<MatDialogRef<ConfirmationDialogComponent>>(MatDialogRef);
+
 
   dialogResult: ConfirmationDialogResult = {
     isConfirmed: false,
     isCheckboxTicked: false
   };
-
-    constructor(
-        @Inject(MAT_DIALOG_DATA) public data: ConfirmationDialogData,
-        public dialogRef: MatDialogRef<ConfirmationDialogComponent>) {
-    }
 
   toggleCreateCopy() {
     this.dialogResult.isCheckboxTicked = !this.dialogResult.isCheckboxTicked;

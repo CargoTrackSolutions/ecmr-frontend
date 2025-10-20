@@ -28,28 +28,34 @@
     <mat-form-field class="w-100">
         <mat-label>{{ "ecmr_import.e_token" | translate }}</mat-label>
         <input matInput [formControl]="tokenFormControl">
-        <button mat-icon-button matIconSuffix (click)="pasteFromClipboard()"
-                *ngIf="tokenFormControl.invalid" color="accent"
-                #tooltip="matTooltip"
-                matTooltip="Paste E-Token"
-                [matTooltipPosition]="'below'"
-                matTooltipHideDelay="200">
-            <mat-icon>content_paste</mat-icon>
-        </button>
+        @if (tokenFormControl.invalid) {
+            <button mat-icon-button matIconSuffix (click)="pasteFromClipboard()"
+                    color="accent"
+                    #tooltip="matTooltip"
+                    matTooltip="Paste E-Token"
+                    [matTooltipPosition]="'below'"
+                    matTooltipHideDelay="200">
+                <mat-icon>content_paste</mat-icon>
+            </button>
+        } @if (tokenFormControl.valid) {
         <button mat-icon-button matIconSuffix (click)="tokenFormControl.reset()"
-                *ngIf="tokenFormControl.valid" color="warn"
+                color="warn"
                 #tooltip="matTooltip"
                 matTooltip="Reset E-Token"
                 [matTooltipPosition]="'below'"
                 matTooltipHideDelay="200">
             <mat-icon>close</mat-icon>
         </button>
+    }
     </mat-form-field>
 </mat-dialog-content>
-<mat-dialog-actions [align]="'end'">
-    <button mat-flat-button color="primary" [disabled]="tokenFormControl.invalid" (click)="importEcmr()">
+<mat-dialog-actions align="end">
+    <button matButton class="mat-warn" (click)="close()">
+        <mat-icon>close</mat-icon>
+        {{ "common.cancel" | translate }}
+    </button>
+    <button matButton [disabled]="tokenFormControl.invalid" (click)="importEcmr()">
         {{ "ecmr_import.import" | translate }}
     </button>
-    <button mat-flat-button color="warn" (click)="close()">{{ "common.cancel" | translate }}</button>
 </mat-dialog-actions>
 

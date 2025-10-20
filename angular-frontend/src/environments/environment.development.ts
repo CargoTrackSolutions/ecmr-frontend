@@ -9,21 +9,21 @@
 import { AuthConfig } from 'angular-oauth2-oidc';
 
 const authConfig: AuthConfig = {
-  issuer: 'YOUR-ISSUER',
-  clientId: 'YOUR-CLIENT-ID',
-  requireHttps: false,
-  useSilentRefresh: false,
-  responseType: 'code',
-  disableAtHashCheck: true,
-  redirectUri: window.location.origin + '/login-callback',
-  scope: 'openid profile email',
-  showDebugInformation: true,
-  strictDiscoveryDocumentValidation: false,
-  skipIssuerCheck: true
+    issuer: 'YOUR-ISSUER',
+    clientId: 'YOUR-CLIENT-ID',
+    requireHttps: false,
+    useSilentRefresh: false,
+    responseType: 'code',
+    disableAtHashCheck: true,
+    redirectUri: window.location.origin + '/login-callback',
+    scope: 'openid profile email',
+    showDebugInformation: true,
+    strictDiscoveryDocumentValidation: false,
+    skipIssuerCheck: true
 };
 
 export const environment = {
-  production: false,
-  backendUrl: 'http://localhost:8080/api',
-  authConfig
+    production: false,
+    backendUrl: 'http://localhost:8080/api',
+    authConfig
 };

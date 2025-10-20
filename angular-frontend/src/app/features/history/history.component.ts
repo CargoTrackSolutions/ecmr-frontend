@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { EcmrAccessComponent } from './ecmr-access/ecmr-access.component';
@@ -19,7 +19,6 @@ import { HistoryLogsComponent } from './history/history-logs/history-logs.compon
 
 @Component({
     selector: 'app-history',
-    standalone: true,
     imports: [
         MatTabGroup,
         MatTab,
@@ -35,13 +34,17 @@ import { HistoryLogsComponent } from './history/history-logs/history-logs.compon
     styleUrl: './history.component.scss'
 })
 export class HistoryComponent {
+    private _location = inject(Location);
+
 
     ecmrId: string = '';
     referenceId: string = '';
 
     headerTextKey: string = 'history.log.title';
 
-    constructor(route: ActivatedRoute, private _location: Location) {
+    constructor() {
+        const route = inject(ActivatedRoute);
+
         this.ecmrId = route.snapshot.params['id'];
         this.referenceId = route.snapshot.params['refId'];
     }

@@ -1,0 +1,28 @@
+@use '@angular/material' as mat;
+
+body {
+  mat-toolbar {
+    @include mat.form-field-overrides((
+            outlined-container-shape: var(--mat-sys-corner-extra-large),
+            filled-container-color: color-mix(in srgb, var(--mat-sys-tertiary-container), transparent 50%),
+    ));
+  }
+
+  .mat-warn {
+    @include mat.button-overrides((
+            text-label-text-color: var(--mat-sys-error),
+            text-ripple-color: color-mix(in srgb, var(--mat-sys-error-container), transparent 50%),
+            filled-container-color: var(--mat-sys-error-container),
+            filled-label-text-color: var(--mat-sys-on-error-container),
+            outlined-outline-color: var(--mat-sys-error),
+            outlined-label-text-color: var(--mat-sys-error),
+            outlined-ripple-color: color-mix(in srgb, var(--mat-sys-error-container), transparent 50%),
+    ));
+
+    @include mat.icon-button-overrides((
+            icon-color: var(--mat-sys-error),
+    ));
+
+    --mat-button-outlined-label-text-color: var(--mat-sys-error) !important;
+  }
+}

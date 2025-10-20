@@ -24,10 +24,9 @@
                 <input matInput formControlName="email"/>
                 @if (userFormGroup.controls.email.invalid) {
                     <mat-error>{{ "common.errors.required" | translate }}</mat-error>
-                }
-                @if (userFormGroup.controls.email.hasError('invalidEmail')) {
-                    <mat-error>{{ "common.errors.invalid_email" | translate }}</mat-error>
-                }
+                } @if (userFormGroup.controls.email.hasError('invalidEmail')) {
+                <mat-error>{{ "common.errors.invalid_email" | translate }}</mat-error>
+            }
             </mat-form-field>
             <mat-form-field class="col">
                 <mat-label>{{ "user.phone" | translate }}</mat-label>
@@ -71,10 +70,12 @@
                 <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding [ngClass]="isSelected(node)? 'selected' : ''">
                     <button mat-icon-button disabled></button>
                     {{ node.name }}
-                    <button [disabled]="isAuthenticatedUser" mat-icon-button (click)="selectGroup(node); $event.stopPropagation()" color="primary"
-                            *ngIf="!isSelected(node)">
-                        <mat-icon>add</mat-icon>
-                    </button>
+                    @if (!isSelected(node)) {
+                        <button [disabled]="isAuthenticatedUser" mat-icon-button (click)="selectGroup(node); $event.stopPropagation()" color="primary"
+                        >
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    }
                 </mat-tree-node>
                 <!-- This is the tree node template for expandable nodes -->
                 <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodeToggle
@@ -86,10 +87,12 @@
                         </mat-icon>
                     </button>
                     {{ node.name }}
-                    <button [disabled]="isAuthenticatedUser" mat-icon-button (click)="selectGroup(node); $event.stopPropagation()" color="primary"
-                            *ngIf="!isSelected(node)">
-                        <mat-icon>add</mat-icon>
-                    </button>
+                    @if (!isSelected(node)) {
+                        <button [disabled]="isAuthenticatedUser" mat-icon-button (click)="selectGroup(node); $event.stopPropagation()" color="primary"
+                        >
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    }
                 </mat-tree-node>
             </mat-tree>
         </div>
@@ -97,11 +100,12 @@
             @for (group of selectedGroups; track group) {
                 <div class="list-item d-flex flex-row gap-2 justify-content-between align-items-center">
                     <div class="d-flex flex-row justify-content-center align-items-center">
-                        <button [disabled]="isAuthenticatedUser" mat-icon-button
-                                *ngIf="defaultGroupId !== group.id"
-                                (click)="removeItem(group)" color="warn">
-                            <mat-icon>remove</mat-icon>
-                        </button>
+                        @if (defaultGroupId !== group.id) {
+                            <button [disabled]="isAuthenticatedUser" mat-icon-button
+                                    (click)="removeItem(group)" color="warn">
+                                <mat-icon>remove</mat-icon>
+                            </button>
+                        }
                         <div class="d-flex align-items-center">
                             {{ group.name }}
                         </div>
@@ -109,14 +113,20 @@
                     @if (defaultGroupId === group.id) {
                         <mat-icon class="favourite-button" (click)="setDefaultGroupId(null)"> {{ 'star' }}</mat-icon>
                     } @else {
-                        <mat-icon class="favourite-button" (click)="setDefaultGroupId(group.id)"> {{ 'star_outline' }}</mat-icon>
-                    }
+                    <mat-icon class="favourite-button" (click)="setDefaultGroupId(group.id)"> {{ 'star_outline' }}</mat-icon>
+                }
                 </div>
             }
         </div>
     </div>
 </mat-dialog-content>
-<mat-dialog-actions [align]="'end'">
-    <button mat-flat-button color="warn" (click)="closeDialog()">{{ "common.cancel" | translate }}</button>
-    <button mat-flat-button color="primary" (click)="saveUser()">{{ "common.save" | translate }}</button>
+<mat-dialog-actions align="end">
+    <button matButton class="mat-warn" (click)="closeDialog()">
+        {{ "common.cancel" | translate }}
+        <mat-icon>close</mat-icon>
+    </button>
+    <button matButton (click)="saveUser()">
+        {{ "common.save" | translate }}
+        <mat-icon>save</mat-icon>
+    </button>
 </mat-dialog-actions>

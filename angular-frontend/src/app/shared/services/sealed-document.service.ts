@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
@@ -16,9 +16,8 @@ import { SealedDocumentWithoutEcmr } from '../../core/models/SealedDocumentWitho
     providedIn: 'root'
 })
 export class SealedDocumentService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) {
-    }
 
     getSealedDocumentWithoutEcmr(ecmrId: string): Observable<SealedDocumentWithoutEcmr> {
         return this.http.get<SealedDocumentWithoutEcmr>(`${environment.backendUrl}/sealed-document/${ecmrId}`);

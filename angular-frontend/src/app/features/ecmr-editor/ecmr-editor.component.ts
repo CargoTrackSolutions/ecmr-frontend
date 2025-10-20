@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormField } from '@angular/material/form-field';
 import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
@@ -77,7 +77,6 @@ export enum EditorMode {
 
 @Component({
     selector: 'app-ecmr-editor',
-    standalone: true,
     imports: [
         MatCardModule,
         MatFormField,
@@ -109,6 +108,23 @@ export enum EditorMode {
     styleUrl: './ecmr-editor.component.scss'
 })
 export class EcmrEditorComponent implements OnInit {
+    private breakpointObserver = inject(BreakpointObserver);
+    private router = inject(Router);
+    private ecmrEditorService = inject(EcmrEditorService);
+    private route = inject(ActivatedRoute);
+    private groupService = inject(GroupService);
+    private externalUserService = inject(ExternalUserService);
+    private cd = inject(ChangeDetectorRef);
+    private snackbarService = inject(SnackbarService);
+    protected ecmrActionService = inject(EcmrActionService);
+    private loadingService = inject(LoadingService);
+    protected dateTimeService = inject(DateTimeService);
+    matDialog = inject(MatDialog);
+    private ecmrService = inject(EcmrService);
+    authService = inject(AuthService);
+    private userService = inject(UserService);
+    private sealedDocumentService = inject(SealedDocumentService);
+
 
     canFillSenderFields: boolean = false;
     canFillCarrierFields: boolean = false;
@@ -336,23 +352,7 @@ export class EcmrEditorComponent implements OnInit {
 
     readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
-    constructor(private breakpointObserver: BreakpointObserver,
-                private router: Router,
-                private ecmrEditorService: EcmrEditorService,
-                private route: ActivatedRoute,
-                private groupService: GroupService,
-                private externalUserService: ExternalUserService,
-                private cd: ChangeDetectorRef,
-                private snackbarService: SnackbarService,
-                protected ecmrActionService: EcmrActionService,
-                private loadingService: LoadingService,
-                protected dateTimeService: DateTimeService,
-                public matDialog: MatDialog,
-                private ecmrService: EcmrService,
-                public authService: AuthService,
-                private userService: UserService,
-                private sealedDocumentService: SealedDocumentService
-    ) {
+    constructor() {
         this.authService.getAuthenticatedUser().subscribe(user => {
             this.authenticatedUser = user;
         });

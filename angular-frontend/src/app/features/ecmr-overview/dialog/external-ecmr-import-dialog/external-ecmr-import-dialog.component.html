@@ -1,6 +1,6 @@
-<div mat-dialog-title id="title" class="d-flex flex-row align-items-center gap-3 p-0">
+<h2 mat-dialog-title id="title">
     {{ "ecmr_external_import.title" | translate }}
-</div>
+</h2>
 
 <mat-dialog-content class="d-flex flex-column gap-3 justify-content-center align-items-center">
     <form [formGroup]="form">
@@ -11,12 +11,16 @@
             @if (form.get("url")!.hasError('required')) {
                 <mat-error>{{ "ecmr_external_import.required_error" | translate }}</mat-error>
             }
+            <mat-icon matIconPrefix>link</mat-icon>
         </mat-form-field>
-
-        <mat-dialog-actions [align]="'end'">
-            <button mat-flat-button color="primary" (click)="submit()">{{ "ecmr_external_import.import" | translate }}</button>
-            <button mat-flat-button color="warn" mat-dialog-close>{{ "common.cancel" | translate }}</button>
-        </mat-dialog-actions>
-
     </form>
 </mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button matButton class="mat-warn" mat-dialog-close>
+        <mat-icon>close</mat-icon>
+        {{ "common.cancel" | translate }}
+    </button>
+    <button matButton (click)="submit()">
+        {{ "ecmr_external_import.import" | translate }}
+    </button>
+</mat-dialog-actions>

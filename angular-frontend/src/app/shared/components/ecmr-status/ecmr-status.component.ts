@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { EcmrStatus } from '../../../core/models/EcmrStatus';
 import { MatTooltip } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
@@ -14,7 +14,6 @@ import { EcmrStatusRingComponent } from './ecmr-status-ring/ecmr-status-ring.com
 
 @Component({
     selector: 'app-ecmr-status',
-    standalone: true,
     imports: [
         MatTooltip,
         TranslateModule,
@@ -25,15 +24,16 @@ import { EcmrStatusRingComponent } from './ecmr-status-ring/ecmr-status-ring.com
 })
 export class EcmrStatusComponent {
 
-    @Input() status: EcmrStatus | undefined;
-    @Input() isMobile: boolean;
+    readonly status = input<EcmrStatus>();
+    readonly isMobile = input<boolean>();
     protected readonly EcmrStatus = EcmrStatus;
 
     getIcon() {
-        if (this.status === EcmrStatus.NEW) return 'fiber_new'
-        else if (this.status === EcmrStatus.LOADING) return 'forklift'
-        else if (this.status === EcmrStatus.IN_TRANSPORT) return 'local_shipping'
-        else if (this.status === EcmrStatus.DELIVERED) return 'where_to_vote'
+        const status = this.status();
+        if (status === EcmrStatus.NEW) return 'fiber_new'
+        else if (status === EcmrStatus.LOADING) return 'forklift'
+        else if (status === EcmrStatus.IN_TRANSPORT) return 'local_shipping'
+        else if (status === EcmrStatus.DELIVERED) return 'where_to_vote'
         return '';
     }
 }

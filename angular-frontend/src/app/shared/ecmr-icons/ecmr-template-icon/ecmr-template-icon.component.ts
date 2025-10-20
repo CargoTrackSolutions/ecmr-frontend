@@ -6,14 +6,13 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-ecmr-template-icon',
-  standalone: true,
-  imports: [],
-  templateUrl: './ecmr-template-icon.component.html',
-  styleUrl: './ecmr-template-icon.component.scss'
+    selector: 'app-ecmr-template-icon',
+    imports: [],
+    templateUrl: './ecmr-template-icon.component.html',
+    styleUrl: './ecmr-template-icon.component.scss'
 })
 export class EcmrTemplateIconComponent {
 

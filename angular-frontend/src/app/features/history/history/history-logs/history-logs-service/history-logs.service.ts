@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HistoryLog } from '../../../../../core/models/HistoryLog';
 import { environment } from '../../../../../../environments/environment';
@@ -15,9 +15,8 @@ import { environment } from '../../../../../../environments/environment';
     providedIn: 'root'
 })
 export class HistoryLogsService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) {
-    }
 
     getHistoryLogs(ecmrId: string) {
         return this.http.get<HistoryLog[]>(`${environment.backendUrl}/history/${ecmrId}`)

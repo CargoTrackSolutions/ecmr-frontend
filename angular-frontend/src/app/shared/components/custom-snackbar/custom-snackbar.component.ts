@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { MatIcon } from '@angular/material/icon';
 import { MatProgressBar } from '@angular/material/progress-bar';
@@ -14,7 +14,6 @@ import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-custom-snackbar',
-    standalone: true,
     templateUrl: './custom-snackbar.component.html',
     imports: [
         MatIcon,
@@ -24,6 +23,8 @@ import { TranslateModule } from '@ngx-translate/core';
     styleUrl: './custom-snackbar.component.scss'
 })
 export class CustomSnackbarComponent {
+    data = inject(MAT_SNACK_BAR_DATA);
+
 
     message: string;
     type: string;
@@ -32,7 +33,9 @@ export class CustomSnackbarComponent {
 
     progress = 0;
 
-    constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) {
+    constructor() {
+        const data = this.data;
+
         this.message = data.message;
         this.type = data.type;
         this.duration = data.duration;

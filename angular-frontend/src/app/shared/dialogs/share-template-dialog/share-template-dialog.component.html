@@ -14,8 +14,7 @@
                 <td mat-cell *matCellDef="let row">
                     <mat-checkbox (click)="$event.stopPropagation()"
                                   (change)="$event ? selection.toggle(row) : null"
-                                  [checked]="selection.isSelected(row)">
-                    </mat-checkbox>
+                                  [checked]="selection.isSelected(row)"/>
                 </td>
             </ng-container>
             <ng-container matColumnDef="firstName">
@@ -35,12 +34,12 @@
         </table>
     </div>
 </mat-dialog-content>
-<mat-dialog-actions [align]="'end'">
-    <button mat-flat-button color="warn" (click)="close()">
+<mat-dialog-actions align="end">
+    <button matButton class="mat-warn" (click)="close()">
         {{ "common.close" | translate }}
         <mat-icon>close</mat-icon>
     </button>
-    <button mat-flat-button color="primary" [disabled]="selection.isEmpty()" (click)="shareTemplate()">
+    <button matButton [disabled]="selection.isEmpty()" (click)="shareTemplate()">
         {{ "common.share" | translate }}
         <mat-icon>send</mat-icon>
     </button>

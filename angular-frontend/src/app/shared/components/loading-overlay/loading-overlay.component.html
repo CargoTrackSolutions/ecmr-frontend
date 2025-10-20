@@ -1,4 +1,5 @@
-<div class="spinner-wrapper" *ngIf="loading" [ngClass]="{'show': showSpinner}">
+@if (loading()) {
+    <div class="spinner-wrapper" [ngClass]="{'show': showSpinner}">
     <div class="spinner">
         <svg class="rotating-svg" id="ring-three" width="100%" height="100%" viewBox="0 0 3000 3000" version="1.1" xmlns="http://www.w3.org/2000/svg"
              style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
@@ -22,4 +23,5 @@
             </g>
         </svg>
     </div>
-</div>
+    </div>
+}

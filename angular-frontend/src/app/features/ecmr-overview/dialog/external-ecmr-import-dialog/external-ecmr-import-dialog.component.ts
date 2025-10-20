@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatError, MatFormField, MatLabel, MatPrefix } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
 import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
@@ -19,10 +19,10 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { AuthenticatedUser } from '../../../../core/models/AuthenticatedUser';
 import { TranslatePipe } from '@ngx-translate/core';
 import { EcmrRole } from '../../../../core/enums/EcmrRole';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-external-ecmr-import-dialog',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatFormField,
@@ -34,12 +34,20 @@ import { EcmrRole } from '../../../../core/enums/EcmrRole';
         MatDialogTitle,
         TranslatePipe,
         MatDialogActions,
-        MatError
+        MatError,
+        MatIcon,
+        MatPrefix
     ],
     templateUrl: './external-ecmr-import-dialog.component.html',
     styleUrl: './external-ecmr-import-dialog.component.scss'
 })
 export class ExternalEcmrImportDialogComponent {
+    private snackBarService = inject(SnackbarService);
+    private loadingService = inject(LoadingService);
+    private ecmrService = inject(EcmrService);
+    authService = inject(AuthService);
+    private matDialogRef = inject<MatDialogRef<ExternalEcmrImportDialogComponent>>(MatDialogRef);
+
 
     form: FormGroup = new FormGroup({
         url: new FormControl('', Validators.required)
@@ -52,12 +60,7 @@ export class ExternalEcmrImportDialogComponent {
 
     authenticatedUser: AuthenticatedUser | null;
 
-    constructor(private snackBarService: SnackbarService,
-                private loadingService: LoadingService,
-                private ecmrService: EcmrService,
-                public authService: AuthService,
-                private matDialogRef: MatDialogRef<ExternalEcmrImportDialogComponent>
-    ) {
+    constructor() {
         this.authService.getAuthenticatedUser().subscribe(user => {
             this.authenticatedUser = user;
         });

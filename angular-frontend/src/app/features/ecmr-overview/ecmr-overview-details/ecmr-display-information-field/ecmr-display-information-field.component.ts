@@ -6,13 +6,12 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatChip, MatChipSet } from '@angular/material/chips';
 
 @Component({
     selector: 'app-ecmr-display-information-field',
-    standalone: true,
     imports: [
         TranslateModule,
         MatChipSet,
@@ -23,7 +22,7 @@ import { MatChip, MatChipSet } from '@angular/material/chips';
 })
 export class EcmrDisplayInformationFieldComponent {
 
-    @Input() label: string;
-    @Input() displayedContent: string | string[] | number | null | Date;
+    readonly label = input<string>();
+    readonly displayedContent = input<string | string[] | number | null | Date>();
     protected readonly Array = Array;
 }

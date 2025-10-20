@@ -1,8 +1,8 @@
 <mat-toolbar>
     <mat-toolbar-row class="d-flex flex-row justify-content-between">
-        <mat-label>{{ 'user_overview.title' | translate }}</mat-label>
+        <h6>{{ 'user_overview.title' | translate }}</h6>
         <div class="d-flex flex-row gap-2 align-items-center">
-            <mat-form-field class="search-field" subscriptSizing="dynamic">
+            <mat-form-field class="search-field" subscriptSizing="dynamic" appearance="outline">
                 <mat-label>{{ 'group_overview.search' | translate }}</mat-label>
                 <input matInput (keyup)="applyFilter($event)">
                 <mat-icon matSuffix>search</mat-icon>
@@ -60,4 +60,4 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="row.deactivated ? 'deactivated' : '' "></tr>
     </table>
 </div>
-<mat-paginator showFirstLastButtons [pageSize]="10" [pageSizeOptions]="[5,10,20]" class="mat-paginator-sticky"></mat-paginator>
+<mat-paginator showFirstLastButtons [pageSize]="10" [pageSizeOptions]="[5,10,20]" class="mat-paginator-sticky"/>

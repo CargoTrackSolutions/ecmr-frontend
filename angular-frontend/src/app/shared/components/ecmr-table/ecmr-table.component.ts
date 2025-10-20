@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, input, model, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { MatButton, MatIconButton, MatMiniFabButton } from '@angular/material/button';
-import { MatCard, MatCardContent } from '@angular/material/card';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatCard } from '@angular/material/card';
 import {
     MatCell,
     MatCellDef,
@@ -25,37 +25,23 @@ import {
     MatTableModule
 } from '@angular/material/table';
 import { MatCheckbox } from '@angular/material/checkbox';
-import { MatDivider } from '@angular/material/divider';
-import { MatFormField, MatLabel, MatPrefix, MatSuffix } from '@angular/material/form-field';
+import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { MatSort, MatSortHeader, MatSortModule, Sort} from '@angular/material/sort';
-import { MatTooltip } from '@angular/material/tooltip';
-import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
+import { MatSort, MatSortHeader, MatSortModule, Sort } from '@angular/material/sort';
+import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { Ecmr } from '../../../core/models/Ecmr';
-import { MatDialog, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
-import { MatTabBody, MatTabHeader } from '@angular/material/tabs';
-import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import {
-    MatAccordion,
-    MatExpansionPanel,
-    MatExpansionPanelDescription,
-    MatExpansionPanelHeader,
-    MatExpansionPanelTitle
-} from '@angular/material/expansion';
-import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
-import { CdkScrollable } from '@angular/cdk/overlay';
 import { ShowColumns } from '../../../features/ecmr-overview/show-columns';
 import { FilterRequest } from '../../../features/ecmr-overview/filter-request';
 import { EcmrService } from '../../services/ecmr.service';
 import { EcmrStatus } from '../../../core/models/EcmrStatus';
 import { EcmrTransportType } from '../../../core/models/EcmrTransportType';
-import { EcmrOverviewDetailsComponent } from '../../../features/ecmr-overview/ecmr-overview-details/ecmr-overview-details.component';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { debounceTime, Subscription } from 'rxjs';
@@ -68,7 +54,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
     selector: 'app-ecmr-table',
-    standalone: true,
     imports: [
         MatToolbar,
         MatToolbarRow,
@@ -76,8 +61,6 @@ import { SelectionModel } from '@angular/cdk/collections';
         MatButton,
         MatLabel,
         MatTable,
-        MatTabHeader,
-        MatTabBody,
         MatHeaderCell,
         MatHeaderCellDef,
         MatCellDef,
@@ -90,35 +73,16 @@ import { SelectionModel } from '@angular/cdk/collections';
         MatTableModule,
         MatInput,
         MatFormField,
-        MatPrefix,
         MatSuffix,
         MatSort,
         MatSortHeader,
         MatSortModule,
         MatIconButton,
-        MatButtonToggleGroup,
-        MatButtonToggle,
         MatCheckbox,
         MatSelect,
         ReactiveFormsModule,
         MatOption,
-        MatAccordion,
-        MatExpansionPanel,
-        MatExpansionPanelTitle,
-        MatExpansionPanelDescription,
-        MatExpansionPanelHeader,
-        MatDialogContent,
-        MatDialogTitle,
-        MatTooltip,
-        MatMenu,
-        MatMenuTrigger,
-        MatMenuItem,
-        NgIf,
         MatCard,
-        MatCardContent,
-        MatMiniFabButton,
-        CdkScrollable,
-        MatDivider,
         CdkDropList,
         CdkDrag,
         TranslateModule,
@@ -126,8 +90,7 @@ import { SelectionModel } from '@angular/cdk/collections';
         CdkAccordionModule,
         CommonModule,
         MatPaginator,
-        EcmrOverviewDetailsComponent,
-        EcmrStatusComponent,
+        EcmrStatusComponent
     ],
     templateUrl: './ecmr-table.component.html',
     animations: [
@@ -140,6 +103,12 @@ import { SelectionModel } from '@angular/cdk/collections';
     styleUrl: './ecmr-table.component.scss'
 })
 export class EcmrTableComponent implements OnInit {
+    dialog = inject(MatDialog);
+    snackbar = inject(MatSnackBar);
+    private ecmrService = inject(EcmrService);
+    private breakpointObserver = inject(BreakpointObserver);
+    dateFormatService = inject(DateFormatService);
+
 
     isMobile: boolean = false;
     breakpointSubscription: Subscription | undefined;
@@ -188,13 +157,13 @@ export class EcmrTableComponent implements OnInit {
         lastEditor: new FormControl<string | null>(null),
     })
 
-    @Input() quickViewButtons: TemplateRef<object>;
-    @Input() actionButtons: TemplateRef<object>;
-    @Input() mobileActionButtons: TemplateRef<object>;
-    @Input() ecmr: Ecmr[];
-    @Input() initialSort: Sort = {active: '', direction: ''};
-    @Input() ecmrType: EcmrType = EcmrType.ECMR;
-    @Input() enableMultiselection = false;
+    readonly quickViewButtons = input<TemplateRef<object>>();
+    readonly actionButtons = input<TemplateRef<object>>();
+    readonly mobileActionButtons = input<TemplateRef<object>>();
+    readonly ecmr = model<Ecmr[]>();
+    readonly initialSort = input<Sort>({active: '', direction: ''});
+    readonly ecmrType = input<EcmrType>(EcmrType.ECMR);
+    readonly enableMultiselection = input<boolean>(false);
     @Output() selectedEcmr = new EventEmitter<Ecmr>();
     @Output() filterRequest = new EventEmitter<FilterRequest>();
     @Output() selectedEcmrs = new EventEmitter<Ecmr[]>();
@@ -202,13 +171,6 @@ export class EcmrTableComponent implements OnInit {
     toggledColumns = [this.showColumns.referenceId, this.showColumns.from, this.showColumns.to, this.showColumns.transportType, this.showColumns.lastEditor, this.showColumns.status, this.showColumns.lastEditDate, this.showColumns.creationDate];
 
     selection = new SelectionModel<Ecmr>(true, []);
-
-    constructor(public dialog: MatDialog,
-                public snackbar: MatSnackBar,
-                private ecmrService: EcmrService,
-                private breakpointObserver: BreakpointObserver,
-                public dateFormatService: DateFormatService) {
-    }
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort = new MatSort();
@@ -281,7 +243,7 @@ export class EcmrTableComponent implements OnInit {
 
     updateDisplayedColumns() {
         let filteredColumns = this.columns.filter(column => this.showColumns[column as keyof ShowColumns]);
-        if(this.enableMultiselection) {
+        if (this.enableMultiselection()) {
           filteredColumns = ['select', ...filteredColumns];
         }
 
@@ -290,9 +252,9 @@ export class EcmrTableComponent implements OnInit {
 
     sortData() {
         this.filterRequest.emit(this.getFilterValues())
-        this.initialSort.active = this.sort.active || '';
-        this.initialSort.direction = this.sort.direction;
-        this.ecmrService.saveEcmrSort(this.initialSort, this.ecmrType);
+        this.initialSort().active = this.sort.active || '';
+        this.initialSort().direction = this.sort.direction;
+        this.ecmrService.saveEcmrSort(this.initialSort(), this.ecmrType());
     }
 
     //DragDrop function to move and save columns

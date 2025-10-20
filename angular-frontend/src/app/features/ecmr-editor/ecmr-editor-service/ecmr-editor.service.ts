@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { EcmrConsignment } from '../../../core/models/EcmrConsignment';
 import { Ecmr } from '../../../core/models/Ecmr';
 import { HttpClient } from '@angular/common/http';
@@ -21,9 +21,8 @@ import { EcmrStatus } from '../../../core/models/EcmrStatus';
     providedIn: 'root'
 })
 export class EcmrEditorService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) {
-    }
 
     saveEcmr(ecmr: Ecmr, groups: GroupFlat[]) {
         const groupIds = groups.map(group => group.id);

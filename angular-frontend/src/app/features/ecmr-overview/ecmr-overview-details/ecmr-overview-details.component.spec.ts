@@ -48,7 +48,7 @@ describe('EcmrOverviewDetailsComponent', () => {
         fixture = TestBed.createComponent(EcmrOverviewDetailsComponent);
         component = fixture.componentInstance;
 
-        component.selectedEcmr = {
+        component.selectedEcmr.set({
             ecmrId: 'FhG-IML-504',
             ecmrConsignment: {
                 senderInformation: {
@@ -210,7 +210,7 @@ describe('EcmrOverviewDetailsComponent', () => {
                 },
                 referenceIdentificationNumber: {value: 'FhG-IML-504'},
             }
-        }
+        })
         fixture.detectChanges();
     });
 

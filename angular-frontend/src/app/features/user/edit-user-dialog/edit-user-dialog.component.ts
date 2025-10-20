@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { AsyncPipe, KeyValuePipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, KeyValuePipe, NgClass } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -43,7 +43,6 @@ import { PhoneValidatorService } from '../../../shared/services/phone-format.ser
 
 @Component({
     selector: 'app-edit-user-dialog',
-    standalone: true,
     imports: [
         MatDialogActions,
         MatDialogContent,
@@ -52,7 +51,6 @@ import { PhoneValidatorService } from '../../../shared/services/phone-format.ser
         MatFormField,
         MatInput,
         ReactiveFormsModule,
-        NgIf,
         MatLabel,
         MatIcon,
         MatSelect,
@@ -72,9 +70,16 @@ import { PhoneValidatorService } from '../../../shared/services/phone-format.ser
         MatTreeNodeToggle
     ],
     templateUrl: './edit-user-dialog.component.html',
-    styleUrl: './edit-user-dialog.component.scss',
+    styleUrl: './edit-user-dialog.component.scss'
 })
 export class EditUserDialogComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<EditUserDialogComponent>>(MatDialogRef);
+    private groupService = inject(GroupService);
+    private userService = inject(UserService);
+    private snackbarService = inject(SnackbarService);
+    private loadingService = inject(LoadingService);
+    data = inject<EcmrUser>(MAT_DIALOG_DATA);
+
 
     filteredCountries: Observable<string[]>;
     countries = Object.keys(CountryCode);
@@ -122,13 +127,10 @@ export class EditUserDialogComponent implements OnInit {
     isEditMode: boolean = false;
     isAuthenticatedUser: boolean;
 
-    constructor(public dialogRef: MatDialogRef<EditUserDialogComponent>,
-                private groupService: GroupService,
-                private userService: UserService,
-                private snackbarService: SnackbarService,
-                private loadingService: LoadingService,
-                authService: AuthService,
-                @Inject(MAT_DIALOG_DATA) public data: EcmrUser) {
+    constructor() {
+        const authService = inject(AuthService);
+        const data = this.data;
+
         if (data?.id) {
             this.user = data;
             this.isEditMode = true;

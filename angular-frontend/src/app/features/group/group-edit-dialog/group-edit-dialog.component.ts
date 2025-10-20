@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
@@ -14,7 +14,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatInput } from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatOption, MatSelect } from '@angular/material/select';
-import { MatIcon } from '@angular/material/icon';
 import { Group } from '../../../core/models/Group';
 import { GroupService } from '../group.service';
 import { GroupCreation } from '../../../core/models/GroupCreation';
@@ -22,10 +21,10 @@ import { GroupUpdate } from '../../../core/models/GroupUpdate';
 import { catchError, filter, of } from 'rxjs';
 import { NgClass } from '@angular/common';
 import { SnackbarService } from '../../../core/services/snackbar.service';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-group-edit-dialog',
-    standalone: true,
     imports: [
         MatDialogContent,
         MatDialogTitle,
@@ -37,15 +36,23 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
         ReactiveFormsModule,
         MatSelect,
         MatLabel,
-        MatIcon,
         MatOption,
         MatError,
-        NgClass
+        NgClass,
+        MatIcon
     ],
     templateUrl: './group-edit-dialog.component.html',
     styleUrl: './group-edit-dialog.component.scss'
 })
 export class GroupEditDialogComponent {
+    dialogRef = inject<MatDialogRef<GroupEditDialogComponent>>(MatDialogRef);
+    private groupService = inject(GroupService);
+    private snackBarService = inject(SnackbarService);
+    data = inject<{
+        parentGroup: Group;
+        groupToEdit: Group;
+    }>(MAT_DIALOG_DATA);
+
 
     groupFormGroup = new FormGroup({
         name: new FormControl<string>('', [Validators.required]),
@@ -58,9 +65,9 @@ export class GroupEditDialogComponent {
     currentGroup: Group;
     isEditMode: boolean = false;
 
-    constructor(public dialogRef: MatDialogRef<GroupEditDialogComponent>,
-                private groupService: GroupService, private snackBarService: SnackbarService,
-                @Inject(MAT_DIALOG_DATA) public data: { parentGroup: Group, groupToEdit: Group }) {
+    constructor() {
+        const data = this.data;
+
         if (data.groupToEdit) {
             this.currentGroup = data.groupToEdit;
             this.groupFormGroup.patchValue(data.groupToEdit);

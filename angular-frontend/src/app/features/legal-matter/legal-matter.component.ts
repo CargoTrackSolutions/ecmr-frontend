@@ -6,30 +6,27 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import {Component, OnInit} from '@angular/core';
-import {MatLabel} from "@angular/material/form-field";
-import {MatToolbar, MatToolbarRow} from "@angular/material/toolbar";
-import {TranslateModule, TranslateService} from "@ngx-translate/core";
-import { HttpClient } from "@angular/common/http";
+import { Component, inject, OnInit } from '@angular/core';
+import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-legal-matter',
-  standalone: true,
-  imports: [
-    MatLabel,
-    MatToolbar,
-    MatToolbarRow,
-    TranslateModule
-  ],
-  templateUrl: './legal-matter.component.html',
-  styleUrl: './legal-matter.component.scss'
+    selector: 'app-legal-matter',
+    imports: [
+        MatToolbar,
+        MatToolbarRow,
+        TranslateModule
+    ],
+    templateUrl: './legal-matter.component.html',
+    styleUrl: './legal-matter.component.scss'
 })
 export class LegalMatterComponent implements OnInit {
+    private http = inject(HttpClient);
+    private translateService = inject(TranslateService);
+
 
   imprintText: string;
-
-  constructor(private http: HttpClient, private translateService: TranslateService) {
-  }
 
   ngOnInit() {
     this.translateService.onLangChange.subscribe(data => {

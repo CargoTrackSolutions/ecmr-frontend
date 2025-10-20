@@ -6,18 +6,15 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DateTimeService {
+    private datePipe = inject(DatePipe);
 
-    constructor(
-        private datePipe: DatePipe
-    ) {
-    }
 
     transformDate(input: any) {
         const date = new Date(input);

@@ -1,20 +1,20 @@
 <mat-drawer-container [hasBackdrop]="false" class="h-100">
-    <mat-drawer [position]="'end'" [opened]="selectedEcmr !== null" class="detail-view" [ngClass]="isMobile?'detail-view-mobile' :
-    'detail-view'" [mode]="'side'">
+    <mat-drawer [position]="'end'" [opened]="selectedEcmr !== null" class="detail-view"
+                [class.detail-view-mobile]="isMobile" [mode]="'side'">
         @if (selectedEcmr) {
             <app-ecmr-overview-details (closeDetails)="closeDetailView($event)"
                                        [quickViewButtons]="quickViewButtons"
                                        [mobileQuickViewButtons]="mobileQuickViewButtons"
                                        [isMobile]="isMobile"
                                        [selectedEcmr]="selectedEcmr"
-                                       [currentSealedDocument]="currentSealedDocument"></app-ecmr-overview-details>
+                                       [currentSealedDocument]="currentSealedDocument"/>
         }
     </mat-drawer>
     <article class="h-100">
         <section class="d-flex flex-column h-100 overflow-hidden">
             <mat-toolbar>
                 <mat-toolbar-row>
-                    <mat-label>{{ 'archive.title' | translate }}</mat-label>
+                    <h6>{{ 'archive.title' | translate }}</h6>
                 </mat-toolbar-row>
             </mat-toolbar>
 
@@ -24,7 +24,7 @@
                             [mobileActionButtons]="mobileActionButtons"
                             [actionButtons]="actionButtons"
                             [initialSort]="initialSort" [ecmrType]="ecmrType"
-                            class="h-100 overflow-x-auto overflow-y-hidden"></app-ecmr-table>
+                            class="h-100 overflow-x-auto overflow-y-hidden"/>
         </section>
     </article>
 
@@ -75,7 +75,7 @@
     </ng-template>
     <ng-template #actionButtons let-ecmr>
         <button mat-icon-button
-                (click)="historyOfEcmr(ecmr.ecmrId,ecmr.ecmrConsignment.referenceIdentificationNumber.value);$event.stopPropagation()"
+                (click)="historyOfEcmr(ecmr.ecmrId, ecmr.ecmrConsignment.referenceIdentificationNumber.value);$event.stopPropagation()"
                 matTooltip="{{'overview.tooltips.history' |
         translate}}">
             <mat-icon>history</mat-icon>

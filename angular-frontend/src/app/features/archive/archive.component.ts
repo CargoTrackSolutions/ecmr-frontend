@@ -6,10 +6,9 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { EcmrTableComponent } from '../../shared/components/ecmr-table/ecmr-table.component';
 import { MatButton, MatIconButton } from '@angular/material/button';
-import { MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { TranslateModule } from '@ngx-translate/core';
@@ -26,7 +25,6 @@ import { EcmrPage } from '../../core/models/EcmrPage';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { MatTooltip } from '@angular/material/tooltip';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { NgClass } from '@angular/common';
 import { EcmrStatus } from '../../core/models/EcmrStatus';
 import { Router } from '@angular/router';
 import { EcmrType } from '../../core/models/EcmrType';
@@ -38,12 +36,10 @@ import { SealedDocumentService } from '../../shared/services/sealed-document.ser
 
 @Component({
     selector: 'app-archive',
-    standalone: true,
     imports: [
         EcmrTableComponent,
         MatButton,
         MatIcon,
-        MatLabel,
         MatToolbar,
         MatToolbarRow,
         TranslateModule,
@@ -55,12 +51,20 @@ import { SealedDocumentService } from '../../shared/services/sealed-document.ser
         MatMenuItem,
         MatTooltip,
         MatMenuTrigger,
-        NgClass
     ],
     templateUrl: './archive.component.html',
     styleUrl: './archive.component.scss'
 })
 export class ArchiveComponent implements OnInit, AfterViewInit {
+    dialog = inject(MatDialog);
+    snackbarService = inject(SnackbarService);
+    ecmrService = inject(EcmrService);
+    private breakpointObserver = inject(BreakpointObserver);
+    protected ecmrActionService = inject(EcmrActionService);
+    private router = inject(Router);
+    private loadingService = inject(LoadingService);
+    private sealedDocumentService = inject(SealedDocumentService);
+
     @ViewChild(EcmrTableComponent) table: EcmrTableComponent;
 
     selectedEcmr: Ecmr | null = null;
@@ -87,16 +91,6 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
     initialSort: Sort = {active: '', direction: ''};
     readonly ecmrType: EcmrType = EcmrType.ARCHIVED;
 
-    constructor(public dialog: MatDialog,
-                public snackbarService: SnackbarService,
-                public ecmrService: EcmrService,
-                private breakpointObserver: BreakpointObserver,
-                protected ecmrActionService: EcmrActionService,
-                private router: Router,
-                private loadingService: LoadingService,
-                private sealedDocumentService: SealedDocumentService) {
-    }
-
     ngOnInit() {
         this.breakpointSubscription = this.breakpointObserver.observe([
             Breakpoints.Handset,
@@ -122,7 +116,7 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
 
     updateTableData(data: EcmrPage) {
         this.table.dataSource.data = data.ecmrs;
-        this.table.ecmr = data.ecmrs;
+        this.table.ecmr.set(data.ecmrs)
         this.ecmr = data.ecmrs;
         this.table.paginator.length = data.totalElements;
     }

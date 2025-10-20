@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpBackend, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Ecmr } from '../../../core/models/Ecmr';
 import { environment } from '../../../../environments/environment';
@@ -22,8 +22,12 @@ import { SealedDocumentWithoutEcmr } from '../../../core/models/SealedDocumentWi
     providedIn: 'root'
 })
 export class ExternalUserService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient, handler: HttpBackend) {
+
+    constructor() {
+        const handler = inject(HttpBackend);
+
         this.http = new HttpClient(handler);
     }
 

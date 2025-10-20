@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EcmrUser } from '../../core/models/EcmrUser';
 import { environment } from '../../../environments/environment';
@@ -19,9 +19,8 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class UserService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) {
-    }
 
     getAllUsers() {
         return this.http.get<EcmrUser[]>(`${environment.backendUrl}/user`)

@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -21,9 +21,17 @@ import { GroupEditDialogComponent } from '../group-edit-dialog/group-edit-dialog
 import { MatInput } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { filter, of, switchMap } from 'rxjs';
-import { MatTree, MatTreeFlatDataSource, MatTreeFlattener, MatTreeNode, MatTreeNodeDef, MatTreeNodePadding, MatTreeNodeToggle } from '@angular/material/tree';
+import {
+    MatTree,
+    MatTreeFlatDataSource,
+    MatTreeFlattener,
+    MatTreeNode,
+    MatTreeNodeDef,
+    MatTreeNodePadding,
+    MatTreeNodeToggle
+} from '@angular/material/tree';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { FlatGroupNode } from '../../../core/models/FlatGroupNode';
 import { FormsModule } from '@angular/forms';
 import { GroupChangeParentDialogComponent } from '../group-change-parent-dialog/group-change-parent-dialog.component';
@@ -33,7 +41,6 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
     selector: 'app-group-overview',
-    standalone: true,
     imports: [
         MatToolbar,
         MatButton,
@@ -53,13 +60,18 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
         MatTreeNodePadding,
         MatTreeNodeToggle,
         NgTemplateOutlet,
-        FormsModule,
-        NgIf
+        FormsModule
     ],
     templateUrl: './group-overview.component.html',
     styleUrl: './group-overview.component.scss'
 })
 export class GroupOverviewComponent implements OnInit {
+    private groupService = inject(GroupService);
+    private matDialog = inject(MatDialog);
+    private router = inject(Router);
+    private snackbarService = inject(SnackbarService);
+    private translateService = inject(TranslateService);
+
 
     searchText: string = '';
 
@@ -92,13 +104,6 @@ export class GroupOverviewComponent implements OnInit {
     originalData: Group[] = [];
 
     hasChild = (_: number, node: FlatGroupNode) => node.expandable;
-
-    constructor(private groupService: GroupService,
-                private matDialog: MatDialog,
-                private router: Router,
-                private snackbarService: SnackbarService,
-                private translateService: TranslateService) {
-    }
 
     ngOnInit(): void {
         this.groupService.getAllGroups(true).subscribe(data => {

@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { TemplateUser } from '../../../core/models/TemplateUser';
@@ -15,9 +15,8 @@ import { TemplateUser } from '../../../core/models/TemplateUser';
   providedIn: 'root'
 })
 export class TemplateOverviewService {
+    private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {
-  }
 
   getAllTemplates() {
     return this.http.get<TemplateUser[]>(`${environment.backendUrl}/template`)

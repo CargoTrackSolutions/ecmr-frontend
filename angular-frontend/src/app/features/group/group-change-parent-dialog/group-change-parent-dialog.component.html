@@ -4,7 +4,7 @@
         <mat-form-field class="row">
             <mat-label>{{ "group_change_parent.parent_group" | translate }}</mat-label>
             <mat-select [formControl]="parentId" [compareWith]="compareGroupFn">
-                <mat-option [value]="null"></mat-option>
+                <mat-option [value]="null"/>
                 @for (group of groups; track group) {
                     <mat-option [value]="group">{{ group.name }}</mat-option>
                 }
@@ -15,7 +15,13 @@
         </mat-form-field>
     </div>
 </mat-dialog-content>
-<mat-dialog-actions [align]="'end'">
-    <button mat-flat-button color="warn" (click)="closeDialog()">{{ "common.cancel" | translate }}</button>
-    <button mat-flat-button color="primary" (click)="saveGroup()">{{ "common.save" | translate }}</button>
+<mat-dialog-actions align="end">
+    <button matButton class="mat-warn" (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+        {{ "common.cancel" | translate }}
+    </button>
+    <button matButton (click)="saveGroup()">
+        <mat-icon>save</mat-icon>
+        {{ "common.save" | translate }}
+    </button>
 </mat-dialog-actions>

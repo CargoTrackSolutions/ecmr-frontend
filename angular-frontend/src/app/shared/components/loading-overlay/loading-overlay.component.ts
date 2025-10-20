@@ -6,26 +6,24 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { NgClass, NgIf } from '@angular/common';
+import { Component, input, OnChanges, SimpleChanges } from '@angular/core';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-loading-overlay',
-    standalone: true,
     imports: [
-        NgClass,
-        NgIf
+        NgClass
     ],
     templateUrl: './loading-overlay.component.html',
     styleUrl: './loading-overlay.component.scss'
 })
 export class LoadingOverlayComponent implements OnChanges {
-    @Input() loading: boolean | null = false
+    readonly loading = input<boolean | null>(false);
     showSpinner: boolean = false;
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['loading']) {
-            if (this.loading) {
+            if (this.loading()) {
                 setTimeout(() => this.showSpinner = true, 0);
             } else {
                 this.showSpinner = false;

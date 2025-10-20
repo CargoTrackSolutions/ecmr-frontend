@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import {
     MatCell,
@@ -42,7 +42,6 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
     selector: 'app-user-overview',
-    standalone: true,
     imports: [
         MatButton,
         MatCell,
@@ -74,6 +73,10 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
     styleUrl: './user-overview.component.scss'
 })
 export class UserOverviewComponent implements OnInit {
+    private userService = inject(UserService);
+    private matDialog = inject(MatDialog);
+    private snackBarService = inject(SnackbarService);
+
 
     dataSource = new MatTableDataSource<EcmrUser>();
 
@@ -86,7 +89,9 @@ export class UserOverviewComponent implements OnInit {
 
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private userService: UserService, private matDialog: MatDialog, authService: AuthService, private snackBarService: SnackbarService) {
+    constructor() {
+        const authService = inject(AuthService);
+
         authService.getAuthenticatedUser().subscribe(user => {
             if(user) this.authenticatedUser = user
         });
@@ -142,7 +147,8 @@ export class UserOverviewComponent implements OnInit {
 
     createNewUser() {
         this.matDialog.open(EditUserDialogComponent, {
-            width: '90vw',
+            width: '60vw',
+            maxWidth: '90vw'
         }).afterClosed().pipe(
             filter(result => !!result),
             switchMap(() => this.userService.getAllUsers())
@@ -153,7 +159,8 @@ export class UserOverviewComponent implements OnInit {
 
     editUser(user: EcmrUser) {
         this.matDialog.open(EditUserDialogComponent, {
-            width: '90vw',
+            width: '60vw',
+            maxWidth: '90vw',
             data: user
         }).afterClosed().pipe(
             filter(result => !!result),

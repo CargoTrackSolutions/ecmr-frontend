@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { LoadingService } from '../../core/services/loading.service';
 import { EcmrService } from './ecmr.service';
@@ -17,12 +17,11 @@ import { ExternalUserService } from '../../features/ecmr-editor/ecmr-editor-serv
     providedIn: 'root'
 })
 export class EcmrActionService {
+    private loadingService = inject(LoadingService);
+    private ecmrService = inject(EcmrService);
+    private externalUserService = inject(ExternalUserService);
+    private router = inject(Router);
 
-    constructor(private loadingService: LoadingService,
-                private ecmrService: EcmrService,
-                private externalUserService: ExternalUserService,
-                private router: Router) {
-    }
 
     downloadPdf(ecmrId: string, userToken: string | null, tan: string | null, referenceId: string) {
         this.loadingService.showLoaderUntilCompleted(

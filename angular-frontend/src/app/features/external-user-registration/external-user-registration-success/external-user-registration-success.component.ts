@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -19,7 +19,6 @@ import { Subscription, switchMap, tap } from 'rxjs';
 
 @Component({
     selector: 'app-external-user-registration-success',
-    standalone: true,
     imports: [
         MatInput,
         FormsModule,
@@ -38,6 +37,11 @@ import { Subscription, switchMap, tap } from 'rxjs';
     styleUrl: './external-user-registration-success.component.scss'
 })
 export class ExternalUserRegistrationSuccessComponent implements AfterViewInit {
+    private ecmrTanService = inject(ExternalUserService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
 
     carrierTan = new FormControl<string>('', Validators.required);
 
@@ -45,10 +49,7 @@ export class ExternalUserRegistrationSuccessComponent implements AfterViewInit {
     token: string;
     sub: Subscription;
 
-    constructor(private ecmrTanService: ExternalUserService,
-                private router: Router,
-                private route: ActivatedRoute,
-                private readonly changeDetectorRef: ChangeDetectorRef) {
+    constructor() {
         this.sub = this.route.params.pipe(
             tap(params => {
                 this.ecmrId = params['id'];

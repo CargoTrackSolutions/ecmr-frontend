@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Group } from '../../core/models/Group';
 import { environment } from '../../../environments/environment';
@@ -20,9 +20,8 @@ import { GroupFlat } from '../../core/models/GroupFlat';
     providedIn: 'root'
 })
 export class GroupService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) {
-    }
 
     getAllGroups(currentUserGroupsOnly: boolean) {
         const params = {'currentUserGroupsOnly': currentUserGroupsOnly}

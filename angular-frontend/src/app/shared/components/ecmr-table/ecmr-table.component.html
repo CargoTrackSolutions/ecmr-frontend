@@ -3,8 +3,8 @@
     @if (!isMobile) {
         <table class="ecmr-overview-table overflow-x-auto desktop" mat-table [dataSource]="dataSource" matSort
                (matSortChange)="sortData()"
-               [matSortActive]="initialSort.active"
-               [matSortDirection]="initialSort.direction"
+               [matSortActive]="initialSort().active"
+               [matSortDirection]="initialSort().direction"
                cdkDropList
                [cdkDropListSortPredicate]="sortPredicate"
                cdkDropListOrientation="horizontal"
@@ -35,7 +35,7 @@
                     <button mat-icon-button (click)="toggleColumnSelectionMenu()">
                         <mat-icon>tune</mat-icon>
                     </button>
-                    <ng-container *ngIf="showColumSelection">
+                    @if (showColumSelection) {
                         <mat-card class="position-fixed z-3">
                             <button mat-stroked-button (click)="closeColumnSelection()">{{
                                     'overview.columns_settings.configure_columns' |
@@ -95,18 +95,17 @@
                                 </button>
                             </div>
                         </mat-card>
-                    </ng-container>
+                    }
                     <button mat-icon-button (click)="toggleFilterListIcon()">
                         <mat-icon>{{ getFilterListIcon() }}</mat-icon>
                     </button>
                 </th>
                 <td id="icons" mat-cell *matCellDef="let ecmr; let i = index;">
-            <span>
+          <span>
             <!-- for parent to fill -->
-            <ng-container *ngTemplateOutlet="actionButtons; context: { $implicit: ecmr  }">
-            </ng-container>
+            <ng-container *ngTemplateOutlet="actionButtons(); context: { $implicit: ecmr  }"/>
 
-                </span>
+          </span>
                 </td>
             </ng-container>
 
@@ -117,10 +116,12 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.ref_id' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="referenceId">
-                            <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.referenceId.reset()">close</mat-icon>
-                        </mat-form-field>
+                        @if (this.showFilter) {
+                            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                                <input (keydown.space)="$event.stopPropagation()" matInput formControlName="referenceId">
+                                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.referenceId.reset()">close</mat-icon>
+                            </mat-form-field>
+                        }
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
@@ -135,10 +136,12 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.from' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="from">
-                            <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.from.reset()">close</mat-icon>
-                        </mat-form-field>
+                        @if (this.showFilter) {
+                            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                                <input (keydown.space)="$event.stopPropagation()" matInput formControlName="from">
+                                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.from.reset()">close</mat-icon>
+                            </mat-form-field>
+                        }
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
@@ -153,10 +156,12 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.to' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="to">
-                            <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.to.reset()">close</mat-icon>
-                        </mat-form-field>
+                        @if (this.showFilter) {
+                            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                                <input (keydown.space)="$event.stopPropagation()" matInput formControlName="to">
+                                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.to.reset()">close</mat-icon>
+                            </mat-form-field>
+                        }
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
@@ -171,18 +176,22 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.transport_type' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                            <mat-select formControlName="transportType">
-                                <mat-option [value]="null"></mat-option>
-                                <mat-option [value]="EcmrTransportType.National">{{ 'overview.table_header.transport_types.national' | translate }}
-                                </mat-option>
-                                <mat-option
-                                        [value]="EcmrTransportType.International">{{ 'overview.table_header.transport_types.international' |translate }}
-                                </mat-option>
-                            </mat-select>
-                            <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.transportType.reset(); $event.stopPropagation()">close
-                            </mat-icon>
-                        </mat-form-field>
+                        @if (this.showFilter) {
+                            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                                <mat-select formControlName="transportType">
+                                    <mat-option [value]="null"/>
+                                    <mat-option
+                                            [value]="EcmrTransportType.National">{{ 'overview.table_header.transport_types.national' | translate }}
+                                    </mat-option>
+                                    <mat-option
+                                            [value]="EcmrTransportType.International">{{ 'overview.table_header.transport_types.international' |translate }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.transportType.reset(); $event.stopPropagation()">
+                                    close
+                                </mat-icon>
+                            </mat-form-field>
+                        }
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
@@ -196,10 +205,12 @@
                     cdkDragBoundary="mat-header-row">
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.last_editor' | translate }}</span>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="lastEditor">
-                            <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.lastEditor.reset()">close</mat-icon>
-                        </mat-form-field>
+                        @if (this.showFilter) {
+                            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                                <input (keydown.space)="$event.stopPropagation()" matInput formControlName="lastEditor">
+                                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.lastEditor.reset()">close</mat-icon>
+                            </mat-form-field>
+                        }
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
@@ -214,21 +225,25 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.status' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                            <mat-select formControlName="status">
-                                <mat-option [value]="null"></mat-option>
-                                <mat-option *ngFor="let ecmrStatus of allEcmrStatus" [value]="ecmrStatus">{{ ('ecmr_status.' + ecmrStatus)| translate }}</mat-option>
-                            </mat-select>
-                            <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.status.reset(); $event.stopPropagation()">close
-                            </mat-icon>
+                        @if (this.showFilter) {
+                            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                                <mat-select formControlName="status">
+                                    <mat-option [value]="null"/>
+                                    @for (ecmrStatus of allEcmrStatus; track ecmrStatus) {
+                                        <mat-option [value]="ecmrStatus">{{ ('ecmr_status.' + ecmrStatus)| translate }}</mat-option>
+                                    }
+                                </mat-select>
+                                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.status.reset(); $event.stopPropagation()">close
+                                </mat-icon>
                         </mat-form-field>
+                        }
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;">
-                  <div id="status-cell">
-                    <app-ecmr-status [status]="ecmr ? ecmr.ecmrStatus : EcmrStatus.NEW" [isMobile]="!isMobile"></app-ecmr-status>
-                    {{ ("ecmr_status." + ecmr.ecmrStatus) | translate }}
-                  </div>
+                    <div id="status-cell">
+                        <app-ecmr-status [status]="ecmr ? ecmr.ecmrStatus : EcmrStatus.NEW" [isMobile]="!isMobile"/>
+                        {{ ("ecmr_status." + ecmr.ecmrStatus) | translate }}
+                    </div>
 
                 </td>
             </ng-container>
@@ -266,10 +281,12 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.license_plate' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                        @if (this.showFilter) {
+                            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
                             <input (keydown.space)="$event.stopPropagation()" matInput formControlName="licensePlate">
                             <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.licensePlate.reset()">close</mat-icon>
-                        </mat-form-field>
+                            </mat-form-field>
+                        }
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
@@ -284,10 +301,12 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.carrier_name' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="carrierName">
-                            <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.carrierName.reset()">close</mat-icon>
-                        </mat-form-field>
+                        @if (this.showFilter) {
+                            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                                <input (keydown.space)="$event.stopPropagation()" matInput formControlName="carrierName">
+                                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.carrierName.reset()">close</mat-icon>
+                            </mat-form-field>
+                        }
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
@@ -302,10 +321,12 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.carrier_post_code' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="carrierPostCode">
-                            <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.carrierPostCode.reset()">close</mat-icon>
-                        </mat-form-field>
+                        @if (this.showFilter) {
+                            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                                <input (keydown.space)="$event.stopPropagation()" matInput formControlName="carrierPostCode">
+                                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.carrierPostCode.reset()">close</mat-icon>
+                            </mat-form-field>
+                        }
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
@@ -320,10 +341,12 @@
                     <div class="my-3">
                         <span class="float-start fw-bold">{{ 'overview.table_header.consignee_post_code' | translate }}</span>
                         <br>
-                        <mat-form-field appearance="fill" *ngIf="this.showFilter" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                            <input (keydown.space)="$event.stopPropagation()" matInput formControlName="consigneePostCode">
-                            <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.consigneePostCode.reset()">close</mat-icon>
-                        </mat-form-field>
+                        @if (this.showFilter) {
+                            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                                <input (keydown.space)="$event.stopPropagation()" matInput formControlName="consigneePostCode">
+                                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.consigneePostCode.reset()">close</mat-icon>
+                            </mat-form-field>
+                        }
                     </div>
                 </th>
                 <td mat-cell *matCellDef="let ecmr; let i = index;"
@@ -336,138 +359,141 @@
         </table>
     } @else {
 
-        <mat-toolbar [formGroup]="filterFormGroup">
-            <mat-toolbar-row class="d-flex flex-row justify-content-between">
-                <div class="search-bar-container gap-2 d-flex">
-                    <button mat-stroked-button (click)="toggleFilterListIcon()" >
-                        <mat-icon>{{ getFilterListIcon() }}</mat-icon>
-                        @if (this.showFilter) {
-                            <mat-icon>expand_less</mat-icon>
-                        } @else {
-                            <mat-icon>expand_more</mat-icon>
-                        }
-                    </button>
+    <mat-toolbar [formGroup]="filterFormGroup">
+        <mat-toolbar-row class="d-flex flex-row justify-content-between ">
+            <div class="search-bar-container">
+                <button mat-stroked-button (click)="toggleFilterListIcon()">
+                    <mat-icon>{{ getFilterListIcon() }}</mat-icon>
+                    @if (this.showFilter) {
+                        <mat-icon>expand_less</mat-icon>
+                    } @else {
+                    <mat-icon>expand_more</mat-icon>
+                }
+                </button>
+                @if (this.enableMultiselection()) {
+                    @if (this.showCheckboxes) {
+                        <button mat-stroked-button (click)="toggleAllRows()">
+                            <mat-icon iconPositionEnd>
+                                {{ selection.hasValue() && isAllSelected() ? 'check_box' :
+                                selection.hasValue() && !isAllSelected() ? 'indeterminate_check_box' :
+                                    'check_box_outline_blank' }}
+                            </mat-icon>
+                            {{ (selection.hasValue() && isAllSelected() ? 'overview.multiselect.deselect_all' : 'overview.multiselect.select_all') | translate }}
+                        </button>
 
-                    @if (this.enableMultiselection) {
-                        @if (this.showCheckboxes) {
-                            <button mat-stroked-button (click)="toggleAllRows()">
-                                <mat-icon iconPositionEnd>
-                                    {{ selection.hasValue() && isAllSelected() ? 'check_box' :
-                                      selection.hasValue() && !isAllSelected() ? 'indeterminate_check_box' :
-                                      'check_box_outline_blank' }}
-                                </mat-icon>
-                                {{ (selection.hasValue() && isAllSelected() ? 'overview.multiselect.deselect_all' : 'overview.multiselect.select_all') | translate }}
-                            </button>
-
-                            <button mat-flat-button color="primary" class="multiselect-button-mobile" (click)="toggleMultiselectEcmrs()">
-                                <mat-icon >{{ "check_tick" }}</mat-icon>
-                            </button>
-                        } @else {
-                          <button mat-flat-button color="primary" (click)="toggleMultiselectEcmrs()">
-                                <mat-icon iconPositionEnd>{{ "check_box" }}</mat-icon>
-                                {{ 'overview.multiselect.enable_multiselect' | translate }}
-                            </button>
-                        }
+                        <button mat-flat-button color="primary" class="multiselect-button-mobile" (click)="toggleMultiselectEcmrs()">
+                            <mat-icon >{{ "check_tick" }}</mat-icon>
+                        </button>
+                    } @else {
+                        <button mat-flat-button color="primary" (click)="toggleMultiselectEcmrs()">
+                            <mat-icon iconPositionEnd>{{ "check_box" }}</mat-icon>
+                            {{ 'overview.multiselect.enable_multiselect' | translate }}
+                        </button>
                     }
-                </div>
-            </mat-toolbar-row>
+                }
+            </div>
+        </mat-toolbar-row>
 
-            <div *ngIf="this.showFilter">
+        @if (this.showFilter) {
+            <div>
                 <br>
                 <span class="fs-6">{{ 'overview.filter' | translate }}</span>
             </div>
-
-            <div *ngIf="this.showFilter">
-                <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                    <mat-label>{{ 'overview.table_header.ref_id' | translate }}</mat-label>
-                    <input (keydown.space)="$event.stopPropagation()" matInput formControlName="referenceId">
-                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.referenceId.reset()">close</mat-icon>
-                </mat-form-field>
-            </div>
-
-            <div *ngIf="this.showFilter">
-                <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                    <mat-label>{{ 'overview.table_header.from' | translate }}</mat-label>
-                    <input (keydown.space)="$event.stopPropagation()" matInput formControlName="from">
-                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.from.reset()">close</mat-icon>
-                </mat-form-field>
-            </div>
-
-            <div *ngIf="this.showFilter">
-                <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                    <mat-label>{{ 'overview.table_header.to' | translate }}</mat-label>
-                    <input (keydown.space)="$event.stopPropagation()" matInput formControlName="to">
-                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.to.reset()">close</mat-icon>
-                </mat-form-field>
-            </div>
-
-            <div *ngIf="this.showFilter">
-                <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                    <mat-label>{{ 'overview.table_header.transport_type' | translate }}</mat-label>
-                    <mat-select formControlName="transportType">
-                        <mat-option [value]="null"></mat-option>
-                        <mat-option [value]="EcmrTransportType.National">{{ 'overview.table_header.transport_types.national' | translate }}
-                        </mat-option>
-                        <mat-option
-                                [value]="EcmrTransportType.International">{{ 'overview.table_header.transport_types.international' |translate }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.transportType.reset(); $event.stopPropagation()">close
-                    </mat-icon>
-                </mat-form-field>
-            </div>
-
-            <div *ngIf="this.showFilter">
-                <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                    <mat-label>{{ 'overview.table_header.last_editor' | translate }}</mat-label>
-                    <input (keydown.space)="$event.stopPropagation()" matInput formControlName="lastEditor">
-                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.lastEditor.reset()">close</mat-icon>
-                </mat-form-field>
-            </div>
-
-            <div *ngIf="this.showFilter">
-                <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                    <mat-label>{{ 'overview.table_header.status' | translate }}</mat-label>
-                    <mat-select formControlName="status">
-                        <mat-option [value]="null"></mat-option>
-                        <mat-option *ngFor="let ecmrStatus of allEcmrStatus" [value]="ecmrStatus">{{ ('ecmr_status.' + ecmrStatus)| translate }}</mat-option>
-                    </mat-select>
-                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.status.reset(); $event.stopPropagation()">close
-                    </mat-icon>
-                </mat-form-field>
-            </div>
-
-            <div *ngIf="this.showFilter">
-                <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                    <mat-label>{{ 'overview.table_header.license_plate' | translate }}</mat-label>
-                    <input (keydown.space)="$event.stopPropagation()" matInput formControlName="licensePlate">
-                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.licensePlate.reset()">close</mat-icon>
-                </mat-form-field>
-            </div>
-
-            <div *ngIf="this.showFilter">
-                <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                    <mat-label >{{ 'overview.table_header.carrier_name' | translate }}</mat-label>
-                    <input (keydown.space)="$event.stopPropagation()" matInput formControlName="carrierName">
-                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.carrierName.reset()">close</mat-icon>
-                </mat-form-field>
-            </div>
-
-            <div *ngIf="this.showFilter">
-                <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                    <mat-label >{{ 'overview.table_header.carrier_post_code' | translate }}</mat-label>
-                    <input (keydown.space)="$event.stopPropagation()" matInput formControlName="carrierPostCode">
-                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.carrierPostCode.reset()">close</mat-icon>
-                </mat-form-field>
-            </div>
-
-            <div *ngIf="this.showFilter">
-                <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
-                    <mat-label>{{ 'overview.table_header.consignee_post_code' | translate }}</mat-label>
-                    <input (keydown.space)="$event.stopPropagation()" matInput formControlName="consigneePostCode">
-                    <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.consigneePostCode.reset()">close</mat-icon>
-                </mat-form-field>
-            </div>
+        } @if (this.showFilter) {
+        <div>
+            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                <mat-label>{{ 'overview.table_header.ref_id' | translate }}</mat-label>
+                <input (keydown.space)="$event.stopPropagation()" matInput formControlName="referenceId">
+                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.referenceId.reset()">close</mat-icon>
+            </mat-form-field>
+        </div>
+    } @if (this.showFilter) {
+        <div>
+            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                <mat-label>{{ 'overview.table_header.from' | translate }}</mat-label>
+                <input (keydown.space)="$event.stopPropagation()" matInput formControlName="from">
+                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.from.reset()">close</mat-icon>
+            </mat-form-field>
+        </div>
+    } @if (this.showFilter) {
+        <div>
+            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                <mat-label>{{ 'overview.table_header.to' | translate }}</mat-label>
+                <input (keydown.space)="$event.stopPropagation()" matInput formControlName="to">
+                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.to.reset()">close</mat-icon>
+            </mat-form-field>
+        </div>
+    } @if (this.showFilter) {
+        <div>
+            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                <mat-label>{{ 'overview.table_header.transport_type' | translate }}</mat-label>
+                <mat-select formControlName="transportType">
+                    <mat-option [value]="null"/>
+                    <mat-option [value]="EcmrTransportType.National">{{ 'overview.table_header.transport_types.national' | translate }}
+                    </mat-option>
+                    <mat-option
+                            [value]="EcmrTransportType.International">{{ 'overview.table_header.transport_types.international' |translate }}
+                    </mat-option>
+                </mat-select>
+                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.transportType.reset(); $event.stopPropagation()">close
+                </mat-icon>
+            </mat-form-field>
+        </div>
+    } @if (this.showFilter) {
+        <div>
+            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                <mat-label>{{ 'overview.table_header.last_editor' | translate }}</mat-label>
+                <input (keydown.space)="$event.stopPropagation()" matInput formControlName="lastEditor">
+                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.lastEditor.reset()">close</mat-icon>
+            </mat-form-field>
+        </div>
+    } @if (this.showFilter) {
+        <div>
+            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                <mat-label>{{ 'overview.table_header.status' | translate }}</mat-label>
+                <mat-select formControlName="status">
+                    <mat-option [value]="null"/>
+                    @for (ecmrStatus of allEcmrStatus; track ecmrStatus) {
+                        <mat-option [value]="ecmrStatus">{{ ('ecmr_status.' + ecmrStatus)| translate }}</mat-option>
+                    }
+                </mat-select>
+                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.status.reset(); $event.stopPropagation()">close
+                </mat-icon>
+            </mat-form-field>
+        </div>
+    } @if (this.showFilter) {
+        <div>
+            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                <mat-label>{{ 'overview.table_header.license_plate' | translate }}</mat-label>
+                <input (keydown.space)="$event.stopPropagation()" matInput formControlName="licensePlate">
+                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.licensePlate.reset()">close</mat-icon>
+            </mat-form-field>
+        </div>
+    } @if (this.showFilter) {
+        <div>
+            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                <mat-label>{{ 'overview.table_header.carrier_name' | translate }}</mat-label>
+                <input (keydown.space)="$event.stopPropagation()" matInput formControlName="carrierName">
+                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.carrierName.reset()">close</mat-icon>
+            </mat-form-field>
+        </div>
+    } @if (this.showFilter) {
+        <div>
+            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                <mat-label>{{ 'overview.table_header.carrier_post_code' | translate }}</mat-label>
+                <input (keydown.space)="$event.stopPropagation()" matInput formControlName="carrierPostCode">
+                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.carrierPostCode.reset()">close</mat-icon>
+            </mat-form-field>
+        </div>
+    } @if (this.showFilter) {
+        <div>
+            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                <mat-label>{{ 'overview.table_header.consignee_post_code' | translate }}</mat-label>
+                <input (keydown.space)="$event.stopPropagation()" matInput formControlName="consigneePostCode">
+                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.consigneePostCode.reset()">close</mat-icon>
+            </mat-form-field>
+        </div>
+    }
 
         </mat-toolbar>
 
@@ -476,13 +502,16 @@
                 <td mat-cell *matCellDef="let ecmr">
                     <div class="d-flex flex-row align-items-center">
                         <!-- Checkbox column for mobile when enabled -->
-                        <div *ngIf="showCheckboxes" class="me-3 d-flex align-items-center mobile-checkbox-container">
-                            <mat-checkbox class="mobile-checkbox" (click)="$event.stopPropagation()"
-                                          (change)="$event ? toggleRow(ecmr) : null"
-                                          [checked]="selection.isSelected(ecmr)"
-                                          [aria-label]="checkboxLabel(ecmr)">
-                            </mat-checkbox>
-                        </div>
+                        @if(showCheckboxes) {
+                            <div class="me-3 d-flex align-items-center mobile-checkbox-container">
+                                <mat-checkbox class="mobile-checkbox" (click)="$event.stopPropagation()"
+                                              (change)="$event ? toggleRow(ecmr) : null"
+                                              [checked]="selection.isSelected(ecmr)"
+                                              [aria-label]="checkboxLabel(ecmr)">
+                                </mat-checkbox>
+                            </div>
+                        }
+
 
                         <div class="flex-grow-1">
                             <div class="d-flex flex-row justify-content-between align-items-end me-1 mt-3 mb-1"
@@ -516,7 +545,7 @@
                 <td mat-cell *matCellDef="let ecmr" [attr.colspan]="displayedColumnsMobile.length">
                     <div class="d-flex flex-row justify-content-evenly"
                          [@detailExpand]="ecmr === expandedElement ? 'expanded' : 'collapsed'">
-                        <ng-container *ngTemplateOutlet="mobileActionButtons; context: { $implicit: ecmr  }">
+                        <ng-container *ngTemplateOutlet="mobileActionButtons(); context: { $implicit: ecmr  }">
                         </ng-container>
                     </div>
                 </td>
@@ -532,4 +561,4 @@
     }
 </div>
 <mat-paginator [showFirstLastButtons]="true" class="mat-paginator-sticky"
-               [pageSize]="10" (page)="onPageEvent()"></mat-paginator>
+               [pageSize]="10" (page)="onPageEvent()"/>

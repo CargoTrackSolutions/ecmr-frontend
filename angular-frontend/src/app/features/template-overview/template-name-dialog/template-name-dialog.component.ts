@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
@@ -17,7 +17,6 @@ import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-template-name-dialog',
-    standalone: true,
     imports: [
         MatDialogContent,
         MatFormField,
@@ -34,13 +33,12 @@ import { TranslateModule } from '@ngx-translate/core';
     styleUrl: './template-name-dialog.component.scss'
 })
 export class TemplateNameDialogComponent {
+    dialogRef = inject<MatDialogRef<TemplateNameDialogComponent>>(MatDialogRef);
+
 
     templateNameDialogFormGroup = new FormGroup({
         templateName: new FormControl<string>('', Validators.required)
     });
-
-    constructor(public dialogRef: MatDialogRef<TemplateNameDialogComponent>) {
-    }
 
     saveTemplateName() {
         if (this.templateNameDialogFormGroup.valid) {

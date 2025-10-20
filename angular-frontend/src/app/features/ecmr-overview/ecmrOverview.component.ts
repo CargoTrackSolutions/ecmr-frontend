@@ -6,11 +6,10 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatIconButton } from '@angular/material/button';
-import { MatLabel } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -18,9 +17,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
-import { NgClass } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { Event, Router, RouterEvent, NavigationEnd } from '@angular/router';
+import { Event, NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { EcmrOverviewDetailsComponent } from './ecmr-overview-details/ecmr-overview-details.component';
 
 
@@ -46,66 +44,50 @@ import { SealedDocumentWithoutEcmr } from '../../core/models/SealedDocumentWitho
 
 @Component({
     selector: 'app-overview',
-    standalone: true,
     imports: [
-    MatToolbar,
-    MatToolbarRow,
-    MatIcon,
-    MatButton,
-    MatLabel,
-    MatTableModule,
-    MatSortModule,
-    MatIconButton,
-    ReactiveFormsModule,
-    MatTooltip,
-    MatMenu,
-    MatMenuTrigger,
-    MatMenuItem,
-    TranslateModule,
-    EcmrTableComponent,
-    MatTooltip,
-    MatMenu,
-    MatMenuTrigger,
-    MatMenuItem,
-    TranslateModule,
-    EcmrOverviewDetailsComponent,
-    MatDrawer,
-    MatDrawerContainer,
-    NgClass,
-],
+        MatToolbar,
+        MatToolbarRow,
+        MatIcon,
+        MatButton,
+        MatTableModule,
+        MatSortModule,
+        MatIconButton,
+        ReactiveFormsModule,
+        MatTooltip,
+        MatMenu,
+        MatMenuTrigger,
+        MatMenuItem,
+        TranslateModule,
+        EcmrTableComponent,
+        MatTooltip,
+        MatMenu,
+        MatMenuTrigger,
+        MatMenuItem,
+        TranslateModule,
+        EcmrOverviewDetailsComponent,
+        MatDrawer,
+        MatDrawerContainer
+    ],
     templateUrl: './ecmrOverview.component.html',
     styleUrl: './ecmrOverview.component.scss'
 })
 export class EcmrOverviewComponent implements OnInit, AfterViewInit {
+    dialog = inject(MatDialog);
+    snackbar = inject(MatSnackBar);
+    ecmrService = inject(EcmrService);
+    private router = inject(Router);
+    private loadingService = inject(LoadingService);
+    private breakpointObserver = inject(BreakpointObserver);
+    protected ecmrActionService = inject(EcmrActionService);
+    private snackbarService = inject(SnackbarService);
+    private sealedDocumentService = inject(SealedDocumentService);
+
 
     isMobile: boolean = false;
     breakpointSubscription: Subscription | undefined;
 
     @ViewChild(EcmrTableComponent) table: EcmrTableComponent;
     @ViewChild(MatSort) sort: MatSort = new MatSort();
-
-    constructor(public dialog: MatDialog,
-                public snackbar: MatSnackBar,
-                public ecmrService: EcmrService,
-                private router: Router,
-                private loadingService: LoadingService,
-                private breakpointObserver: BreakpointObserver,
-                protected ecmrActionService: EcmrActionService,
-                private snackbarService: SnackbarService,
-                private sealedDocumentService: SealedDocumentService) {
-                    router.events.pipe(
-                        filter((e: Event | RouterEvent): e is NavigationEnd => e instanceof NavigationEnd)
-                    ).subscribe((ev: NavigationEnd) => {
-                        if (ev.url === "/ecmr-overview") {
-                            const nav = this.router.getCurrentNavigation();
-                            if (nav?.extras?.state) {
-                                if (nav.extras.state['selectedEcmr'] !== undefined) {
-                                    this.selectEcmr(nav.extras.state['selectedEcmr']);
-                                }
-                            }
-                        }
-                    });
-    }
 
     // ecmr selected
     selectedEcmr: Ecmr | null = null;
@@ -130,6 +112,21 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
 
     initialSort: Sort = {active: '', direction: ''};
     readonly ecmrType: EcmrType = EcmrType.ECMR;
+
+    constructor() {
+        this.router.events.pipe(
+            filter((e: Event | RouterEvent): e is NavigationEnd => e instanceof NavigationEnd)
+        ).subscribe((ev: NavigationEnd) => {
+            if (ev.url === "/ecmr-overview") {
+                const nav = this.router.getCurrentNavigation();
+                if (nav?.extras?.state) {
+                    if (nav.extras.state['selectedEcmr'] !== undefined) {
+                        this.selectEcmr(nav.extras.state['selectedEcmr']);
+                    }
+                }
+            }
+        });
+    }
 
     ngOnInit() {
         this.breakpointSubscription = this.breakpointObserver
@@ -165,7 +162,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
 
     updateTableData(data: EcmrPage) {
         this.table.dataSource.data = data.ecmrs;
-        this.table.ecmr = data.ecmrs;
+        this.table.ecmr.set(data.ecmrs)
         this.ecmr = data.ecmrs;
         this.table.paginator.length = data.totalElements;
         this.clearMultiSelection();
@@ -189,7 +186,8 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     importExternalEcmr() {
         this.dialog.open(ExternalEcmrImportDialogComponent,
             {
-                width: '30vw'
+                width: '90vw',
+                maxWidth: '700px'
             }).afterClosed().pipe(
             switchMap(result => {
                 if (result) {

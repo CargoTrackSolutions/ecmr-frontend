@@ -6,38 +6,37 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatButton } from '@angular/material/button';
 import { GroupFlat } from '../../../core/models/GroupFlat';
-import { MatIcon } from '@angular/material/icon';
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
     selector: 'app-ecmr-create-share-dialog',
-    standalone: true,
     imports: [
         MatDialogTitle,
         TranslateModule,
         MatDialogContent,
         MatButton,
         MatDialogActions,
-        MatIcon,
-        MatIconButton,
         MatCheckbox
     ],
     templateUrl: './ecmr-create-share-dialog.component.html',
     styleUrl: './ecmr-create-share-dialog.component.scss'
 })
 export class EcmrCreateShareDialogComponent {
+    private dialogRef = inject<MatDialogRef<EcmrCreateShareDialogComponent>>(MatDialogRef);
+    data = inject(MAT_DIALOG_DATA);
+
 
     selectableGroups: GroupFlat[];
     selectedGroups: GroupFlat[] = [];
 
-    constructor(
-        private dialogRef: MatDialogRef<EcmrCreateShareDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: GroupFlat[]) {
+    constructor() {
+        const data = this.data;
+
         if (data) this.selectableGroups = data;
     }
 
