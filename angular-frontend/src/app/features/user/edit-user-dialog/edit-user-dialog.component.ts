@@ -39,6 +39,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { FlatGroupNode } from '../../../core/models/FlatGroupNode';
 import { SnackbarService } from '../../../core/services/snackbar.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { PhoneValidatorService } from '../../../shared/services/phone-format.service';
 
 @Component({
     selector: 'app-edit-user-dialog',
@@ -85,7 +86,7 @@ export class EditUserDialogComponent implements OnInit {
         firstName: new FormControl<string>('', Validators.required),
         lastName: new FormControl<string>('', Validators.required),
         email: new FormControl<string>('', [Validators.required, emailValidator()]),
-        phone: new FormControl<string>('', [phoneNumberValidator()]),
+        phone: new FormControl<string>('+', [PhoneValidatorService.phoneNumberValidator()]),
         role: new FormControl<UserRole | null>(null, Validators.required),
     })
 
@@ -255,18 +256,6 @@ export class EditUserDialogComponent implements OnInit {
     setDefaultGroupId(id: number | null) {
         this.defaultGroupId = id;
     }
-}
-
-export function phoneNumberValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-        if (!control.value) {
-            return null;
-        }
-
-        const phoneRegex = /^(\+)?(?=.*\d)[0-9\s\-().]+$/;
-        const valid = phoneRegex.test(control.value);
-        return valid ? null : { invalidPhoneNumber: true };
-    };
 }
 
 export function emailValidator(): ValidatorFn {

@@ -28,14 +28,15 @@
     "errors": {
       "invalid_countryCode": "Neplatný kód krajiny",
       "invalid_email": "Neplatný email",
-      "invalid_phone": "Neplatný telefón",
+      "invalid_phone": "Formát by mal byť napr. '+421...'",
       "required": "Povinné"
     },
     "group": "Skupina",
     "reset": "Resetovať",
     "save": "Uložiť",
     "search": "Hľadať",
-    "share": "zdieľať"
+    "share": "zdieľať",
+    "phone_prefix": "napr. 421..."
   },
   "confirmation": {
     "accept": "Prijať",

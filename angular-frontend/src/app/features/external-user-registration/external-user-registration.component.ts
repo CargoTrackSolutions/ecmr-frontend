@@ -22,6 +22,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { SnackbarService } from '../../core/services/snackbar.service';
 import { EcmrRole } from '../../core/enums/EcmrRole';
 import { LoadingService } from '../../core/services/loading.service';
+import { PhoneValidatorService } from '../../shared/services/phone-format.service';
 
 @Component({
     selector: 'app-external-user-registration',
@@ -49,7 +50,7 @@ export class ExternalUserRegistrationComponent {
     externalUser = new FormGroup({
         firstName: new FormControl<string>('', [Validators.required]),
         lastName: new FormControl<string>('', [Validators.required]),
-        phone: new FormControl<string>('', [Validators.required, Validators.pattern(/^\+?[0-9\s\-().]{7,20}$/)]),
+        phone: new FormControl<string>('+', [Validators.required, PhoneValidatorService.phoneNumberValidator()]),
         company: new FormControl<string>('', [Validators.required]),
     })
 

@@ -28,14 +28,15 @@
     "errors": {
       "invalid_countryCode": "Ungültiger Ländercode",
       "invalid_email": "Ungültige Email",
-      "invalid_phone": "Ungültige Telefonnummer",
+      "invalid_phone": "Format sollte z.B. '+49...' sein",
       "required": "Feld darf nicht leer sein"
     },
     "group": "Gruppe",
     "reset": "Zurücksetzen",
     "save": "Speichern",
     "search": "Suchen",
-    "share": "Teilen"
+    "share": "Teilen",
+    "phone_prefix": "z.B. +49..."
   },
   "confirmation": {
     "accept": "Bestätigen",

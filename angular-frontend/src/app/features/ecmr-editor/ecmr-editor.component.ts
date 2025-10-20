@@ -65,6 +65,7 @@ import { SealedDocumentService } from '../../shared/services/sealed-document.ser
 import { SealedDocumentWithoutEcmr } from '../../core/models/SealedDocumentWithoutEcmr';
 import { TransportRole } from '../../core/models/TransportRole';
 import { EcmrSealComponent } from '../../shared/components/ecmr-seal/ecmr-seal.component';
+import { PhoneValidatorService } from '../../shared/services/phone-format.service';
 
 export enum EditorMode {
     ECMR_EDIT = 'ECMR_EDIT',
@@ -174,7 +175,7 @@ export class EcmrEditorComponent implements OnInit {
             }),
             senderContactInformation: new FormGroup({
                 email: new FormControl<string | null>(null, [emailValidator()]),
-                phone: new FormControl<string | null>(null, [phoneNumberValidator()])
+                phone: new FormControl<string | null>('+', [PhoneValidatorService.phoneNumberValidator()])
             })
         }),
         //Area 2
@@ -193,7 +194,7 @@ export class EcmrEditorComponent implements OnInit {
             }),
             consigneeContactInformation: new FormGroup({
                 email: new FormControl<string | null>(null, [emailValidator()]),
-                phone: new FormControl<string | null>(null, [phoneNumberValidator()])
+                phone: new FormControl<string | null>('+', [PhoneValidatorService.phoneNumberValidator()])
             })
         }),
         //Area 3
@@ -225,8 +226,8 @@ export class EcmrEditorComponent implements OnInit {
             carrierLicensePlate: new FormControl<string | null>(null),
             carrierContactInformation: new FormGroup({
                 email: new FormControl<string | null>(null, [emailValidator()]),
-                carrierPhone: new FormControl<string | null>(null, [phoneNumberValidator()]),
-                driverPhone: new FormControl<string | null>(null, [phoneNumberValidator()])
+                carrierPhone: new FormControl<string | null>('+', [PhoneValidatorService.phoneNumberValidator()]),
+                driverPhone: new FormControl<string | null>('+', [PhoneValidatorService.phoneNumberValidator()])
             })
         }),
         //Area 7
@@ -243,8 +244,8 @@ export class EcmrEditorComponent implements OnInit {
             successiveCarrierStreet: new FormControl<string | null>(null),
             successiveCarrierContactInformation: new FormGroup({
                 email: new FormControl<string | null>(null, [emailValidator()]),
-                carrierPhone: new FormControl<string | null>(null, [phoneNumberValidator()]),
-                driverPhone: new FormControl<string | null>(null, [phoneNumberValidator()])
+                carrierPhone: new FormControl<string | null>('+', [PhoneValidatorService.phoneNumberValidator()]),
+                driverPhone: new FormControl<string | null>('+', [PhoneValidatorService.phoneNumberValidator()])
             })
         }),
         //Area 8
@@ -1062,18 +1063,6 @@ export class EcmrEditorComponent implements OnInit {
         const parsed = parseFloat(value.replaceAll(',', '.').trim());
         return isNaN(parsed) ? null : parsed;
     }
-}
-
-export function phoneNumberValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-        if (!control.value) {
-            return null;
-        }
-
-        const phoneRegex = /^(\+)?(?=.*\d)[0-9\s\-().]+$/;
-        const valid = phoneRegex.test(control.value);
-        return valid ? null : {invalidPhoneNumber: true};
-    };
 }
 
 export function emailValidator(): ValidatorFn {

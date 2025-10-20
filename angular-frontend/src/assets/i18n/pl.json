@@ -28,14 +28,15 @@
     "errors": {
       "invalid_countryCode": "Nieprawidłowy kod kraju",
       "invalid_email": "Nieprawidłowy adres e-mail",
-      "invalid_phone": "Nieprawidłowy numer telefonu",
+      "invalid_phone": "Format powinien być np. '+48...'",
       "required": "Wymagane"
     },
     "group": "Grupa",
     "reset": "Resetuj",
     "save": "Zapisz",
     "search": "Szukaj",
-    "share": "Udostępnij"
+    "share": "Udostępnij",
+    "phone_prefix": "np. +48..."
   },
   "confirmation": {
     "accept": "Akceptuj",

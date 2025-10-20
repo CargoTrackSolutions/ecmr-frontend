@@ -21,13 +21,13 @@
         </mat-form-field>
         <mat-form-field>
             <mat-label>{{ 'external_user_registration.phone' | translate }}</mat-label>
-            <input matInput formControlName="phone">
+            <input matInput formControlName="phone" [maxlength]="32" [placeholder]="'common.phone_prefix' | translate">
             <mat-icon matIconPrefix>call</mat-icon>
             @if (externalUser.controls.phone.hasError('required')) {
                 <mat-error>{{ "error.required" | translate }}</mat-error>
             }
-            @if (externalUser.controls.phone.hasError('pattern')) {
-                <mat-error>{{ "error.pattern" | translate }}</mat-error>
+            @if (externalUser.controls.phone.hasError('invalidPhoneNumber')) {
+                <mat-error>{{ "common.errors.invalid_phone" | translate }}</mat-error>
             }
         </mat-form-field>
         <mat-form-field>

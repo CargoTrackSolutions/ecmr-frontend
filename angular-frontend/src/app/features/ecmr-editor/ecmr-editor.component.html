@@ -223,7 +223,7 @@
                                 </mat-form-field>
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.sender.phone" | translate }}</mat-label>
-                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone" [maxlength]="32">
+                                    <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="phone" [maxlength]="32" [placeholder]="'common.phone_prefix' | translate">
                                     @if (ecmrConsignmentFormGroup.controls.senderInformation.controls.senderContactInformation.get('phone')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                     }
@@ -338,7 +338,7 @@
                                     <mat-form-field class="flex-grow-1">
                                         <mat-label>{{ "ecmr_editor.consignee.phone" | translate }}</mat-label>
                                         <input [dynamicDisable]="!canFillSenderFields"
-                                               matInput type="text" formControlName="phone" [maxlength]="32">
+                                               matInput type="text" formControlName="phone" [maxlength]="32" [placeholder]="'common.phone_prefix' | translate">
                                         @if (ecmrConsignmentFormGroup.controls.consigneeInformation.controls.consigneeContactInformation.get('phone')?.hasError('mandatoryForSigning')) {
                                             <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                         }
@@ -544,7 +544,7 @@
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.carrier_information.driver_phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="driverPhone"
-                                           [maxlength]="32">
+                                           [maxlength]="32" [placeholder]="'common.phone_prefix' | translate">
                                     @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('driverPhone')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                     }
@@ -555,7 +555,7 @@
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.carrier_information.carrier_phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierPhone"
-                                           [maxlength]="32">
+                                           [maxlength]="32" [placeholder]="'common.phone_prefix' | translate">
                                     @if (ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get('carrierPhone')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                     }
@@ -639,7 +639,7 @@
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.successive_carrier_information.driver_phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="driverPhone"
-                                           [maxlength]="32">
+                                           [maxlength]="32" [placeholder]="'common.phone_prefix' | translate">
                                     @if (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierContactInformation.get('driverPhone')?.hasError('invalidPhoneNumber')) {
                                         <mat-error>{{ "common.errors.invalid_phone" | translate }}</mat-error>
                                     }
@@ -647,7 +647,7 @@
                                 <mat-form-field class="flex-grow-1">
                                     <mat-label>{{ "ecmr_editor.successive_carrier_information.carrier_phone" | translate }}</mat-label>
                                     <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="carrierPhone"
-                                           [maxlength]="32">
+                                           [maxlength]="32" [placeholder]="'common.phone_prefix' | translate">
                                     @if (ecmrConsignmentFormGroup.controls.successiveCarrierInformation.controls.successiveCarrierContactInformation.get('carrierPhone')?.hasError('mandatoryForSigning')) {
                                         <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                     }

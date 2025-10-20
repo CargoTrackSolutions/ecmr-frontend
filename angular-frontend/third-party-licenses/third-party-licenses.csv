@@ -671,6 +671,7 @@
 "less-loader@12.2.0","MIT","https://github.com/webpack-contrib/less-loader"
 "less@4.2.0","Apache-2.0","https://github.com/less/less.js"
 "levn@0.4.1","MIT","https://github.com/gkz/levn"
+"libphonenumber-js@1.12.24","MIT","git+https://gitlab.com/catamphetamine/libphonenumber-js"
 "license-checker@25.0.1","BSD-3-Clause","https://github.com/davglass/license-checker"
 "license-webpack-plugin@4.0.2","ISC","https://github.com/xz64/license-webpack-plugin"
 "lines-and-columns@1.2.4","MIT","https://github.com/eventualbuddha/lines-and-columns"

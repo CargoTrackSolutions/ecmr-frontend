@@ -28,14 +28,15 @@
     "errors": {
       "invalid_countryCode": "Code pays invalide",
       "invalid_email": "E-mail invalide",
-      "invalid_phone": "Téléphone invalide",
+      "invalid_phone": "Le format doit être, par ex. '+33...'",
       "required": "Obligatoire"
     },
     "group": "Groupe",
     "reset": "Réinitialiser",
     "save": "Enregistrer",
     "search": "Rechercher",
-    "share": "Partager"
+    "share": "Partager",
+    "phone_prefix": "par ex. +33..."
   },
   "confirmation": {
     "accept": "Accepter",

@@ -28,14 +28,15 @@
     "errors": {
       "invalid_countryCode": "Codice Paese non valido",
       "invalid_email": "Email non valida",
-      "invalid_phone": "Telefono non valido",
+      "invalid_phone": "Il formato deve essere, p.es. '+39...'",
       "required": "Obbligatorio"
     },
     "group": "Gruppo",
     "reset": "Reimposta",
     "save": "Salva",
     "search": "Cerca",
-    "share": "Condividi"
+    "share": "Condividi",
+    "phone_prefix": "p.es. +39..."
   },
   "confirmation": {
     "accept": "Accetta",
