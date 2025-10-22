@@ -94,7 +94,7 @@ export class EcmrOverviewDetailsComponent {
     }
 
     public getTotalItemCount(itemList: Item[]): number | null {
-        var count = 0;
+        let count = 0;
         for(const item of itemList){
             if(item.numberOfPackages.logisticsPackageItemQuantity != null)  {
                 count += item.numberOfPackages.logisticsPackageItemQuantity;

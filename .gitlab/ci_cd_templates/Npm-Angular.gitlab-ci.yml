@@ -23,13 +23,13 @@ variables:
   PROJECT_DIR: ""
   # [RULES] Path to the project's `package.json` file (relative to ${CI_PROJECT_DIR}).
   PACKAGE_JSON_PATH: "package.json"
+  # Path to lint - codequality path (relative to ${PROJECT_DIR}).
+  ESLINT_CODE_QUALITY_REPORT: "gl-code-quality-report.json"
   # Path to the directory containing coverage report files (relative to ${PROJECT_DIR}).
   COVERAGE_OUTPUT_RELATIVE_PATH: "coverage"
   # Comma-SEPARATED list of paths to LCOV coverage report files. Paths may be absolute or
   # relative to ${PROJECT_DIR}.
   LCOV_REPORT_PATHS: "${COVERAGE_OUTPUT_RELATIVE_PATH}/lcov.info"
-  # Path to ESLint report file (relative to ${PROJECT_DIR}).
-  ESLINT_REPORT_FILE: "eslint-report.xml"
   # Whether to enforce successful quality jobs (e.g. sonar analysis) on the default branch. A value
   # of `true` effectively doesn't allow quality jobs to fail on the default branch.
   ENFORCE_QA_ON_DEFAULT_BRANCH: "false"
@@ -67,13 +67,14 @@ variables:
     - echo "PROJECT_DIR=${PROJECT_DIR}"
     - cd "${PROJECT_DIR}"
     - npm ci
-    # Run the linter
-    - npm run lint -- -o "${ESLINT_REPORT_FILE}" -f jslint-xml
+    - npm install --save-dev eslint eslint-formatter-gitlab
+    # Run the linter with format gitlab
+    - npx eslint --output-file gl-code-quality-report.json --format gitlab
   artifacts:
     # Save the files produced by this job as job artifacts and allow jobs in subsequent stages to
     # download them.
     paths:
-      - "${PROJECT_DIR}${ESLINT_REPORT_FILE}"
+      - "${CI_PROJECT_DIR}/${PROJECT_DIR}${ESLINT_CODE_QUALITY_REPORT}"
     expire_in: 1 week
   rules:
     # Lint is never allowed to fail.

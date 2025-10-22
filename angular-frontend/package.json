@@ -13,8 +13,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "eslint 'src/**/*.ts' 'src/**/*.html'",
-    "lint-report": "npm run lint -- -o eslint-report.xml -f jslint-xml"
+    "lint": "eslint"
   },
   "private": true,
   "dependencies": {
@@ -54,8 +53,8 @@
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.37.0",
     "@types/jasmine": "~5.1.4",
-    "eslint": "^9.37.0",
-    "eslint-formatter-jslint-xml": "^8.40.0",
+    "eslint": "^9.38.0",
+    "eslint-formatter-gitlab": "^6.0.1",
     "eslint-plugin-license-header": "^0.8.0",
     "jasmine-core": "~5.9.0",
     "karma": "~6.4.4",

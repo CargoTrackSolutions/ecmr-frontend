@@ -17,6 +17,10 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "allowedCommonJsDependencies": [
+              "angularx-qrcode",
+              "qrcode"
+            ],
             "outputPath": "dist/angular-frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",

@@ -5,6 +5,7 @@
  * For details on the licensing terms, see the LICENSE file.
  * SPDX-License-Identifier: OLFL-1.3
  */
+
 import { isPossiblePhoneNumber } from 'libphonenumber-js';
 
 import { Injectable } from '@angular/core';

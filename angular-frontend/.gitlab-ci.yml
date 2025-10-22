@@ -45,6 +45,9 @@ lint:
   needs:
     - job: build
       artifacts: true
+  artifacts:
+    reports:
+      codequality: $CI_PROJECT_DIR/${PROJECT_DIR}gl-code-quality-report.json
   extends: .npm-angular-lint
   variables:
     PROJECT_DIR: "angular-frontend/"
