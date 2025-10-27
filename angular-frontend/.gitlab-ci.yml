@@ -1,6 +1,3 @@
-include:
-  - local: '.gitlab/ci_cd_templates/Npm-Angular.gitlab-ci.yml'
-
 # Extend the default stages with the archive stage intended to push artifacts to the nexus
 # Bear in mind that the K8s cluster may pick up docker images from the registry by itself if
 # a particular imagestream is configured as such
@@ -10,23 +7,75 @@ stages:
   - quality
   - archive
 
+variables:
+  NPM_ANGULAR_DOCKER_IMAGE: trion/ng-cli-karma:20.3.5
+
+  ##################################################################################################
+  # Definition of variables for project-specific configuration of the pipeline jobs.
+  # These variables can be overridden as needed by jobs extending the job templates.
+  ##################################################################################################
+  # Path to the project directory (relative to ${CI_PROJECT_DIR}).
+  # Can either be empty or has to end with a `/`.
+  PROJECT_DIR: "angular-frontend/"
+  # [RULES] Path to the project's `package.json` file (relative to ${CI_PROJECT_DIR}).
+  PACKAGE_JSON_PATH: "package.json"
+  # Path to lint - codequality path (relative to ${PROJECT_DIR}).
+  ESLINT_CODE_QUALITY_REPORT: "gl-code-quality-report.json"
+  # Path to the directory containing coverage report files (relative to ${PROJECT_DIR}).
+  COVERAGE_OUTPUT_RELATIVE_PATH: "coverage"
+  # Comma-SEPARATED list of paths to LCOV coverage report files. Paths may be absolute or
+  # relative to ${PROJECT_DIR}.
+  LCOV_REPORT_PATHS: "${COVERAGE_OUTPUT_RELATIVE_PATH}/lcov.info"
+  # Whether to enforce successful quality jobs (e.g. sonar analysis) on the default branch. A value
+  # of `true` effectively doesn't allow quality jobs to fail on the default branch.
+  ENFORCE_QA_ON_DEFAULT_BRANCH: "false"
+  # Path to the reference file containing all third-party licenses (relative to ${PROJECT_DIR}).
+  REFERENCE_LICENSES_FILE: "third-party-licenses/third-party-licenses.csv"
+  # Path to the generated file containing all third-party licenses - i.e. the output of the
+  # `license-checker` module (relative to ${PROJECT_DIR}).
+  GENERATED_LICENSES_FILE: "generated/third-party-licenses.csv"
+
 build:
+  image: ${NPM_ANGULAR_DOCKER_IMAGE}
   stage: build
   tags:
     - active
-  extends: .npm-angular-build
-  variables:
-    PROJECT_DIR: "angular-frontend/"
+  script:
+    # Output environment variables used in this job. (Can be useful for debugging.)
+    - echo "PROJECT_DIR=${PROJECT_DIR}"
+    - cd "${PROJECT_DIR}"
+    - npm ci
+    - npm run build
+  artifacts:
+    # Save the files produced by this job as job artifacts and allow jobs in subsequent stages to
+    # download them.
+    paths:
+      - "${PROJECT_DIR}dist/"
+    expire_in: 1 week
+  rules:
+    # The build is never allowed to fail.
+    - when: on_success
+      allow_failure: false
 
 test:
+  image: ${NPM_ANGULAR_DOCKER_IMAGE}
   stage: test
   tags:
     - active
-  extends: .npm-angular-test
   needs:
     - job: build
       artifacts: true
+  before_script:
+    # Output environment variables used in this job. (Can be useful for debugging.)
+    - echo "PROJECT_DIR=${PROJECT_DIR}"
+    - cd "${PROJECT_DIR}"
+    - npm ci
+  script:
+    - npm run test -- --code-coverage=true --progress=false --watch=false
+  coverage: '/Lines \W+: (\d+\.\d+)%.*/'
   artifacts:
+    # Save the files produced by this job as job artifacts and allow jobs in subsequent stages to
+    # download them.
     reports:
       junit: $CI_PROJECT_DIR/angular-frontend/coverage/tests/junit-test-results.xml
       coverage_report:
@@ -35,34 +84,59 @@ test:
     paths:
       - $CI_PROJECT_DIR/angular-frontend/coverage/tests/junit-test-results.xml
       - $CI_PROJECT_DIR/angular-frontend/coverage/angular-frontend/cobertura-coverage.xml
-  variables:
-    PROJECT_DIR: "angular-frontend/"
+    expire_in: 1 week
+  rules:
+    # Tests are never allowed to fail.
+    - when: on_success
+      allow_failure: false
 
 lint:
+  image: ${NPM_ANGULAR_DOCKER_IMAGE}
   stage: quality
   tags:
-    - active
+    - ecmr
   needs:
     - job: build
       artifacts: true
+  script:
+    # Output environment variables used in this job. (Can be useful for debugging.)
+    - echo "PROJECT_DIR=${PROJECT_DIR}"
+    - cd "${PROJECT_DIR}"
+    - npm ci
+    # Run the linter with format gitlab
+    - npx eslint --output-file gl-code-quality-report.json --format json
   artifacts:
+    # Save the files produced by this job as job artifacts and allow jobs in subsequent stages to
+    # download them.
     reports:
       codequality: $CI_PROJECT_DIR/${PROJECT_DIR}gl-code-quality-report.json
-  extends: .npm-angular-lint
-  variables:
-    PROJECT_DIR: "angular-frontend/"
-
-third-party-license-check:
-  stage: test
-  tags:
-    - active
-  extends: .npm-angular-third-party-license-check
-  variables:
-    PROJECT_DIR: "angular-frontend/"
+    paths:
+      - "${CI_PROJECT_DIR}/${PROJECT_DIR}${ESLINT_CODE_QUALITY_REPORT}"
+    expire_in: 1 week
+  rules:
+    # Lint is allowed to fail.
+    - when: on_success
+      allow_failure: true
 
 #artifacts-archive:
+#  image: ${NPM_ANGULAR_DOCKER_IMAGE}
 #  stage: archive
-#  extends: .npm-angular-archive
+#  before_script:
+    # Output environment variables used in this job. (Can be useful for debugging.)
+#    - echo "PROJECT_DIR=${PROJECT_DIR}"
+#    - cd "${PROJECT_DIR}"
+#    - echo "ecmr/angular-frontend:registry=https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/"
+#  > .npmrc
+#    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+#  script:
+#    - npm publish
+#  rules:
+    # Only archive if the project's `package.json` file has changed. Usually this should be the
+    # case, among other things, when there is a new version.
+#    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+#      changes:
+#        - "${PACKAGE_JSON_PATH}"
+      # This is allowed to fail so that default branch pipelines can be repeated
+#      allow_failure: false
 #  variables:
-#    PROJECT_DIR: "angular-frontend/"
-#    PACKAGE_JSON_PATH: "angular-frontend/package.json"
+#    PACKAGE_JSON_PATH: "${PROJECT_DIR}package.json"

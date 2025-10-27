@@ -63,7 +63,6 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "karma-junit-reporter": "^2.0.1",
-    "license-checker": "^25.0.1",
     "typescript": "~5.9.3",
     "typescript-eslint": "8.46.1"
   }
