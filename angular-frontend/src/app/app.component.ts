@@ -64,7 +64,6 @@ export class AppComponent implements OnInit, OnDestroy {
     ];
     selectedLanguage: { flag: string, code: string };
     languagePickerExtended: boolean = false;
-    isOpen = false;
 
     isMobile: boolean = false;
     private breakpointSubscription: Subscription | undefined;
@@ -104,10 +103,6 @@ export class AppComponent implements OnInit, OnDestroy {
         }
     }
 
-    toggleMenu(): void {
-        this.isOpen = !this.isOpen;
-    }
-
     toggleTheme() {
         this.isDarkMode = !this.isDarkMode;
         this.themeService.toggleDarkMode(this.isDarkMode);
@@ -115,7 +110,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
     navigateTo(url: string) {
         this.router.navigateByUrl(url);
-        if (this.isOpen) this.toggleMenu();
         this.drawer.close();
     }
 

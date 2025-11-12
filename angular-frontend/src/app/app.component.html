@@ -3,10 +3,10 @@
     <mat-toolbar-row class="p-0 w-100 justify-content-between">
         <div class="d-flex flex-row align-items-center justify-content-center">
             <div class="menu-button-container d-flex justify-content-center align-items-center me-2">
-                <button class="menu-button d-flex flex-column justify-content-around align-items-center" (click)="toggleMenu(); drawer.toggle()">
-                    <div class="bar1" [class.change]="isOpen"></div>
-                    <div class="bar2" [class.change]="isOpen"></div>
-                    <div class="bar3" [class.change]="isOpen"></div>
+                <button class="menu-button d-flex flex-column justify-content-around align-items-center" (click)="drawer.toggle()">
+                    <div class="bar1" [class.change]="drawer.opened"></div>
+                    <div class="bar2" [class.change]="drawer.opened"></div>
+                    <div class="bar3" [class.change]="drawer.opened"></div>
                 </button>
             </div>
             <span>{{ 'title' | translate }}</span>
