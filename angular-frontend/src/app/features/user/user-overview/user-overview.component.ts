@@ -80,7 +80,7 @@ export class UserOverviewComponent implements OnInit {
 
     dataSource = new MatTableDataSource<EcmrUser>();
 
-    displayedColumns = ['actions', 'firstName', 'lastName', 'email', 'phone', 'role'];
+    displayedColumns = ['actions', 'firstName', 'lastName', 'email', 'phone', 'companyName', 'role'];
     authenticatedUser: AuthenticatedUser;
 
     @ViewChild(MatPaginator) set matPaginator(paginator: MatPaginator) {
@@ -113,6 +113,8 @@ export class UserOverviewComponent implements OnInit {
                 return true
             } else if (data.phone?.trim().toLowerCase().includes(filter.trim().toLowerCase())) {
                 return true
+            } else if (data.companyName?.trim().toLowerCase().includes(filter.trim().toLowerCase())) {
+                return true
             } else return data.role.trim().toLowerCase().includes(filter.trim().toLowerCase());
         };
     }
@@ -121,25 +123,32 @@ export class UserOverviewComponent implements OnInit {
         const data = this.dataSource.data;
         this.dataSource.data = data.toSorted((a, b) => {
             const isAsc = sort.direction === 'asc';
-            switch (sort.active) {
-                case 'firstName':
-                    return this.compare(a.firstName, b.firstName, isAsc);
-                case 'lastName':
-                    return this.compare(a.lastName, b.lastName, isAsc);
-                case 'email':
-                    return this.compare(a.email, b.email, isAsc);
-                case 'phone':
-                    return this.compare(a.phone, b.phone, isAsc);
-                case 'role':
-                    return this.compare(a.role, b.role, isAsc);
-                default:
-                    return 0;
+            if (sort.direction != '') {
+                switch (sort.active) {
+                    case 'firstName':
+                        return this.compare(a.firstName, b.firstName, isAsc);
+                    case 'lastName':
+                        return this.compare(a.lastName, b.lastName, isAsc);
+                    case 'email':
+                        return this.compare(a.email, b.email, isAsc);
+                    case 'phone':
+                        return this.compare(a.phone, b.phone, isAsc);
+                    case 'companyName':
+                        return this.compare(a.companyName ?? '', b.companyName ?? '', isAsc);
+                    case 'role':
+                        return this.compare(a.role, b.role, isAsc);
+                    default:
+                        return this.compare(a.id, b.id, isAsc);
+                }
+            } else {
+                return this.compare(a.id, b.id, true);
             }
+
         });
     }
 
     compare(a: number | string | Date | null, b: number | string | Date | null, isAsc: boolean) {
-        if (a && b) {
+        if (a != null && b != null) {
             return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
         }
         return 0

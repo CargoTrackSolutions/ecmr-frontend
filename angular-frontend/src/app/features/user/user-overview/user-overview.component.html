@@ -52,6 +52,10 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "user.phone" | translate }}</th>
             <td mat-cell *matCellDef="let element" class="ps-3">{{ element.phone }}</td>
         </ng-container>
+        <ng-container matColumnDef="companyName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "user.companyName" | translate }}</th>
+            <td mat-cell *matCellDef="let element" class="ps-3">{{ element.companyName }}</td>
+        </ng-container>
         <ng-container matColumnDef="role">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "user.role" | translate }}</th>
             <td mat-cell *matCellDef="let element" class="ps-3">{{ element.role }}</td>

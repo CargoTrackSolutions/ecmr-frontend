@@ -15,6 +15,7 @@ export interface UserCreationAndUpdate {
     country: CountryCode,
     email: string,
     phone: string | null,
+    companyName: string | null,
     role: UserRole,
     groupIds: number[],
     defaultGroupId: number

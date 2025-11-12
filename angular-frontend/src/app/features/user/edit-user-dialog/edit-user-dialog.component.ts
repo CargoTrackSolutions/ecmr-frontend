@@ -92,6 +92,7 @@ export class EditUserDialogComponent implements OnInit {
         lastName: new FormControl<string>('', Validators.required),
         email: new FormControl<string>('', [Validators.required, emailValidator()]),
         phone: new FormControl<string>('+', [PhoneValidatorService.phoneNumberValidator()]),
+        companyName: new FormControl<string | null>(null, [Validators.maxLength(255)]),
         role: new FormControl<UserRole | null>(null, Validators.required),
     })
 
@@ -211,6 +212,7 @@ export class EditUserDialogComponent implements OnInit {
                 lastName: this.userFormGroup.controls.lastName.value!,
                 email: this.userFormGroup.controls.email.value!,
                 phone: this.userFormGroup.controls.phone.value,
+                companyName: this.userFormGroup.controls.companyName.value,
                 role: this.userFormGroup.controls.role.value!,
                 country: this.userFormGroup.controls.country.value!,
                 groupIds: groupIds,

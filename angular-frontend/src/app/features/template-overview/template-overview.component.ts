@@ -269,7 +269,6 @@ export class TemplateOverviewComponent implements OnInit {
    * Update the table's columns and only show active columns
    */
   updateColumns() {
-    console.log(JSON.stringify(this.toggledColumns));
     this.filteredColumns = [];
     this.filteredColumns.push(this.displayedColumns[0]);
     for (let i = 0; i < this.columns.length - 1; i++) {

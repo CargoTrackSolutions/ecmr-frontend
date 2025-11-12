@@ -29,6 +29,7 @@
       "invalid_countryCode": "Neplatný kód krajiny",
       "invalid_email": "Neplatný email",
       "invalid_phone": "Formát by mal byť napr. '+421...'",
+      "max_length": "Bol prekročený maximálny počet znakov",
       "required": "Povinné"
     },
     "group": "Skupina",
@@ -477,7 +478,8 @@
     "first_name": "Krstné meno",
     "last_name": "Priezvisko",
     "phone": "Telefón",
-    "role": "Role"
+    "role": "Role",
+    "companyName": "Názov spoločnosti"
   },
   "user_overview": {
     "activate_dialog": "Naozaj chcete aktivovať tohto používateľa?",

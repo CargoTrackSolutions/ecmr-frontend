@@ -39,7 +39,6 @@ export class MailSuffixService {
     }
 
     createMailSuffix(value: string, approvedUrlId: number): Observable<MailSuffix> {
-        console.log(approvedUrlId);
         const params = new HttpParams().set('approvedUrlId', approvedUrlId);
         return this.http.post<MailSuffix>(this.backendUrl, {mailSuffix: value}, {
             params: params

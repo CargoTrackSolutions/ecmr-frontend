@@ -16,6 +16,7 @@ export interface EcmrUser {
     country: CountryCode,
     email: string,
     phone: string | null,
+    companyName: string | null,
     role: UserRole,
     defaultGroupId: number | null
     deactivated: boolean;

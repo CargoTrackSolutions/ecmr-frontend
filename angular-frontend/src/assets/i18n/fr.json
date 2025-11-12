@@ -29,6 +29,7 @@
       "invalid_countryCode": "Code pays invalide",
       "invalid_email": "E-mail invalide",
       "invalid_phone": "Le format doit être, par ex. '+33...'",
+      "max_length": "Nombre maximal de caractères dépassé",
       "required": "Obligatoire"
     },
     "group": "Groupe",
@@ -477,7 +478,8 @@
     "first_name": "Prénom",
     "last_name": "Nom",
     "phone": "Téléphone",
-    "role": "Rôle"
+    "role": "Rôle",
+    "companyName": "Nom de l’entreprise"
   },
   "user_overview": {
     "activate_dialog": "Voulez-vous vraiment activer cet utilisateur ?",
