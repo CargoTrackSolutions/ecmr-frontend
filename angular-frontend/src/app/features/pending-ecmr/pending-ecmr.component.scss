@@ -1,0 +1,73 @@
+@use '@angular/material' as mat;
+
+mat-toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.pending-ecmr-container {
+  height: calc(100% - 64px);
+  padding: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  mat-card {
+    height: 100%;
+    flex: 1 1 30%
+  }
+
+  .pending-ecmr-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+
+    .pending-ecmr {
+      background-color: var(--mat-sys-surface-container-highest);
+      border-radius: var(--mat-sys-corner-medium);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .info-container {
+        display: flex;
+        flex-direction: column;
+
+        .info-row {
+          display: flex;
+          flex-direction: row;
+          gap: 1rem;
+          justify-content: space-between;
+          align-items: center;
+        }
+      }
+
+      .error-container, .approval-container {
+        border-radius: var(--mat-sys-corner-medium);
+        padding: 1rem;
+      }
+
+      .error-container {
+        background-color: var(--mat-sys-error-container);
+        color: var(--mat-sys-on-error-container);
+      }
+
+      .approval-container {
+        background-color: light-dark(#ffe5bf, #935700);
+        color: light-dark(#935700, #ffe5bf);
+
+        a {
+          width: 100%;
+          @include mat.button-overrides((
+                  text-label-text-color: light-dark(#935700, #ffe5bf),
+                  text-state-layer-color: light-dark(#935700, #ffe5bf)
+          ));
+        }
+      }
+    }
+  }
+}

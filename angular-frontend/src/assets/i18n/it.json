@@ -489,5 +489,61 @@
     "deactivate_user": "Disattiva utente",
     "edit_user": "Modifica utente",
     "title": "Gestione utente"
+  },
+  "url_approval": {
+    "title": "Gestione delle istanze",
+    "import": "Importa istanze",
+    "export": "Esporta istanze",
+    "add": "Aggiungi istanza",
+    "pending": "Istanze in attesa di approvazione",
+    "no_pending": "Nessuna istanza in attesa di approvazione",
+    "approve": "Approva istanza",
+    "reject": "Rifiuta istanza",
+    "count": "Conteggio: ",
+    "instances": "Istanze",
+    "url": "URL istanza",
+    "approved": "Approvato",
+    "created_at": "Creato il",
+    "updated_at": "Aggiornato il",
+    "updated_by": "Aggiornato da",
+    "update_url": "Aggiorna URL",
+    "create_url": "Crea URL",
+    "delete_message": "Desideri eliminare questa istanza? Tutti i suffissi email allegati verranno eliminati",
+    "delete_success": "URL istanza eliminato con successo",
+    "approval_change": "Approvazione aggiornata con successo",
+    "import_error": "Importazione delle istanze fallita",
+    "import_success": "Importazione delle istanze riuscita"
+  },
+  "email_suffix": {
+    "title": "Suffisso email per",
+    "import": "Importa suffisso email",
+    "export": "Esporta suffisso email",
+    "add": "Aggiungi suffisso email",
+    "create": "Crea suffisso email",
+    "edit": "Aggiorna suffisso email",
+    "mail_suffix": "Suffisso email",
+    "import_error": "Importazione del suffisso email fallita",
+    "import_success": "Importazione del suffisso email riuscita",
+    "delete_message": "Desideri eliminare questo suffisso email?",
+    "delete_success": "Suffisso email eliminato con successo"
+  },
+  "pending_ecmr_import": {
+    "title": "Importazione eCMR",
+    "pending": "In attesa",
+    "instance_url": "URL istanza: ",
+    "creation_time": "Creato il: ",
+    "receiving_user_mail": "Destinatario: ",
+    "error": "Errore!",
+    "approval_missing": "Manca l’approvazione!",
+    "go_to_approvals": "Vai a gestione istanze",
+    "errors": {
+      "INVALID_SEAL": "Il sigillo fornito non è valido.",
+      "USER_NO_DEFAULT_GROUP": "L’utente non ha un gruppo predefinito assegnato.",
+      "USER_NOT_EXISTS": "L’utente specificato non esiste.",
+      "USER_NO_PERMISSION": "L’utente non dispone dei permessi richiesti.",
+      "USER_GROUP_NOT_FOUND": "Il gruppo utenti non è stato trovato.",
+      "ECMR_ALREADY_EXISTS": "Un documento eCMR con questo ID esiste già.",
+      "WRONG_ROLE": "L’utente non ha il ruolo richiesto per questa azione."
+    }
   }
 }

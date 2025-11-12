@@ -5,6 +5,8 @@ body {
     @include mat.form-field-overrides((
             outlined-container-shape: var(--mat-sys-corner-extra-large),
             filled-container-color: color-mix(in srgb, var(--mat-sys-tertiary-container), transparent 50%),
+            container-height: 40px,
+            container-vertical-padding: 8px
     ));
   }
 
@@ -12,6 +14,7 @@ body {
     @include mat.button-overrides((
             text-label-text-color: var(--mat-sys-error),
             text-ripple-color: color-mix(in srgb, var(--mat-sys-error-container), transparent 50%),
+            text-state-layer-color: var(--mat-sys-error),
             filled-container-color: var(--mat-sys-error-container),
             filled-label-text-color: var(--mat-sys-on-error-container),
             outlined-outline-color: var(--mat-sys-error),
@@ -24,5 +27,11 @@ body {
     ));
 
     --mat-button-outlined-label-text-color: var(--mat-sys-error) !important;
+  }
+
+  .error-card {
+    @include mat.card-overrides((
+            elevated-container-color: var(--mat-sys-error-container),
+    ));
   }
 }

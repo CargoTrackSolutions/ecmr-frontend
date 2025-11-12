@@ -489,5 +489,62 @@
     "deactivate_user": "Dezaktywuj użytkownika",
     "edit_user": "Edytuj użytkownika",
     "title": "Zarządzanie użytkownikami"
+  },
+  "url_approval": {
+    "title": "Zarządzanie instancjami",
+    "import": "Importuj instancje",
+    "export": "Eksportuj instancje",
+    "add": "Dodaj instancję",
+    "pending": "Instancje oczekujące na zatwierdzenie",
+    "no_pending": "Brak instancji oczekujących na zatwierdzenie",
+    "approve": "Zatwierdź instancję",
+    "reject": "Odrzuć instancję",
+    "count": "Liczba: ",
+    "instances": "Instancje",
+    "url": "URL instancji",
+    "approved": "Zatwierdzono",
+    "created_at": "Utworzono dnia",
+    "updated_at": "Zaktualizowano dnia",
+    "updated_by": "Zaktualizowane przez",
+    "update_url": "Aktualizuj URL",
+    "create_url": "Utwórz URL",
+    "delete_message": "Czy chcesz usunąć tę instancję? Wszystkie powiązane sufiksy mailowe zostaną usunięte",
+    "delete_success": "URL instancji pomyślnie usunięty",
+    "approval_change": "Zatwierdzenie zostało pomyślnie zaktualizowane",
+    "import_error": "Importowanie instancji nie powiodło się",
+    "import_success": "Importowanie instancji zakończone pomyślnie"
+  },
+  "email_suffix": {
+    "title": "Suffix mailowy dla",
+    "import": "Importuj suffix mailowy",
+    "export": "Eksportuj suffix mailowy",
+    "add": "Dodaj suffix mailowy",
+    "create": "Utwórz suffix mailowy",
+    "edit": "Aktualizuj suffix mailowy",
+    "mail_suffix": "Suffix mailowy",
+    "import_error": "Importowanie suffixu mailowego nie powiodło się",
+    "import_success": "Importowanie suffixu mailowego zakończone pomyślnie",
+    "delete_message": "Czy chcesz usunąć ten suffix mailowy?",
+    "delete_success": "Suffix mailowy pomyślnie usunięty"
+  },
+  "pending_ecmr_import": {
+    "title": "Import eCMR",
+    "pending": "Oczekujące",
+    "instance_url": "URL instancji: ",
+    "creation_time": "Utworzono dnia: ",
+    "receiving_user_mail": "Odbiorca: ",
+    "error": "Błąd!",
+    "approval_missing": "Brak zatwierdzenia!",
+    "go_to_approvals": "Przejdź do zarządzania instancjami",
+    "errors": {
+      "INVALID_SEAL": "Podana pieczęć jest nieprawidłowa.",
+      "USER_NO_DEFAULT_GROUP": "Użytkownik nie ma przypisanej grupy domyślnej.",
+      "USER_NOT_EXISTS": "Określony użytkownik nie istnieje.",
+      "USER_NO_PERMISSION": "Użytkownik nie ma wymaganych uprawnień.",
+      "USER_GROUP_NOT_FOUND": "Grupa użytkowników nie została znaleziona.",
+      "ECMR_ALREADY_EXISTS": "Dokument eCMR o tym identyfikatorze już istnieje.",
+      "WRONG_ROLE": "Użytkownik nie ma wymaganego roli do tej akcji."
+    }
   }
 }
+

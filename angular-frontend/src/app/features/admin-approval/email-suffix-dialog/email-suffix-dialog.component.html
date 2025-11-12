@@ -1,0 +1,47 @@
+<h3 matDialogTitle>
+    {{ 'email_suffix.title' | translate }} {{ data.url }}
+</h3>
+<mat-dialog-content>
+    <mat-toolbar>
+        <button matButton="outlined" (click)="openFileDialog(fileInput)">
+            {{ 'email_suffix.import' | translate }}
+            <mat-icon>file_upload</mat-icon>
+        </button>
+        <input
+            #fileInput
+            type="file"
+            accept=".json"
+            hidden
+            (change)="onFileSelected($event)"
+        />
+        <button matButton="outlined" [disabled]="mailSuffixes().length === 0" (click)="exportUrls()">
+            {{ 'email_suffix.export' | translate }}
+            <mat-icon>file_download</mat-icon>
+        </button>
+        <button matButton="filled" (click)="createEmailSuffix()">
+            <mat-icon>add</mat-icon>
+            {{ 'email_suffix.add' | translate }}
+        </button>
+    </mat-toolbar>
+    <div class="mail-suffix-container">
+        @for (suffix of mailSuffixes(); track suffix.id) {
+            <div class="mail-suffix">
+                <span>{{ suffix.mailSuffix }}</span>
+                <div class="suffix-actions">
+                    <button matIconButton (click)="editEmailSuffix(suffix)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button matIconButton (click)="deleteMailSuffix(suffix)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button matButton (click)="dialogRef.close()" class="mat-warn">
+        <mat-icon>close</mat-icon>
+        {{ 'common.close' | translate }}
+    </button>
+</mat-dialog-actions>

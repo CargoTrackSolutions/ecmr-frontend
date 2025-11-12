@@ -1,0 +1,25 @@
+<h3 matDialogTitle>
+    @if (data.mailSuffix) {
+        {{ 'email_suffix.edit' | translate }}
+    } @else {
+        {{ 'email_suffix.create' | translate }}
+    }
+</h3>
+<mat-dialog-content>
+    <mat-form-field>
+        <mat-label>{{ 'email_suffix.mail_suffix' | translate }}</mat-label>
+        <input matInput [formControl]="mailSuffix">
+        <mat-error>{{ 'common.errors.required' | translate }}</mat-error>
+        <mat-icon matIconPrefix>mail</mat-icon>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button matButton class="mat-warn" (click)="dialogRef.close(null)">
+        {{ 'common.close' | translate }}
+        <mat-icon>close</mat-icon>
+    </button>
+    <button matButton [disabled]="mailSuffix.invalid" (click)="saveEmailSuffix()">
+        {{ 'common.save' | translate }}
+        <mat-icon>save</mat-icon>
+    </button>
+</mat-dialog-actions>

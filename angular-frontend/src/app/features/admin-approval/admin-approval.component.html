@@ -1,0 +1,67 @@
+<mat-toolbar>
+    <h6>{{ 'url_approval.title' | translate }}</h6>
+    <div class="toolbar-button-container">
+        <button matButton="outlined" (click)="openFileDialog(fileInput)">
+            {{ 'url_approval.import' | translate }}
+            <mat-icon>file_upload</mat-icon>
+        </button>
+        <input
+            #fileInput
+            type="file"
+            accept=".json"
+            hidden
+            (change)="onFileSelected($event)"
+        />
+        <button matButton="outlined" (click)="exportUrls()" [disabled]="approvedUrls().length === 0">
+            {{ 'url_approval.export' | translate }}
+            <mat-icon>file_download</mat-icon>
+        </button>
+        <button matButton="filled" (click)="openEditCreateDialog()">
+            <mat-icon>add</mat-icon>
+            {{ 'url_approval.add' | translate }}
+        </button>
+    </div>
+</mat-toolbar>
+<section class="admin-approval-content">
+    <mat-card class="pending-card">
+        <mat-card-header>
+            <mat-card-title>{{ 'url_approval.pending' | translate }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="pending-ecmr-container">
+                @for (ecmr of pendingEcmr(); track ecmr.url) {
+                    <div class="pending-ecmr">
+                        <div class="header-container">
+                            <h3>{{ ecmr.url }}</h3>
+                            <h3>{{ 'url_approval.count' | translate }} {{ ecmr.count }}</h3>
+                        </div>
+
+                        <div class="pending-ecmr-buttons">
+                            <button matButton="filled" class="accept" (click)="approveUrl(ecmr)">
+                                {{ 'url_approval.approve' | translate }}
+                                <mat-icon>check</mat-icon>
+                            </button>
+                            <button matButton="filled" class="reject" (click)="rejectUrl(ecmr)">
+                                {{ 'url_approval.reject' | translate }}
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                } @empty {
+                    <div class="no-pending-container">
+                        <mat-icon>check</mat-icon>
+                        <span>{{ 'url_approval.no_pending' | translate }}</span>
+                    </div>
+                }
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="instance-card">
+        <mat-card-header>
+            <mat-card-title>{{ 'url_approval.instances' | translate }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <app-instance-table [(approvedUrls)]="approvedUrls"/>
+        </mat-card-content>
+    </mat-card>
+</section>

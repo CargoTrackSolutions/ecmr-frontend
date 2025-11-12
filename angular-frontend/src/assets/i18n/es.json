@@ -489,5 +489,61 @@
     "deactivate_user": "Desactivar usuario",
     "edit_user": "Editar usuario",
     "title": "Gestión de usuarios"
+  },
+  "url_approval": {
+    "title": "Gestión de instancias",
+    "import": "Importar instancias",
+    "export": "Exportar instancias",
+    "add": "Agregar instancia",
+    "pending": "Instancias pendientes de aprobación",
+    "no_pending": "No hay instancias pendientes de aprobación",
+    "approve": "Aprobar instancia",
+    "reject": "Rechazar instancia",
+    "count": "Cantidad: ",
+    "instances": "Instancias",
+    "url": "URL de instancia",
+    "approved": "Aprobado",
+    "created_at": "Creado el",
+    "updated_at": "Actualizado el",
+    "updated_by": "Actualizado por",
+    "update_url": "Actualizar URL",
+    "create_url": "Crear URL",
+    "delete_message": "¿Desea eliminar esta instancia? Todos los sufijos de correo adjuntos serán eliminados",
+    "delete_success": "URL de instancia eliminada con éxito",
+    "approval_change": "Aprobación actualizada con éxito",
+    "import_error": "Importación de instancias fallida",
+    "import_success": "Importación de instancias exitosa"
+  },
+  "email_suffix": {
+    "title": "Sufijo de correo para",
+    "import": "Importar sufijo de correo",
+    "export": "Exportar sufijo de correo",
+    "add": "Agregar sufijo de correo",
+    "create": "Crear sufijo de correo",
+    "edit": "Actualizar sufijo de correo",
+    "mail_suffix": "Sufijo de correo",
+    "import_error": "La importación de sufijo de correo falló",
+    "import_success": "La importación de sufijo de correo fue exitosa",
+    "delete_message": "¿Desea eliminar este sufijo de correo?",
+    "delete_success": "Sufijo de correo eliminado con éxito"
+  },
+  "pending_ecmr_import": {
+    "title": "Importación eCMR",
+    "pending": "Pendiente",
+    "instance_url": "URL de instancia: ",
+    "creation_time": "Creado el: ",
+    "receiving_user_mail": "Receptor: ",
+    "error": "¡Error!",
+    "approval_missing": "¡Falta aprobación!",
+    "go_to_approvals": "Ir a gestión de instancias",
+    "errors": {
+      "INVALID_SEAL": "El sello proporcionado es inválido.",
+      "USER_NO_DEFAULT_GROUP": "El usuario no tiene asignado un grupo predeterminado.",
+      "USER_NOT_EXISTS": "El usuario especificado no existe.",
+      "USER_NO_PERMISSION": "El usuario no tiene los permisos requeridos.",
+      "USER_GROUP_NOT_FOUND": "El grupo de usuarios no fue encontrado.",
+      "ECMR_ALREADY_EXISTS": "Ya existe un documento eCMR con este ID.",
+      "WRONG_ROLE": "El usuario no tiene el rol requerido para esta acción."
+    }
   }
 }

@@ -33,26 +33,27 @@ export interface ConfirmationDialogResult {
         TranslateModule,
         MatDialogTitle,
         MatCheckbox,
-        MatIcon
+        MatIcon,
     ],
     templateUrl: './confirmation-dialog.component.html',
     styleUrl: './confirmation-dialog.component.scss'
 })
 export class ConfirmationDialogComponent {
-    data = inject<ConfirmationDialogData>(MAT_DIALOG_DATA);
-    dialogRef = inject<MatDialogRef<ConfirmationDialogComponent>>(MatDialogRef);
+
+    protected readonly data: ConfirmationDialogData = inject<ConfirmationDialogData>(MAT_DIALOG_DATA);
+    private readonly dialogRef: MatDialogRef<ConfirmationDialogComponent> = inject<MatDialogRef<ConfirmationDialogComponent>>(MatDialogRef);
 
 
-  dialogResult: ConfirmationDialogResult = {
-    isConfirmed: false,
-    isCheckboxTicked: false
-  };
+    protected readonly dialogResult: ConfirmationDialogResult = {
+        isConfirmed: false,
+        isCheckboxTicked: false
+    };
 
-  toggleCreateCopy() {
+    toggleCreateCopy(): void {
     this.dialogResult.isCheckboxTicked = !this.dialogResult.isCheckboxTicked;
   }
 
-  close(isConfirmed: boolean){
+    close(isConfirmed: boolean): void {
     this.dialogResult.isConfirmed = isConfirmed;
     this.dialogRef.close(this.dialogResult);
   }

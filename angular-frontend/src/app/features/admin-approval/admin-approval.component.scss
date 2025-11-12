@@ -1,0 +1,122 @@
+@use '@angular/material' as mat;
+
+mat-toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1rem;
+
+  .toolbar-button-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }
+}
+
+.admin-approval-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+  height: calc(100% - 64px);
+  box-sizing: border-box;
+
+  .pending-card {
+    flex: 1 1 25%;
+  }
+
+  .instance-card {
+    flex: 1 1 65%;
+  }
+
+  .pending-card, .instance-card {
+
+    min-width: 400px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    mat-card-content {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+
+      .pending-ecmr-container, app-instance-table {
+        flex: 1;
+        overflow-y: auto;
+      }
+    }
+  }
+}
+
+.no-pending-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  height: 100%;
+  width: 100%;
+
+  mat-icon {
+    width: 200px;
+    height: 200px;
+    font-size: 200px;
+  }
+
+  @include mat.icon-overrides((
+          color: light-dark(#228e23, #00ff64),
+  ));
+}
+
+.pending-ecmr-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: auto;
+  padding-top: 1rem;
+  max-height: 100%;
+}
+
+.pending-ecmr {
+  padding: 1rem;
+  gap: 1rem;
+  border-radius: var(--mat-sys-corner-medium);
+  display: flex;
+  flex-direction: column;
+  background-color: var(--mat-sys-surface-container-lowest);
+
+  .header-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+
+  .pending-ecmr-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    width: 100%;
+    justify-content: center;
+
+    button {
+      flex: 1;
+    }
+  }
+}
+
+.accept {
+  @include mat.button-overrides((
+          filled-container-color: light-dark(#b8f8b8, #176132),
+          filled-label-text-color: light-dark(#176132, #b8f8b8)
+  ));
+}
+
+.reject {
+  @include mat.button-overrides((
+          filled-container-color: var(--mat-sys-error-container),
+          filled-label-text-color: var(--mat-sys-on-error-container)
+  ));
+}

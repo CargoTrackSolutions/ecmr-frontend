@@ -489,5 +489,61 @@
     "deactivate_user": "Deaktivovat uživatele",
     "edit_user": "Upravit uživatele",
     "title": "Správa uživatelů"
+  },
+  "url_approval": {
+    "title": "Správa instancí",
+    "import": "Importovat instance",
+    "export": "Exportovat instance",
+    "add": "Přidat instanci",
+    "pending": "Instance čekající na schválení",
+    "no_pending": "Žádné instance nečekají na schválení",
+    "approve": "Schválit instanci",
+    "reject": "Zamítnout instanci",
+    "count": "Počet: ",
+    "instances": "Instance",
+    "url": "URL instance",
+    "approved": "Schváleno",
+    "created_at": "Vytvořeno dne",
+    "updated_at": "Aktualizováno dne",
+    "updated_by": "Aktualizoval",
+    "update_url": "Aktualizovat URL",
+    "create_url": "Vytvořit URL",
+    "delete_message": "Chcete tuto instanci odstranit? Všechny připojené e-mailové přípony budou odstraněny",
+    "delete_success": "URL instance byla úspěšně odstraněna",
+    "approval_change": "Schválení bylo úspěšně aktualizováno",
+    "import_error": "Import instancí se nezdařil",
+    "import_success": "Import instancí byl úspěšný"
+  },
+  "email_suffix": {
+    "title": "E-mailová přípona pro",
+    "import": "Importovat e-mailové přípony",
+    "export": "Exportovat e-mailové přípony",
+    "add": "Přidat e-mailovou příponu",
+    "create": "Vytvořit e-mailovou příponu",
+    "edit": "Aktualizovat e-mailovou příponu",
+    "mail_suffix": "E-mailová přípona",
+    "import_error": "Import e-mailové přípony se nezdařil",
+    "import_success": "Import e-mailové přípony byl úspěšný",
+    "delete_message": "Chcete tuto e-mailovou příponu odstranit?",
+    "delete_success": "E-mailová přípona byla úspěšně odstraněna"
+  },
+  "pending_ecmr_import": {
+    "title": "Import eCMR",
+    "pending": "Čekající",
+    "instance_url": "URL instance: ",
+    "creation_time": "Vytvořeno dne: ",
+    "receiving_user_mail": "Příjemce: ",
+    "error": "Chyba!",
+    "approval_missing": "Chybí schválení!",
+    "go_to_approvals": "Přejít na správu instancí",
+    "errors": {
+      "INVALID_SEAL": "Zadaná pečeť je neplatná.",
+      "USER_NO_DEFAULT_GROUP": "Uživatel nemá přiřazenu výchozí skupinu.",
+      "USER_NOT_EXISTS": "Zadaný uživatel neexistuje.",
+      "USER_NO_PERMISSION": "Uživatel nemá potřebná oprávnění.",
+      "USER_GROUP_NOT_FOUND": "Skupina uživatele nebyla nalezena.",
+      "ECMR_ALREADY_EXISTS": "Dokument eCMR s tímto ID již existuje.",
+      "WRONG_ROLE": "Uživatel nemá potřebnou roli pro tuto akci."
+    }
   }
 }

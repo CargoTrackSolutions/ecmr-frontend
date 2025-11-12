@@ -1,0 +1,35 @@
+mat-toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.mail-suffix-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .mail-suffix {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: var(--mat-sys-surface-container-highest);
+    border-radius: var(--mat-sys-corner-medium);
+
+    .suffix-actions {
+      background-color: var(--mat-sys-surface-container-high);
+      border-radius: var(--mat-sys-corner-extra-large);
+      display: flex;
+      flex-direction: row;
+      gap: 0.25rem
+    }
+
+    span {
+      color: var(--mat-sys-on-surface);
+    }
+  }
+}
+

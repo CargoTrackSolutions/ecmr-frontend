@@ -489,5 +489,61 @@
     "deactivate_user": "Désactiver l\u0027utilisateur",
     "edit_user": "Modifier l\u0027utilisateur",
     "title": "Gestion des utilisateurs"
+  },
+  "url_approval": {
+    "title": "Gestion des instances",
+    "import": "Importer des instances",
+    "export": "Exporter des instances",
+    "add": "Ajouter une instance",
+    "pending": "Instances en attente d’approbation",
+    "no_pending": "Aucune instance en attente d’approbation",
+    "approve": "Approuver l’instance",
+    "reject": "Rejeter l’instance",
+    "count": "Nombre : ",
+    "instances": "Instances",
+    "url": "URL de l’instance",
+    "approved": "Approuvé",
+    "created_at": "Créé le",
+    "updated_at": "Mis à jour le",
+    "updated_by": "Mis à jour par",
+    "update_url": "Mettre à jour l’URL",
+    "create_url": "Créer l’URL",
+    "delete_message": "Voulez-vous supprimer cette instance ? Tous les suffixes de mail associés seront supprimés",
+    "delete_success": "URL de l’instance supprimée avec succès",
+    "approval_change": "Approbation mise à jour avec succès",
+    "import_error": "L’importation des instances a échoué",
+    "import_success": "Importation des instances réussie"
+  },
+  "email_suffix": {
+    "title": "Suffixe email pour",
+    "import": "Importer le suffixe email",
+    "export": "Exporter le suffixe email",
+    "add": "Ajouter un suffixe email",
+    "create": "Créer un suffixe email",
+    "edit": "Mettre à jour le suffixe email",
+    "mail_suffix": "Suffixe email",
+    "import_error": "L’importation du suffixe email a échoué",
+    "import_success": "Importation du suffixe email réussie",
+    "delete_message": "Voulez-vous supprimer ce suffixe email ?",
+    "delete_success": "Suffixe email supprimé avec succès"
+  },
+  "pending_ecmr_import": {
+    "title": "Importation eCMR",
+    "pending": "En attente",
+    "instance_url": "URL de l’instance : ",
+    "creation_time": "Créé le : ",
+    "receiving_user_mail": "Destinataire : ",
+    "error": "Erreur !",
+    "approval_missing": "Approbation manquante !",
+    "go_to_approvals": "Aller à la gestion des instances",
+    "errors": {
+      "INVALID_SEAL": "Le sceau fourni est invalide.",
+      "USER_NO_DEFAULT_GROUP": "L’utilisateur n’a pas de groupe par défaut assigné.",
+      "USER_NOT_EXISTS": "L’utilisateur spécifié n’existe pas.",
+      "USER_NO_PERMISSION": "L’utilisateur n’a pas les permissions requises.",
+      "USER_GROUP_NOT_FOUND": "Le groupe d’utilisateurs n’a pas été trouvé.",
+      "ECMR_ALREADY_EXISTS": "Un document eCMR avec cet identifiant existe déjà.",
+      "WRONG_ROLE": "L’utilisateur n’a pas le rôle requis pour cette action."
+    }
   }
 }

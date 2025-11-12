@@ -1,0 +1,58 @@
+<div class="instance-table-container">
+    <mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="url">
+            <mat-header-cell *matHeaderCellDef>{{ 'url_approval.url' | translate }}</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{ row.url }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="approved">
+            <mat-header-cell *matHeaderCellDef>{{ 'url_approval.approved' | translate }}</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-slide-toggle [checked]="row.approvedState" (change)="toggleApprovedUrl(row, $event)"/>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="createdAt">
+            <mat-header-cell *matHeaderCellDef>{{ 'url_approval.created_at' | translate }}</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                {{ row.creationTimestamp | date:'short' }}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="updatedAt">
+            <mat-header-cell *matHeaderCellDef>{{ 'url_approval.updated_at' | translate }}</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                {{ row.updateTimestamp | date:'short' }}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="updatedBy">
+            <mat-header-cell *matHeaderCellDef>{{ 'url_approval.updated_by' | translate }}</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                {{ row.lastUpdateUser.email ?? '' }}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let row">
+
+                <button matIconButton class="delete-icon-button" (click)="deleteApprovedUrl(row)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                <button matIconButton class="edit-icon-button" (click)="editApprovedUrl(row)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button matIconButton class="edit-icon-button" (click)="openMailSuffixDialog(row)">
+                    <mat-icon>mail</mat-icon>
+                </button>
+
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSize]="20"/>
+</div>

@@ -489,5 +489,61 @@
     "deactivate_user": "Deaktivovať používateľa",
     "edit_user": "Upraviť používateľa",
     "title": "Správa používateľov"
+  },
+  "url_approval": {
+    "title": "Správa inštancií",
+    "import": "Importovať inštancie",
+    "export": "Exportovať inštancie",
+    "add": "Pridať inštanciu",
+    "pending": "Inštancie čakajúce na schválenie",
+    "no_pending": "Žiadne inštancie nečakajú na schválenie",
+    "approve": "Schváliť inštanciu",
+    "reject": "Zamietnuť inštanciu",
+    "count": "Počet: ",
+    "instances": "Inštancie",
+    "url": "URL inštancie",
+    "approved": "Schválené",
+    "created_at": "Vytvorené dňa",
+    "updated_at": "Aktualizované dňa",
+    "updated_by": "Aktualizoval",
+    "update_url": "Aktualizovať URL",
+    "create_url": "Vytvoriť URL",
+    "delete_message": "Chcete odstrániť túto inštanciu? Všetky pripojené e-mailové prípony budú odstránené",
+    "delete_success": "URL inštancie bola úspešne odstránená",
+    "approval_change": "Schválenie bolo úspešne aktualizované",
+    "import_error": "Import inštancií zlyhal",
+    "import_success": "Import inštancií bol úspešný"
+  },
+  "email_suffix": {
+    "title": "E-mailová prípona pre",
+    "import": "Importovať e-mailové prípony",
+    "export": "Exportovať e-mailové prípony",
+    "add": "Pridať e-mailovú príponu",
+    "create": "Vytvoriť e-mailovú príponu",
+    "edit": "Aktualizovať e-mailovú príponu",
+    "mail_suffix": "E-mailová prípona",
+    "import_error": "Import e-mailovej prípony zlyhal",
+    "import_success": "Import e-mailovej prípony bol úspešný",
+    "delete_message": "Chcete odstrániť túto e-mailovú príponu?",
+    "delete_success": "E-mailová prípona bola úspešne odstránená"
+  },
+  "pending_ecmr_import": {
+    "title": "Import eCMR",
+    "pending": "Čakajúce",
+    "instance_url": "URL inštancie: ",
+    "creation_time": "Vytvorené dňa: ",
+    "receiving_user_mail": "Príjemca: ",
+    "error": "Chyba!",
+    "approval_missing": "Chýba schválenie!",
+    "go_to_approvals": "Prejsť na správu inštancií",
+    "errors": {
+      "INVALID_SEAL": "Zadaná pečať je neplatná.",
+      "USER_NO_DEFAULT_GROUP": "Používateľ nemá priradenú predvolenú skupinu.",
+      "USER_NOT_EXISTS": "Zadaný používateľ neexistuje.",
+      "USER_NO_PERMISSION": "Používateľ nemá potrebné oprávnenia.",
+      "USER_GROUP_NOT_FOUND": "Skupina používateľa nebola nájdená.",
+      "ECMR_ALREADY_EXISTS": "Dokument eCMR s týmto ID už existuje.",
+      "WRONG_ROLE": "Používateľ nemá potrebnú rolu pre túto akciu."
+    }
   }
 }

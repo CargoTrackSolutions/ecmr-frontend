@@ -317,7 +317,8 @@
     "log": {
       "actiontype": {
         "creation": "Erstellt",
-        "edit": "Bearbeitet"
+        "edit": "Bearbeitet",
+        "import": "Importiert"
       },
       "tab": "Historie",
       "title": "Historie für eCMR"
@@ -358,7 +359,9 @@
     "overview": "eCMR Übersicht",
     "privacy": "Datenschutz",
     "templates": "Vorlagen Übersicht",
-    "user_overview": "Benutzerverwaltung"
+    "user_overview": "Benutzerverwaltung",
+    "instance_management": "Instanzenverwaltung",
+    "pending_ecmr": "eCMR Import"
   },
   "overview": {
     "columns_settings": {
@@ -496,5 +499,61 @@
     "deactivate_user": "Benutzer deaktivieren",
     "edit_user": "Benutzer bearbeiten",
     "title": "Benutzerverwaltung"
+  },
+  "url_approval": {
+    "title": "Instanzenverwaltung",
+    "import": "Instanzen Importieren",
+    "export": "Instanzen Exportieren",
+    "add": "Instanz Hinzufügen",
+    "pending": "Zu genehmigende Instanzen",
+    "no_pending": "Keine zu genehmigende Instanzen vorhanden",
+    "approve": "Instanz genehmigen",
+    "reject": "Instanz ablehnen",
+    "count": "Anzahl: ",
+    "instances": "Instanzen",
+    "url": "Instanz URL",
+    "approved": "Genehmigt",
+    "created_at": "Erstellt am",
+    "updated_at": "Aktualisiert am",
+    "updated_by": "Aktualisiert von",
+    "update_url": "URL Aktualisieren",
+    "create_url": "URL Erstellen",
+    "delete_message": "Möchten sie diese Instanz löschen? Alle anhängenden Email-Suffixe werden gelöscht",
+    "delete_success": "Instanz-URL erfolgreich gelöscht",
+    "approval_change": "Genehmigung erfolgreich aktualisiert",
+    "import_error": "Importieren von Instanzen ist fehlgeschlagen",
+    "import_success": "Importieren von Instanzen erfolgreich"
+  },
+  "email_suffix": {
+    "title": "Mail Suffix für  ",
+    "import": "Mail-Suffix Importieren",
+    "export": "Mail-Suffix Exportieren",
+    "add": "Mail-Suffix Hinzufügen",
+    "create": "Mail-Suffix Erstellen",
+    "edit": "Mail-Suffix Aktualisieren",
+    "mail_suffix": "Mail-Suffix",
+    "import_error": "Importieren von Mail-Suffix ist fehlgeschlagen",
+    "import_success": "Importieren von Mail-Suffix erfolgreich",
+    "delete_message": "Möchten sie diesen Mail-Suffix löschen?",
+    "delete_success": "Mail-Suffix erfolgreich gelöscht"
+  },
+  "pending_ecmr_import": {
+    "title": "ECMR Import",
+    "pending": "Ausstehend",
+    "instance_url": "Instanz-URL: ",
+    "creation_time": "Erstellt am: ",
+    "receiving_user_mail": "Empfänger: ",
+    "error": "Fehler!",
+    "approval_missing": "Fehlende Genehmigung!",
+    "go_to_approvals": "Zur Instanzverwaltung",
+    "errors": {
+      "INVALID_SEAL": "Das angegebene Siegel ist ungültig.",
+      "USER_NO_DEFAULT_GROUP": "Dem Benutzer ist keine Standardgruppe zugewiesen.",
+      "USER_NOT_EXISTS": "Der angegebene Benutzer existiert nicht.",
+      "USER_NO_PERMISSION": "Der Benutzer verfügt nicht über die erforderlichen Berechtigungen.",
+      "USER_GROUP_NOT_FOUND": "Die Benutzergruppe wurde nicht gefunden.",
+      "ECMR_ALREADY_EXISTS": "Ein eCMR-Dokument mit dieser ID existiert bereits.",
+      "WRONG_ROLE": "Der Benutzer besitzt nicht die erforderliche Rolle für diese Aktion."
+    }
   }
 }

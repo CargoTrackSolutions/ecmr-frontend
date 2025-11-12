@@ -24,6 +24,8 @@ import { ExternalUserRegistrationComponent } from './features/external-user-regi
 import {
     ExternalUserRegistrationSuccessComponent
 } from './features/external-user-registration/external-user-registration-success/external-user-registration-success.component';
+import { AdminApprovalComponent } from './features/admin-approval/admin-approval.component';
+import { PendingEcmrComponent } from './features/pending-ecmr/pending-ecmr.component';
 
 export const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'ecmr-overview'},
@@ -40,6 +42,8 @@ export const routes: Routes = [
     {path: 'group-overview', component: GroupOverviewComponent, canActivate: [AuthGuard], data: {role: UserRole.Admin}},
     {path: 'group-detail/:id', component: GroupDetailViewComponent, canActivate: [AuthGuard], data: {role: UserRole.Admin}},
     {path: 'user-overview', component: UserOverviewComponent, canActivate: [AuthGuard], data: {role: UserRole.Admin}},
+    {path: 'admin-approval', component: AdminApprovalComponent, canActivate: [AuthGuard], data: {role: UserRole.Admin}},
+    {path: 'pending-ecmr', component: PendingEcmrComponent, canActivate: [AuthGuard], data: {role: UserRole.Admin}},
     {path: 'external-user-registration/:id', component: ExternalUserRegistrationComponent},
     {path: 'external-user-registration-success/:id', component: ExternalUserRegistrationSuccessComponent},
     {path: 'privacy', component: PrivacyComponent},

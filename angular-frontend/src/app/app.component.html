@@ -54,7 +54,7 @@
                     </a>
                     <a class="sidenav__icon" tabindex="0" (click)="navigateTo('templates-overview')"
                        (keyup.enter)="navigateTo('templates-overview')"
-                   [routerLink]="['/templates-overview']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
+                       [routerLink]="['/templates-overview']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
             true}"
                        matRipple>
                         <app-ecmr-template-icon/>
@@ -65,22 +65,35 @@
                        matRipple>
                         <app-ecmr-done-icon/>
                     </a>
-                } @if (authService.hasRole(authenticatedUser, UserRole.Admin)) {
-                <a class="sidenav__icon" tabindex="0" (click)="navigateTo('user-overview')"
-                   (keyup.enter)="navigateTo('user-overview')"
-                   [routerLink]="['/user-overview']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-                   matRipple>
-                    <mat-icon color="primary" class="scale-icon primary-icon">person</mat-icon>
-                </a>
-                <a class="sidenav__icon" tabindex="0" (click)="navigateTo('group-overview')"
-                   (keyup.enter)="navigateTo('group-overview')"
-                   [routerLink]="['/group-overview']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-                   matRipple>
-                    <mat-icon color="primary" class="scale-icon primary-icon">groups</mat-icon>
-                </a>
-            }
+                }
+                @if (authService.hasRole(authenticatedUser, UserRole.Admin)) {
+                    <a class="sidenav__icon" tabindex="0" (click)="navigateTo('user-overview')"
+                       (keyup.enter)="navigateTo('user-overview')"
+                       [routerLink]="['/user-overview']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                       matRipple>
+                        <mat-icon color="primary" class="scale-icon primary-icon">person</mat-icon>
+                    </a>
+                    <a class="sidenav__icon" tabindex="0" (click)="navigateTo('group-overview')"
+                       (keyup.enter)="navigateTo('group-overview')"
+                       [routerLink]="['/group-overview']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                       matRipple>
+                        <mat-icon color="primary" class="scale-icon primary-icon">groups</mat-icon>
+                    </a>
+                    <a class="sidenav__icon" tabindex="0" (click)="navigateTo('admin-approval')"
+                       (keyup.enter)="navigateTo('admin-approval')"
+                       [routerLink]="['/admin-approval']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                       matRipple>
+                        <mat-icon color="primary" class="scale-icon primary-icon">link</mat-icon>
+                    </a>
+                    <a class="sidenav__icon" tabindex="0" (click)="navigateTo('pending-ecmr')"
+                       (keyup.enter)="navigateTo('pending-ecmr')"
+                       [routerLink]="['/pending-ecmr']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                       matRipple>
+                        <mat-icon color="primary" class="scale-icon primary-icon">schedule_send</mat-icon>
+                    </a>
+                }
             </div>
-    </mat-drawer>
+        </mat-drawer>
     }
     <mat-drawer-container class="sidenav-container" autosize>
         <mat-drawer #drawer class="sidenav" [mode]="'over'" [style.width]="isMobile ? '100%' : '300px'">
@@ -122,33 +135,59 @@
                             }
                             {{ 'menu.archive' | translate }}
                         </a>
-                    } @if (authService.hasRole(authenticatedUser, UserRole.Admin)) {
-                    @if (!isMobile) {
-                        <a class="sidenav-container__icon-container" matRipple
-                           tabindex="0" (click)="navigateTo('user-overview')"
-                           (keyup.enter)="navigateTo('user-overview')"
-                           [routerLink]="['/user-overview']">
-                            @if (isMobile) {
-                                <div class="sidenav__icon">
-                                    <mat-icon color="primary" class="scale-icon">person</mat-icon>
-                                </div>
-                            }
-                            {{ 'menu.user_overview' | translate }}
-                        </a>
-                    } @if (!isMobile) {
-                        <a class="sidenav-container__icon-container" matRipple
-                           tabindex="0" (click)="navigateTo('group-overview')"
-                           (keyup.enter)="navigateTo('group-overview')"
-                           [routerLink]="['/group-overview']">
-                            @if (isMobile) {
-                                <div class="sidenav__icon">
-                                    <mat-icon color="primary" class="scale-icon">groups</mat-icon>
-                                </div>
-                            }
-                            {{ 'menu.group_overview' | translate }}
-                        </a>
                     }
-                }
+                    @if (authService.hasRole(authenticatedUser, UserRole.Admin)) {
+                        @if (!isMobile) {
+                            <a class="sidenav-container__icon-container" matRipple
+                               tabindex="0" (click)="navigateTo('user-overview')"
+                               (keyup.enter)="navigateTo('user-overview')"
+                               [routerLink]="['/user-overview']">
+                                @if (isMobile) {
+                                    <div class="sidenav__icon">
+                                        <mat-icon color="primary" class="scale-icon">person</mat-icon>
+                                    </div>
+                                }
+                                {{ 'menu.user_overview' | translate }}
+                            </a>
+                        }
+                        @if (!isMobile) {
+                            <a class="sidenav-container__icon-container" matRipple
+                               tabindex="0" (click)="navigateTo('group-overview')"
+                               (keyup.enter)="navigateTo('group-overview')"
+                               [routerLink]="['/group-overview']">
+                                @if (isMobile) {
+                                    <div class="sidenav__icon">
+                                        <mat-icon color="primary" class="scale-icon">groups</mat-icon>
+                                    </div>
+                                }
+                                {{ 'menu.group_overview' | translate }}
+                            </a>
+                        }
+                        @if (!isMobile) {
+                            <a class="sidenav-container__icon-container" matRipple
+                               tabindex="0" (click)="navigateTo('admin-approval')"
+                               (keyup.enter)="navigateTo('admin-approval')"
+                               [routerLink]="['/admin-approval']">
+                                @if (isMobile) {
+                                    <div class="sidenav__icon">
+                                        <mat-icon color="primary" class="scale-icon">link</mat-icon>
+                                    </div>
+                                }
+                                {{ 'menu.instance_management' | translate }}
+                            </a>
+                            <a class="sidenav-container__icon-container" matRipple
+                               tabindex="0" (click)="navigateTo('pending-ecmr')"
+                               (keyup.enter)="navigateTo('pending-ecmr')"
+                               [routerLink]="['/pending-ecmr']">
+                                @if (isMobile) {
+                                    <div class="sidenav__icon">
+                                        <mat-icon color="primary" class="scale-icon">schedule_send</mat-icon>
+                                    </div>
+                                }
+                                {{ 'menu.pending_ecmr' | translate }}
+                            </a>
+                        }
+                    }
                 </div>
                 <div class="d-flex flex-column gap-1 ps-1 pe-1 mb-4">
                     <div class="footer-line" (click)="logout()"

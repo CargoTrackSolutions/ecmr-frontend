@@ -1,0 +1,50 @@
+<mat-toolbar>
+    <h6>{{ 'pending_ecmr_import.title' | translate }}</h6>
+    <app-countdown/>
+</mat-toolbar>
+<div class="pending-ecmr-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{ 'pending_ecmr_import.pending' | translate }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="pending-ecmr-content">
+                @for (ecmr of ecmrImports(); track ecmr.id) {
+                    <div class="pending-ecmr">
+                        <h6>{{ ecmr.ecmrId }}</h6>
+                        <div class="info-container">
+                            <div class="info-row">
+                                <span>{{ 'pending_ecmr_import.instance_url' | translate }}</span>
+                                <span>{{ ecmr.instanceUrl }}</span>
+                            </div>
+                            <div class="info-row">
+                                <span>{{ 'pending_ecmr_import.creation_time' | translate }}</span>
+                                <span>{{ ecmr.creationTimestamp | date:'medium' }}</span>
+                            </div>
+                            <div class="info-row">
+                                <span>{{ 'pending_ecmr_import.receiving_user_mail' | translate }}</span>
+                                <span>{{ ecmr.receivingUserEmail }}</span>
+                            </div>
+                            <div class="info-row"></div>
+                        </div>
+                        @if (ecmr.errorMessage) {
+                            <div class="error-container">
+                                <h6>{{ 'pending_ecmr_import.error' | translate }}</h6>
+                                {{ ('pending_ecmr_import.errors.' + ecmr.errorMessage) | translate }}
+                            </div>
+                        }
+                        @if (missingApproval(ecmr)) {
+                            <div class="approval-container">
+                                <h6>{{ 'pending_ecmr_import.approval_missing' | translate }}</h6>
+                                <a matButton routerLink="admin-approval">
+                                    {{ 'pending_ecmr_import.go_to_approvals' | translate }}
+                                    <mat-icon>arrow_forward</mat-icon>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,30 @@
+<h3 matDialogTitle>
+    @if (data) {
+        {{ 'url_approval.update_url' | translate }}
+    } @else {
+        {{ 'url_approval.create_url' | translate }}
+    }
+</h3>
+<mat-dialog-content>
+    <form [formGroup]="form">
+        <mat-form-field>
+            <mat-label>{{ 'url_approval.url' | translate }}</mat-label>
+            <input matInput formControlName="url">
+            <mat-icon matIconPrefix>link</mat-icon>
+            <mat-error>{{ 'common.errors.required' | translate }}</mat-error>
+        </mat-form-field>
+
+        <mat-slide-toggle formControlName="approvedState">{{ 'url_approval.approved' | translate }}</mat-slide-toggle>
+
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button matButton class="mat-warn" (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+        {{ 'common.cancel' | translate }}
+    </button>
+    <button matButton [disabled]="form.invalid" (click)="saveApprovedUrl()">
+        <mat-icon>save</mat-icon>
+        {{ 'common.save' | translate }}
+    </button>
+</mat-dialog-actions>
