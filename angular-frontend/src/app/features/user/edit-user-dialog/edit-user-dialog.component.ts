@@ -91,7 +91,7 @@ export class EditUserDialogComponent implements OnInit {
         firstName: new FormControl<string>('', Validators.required),
         lastName: new FormControl<string>('', Validators.required),
         email: new FormControl<string>('', [Validators.required, emailValidator()]),
-        phone: new FormControl<string>('+', [PhoneValidatorService.phoneNumberValidator()]),
+        phone: new FormControl<string>('', [PhoneValidatorService.phoneNumberValidator()]),
         companyName: new FormControl<string | null>(null, [Validators.maxLength(255)]),
         role: new FormControl<UserRole | null>(null, Validators.required),
     })

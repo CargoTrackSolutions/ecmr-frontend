@@ -191,7 +191,7 @@ export class EcmrEditorComponent implements OnInit {
             }),
             senderContactInformation: new FormGroup({
                 email: new FormControl<string | null>(null, [emailValidator()]),
-                phone: new FormControl<string | null>('+', [PhoneValidatorService.phoneNumberValidator()])
+                phone: new FormControl<string | null>(null, [PhoneValidatorService.phoneNumberValidator()])
             })
         }),
         //Area 2
@@ -210,7 +210,7 @@ export class EcmrEditorComponent implements OnInit {
             }),
             consigneeContactInformation: new FormGroup({
                 email: new FormControl<string | null>(null, [emailValidator()]),
-                phone: new FormControl<string | null>('+', [PhoneValidatorService.phoneNumberValidator()])
+                phone: new FormControl<string | null>(null, [PhoneValidatorService.phoneNumberValidator()])
             })
         }),
         //Area 3
@@ -242,8 +242,8 @@ export class EcmrEditorComponent implements OnInit {
             carrierLicensePlate: new FormControl<string | null>(null),
             carrierContactInformation: new FormGroup({
                 email: new FormControl<string | null>(null, [emailValidator()]),
-                carrierPhone: new FormControl<string | null>('+', [PhoneValidatorService.phoneNumberValidator()]),
-                driverPhone: new FormControl<string | null>('+', [PhoneValidatorService.phoneNumberValidator()])
+                carrierPhone: new FormControl<string | null>(null, [PhoneValidatorService.phoneNumberValidator()]),
+                driverPhone: new FormControl<string | null>(null, [PhoneValidatorService.phoneNumberValidator()])
             })
         }),
         //Area 7
@@ -260,8 +260,8 @@ export class EcmrEditorComponent implements OnInit {
             successiveCarrierStreet: new FormControl<string | null>(null),
             successiveCarrierContactInformation: new FormGroup({
                 email: new FormControl<string | null>(null, [emailValidator()]),
-                carrierPhone: new FormControl<string | null>('+', [PhoneValidatorService.phoneNumberValidator()]),
-                driverPhone: new FormControl<string | null>('+', [PhoneValidatorService.phoneNumberValidator()])
+                carrierPhone: new FormControl<string | null>(null, [PhoneValidatorService.phoneNumberValidator()]),
+                driverPhone: new FormControl<string | null>(null, [PhoneValidatorService.phoneNumberValidator()])
             })
         }),
         //Area 8
@@ -795,6 +795,9 @@ export class EcmrEditorComponent implements OnInit {
             })
         } else {
             this.ecmrConsignmentFormGroup.markAllAsTouched();
+            this.snackbarService.openErrorSnackbar('ecmr_editor.save_failure');
+            const element = document.getElementsByTagName('mat-error');
+            element.item(0)?.scrollIntoView({block: "center", inline: "nearest", behavior: "smooth"});
         }
     }
 

@@ -55,7 +55,7 @@ export class ExternalUserRegistrationComponent {
     externalUser = new FormGroup({
         firstName: new FormControl<string>('', [Validators.required]),
         lastName: new FormControl<string>('', [Validators.required]),
-        phone: new FormControl<string>('+', [Validators.required, PhoneValidatorService.phoneNumberValidator()]),
+        phone: new FormControl<string>('', [Validators.required, PhoneValidatorService.phoneNumberValidator()]),
         company: new FormControl<string>('', [Validators.required]),
     })
 
