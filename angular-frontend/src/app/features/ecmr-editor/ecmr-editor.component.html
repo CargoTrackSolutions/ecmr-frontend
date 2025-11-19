@@ -154,7 +154,7 @@
                             <mat-form-field class="flex-grow-1">
                                 <mat-label>{{ "ecmr_editor.sender.name" | translate }}</mat-label>
                                 <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="senderCompanyName">
-                                @if (ecmrConsignmentFormGroup.controls.senderInformation.get('senderCompanyName')?.hasError('mandatoryForSigning')) {
+                                @if (ecmrConsignmentFormGroup.controls.senderInformation.controls.senderCompanyName.hasError('mandatoryForSigning')) {
                                     <mat-error>{{ "ecmr_editor.error_mandatory" | translate }}</mat-error>
                                 }
                             </mat-form-field>
@@ -162,7 +162,7 @@
                                 <mat-label>{{ "ecmr_editor.sender.person_name" | translate }}</mat-label>
                                 <input [dynamicDisable]="!canFillSenderFields" matInput type="text" formControlName="senderPersonName"
                                        [minlength]="2" [maxlength]="60">
-                                @if (ecmrConsignmentFormGroup.controls.senderInformation.get('senderPersonName')?.hasError('minlength')) {
+                                @if (ecmrConsignmentFormGroup.controls.senderInformation.controls.senderPersonName.hasError('minlength')) {
                                     <mat-error>{{ "ecmr_editor.error_too_short" | translate }}</mat-error>
                                 }
                             </mat-form-field>
@@ -891,16 +891,14 @@
 
                             <!-- Area 22 -->
                             <h6>{{ "ecmr_editor.title_22" | translate }}</h6>
-                            <app-ecmr-seal [sealed]="!!sealedDocument"
-                                           [seal]="sealedDocument?.senderSeal"
+                            <app-ecmr-seal [$sealMetadata]="sealMetadata | sealMetadataRole : TransportRole.SENDER"
                                            [buttonDisabled]="!canFillSenderFields || this.editorMode !== EditorMode.ECMR_EDIT"
                                            (buttonClicked)="sealSender()"
                             />
 
                             <!-- Area 23 -->
                             <h6>{{ "ecmr_editor.title_23" | translate }}</h6>
-                            <app-ecmr-seal [sealed]="!!sealedDocument?.carrierSeal"
-                                           [seal]="sealedDocument?.carrierSeal"
+                            <app-ecmr-seal [$sealMetadata]="sealMetadata | sealMetadataRole : TransportRole.CARRIER"
                                            [buttonDisabled]="!canFillCarrierFields || this.editorMode !== EditorMode.ECMR_EDIT"
                                            (buttonClicked)="sealCarrier()"
                             />
@@ -941,8 +939,7 @@
                                 </mat-form-field>
                             </div>
                             <h6>{{ "ecmr_editor.title_24_signature" | translate }}</h6>
-                            <app-ecmr-seal [sealed]="!!sealedDocument?.consigneeSeal"
-                                           [seal]="sealedDocument?.consigneeSeal"
+                            <app-ecmr-seal [$sealMetadata]="sealMetadata | sealMetadataRole : TransportRole.CONSIGNEE"
                                            [buttonDisabled]="!canFillConsigneeFields || this.editorMode !== EditorMode.ECMR_EDIT"
                                            (buttonClicked)="sealConsignee()"
                             />

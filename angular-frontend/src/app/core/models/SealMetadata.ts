@@ -10,7 +10,8 @@ import { TransportRole } from './TransportRole';
 
 export interface SealMetadata {
     sealer: string;
+    sealerCompany: string;
     role: TransportRole;
-    seal: string;
     timestamp: Date;
+    originUrl: string;
 }

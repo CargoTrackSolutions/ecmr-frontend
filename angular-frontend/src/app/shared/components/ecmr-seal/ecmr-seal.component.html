@@ -1,9 +1,10 @@
-@if (sealed()) {
+@let sealMetadata = $sealMetadata();
+@if (sealMetadata) {
     <div class="signed-content d-flex justify-content-center align-items-center flex-column rounded p-3 col-12 col-md-8">
         <span class="d-flex justify-content-center mt-2">
-            {{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(seal()!.sealMetadata.timestamp) }}
+            {{ "signature.signed_on" | translate }} {{ dateTimeService.transformDate(sealMetadata.timestamp) }}
         </span>
-        <p class="text-center mt-2">{{ "signature.by" | translate }} {{ seal()!.sealMetadata.sealer }}</p>
+        <p class="text-center mt-2">{{ "signature.by" | translate }} {{ sealMetadata.sealer }}<br>{{ sealMetadata.sealerCompany }}</p>
         <span class="text-center">{{ "ecmr_editor.eseal_information" | translate }}</span>
     </div>
 } @else {

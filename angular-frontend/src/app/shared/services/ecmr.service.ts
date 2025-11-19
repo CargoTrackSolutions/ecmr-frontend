@@ -155,10 +155,6 @@ export class EcmrService {
         return this.http.patch<EcmrShareResponse>(`${environment.backendUrl}/ecmr/${ecmrId}/shareWithGroup`, ecmrShareWithGroup);
     }
 
-    importEcmr(ecmrId: string) {
-        return this.http.get<Ecmr>(`${environment.backendUrl}/ecmr/${ecmrId}/import`);
-    }
-
     importExternalEcmr( url: string, ecmrId: string, token: string ): Observable<void> {
       return this.http.post<void>(`${environment.backendUrl}/ecmr/import-external`, {url: url, ecmrId: ecmrId, shareToken: token});
     }

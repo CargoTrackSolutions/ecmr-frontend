@@ -39,8 +39,9 @@ import { LoadingService } from '../../core/services/loading.service';
 import { EcmrType } from '../../core/models/EcmrType';
 import { SnackbarService } from '../../core/services/snackbar.service';
 import { ExternalEcmrImportDialogComponent } from './dialog/external-ecmr-import-dialog/external-ecmr-import-dialog.component';
-import { SealedDocumentService } from '../../shared/services/sealed-document.service';
-import { SealedDocumentWithoutEcmr } from '../../core/models/SealedDocumentWithoutEcmr';
+import { SealMetadataService } from '../../shared/services/seal-metadata.service';
+import { SealMetadata } from '../../core/models/SealMetadata';
+import { ShareEcmrDialogData } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog-data';
 
 @Component({
     selector: 'app-overview',
@@ -80,7 +81,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     private breakpointObserver = inject(BreakpointObserver);
     protected ecmrActionService = inject(EcmrActionService);
     private snackbarService = inject(SnackbarService);
-    private sealedDocumentService = inject(SealedDocumentService);
+    private sealMetadataService = inject(SealMetadataService);
 
 
     isMobile: boolean = false;
@@ -92,8 +93,8 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     // ecmr selected
     selectedEcmr: Ecmr | null = null;
     selectedEcmrRoles: EcmrRole[];
-    currentSealedDocument: SealedDocumentWithoutEcmr | null;
     selectedEcmrs: Ecmr[] = [];
+    selectedEcmrSealMetadata: SealMetadata[] = [];
 
     ecmr: Ecmr[] = [];
 
@@ -117,7 +118,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         this.router.events.pipe(
             filter((e: Event | RouterEvent): e is NavigationEnd => e instanceof NavigationEnd)
         ).subscribe((ev: NavigationEnd) => {
-            if (ev.url === "/ecmr-overview") {
+            if (ev.url === '/ecmr-overview') {
                 const nav = this.router.getCurrentNavigation();
                 if (nav?.extras?.state) {
                     if (nav.extras.state['selectedEcmr'] !== undefined) {
@@ -172,17 +173,6 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         this.router.navigateByUrl('/ecmr-editor');
     }
 
-    /* TODO wird später implementiert
-    importEcmr() {
-        this.dialog.open(EcmrImportDialogComponent).afterClosed().subscribe(result => {
-            if (result) {
-                this.loadData().subscribe(data => {
-                    this.updateTableData(data);
-                });
-            }
-        });
-    }*/
-
     importExternalEcmr() {
         this.dialog.open(ExternalEcmrImportDialogComponent,
             {
@@ -205,7 +195,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     shareEcmr(ecmr: Ecmr) {
         if (ecmr?.ecmrId) {
             this.loadingService.showLoaderUntilCompleted(forkJoin({
-                sealedDocument: this.loadSealedDocument(ecmr.ecmrId),
+                sealMetaData: this.loadSealMetadata(ecmr.ecmrId),
                 roles: this.ecmrService.getEcmrRolesForCurrentUser(ecmr.ecmrId)
             })).subscribe(result => {
                 this.dialog.open(ShareEcmrDialogComponent, {
@@ -213,10 +203,10 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
                     maxWidth: '90vw',
                     data: {
                         ecmr: ecmr,
-                        sealedDocument: result.sealedDocument,
+                        sealMetadata: result.sealMetaData,
                         roles: result.roles,
                         isExternalUser: false
-                    }
+                    } as ShareEcmrDialogData
                 });
             })
         }
@@ -249,8 +239,8 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         return ecmr.ecmrStatus === EcmrStatus.NEW
     }
 
-    bulkDeleteButtonVisible(){
-      return this.selectedEcmrs.every(ecmr => ecmr.ecmrStatus === EcmrStatus.NEW);
+    bulkDeleteButtonVisible() {
+        return this.selectedEcmrs.every(ecmr => ecmr.ecmrStatus === EcmrStatus.NEW);
     }
 
     historyOfEcmr(ecmrId: string, refId: string) {
@@ -294,32 +284,27 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     }
 
     selectEcmr(ecmr: Ecmr | null) {
-        this.currentSealedDocument = null;
+        this.selectedEcmrSealMetadata = [];
         if (ecmr?.ecmrId) {
             this.ecmrService.getEcmrRolesForCurrentUser(ecmr.ecmrId).subscribe(roles => {
                 this.selectedEcmrRoles = roles
             })
-            this.loadSealedDocument(ecmr.ecmrId).subscribe(sealedDocument => {
-                if (sealedDocument) {
-                    this.currentSealedDocument = sealedDocument;
-                }
+            this.loadSealMetadata(ecmr.ecmrId).subscribe(sealMetadata => {
+                this.selectedEcmrSealMetadata = sealMetadata;
             })
         }
         this.selectedEcmr = ecmr;
     }
 
-    private loadSealedDocument(ecmrId: string): Observable<SealedDocumentWithoutEcmr | null> {
-        return this.sealedDocumentService.getSealedDocumentWithoutEcmr(ecmrId)
+    private loadSealMetadata(ecmrId: string): Observable<SealMetadata[]> {
+        return this.sealMetadataService.getSealMetadata(ecmrId)
             .pipe(
                 catchError(err => {
-                    if (err.status === 404) {
-                        return of(null);
-                    } else {
-                        this.snackbarService.openErrorSnackbar('general.snackbar_error')
-                        console.log(err);
-                        return of(null)
-                    }
-                }))
+                    this.snackbarService.openErrorSnackbar('general.snackbar_error')
+                    console.log(err);
+                    return of([])
+                })
+            );
     }
 
     closeDetailView($event: boolean) {
@@ -344,64 +329,64 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     }
 
     bulkMoveToArchive() {
-      if(this.selectedEcmrs.length === 0) return;
+        if (this.selectedEcmrs.length === 0) return;
 
-      const dialogData = this.selectedEcmrs.length === 1 ? {
-        text: 'overview.confirmation_message'
-      }: {
-        text: 'overview.multiselect.archive_confirmation_message',
-        textParams: { count: this.selectedEcmrs.length }
-      };
+        const dialogData = this.selectedEcmrs.length === 1 ? {
+            text: 'overview.confirmation_message'
+        } : {
+            text: 'overview.multiselect.archive_confirmation_message',
+            textParams: {count: this.selectedEcmrs.length}
+        };
 
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-              data: dialogData,
-          });
-          dialogRef.afterClosed().pipe(
-              filter(result => result.isConfirmed),
-              switchMap(() => {
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+            data: dialogData,
+        });
+        dialogRef.afterClosed().pipe(
+            filter(result => result.isConfirmed),
+            switchMap(() => {
                 const ecmrIds = this.selectedEcmrs.flatMap(ecmr => ecmr.ecmrId ? [ecmr.ecmrId] : []);
                 return this.ecmrService.bulkMoveToArchive(ecmrIds);
-              }),
-              switchMap(() => this.loadData()),
-              catchError(err => {
-                  this.snackbarService.openErrorSnackbar('general.snackbar_error');
-                  console.error(err);
-                  return of(null)
-              }),
-          ).subscribe(data => {
-              if (data) {
-                  this.snackbarService.openSuccessSnackbar('overview.multiselect.archive_success');
-                  this.updateTableData(data);
-              }
-          });
+            }),
+            switchMap(() => this.loadData()),
+            catchError(err => {
+                this.snackbarService.openErrorSnackbar('general.snackbar_error');
+                console.error(err);
+                return of(null)
+            }),
+        ).subscribe(data => {
+            if (data) {
+                this.snackbarService.openSuccessSnackbar('overview.multiselect.archive_success');
+                this.updateTableData(data);
+            }
+        });
     }
 
     bulkDelete() {
-      if(this.selectedEcmrs.length === 0) return;
+        if (this.selectedEcmrs.length === 0) return;
 
-      const dialogData = this.selectedEcmrs.length === 1 ? {
-        text: 'overview.delete_ecmr_dialog_text'
-      }: {
-        text: 'overview.multiselect.delete_confirmation_message',
-        textParams: { count: this.selectedEcmrs.length }
-      };
+        const dialogData = this.selectedEcmrs.length === 1 ? {
+            text: 'overview.delete_ecmr_dialog_text'
+        } : {
+            text: 'overview.multiselect.delete_confirmation_message',
+            textParams: {count: this.selectedEcmrs.length}
+        };
 
-      this.dialog.open(ConfirmationDialogComponent, {
+        this.dialog.open(ConfirmationDialogComponent, {
             data: dialogData,
         }).afterClosed().pipe(
             filter(dialogResult => dialogResult.isConfirmed === true),
             switchMap(() => {
                 const ecmrIds = this.selectedEcmrs.flatMap(ecmr => ecmr.ecmrId ? [ecmr.ecmrId] : []);
                 return this.ecmrService.bulkDeleteEcmr(ecmrIds);
-              }),
+            }),
             switchMap(() => this.loadData()),
             catchError(err => {
-                  this.snackbarService.openErrorSnackbar('general.snackbar_error');
-                  console.error(err);
-                  return of(null)
-              }),
+                this.snackbarService.openErrorSnackbar('general.snackbar_error');
+                console.error(err);
+                return of(null)
+            }),
         ).subscribe(data => {
-            if(data){
+            if (data) {
                 this.snackbarService.openSuccessSnackbar('overview.multiselect.delete_success');
                 this.updateTableData(data);
             }

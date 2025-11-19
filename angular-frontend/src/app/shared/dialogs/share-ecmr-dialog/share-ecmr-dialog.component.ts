@@ -10,7 +10,6 @@ import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { Ecmr } from '../../../core/models/Ecmr';
 import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle';
 import { EcmrRole } from '../../../core/enums/EcmrRole';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -36,8 +35,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { GroupService } from '../../../features/group/group.service';
 import { GroupFlat } from '../../../core/models/GroupFlat';
 import { EcmrShareWithGroup } from '../../../core/models/EcmrShareWithGroup';
-import { SealedDocumentWithoutEcmr } from '../../../core/models/SealedDocumentWithoutEcmr';
 import { LoadingService } from '../../../core/services/loading.service';
+import { SealMetadata } from '../../../core/models/SealMetadata';
+import { ShareEcmrDialogData } from './share-ecmr-dialog-data';
+import { TransportRole } from '../../../core/models/TransportRole';
 
 export enum SearchMode {
     EMAIL = 'Email',
@@ -79,14 +80,7 @@ interface SearchConfig {
     styleUrl: './share-ecmr-dialog.component.scss'
 })
 export class ShareEcmrDialogComponent implements OnInit {
-    data = inject<{
-        ecmr: Ecmr;
-        sealedDocument: SealedDocumentWithoutEcmr;
-        roles: EcmrRole[];
-        isExternalUser: boolean;
-        userToken: string;
-        tan: string;
-    }>(MAT_DIALOG_DATA);
+    data = inject<ShareEcmrDialogData>(MAT_DIALOG_DATA);
     dialogRef = inject<MatDialogRef<ShareEcmrDialogComponent>>(MatDialogRef);
     private snackBarService = inject(SnackbarService);
     private ecmrService = inject(EcmrService);
@@ -102,11 +96,6 @@ export class ShareEcmrDialogComponent implements OnInit {
     protected readonly EcmrRole = EcmrRole;
 
     @ViewChild('qrcodeElement', {static: true}) qrcodeElement: QRCodeComponent;
-
-    ecmr: Ecmr;
-    sealedDocument: SealedDocumentWithoutEcmr;
-    ecmrToken: string;
-    ecmrRoles: EcmrRole[];
 
     userList: string[] = [];
     filteredUserList: string[] = [];
@@ -126,9 +115,6 @@ export class ShareEcmrDialogComponent implements OnInit {
     readerShareString = `${environment.backendUrl}/anonymous/ecmr`
     shareString = '';
     currentRole: EcmrRole;
-    isExternalUser: boolean;
-    tan: string;
-    userToken: string;
 
     private breakpointSubscription: Subscription | undefined;
     isMobile: boolean;
@@ -147,15 +133,9 @@ export class ShareEcmrDialogComponent implements OnInit {
             });
 
         if (data) {
-            this.ecmr = data.ecmr;
-            this.sealedDocument = data.sealedDocument;
-            this.ecmrRoles = data.roles;
-            this.isExternalUser = data.isExternalUser;
-            this.tan = data.tan
-            this.userToken = data.userToken;
             this.setSharableRoles()
             this.setInitialRole();
-            if (!this.isExternalUser) {
+            if (!this.data.isExternalUser) {
                 this.userService.getAllUserMail().subscribe(userResult => {
                     this.userList = userResult;
                 })
@@ -168,16 +148,22 @@ export class ShareEcmrDialogComponent implements OnInit {
     }
 
     private setSharableRoles() {
-        const canShare = (requiredRoles: EcmrRole[], sealKey: keyof typeof this.sealedDocument, excludeRole?: EcmrRole) => {
-            const hasRole = requiredRoles.some(role => this.ecmrRoles.includes(role));
-            const sealEmpty = !this.sealedDocument || this.sealedDocument[sealKey] === null;
-            const externalCheck = this.isExternalUser ? !this.ecmrRoles.includes(excludeRole!) : true;
-            return hasRole && sealEmpty && externalCheck;
-        };
+        this.senderSharable = this.data.isExternalUser ?
+            false :
+            this.canShare([EcmrRole.Sender], this.data.sealMetadata, TransportRole.SENDER);
+        this.carrierSharable = this.data.isExternalUser ?
+            this.canShare([EcmrRole.Sender], this.data.sealMetadata, TransportRole.CARRIER) :
+            this.canShare([EcmrRole.Carrier, EcmrRole.Sender], this.data.sealMetadata, TransportRole.CARRIER);
 
-        this.senderSharable = canShare([EcmrRole.Sender], 'senderSeal', EcmrRole.Sender);
-        this.carrierSharable = canShare([EcmrRole.Sender, EcmrRole.Carrier], 'carrierSeal', EcmrRole.Carrier);
-        this.consigneeSharable = canShare([EcmrRole.Sender, EcmrRole.Carrier, EcmrRole.Consignee], 'consigneeSeal', EcmrRole.Consignee);
+        this.consigneeSharable = this.data.isExternalUser ?
+            this.canShare([EcmrRole.Carrier], this.data.sealMetadata, TransportRole.CONSIGNEE) :
+            this.canShare([EcmrRole.Carrier, EcmrRole.Sender, EcmrRole.Consignee], this.data.sealMetadata, TransportRole.CONSIGNEE);
+    }
+
+    private canShare(requiredRoles: EcmrRole[], sealMetadata: SealMetadata[], requiredSeal: TransportRole): boolean {
+        const hasRole = requiredRoles.some(role => this.data.roles.includes(role));
+        const hasSeal = sealMetadata.some(x => x.role === requiredSeal);
+        return hasRole && !hasSeal;
     }
 
     private setInitialRole() {
@@ -293,23 +279,23 @@ export class ShareEcmrDialogComponent implements OnInit {
     }
 
     private shareByEmail() {
-        if (this.emailFormControl.valid && this.emailFormControl.value && this.currentRole && this.ecmr?.ecmrId) {
+        if (this.emailFormControl.valid && this.emailFormControl.value && this.currentRole && this.data.ecmr.ecmrId) {
             const ecmrShare: EcmrShare = {
                 role: this.currentRole,
                 email: this.emailFormControl.value
             };
 
-            if (this.isExternalUser) {
-                return this.externalUserService.shareEcmr(ecmrShare, this.ecmr.ecmrId, this.userToken, this.tan);
+            if (this.data.isExternalUser) {
+                return this.externalUserService.shareEcmr(ecmrShare, this.data.ecmr.ecmrId, this.data.userToken, this.data.tan);
             }
-            return this.ecmrService.shareEcmr(ecmrShare, this.ecmr.ecmrId);
+            return this.ecmrService.shareEcmr(ecmrShare, this.data.ecmr.ecmrId);
         }
         return null;
     }
 
     private shareByGroup() {
-        if (this.groupFormControl.valid && this.groupFormControl.value && this.currentRole && this.ecmr?.ecmrId) {
-            if (this.isExternalUser) { // not implemented
+        if (this.groupFormControl.valid && this.groupFormControl.value && this.currentRole && this.data.ecmr.ecmrId) {
+            if (this.data.isExternalUser) { // not implemented
                 return null;
             }
 
@@ -341,7 +327,7 @@ export class ShareEcmrDialogComponent implements OnInit {
                 role: this.currentRole,
                 groupId: groupId
             };
-            return this.ecmrService.shareEcmrWithGroup(ecmrShareWithGroup, this.ecmr.ecmrId);
+            return this.ecmrService.shareEcmrWithGroup(ecmrShareWithGroup, this.data.ecmr.ecmrId);
         } else {
             return null;
         }
@@ -349,12 +335,12 @@ export class ShareEcmrDialogComponent implements OnInit {
 
     changeRole(role: EcmrRole) {
         this.currentRole = role
-        if (this.ecmr.ecmrId) {
-            (this.isExternalUser ? this.externalUserService.getShareToken(this.ecmr.ecmrId, role, this.userToken, this.tan) : this.ecmrService.getShareToken(this.ecmr.ecmrId, role)).subscribe(token => {
-                this.ecmrToken = token;
+        if (this.data.ecmr.ecmrId) {
+            (this.data.isExternalUser ? this.externalUserService.getShareToken(this.data.ecmr.ecmrId, role, this.data.userToken, this.data.tan) : this.ecmrService.getShareToken(this.data.ecmr.ecmrId, role)).subscribe(token => {
+                const ecmrToken = token;
                 this.shareString = this.currentRole !== EcmrRole.Reader ?
-                    `${this.externalUserShareString}/${this.ecmr.ecmrId}?token=${this.ecmrToken}&role=${this.currentRole}` :
-                    `${this.readerShareString}/${this.ecmr.ecmrId}/share-pdf?shareToken=${this.ecmrToken}`
+                    `${this.externalUserShareString}/${this.data.ecmr.ecmrId}?token=${ecmrToken}&role=${this.currentRole}` :
+                    `${this.readerShareString}/${this.data.ecmr.ecmrId}/share-pdf?shareToken=${ecmrToken}`
             })
         }
     }
@@ -373,4 +359,6 @@ export class ShareEcmrDialogComponent implements OnInit {
     selectSearchMode(mode: SearchMode): void {
         this.selectedSearch = this.searchOptionsMap[mode];
     }
+
+    protected readonly TransportRole = TransportRole;
 }

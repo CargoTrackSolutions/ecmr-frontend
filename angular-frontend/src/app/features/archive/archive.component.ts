@@ -31,8 +31,8 @@ import { EcmrType } from '../../core/models/EcmrType';
 import { LoadingService } from '../../core/services/loading.service';
 import { SnackbarService } from '../../core/services/snackbar.service';
 import { Sort } from '@angular/material/sort';
-import { SealedDocumentWithoutEcmr } from '../../core/models/SealedDocumentWithoutEcmr';
-import { SealedDocumentService } from '../../shared/services/sealed-document.service';
+import { SealMetadataService } from '../../shared/services/seal-metadata.service';
+import { SealMetadata } from '../../core/models/SealMetadata';
 
 @Component({
     selector: 'app-archive',
@@ -63,12 +63,12 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
     protected ecmrActionService = inject(EcmrActionService);
     private router = inject(Router);
     private loadingService = inject(LoadingService);
-    private sealedDocumentService = inject(SealedDocumentService);
+    private sealMetadataService = inject(SealMetadataService);
 
     @ViewChild(EcmrTableComponent) table: EcmrTableComponent;
 
     selectedEcmr: Ecmr | null = null;
-    currentSealedDocument: SealedDocumentWithoutEcmr | null;
+    selectedEcmrSealMetadata: SealMetadata[] = [];
 
     ecmr: Ecmr[] = [];
 
@@ -155,24 +155,16 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
     }
 
     selectEcmr(ecmr: Ecmr | null) {
-        this.currentSealedDocument = null;
+        this.selectedEcmrSealMetadata = [];
         if (ecmr?.ecmrId) {
-            this.sealedDocumentService.getSealedDocumentWithoutEcmr(ecmr.ecmrId)
+            this.sealMetadataService.getSealMetadata(ecmr.ecmrId)
                 .pipe(
                     catchError(err => {
-                        if (err.status === 404) {
-                            return of(null);
-                        } else {
-                            this.snackbarService.openErrorSnackbar('general.snackbar_error')
-                            console.log(err);
-                            return of(null)
-                        }
+                        this.snackbarService.openErrorSnackbar('general.snackbar_error')
+                        console.log(err);
+                        return of([]);
                     }))
-                .subscribe(sealedDocument => {
-                    if (sealedDocument) {
-                        this.currentSealedDocument = sealedDocument;
-                    }
-                })
+                .subscribe(sealMetadata => this.selectedEcmrSealMetadata = sealMetadata)
         }
         this.selectedEcmr = ecmr;
     }

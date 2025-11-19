@@ -12,11 +12,10 @@ import { Ecmr } from '../../../core/models/Ecmr';
 import { environment } from '../../../../environments/environment';
 import { EcmrRole } from '../../../core/enums/EcmrRole';
 import { Observable } from 'rxjs';
-import { SealModel } from '../../../core/models/Sign';
 import { Signature } from '../../../core/models/areas/signature/Signature';
 import { EcmrShare } from '../../../core/models/EcmrShare';
 import { EcmrShareResponse } from '../../../core/models/EcmrShareResponse';
-import { SealedDocumentWithoutEcmr } from '../../../core/models/SealedDocumentWithoutEcmr';
+import { SealMetadata } from '../../../core/models/SealMetadata';
 
 @Injectable({
     providedIn: 'root'
@@ -59,8 +58,8 @@ export class ExternalUserService {
         return this.http.put<Ecmr>(`${environment.backendUrl}/anonymous/ecmr`, ecmr, {params: {'tan': tan, 'userToken': userToken}})
     }
 
-    sealEcmr(signModel: SealModel, id: string, userToken: string, tan: string) {
-        return this.http.post<Signature>(`${environment.backendUrl}/anonymous/ecmr/${id}/seal`, signModel, {
+    sealEcmr(id: string, userToken: string, tan: string) {
+        return this.http.post<Signature>(`${environment.backendUrl}/anonymous/ecmr/${id}/seal`, {
             params: {
                 'tan': tan,
                 'userToken': userToken
@@ -95,8 +94,8 @@ export class ExternalUserService {
         });
     }
 
-    getSealedDocumentWithoutEcmr(ecmrId: string, userToken: string, tan: string): Observable<SealedDocumentWithoutEcmr> {
-        return this.http.get<SealedDocumentWithoutEcmr>(`${environment.backendUrl}/anonymous/sealed-document/${ecmrId}`, {
+    getSealMetadata(ecmrId: string, userToken: string, tan: string): Observable<SealMetadata[]> {
+        return this.http.get<SealMetadata[]>(`${environment.backendUrl}/anonymous/ecmr/${ecmrId}/seal-metadata`, {
             params: {'tan': tan, 'userToken': userToken}
         });
     }

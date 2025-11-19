@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, EventEmitter, inject, input, LOCALE_ID, model, Output, TemplateRef } from '@angular/core';
+import { Component, computed, EventEmitter, inject, input, LOCALE_ID, model, Output, TemplateRef } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
@@ -23,8 +23,10 @@ import { EcmrStatusComponent } from '../../../shared/components/ecmr-status/ecmr
 import { EcmrTransportType } from '../../../core/models/EcmrTransportType';
 import { EcmrService } from '../../../shared/services/ecmr.service';
 import { LogisticsShippingMarksCustomBarcode } from '../../../core/models/areas/ten/LogisticsShippingMarksCustomBarcode';
-import { SealedDocumentWithoutEcmr } from '../../../core/models/SealedDocumentWithoutEcmr';
 import { Item } from '../../../core/models/compositions/Item';
+import { SealMetadata } from '../../../core/models/SealMetadata';
+import { TransportRole } from '../../../core/models/TransportRole';
+import { SealMetadataRolePipe } from '../../../core/pipes/seal-metadata-role.pipe';
 
 @Component({
     selector: 'app-ecmr-overview-details',
@@ -43,7 +45,8 @@ import { Item } from '../../../core/models/compositions/Item';
         MatIconButton,
         MatToolbar,
         MatToolbarRow,
-        EcmrStatusComponent
+        EcmrStatusComponent,
+        SealMetadataRolePipe
     ],
     templateUrl: './ecmr-overview-details.component.html',
     styleUrl: './ecmr-overview-details.component.scss'
@@ -63,8 +66,7 @@ export class EcmrOverviewDetailsComponent {
     }
 
     readonly selectedEcmr = model.required<Ecmr>();
-    readonly currentSealedDocument = input<SealedDocumentWithoutEcmr | null>();
-
+    readonly selectedSealMetadata = input<SealMetadata[]>();
     readonly quickViewButtons = input<TemplateRef<object>>();
     readonly mobileQuickViewButtons = input<TemplateRef<object>>();
 
@@ -84,7 +86,7 @@ export class EcmrOverviewDetailsComponent {
     }
 
     mapToStringArray(barcodes: LogisticsShippingMarksCustomBarcode[] | null) {
-        if(barcodes == null) return [];
+        if (barcodes == null) return [];
         return barcodes?.map(item => item.barcode);
     }
 
@@ -95,8 +97,8 @@ export class EcmrOverviewDetailsComponent {
 
     public getTotalItemCount(itemList: Item[]): number | null {
         let count = 0;
-        for(const item of itemList){
-            if(item.numberOfPackages.logisticsPackageItemQuantity != null)  {
+        for (const item of itemList) {
+            if (item.numberOfPackages.logisticsPackageItemQuantity != null) {
                 count += item.numberOfPackages.logisticsPackageItemQuantity;
             }
         }
@@ -106,4 +108,5 @@ export class EcmrOverviewDetailsComponent {
     protected readonly EcmrTransportType = EcmrTransportType;
 
     protected readonly EcmrStatus = EcmrStatus;
+    protected readonly TransportRole = TransportRole;
 }

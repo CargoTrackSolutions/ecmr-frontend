@@ -13,8 +13,8 @@
             @if (isMobile()) {
                 <ng-container *ngTemplateOutlet="mobileQuickViewButtons(); context: { $implicit: selectedEcmr()  }"/>
             } @else {
-            <ng-container *ngTemplateOutlet="quickViewButtons(); context: { $implicit: selectedEcmr()  }"/>
-        }
+                <ng-container *ngTemplateOutlet="quickViewButtons(); context: { $implicit: selectedEcmr()  }"/>
+            }
         </mat-toolbar-row>
     </mat-toolbar>
     <div class="overflow-y-auto quick-info-container overflow-x-auto">
@@ -54,11 +54,11 @@
                 <div class="row">
                     <!--Post Code-->
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.sender.post_code'"
+                                                        [label]="'ecmr_editor.sender.post_code'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.senderInformation.senderPostcode"/>
                     <!--City Name-->
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.sender.city_name'"
+                                                        [label]="'ecmr_editor.sender.city_name'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.senderInformation.senderCity"/>
                 </div>
 
@@ -89,11 +89,11 @@
                         <div class="row">
                             <!--Post Code-->
                             <app-ecmr-display-information-field class="col"
-                                    [label]="'ecmr_editor.consignee.post_code'"
+                                                                [label]="'ecmr_editor.consignee.post_code'"
                                                                 [displayedContent]="selectedEcmr().ecmrConsignment.consigneeInformation.consigneePostcode"/>
                             <!--City Name-->
                             <app-ecmr-display-information-field class="col"
-                                    [label]="'ecmr_editor.consignee.city_name'"
+                                                                [label]="'ecmr_editor.consignee.city_name'"
                                                                 [displayedContent]="selectedEcmr().ecmrConsignment.consigneeInformation.consigneeCity"/>
                         </div>
                         <!-- Country -->
@@ -106,11 +106,12 @@
                         <app-ecmr-display-information-field [label]="'ecmr_editor.consignee.phone'"
                                                             [displayedContent]="selectedEcmr().ecmrConsignment.consigneeInformation.consigneeContactInformation.phone"/>
                     </div>
-                } @if (selectedEcmr().ecmrConsignment.multiConsigneeShipment.isMultiConsigneeShipment) {
-                <div>
-                    {{ "ecmr_editor.multi_consignee_shipment.multi_consignee_shipment_notice" | translate }}
-                </div>
-            }
+                }
+                @if (selectedEcmr().ecmrConsignment.multiConsigneeShipment.isMultiConsigneeShipment) {
+                    <div>
+                        {{ "ecmr_editor.multi_consignee_shipment.multi_consignee_shipment_notice" | translate }}
+                    </div>
+                }
 
                 <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_3' | translate }}</h6>
                 <!-- Taking over the goods -->
@@ -159,11 +160,11 @@
                 <div class="row">
                     <!--Post Code-->
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.carrier_information.post_code'"
+                                                        [label]="'ecmr_editor.carrier_information.post_code'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.carrierInformation.carrierPostcode"/>
                     <!--City Name-->
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.carrier_information.city_name'"
+                                                        [label]="'ecmr_editor.carrier_information.city_name'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.carrierInformation.carrierCity"/>
                 </div>
                 <!-- Country -->
@@ -197,11 +198,11 @@
                 <div class="row">
                     <!--Post Code-->
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.successive_carrier_information.post_code'"
+                                                        [label]="'ecmr_editor.successive_carrier_information.post_code'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.successiveCarrierInformation.successiveCarrierPostcode  "/>
                     <!--City Name-->
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.successive_carrier_information.city_name'"
+                                                        [label]="'ecmr_editor.successive_carrier_information.city_name'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.successiveCarrierInformation.successiveCarrierCity "/>
                 </div>
                 <!-- Country -->
@@ -231,11 +232,14 @@
                                 <mat-expansion-panel-header class="flex-wrap" [collapsedHeight]="isMobile() ? 'auto' : ''">
                                     <mat-panel-title>
                                         <div><b>{{ (index + 1) + ')' }}&nbsp;&nbsp;&nbsp;</b></div>
-                                        <div>{{ item.numberOfPackages.logisticsPackageItemQuantity + ' x '
-                                        + item.marksAndNos.logisticsShippingMarksMarking 
-                                        +    ' | ' + item.methodOfPacking.logisticsPackageType
-                                        +    ' | ' + item.grossWeightInKg.supplyChainConsignmentItemGrossWeight + '&nbsp;kg'
-                                        +    ' | ' + item.volumeInM3.supplyChainConsignmentItemGrossVolume + '&nbsp;m³'}} </div>
+                                        <div>{{
+                                                item.numberOfPackages.logisticsPackageItemQuantity + ' x '
+                                                + item.marksAndNos.logisticsShippingMarksMarking
+                                                + ' | ' + item.methodOfPacking.logisticsPackageType
+                                                + ' | ' + item.grossWeightInKg.supplyChainConsignmentItemGrossWeight + '&nbsp;kg'
+                                                + ' | ' + item.volumeInM3.supplyChainConsignmentItemGrossVolume + '&nbsp;m³'
+                                            }}
+                                        </div>
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
                                 <h6 class="fw-bold mb-2 mt-2">{{ 'ecmr_editor.title_10' | translate }}</h6>
@@ -271,13 +275,13 @@
                             </mat-expansion-panel>
                         }
                         <div class="fake-panel">
-                                <div class="mat-expansion-panel-header">
+                            <div class="mat-expansion-panel-header">
                                         <span class="mat-content">
                                                 <strong>{{ 'ecmr_editor.total_item_count' | translate }}:</strong>&nbsp;
                                             {{ getTotalItemCount(selectedEcmr().ecmrConsignment.itemList) }}
-                                                {{ 'ecmr_editor.counting_unit' | translate }}
+                                            {{ 'ecmr_editor.counting_unit' | translate }}
                                         </span>
-                                </div>
+                            </div>
                         </div>
                     </mat-accordion>
                 }
@@ -289,46 +293,46 @@
                 <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_17' | translate }}</h6>
                 <div class="row">
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.to_be_paid_by.carriage_charges'"
+                                                        [label]="'ecmr_editor.to_be_paid_by.carriage_charges'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.toBePaidBy.customChargeCarriage.value"/>
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.to_be_paid_by.currency'"
+                                                        [label]="'ecmr_editor.to_be_paid_by.currency'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.toBePaidBy.customChargeCarriage.currency"/>
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.to_be_paid_by.payer'"
+                                                        [label]="'ecmr_editor.to_be_paid_by.payer'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.toBePaidBy.customChargeCarriage.payer"/>
                 </div>
                 <div class="row">
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.to_be_paid_by.supplementary_charges'"
+                                                        [label]="'ecmr_editor.to_be_paid_by.supplementary_charges'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.toBePaidBy.customChargeSupplementary.value"/>
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.to_be_paid_by.currency'"
+                                                        [label]="'ecmr_editor.to_be_paid_by.currency'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.toBePaidBy.customChargeSupplementary.currency"/>
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.to_be_paid_by.payer'"
+                                                        [label]="'ecmr_editor.to_be_paid_by.payer'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.toBePaidBy.customChargeSupplementary.payer"/>
                 </div>
                 <div class="row">
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.to_be_paid_by.custom_duties_charges'"
+                                                        [label]="'ecmr_editor.to_be_paid_by.custom_duties_charges'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.toBePaidBy.customChargeCustomsDuties.value"/>
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.to_be_paid_by.currency'"
+                                                        [label]="'ecmr_editor.to_be_paid_by.currency'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.toBePaidBy.customChargeCustomsDuties.currency"/>
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.to_be_paid_by.payer'"
+                                                        [label]="'ecmr_editor.to_be_paid_by.payer'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.toBePaidBy.customChargeCustomsDuties.payer"/>
                 </div>
                 <div class="row">
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.to_be_paid_by.other_charges'"
+                                                        [label]="'ecmr_editor.to_be_paid_by.other_charges'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.toBePaidBy.customChargeOther.value"/>
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.to_be_paid_by.currency'"
+                                                        [label]="'ecmr_editor.to_be_paid_by.currency'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.toBePaidBy.customChargeOther.currency"/>
                     <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.to_be_paid_by.payer'"
+                                                        [label]="'ecmr_editor.to_be_paid_by.payer'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.toBePaidBy.customChargeOther.payer"/>
                 </div>
 
@@ -343,97 +347,104 @@
                 @if (getTransportType(selectedEcmr()) === EcmrTransportType.International) {
                     <h6 class="fw-bold mb-2 mt-5"
                     >{{ 'ecmr_editor.title_20' | translate }}</h6>
-                } @if (!isTemplate) {
-                <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_21' | translate }}</h6>
-                <div class="row">
-                    <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.established.in'"
-                                                        [displayedContent]="selectedEcmr().ecmrConsignment.established.customEstablishedIn"/>
-                    <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.established.on'"
-                                                        [displayedContent]="toDateString(selectedEcmr().ecmrConsignment.established.customEstablishedDate)"/>
-                </div>
-
-                <div class="d-flex flex-row flex-wrap gap-4">
-                    <div class="d-flex flex-column signature-container">
-                        <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_22' | translate }}</h6>
-                        @if (currentSealedDocument()) {
-                            <span class="info-field-header">{{ 'ecmr_editor.sender_signature.signature' | translate }}</span>
-                            <mat-card appearance="outlined">
-                                <mat-card-content>
-                                    <div class="d-flex justify-content-center align-items-center flex-column">
-                      <span class="d-flex justify-content-center">
-                        {{ "signature.signed_on" | translate }}
-                          {{ toDateString(currentSealedDocument()!.senderSeal.sealMetadata.timestamp) }}
-                      </span>
-                                        <p class="text-center">
-                                            {{ "signature.by" | translate }}
-                                            {{ currentSealedDocument()!.senderSeal.sealMetadata.sealer }}
-                                        </p>
-                                        <span>{{ "ecmr_editor.eseal_information" | translate }}</span>
-                                    </div>
-                                </mat-card-content>
-                            </mat-card>
-                        }
-                    </div>
-                    <div class="d-flex flex-column signature-container">
-                        <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_23' | translate }}</h6>
-                        @if (currentSealedDocument()?.carrierSeal) {
-                            <span class="info-field-header">{{ 'ecmr_editor.carrier_signature.signature' | translate }}</span>
-                            <mat-card appearance="outlined">
-                                <mat-card-content>
-                                    <div class="d-flex justify-content-center align-items-center flex-column">
-                      <span class="d-flex justify-content-center">
-                        {{ "signature.signed_on" | translate }}
-                          {{ toDateString(currentSealedDocument()!.carrierSeal!.sealMetadata.timestamp) }}
-                      </span>
-                                        <p class="text-center">
-                                            {{ "signature.by" | translate }}
-                                            {{ currentSealedDocument()!.carrierSeal!.sealMetadata.sealer }}
-                                        </p>
-                                        <span>{{ "ecmr_editor.eseal_information" | translate }}</span>
-                                    </div>
-                                </mat-card-content>
-                            </mat-card>
-                        }
-                    </div>
-                </div>
-                <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_24' | translate }}</h6>
-                <div class="row">
-                    <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.receival_signature.date'"
-                                                        [displayedContent]="selectedEcmr().ecmrConsignment.goodsReceived.consigneeSignatureDate"/>
-                    <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.receival_signature.place'"
-                                                        [displayedContent]="selectedEcmr().ecmrConsignment.goodsReceived.confirmedLogisticsLocationName "/>
-                    <app-ecmr-display-information-field class="col"
-                            [label]="'ecmr_editor.receival_signature.remarks'"
-                                                        [displayedContent]="selectedEcmr().ecmrConsignment.goodsReceived.consigneeReservationsObservations "/>
-                </div>
-                <!-- Signature -->
-                @if (currentSealedDocument()?.consigneeSeal) {
-                    <span class="info-field-header">{{ 'ecmr_editor.receival_signature.signature' | translate }}</span>
-                    <mat-card appearance="outlined">
-                        <mat-card-content>
-                            <div class="d-flex justify-content-center align-items-center flex-column">
-                  <span class="d-flex justify-content-center">
-                    {{ "signature.signed_on" | translate }}
-                      {{ toDateString(currentSealedDocument()!.consigneeSeal!.sealMetadata.timestamp) }}
-                  </span>
-                                <p class="text-center">
-                                    {{ "signature.by" | translate }}
-                                    {{ currentSealedDocument()!.consigneeSeal!.sealMetadata.sealer }}
-                                </p>
-                                <span>{{ "ecmr_editor.eseal_information" | translate }}</span>
-                            </div>
-                        </mat-card-content>
-                    </mat-card>
                 }
+                @if (!isTemplate) {
+                    <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_21' | translate }}</h6>
+                    <div class="row">
+                        <app-ecmr-display-information-field class="col"
+                                                            [label]="'ecmr_editor.established.in'"
+                                                            [displayedContent]="selectedEcmr().ecmrConsignment.established.customEstablishedIn"/>
+                        <app-ecmr-display-information-field class="col"
+                                                            [label]="'ecmr_editor.established.on'"
+                                                            [displayedContent]="toDateString(selectedEcmr().ecmrConsignment.established.customEstablishedDate)"/>
+                    </div>
 
-                <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.non_contractual_part_reserved_for_the_carrier' | translate }}</h6>
-                <app-ecmr-display-information-field [label]="'ecmr_editor.remarks'"
-                                                    [displayedContent]="selectedEcmr().ecmrConsignment.nonContractualPartReservedForTheCarrier.nonContractualCarrierRemarks"/>
-            }
+                    <div class="d-flex flex-row flex-wrap gap-4">
+                        <div class="d-flex flex-column signature-container">
+                            <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_22' | translate }}</h6>
+                            @let senderSealMetadata = selectedSealMetadata() | sealMetadataRole : TransportRole.SENDER;
+                            @if (senderSealMetadata) {
+                                <span class="info-field-header">{{ 'ecmr_editor.sender_signature.signature' | translate }}</span>
+                                <mat-card appearance="outlined">
+                                    <mat-card-content>
+                                        <div class="d-flex justify-content-center align-items-center flex-column">
+                                            <span class="d-flex justify-content-center">
+                                              {{ "signature.signed_on" | translate }}
+                                                {{ toDateString(senderSealMetadata.timestamp) }}
+                                            </span>
+                                            <p class="text-center">
+                                                {{ "signature.by" | translate }}
+                                                {{ senderSealMetadata.sealer }}
+                                                <br>{{ senderSealMetadata.sealerCompany }}
+                                            </p>
+                                            <span>{{ "ecmr_editor.eseal_information" | translate }}</span>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            }
+                        </div>
+                        <div class="d-flex flex-column signature-container">
+                            <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_23' | translate }}</h6>
+                            @let carrierSealMetadata = selectedSealMetadata() | sealMetadataRole : TransportRole.CARRIER;
+                            @if (carrierSealMetadata) {
+                                <span class="info-field-header">{{ 'ecmr_editor.carrier_signature.signature' | translate }}</span>
+                                <mat-card appearance="outlined">
+                                    <mat-card-content>
+                                        <div class="d-flex justify-content-center align-items-center flex-column">
+                                            <span class="d-flex justify-content-center">
+                                              {{ "signature.signed_on" | translate }}
+                                                {{ toDateString(carrierSealMetadata.timestamp) }}
+                                            </span>
+                                            <p class="text-center">
+                                                {{ "signature.by" | translate }}
+                                                {{ carrierSealMetadata.sealer }}
+                                                <br>{{ carrierSealMetadata.sealerCompany }}
+                                            </p>
+                                            <span>{{ "ecmr_editor.eseal_information" | translate }}</span>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            }
+                        </div>
+                    </div>
+                    <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.title_24' | translate }}</h6>
+                    <div class="row">
+                        <app-ecmr-display-information-field class="col"
+                                                            [label]="'ecmr_editor.receival_signature.date'"
+                                                            [displayedContent]="selectedEcmr().ecmrConsignment.goodsReceived.consigneeSignatureDate"/>
+                        <app-ecmr-display-information-field class="col"
+                                                            [label]="'ecmr_editor.receival_signature.place'"
+                                                            [displayedContent]="selectedEcmr().ecmrConsignment.goodsReceived.confirmedLogisticsLocationName "/>
+                        <app-ecmr-display-information-field class="col"
+                                                            [label]="'ecmr_editor.receival_signature.remarks'"
+                                                            [displayedContent]="selectedEcmr().ecmrConsignment.goodsReceived.consigneeReservationsObservations "/>
+                    </div>
+                    <!-- Signature -->
+                    @let consigneeSealMetadata = selectedSealMetadata() | sealMetadataRole : TransportRole.CONSIGNEE;
+                    @if (consigneeSealMetadata) {
+                        <span class="info-field-header">{{ 'ecmr_editor.receival_signature.signature' | translate }}</span>
+                        <mat-card appearance="outlined">
+                            <mat-card-content>
+                                <div class="d-flex justify-content-center align-items-center flex-column">
+                                    <span class="d-flex justify-content-center">
+                                      {{ "signature.signed_on" | translate }}
+                                        {{ toDateString(consigneeSealMetadata.timestamp) }}
+                                    </span>
+                                    <p class="text-center">
+                                        {{ "signature.by" | translate }}
+                                        {{ consigneeSealMetadata.sealer }}
+                                        <br>{{ consigneeSealMetadata.sealerCompany }}
+                                    </p>
+                                    <span>{{ "ecmr_editor.eseal_information" | translate }}</span>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    }
+
+                    <h6 class="fw-bold mb-2 mt-5">{{ 'ecmr_editor.non_contractual_part_reserved_for_the_carrier' | translate }}</h6>
+                    <app-ecmr-display-information-field [label]="'ecmr_editor.remarks'"
+                                                        [displayedContent]="selectedEcmr().ecmrConsignment.nonContractualPartReservedForTheCarrier.nonContractualCarrierRemarks"/>
+                }
             </mat-card-content>
         </mat-card>
     </div>

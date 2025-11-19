@@ -10,17 +10,16 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-import { SealedDocumentWithoutEcmr } from '../../core/models/SealedDocumentWithoutEcmr';
+import { SealMetadata } from '../../core/models/SealMetadata';
 
 @Injectable({
     providedIn: 'root'
 })
-export class SealedDocumentService {
+export class SealMetadataService {
     private http = inject(HttpClient);
 
-
-    getSealedDocumentWithoutEcmr(ecmrId: string): Observable<SealedDocumentWithoutEcmr> {
-        return this.http.get<SealedDocumentWithoutEcmr>(`${environment.backendUrl}/sealed-document/${ecmrId}`);
+    getSealMetadata(ecmrId: string): Observable<SealMetadata[]> {
+        return this.http.get<SealMetadata[]>(`${environment.backendUrl}/ecmr/${ecmrId}/seal-metadata`);
     }
 
 }

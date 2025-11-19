@@ -14,7 +14,6 @@ import { environment } from '../../../../environments/environment';
 import { TemplateUser } from '../../../core/models/TemplateUser';
 import { GroupFlat } from '../../../core/models/GroupFlat';
 import { Signature } from '../../../core/models/areas/signature/Signature';
-import { SealModel } from '../../../core/models/Sign';
 import { EcmrStatus } from '../../../core/models/EcmrStatus';
 
 @Injectable({
@@ -49,8 +48,8 @@ export class EcmrEditorService {
         return this.http.put<Ecmr>(`${environment.backendUrl}/ecmr`, ecmr)
     }
 
-    sealEcmr(signModel: SealModel, id: string) {
-        return this.http.post<Signature>(`${environment.backendUrl}/ecmr/${id}/seal`, signModel);
+    sealEcmr(id: string) {
+        return this.http.post<Signature>(`${environment.backendUrl}/ecmr/${id}/seal`, {});
     }
 
     createEmptyEcmrConsignment(): EcmrConsignment {

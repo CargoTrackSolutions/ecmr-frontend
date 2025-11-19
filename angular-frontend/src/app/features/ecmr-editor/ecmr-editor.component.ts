@@ -41,7 +41,6 @@ import { GroupService } from '../group/group.service';
 import { EcmrCreateShareDialogComponent } from './ecmr-create-share-dialog/ecmr-create-share-dialog.component';
 import { GroupFlat } from '../../core/models/GroupFlat';
 import { ExternalUserService } from './ecmr-editor-service/external-user.service';
-import { SealModel } from '../../core/models/Sign';
 import { DateTimeService } from '../../shared/services/date-time.service';
 import { MatOptionModule } from '@angular/material/core';
 import { EcmrRole } from '../../core/enums/EcmrRole';
@@ -61,11 +60,13 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatChipEditedEvent, MatChipGrid, MatChipInput, MatChipInputEvent, MatChipRemove, MatChipRow } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { LogisticsShippingMarksCustomBarcode } from '../../core/models/areas/ten/LogisticsShippingMarksCustomBarcode';
-import { SealedDocumentService } from '../../shared/services/sealed-document.service';
-import { SealedDocumentWithoutEcmr } from '../../core/models/SealedDocumentWithoutEcmr';
 import { TransportRole } from '../../core/models/TransportRole';
 import { EcmrSealComponent } from '../../shared/components/ecmr-seal/ecmr-seal.component';
 import { PhoneValidatorService } from '../../shared/services/phone-format.service';
+import { SealMetadataService } from '../../shared/services/seal-metadata.service';
+import { SealMetadata } from '../../core/models/SealMetadata';
+import { SealMetadataRolePipe } from '../../core/pipes/seal-metadata-role.pipe';
+import { ShareEcmrDialogData } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog-data';
 
 export enum EditorMode {
     ECMR_EDIT = 'ECMR_EDIT',
@@ -101,7 +102,8 @@ export enum EditorMode {
         MatChipRow,
         MatChipInput,
         MatChipRemove,
-        EcmrSealComponent
+        EcmrSealComponent,
+        SealMetadataRolePipe
     ],
     providers: [DatePipe, DateTimeService],
     templateUrl: './ecmr-editor.component.html',
@@ -123,7 +125,7 @@ export class EcmrEditorComponent implements OnInit {
     private ecmrService = inject(EcmrService);
     authService = inject(AuthService);
     private userService = inject(UserService);
-    private sealedDocumentService = inject(SealedDocumentService);
+    private sealMetadataService = inject(SealMetadataService);
 
 
     canFillSenderFields: boolean = false;
@@ -149,7 +151,7 @@ export class EcmrEditorComponent implements OnInit {
     ecmrToEdit: Ecmr;
     ecmrId: string | null;
     loadedTemplate: TemplateUser;
-    sealedDocument: SealedDocumentWithoutEcmr | null;
+    sealMetadata: SealMetadata[] = [];
 
     payerType: PayerType[] = Object.values(PayerType);
 
@@ -455,7 +457,7 @@ export class EcmrEditorComponent implements OnInit {
     sealSender() {
         this.resetClearedControls(this.ecmrConsignmentFormGroup);
         if (this.senderFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
-            this.seal(TransportRole.SENDER, this.ecmrConsignmentFormGroup.controls.established.controls.customEstablishedIn.value);
+            this.seal();
         } else {
             for (const field in this.ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.controls) {
                 const form = this.ecmrConsignmentFormGroup.controls.carrierInformation.controls.carrierContactInformation.get(field)!;
@@ -468,20 +470,16 @@ export class EcmrEditorComponent implements OnInit {
         }
     }
 
-    seal(transportRole: TransportRole, city: string | null): void {
+    seal(): void {
         const sealObs$ = this.loadingService.showLoaderUntilCompleted((this.isExternalUser ?
             this.externalUserService.updateEcmr(this.ecmrToEdit, this.userToken, this.tan) :
             this.ecmrEditorService.updateEcmr(this.ecmrToEdit))
             .pipe(
                 switchMap(() => {
-                    const signature: SealModel = {
-                        transportRole: transportRole,
-                        city: city
-                    };
-                    return this.isExternalUser ? this.externalUserService.sealEcmr(signature, this.id, this.userToken, this.tan) : this.ecmrEditorService.sealEcmr(signature, this.id);
+                    return this.isExternalUser ? this.externalUserService.sealEcmr(this.id, this.userToken, this.tan) : this.ecmrEditorService.sealEcmr(this.id);
                 }),
-                switchMap(() => this.loadSealedDocument(this.isExternalUser).pipe(
-                    tap(sealedDocument => this.sealedDocument = sealedDocument)
+                switchMap(() => this.loadSealMetadata(this.isExternalUser).pipe(
+                    tap(sealMetadata => this.sealMetadata = sealMetadata)
                 )),
                 switchMap(() => this.isExternalUser ? this.externalUserService.getEcmrWithTan(this.id, this.userToken, this.tan) : this.ecmrEditorService.getEcmr(this.id))
             ));
@@ -542,13 +540,13 @@ export class EcmrEditorComponent implements OnInit {
 
     sealCarrier() {
         this.resetClearedControls(this.ecmrConsignmentFormGroup);
-        this.seal(TransportRole.CARRIER, null);
+        this.seal();
     }
 
     sealConsignee() {
         this.resetClearedControls(this.ecmrConsignmentFormGroup);
         if (this.consigneeFieldsAreValid() && this.ecmrConsignmentFormGroup.valid) {
-            this.seal(TransportRole.CONSIGNEE, this.ecmrConsignmentFormGroup.controls.takingOverTheGoods.controls.takingOverTheGoodsPlace.value!);
+            this.seal();
         } else {
             this.ecmrConsignmentFormGroup.markAllAsTouched();
             this.snackbarService.openInfoSnackbar('ecmr_editor.mandatory_missing');
@@ -611,14 +609,14 @@ export class EcmrEditorComponent implements OnInit {
             if (this.tan != undefined && this.userToken != undefined) {
                 const loadEcmrObs = this.externalUserService.getEcmrWithTan(this.id, this.userToken, this.tan);
                 const loadRolesObs = this.externalUserService.getEcmrRolesForUser(this.id, this.userToken, this.tan);
-                const loadSealedDocumentObs = this.loadSealedDocument(true);
+                const loadSelMetadataObs = this.loadSealMetadata(true);
                 this.loadingService.showLoaderUntilCompleted(forkJoin({
                     ecmr: loadEcmrObs,
                     roles: loadRolesObs,
-                    sealedDocument: loadSealedDocumentObs
+                    sealMetadata: loadSelMetadataObs
                 }))
                     .subscribe(result => {
-                        this.sealedDocument = result.sealedDocument;
+                        this.sealMetadata = result.sealMetadata;
                         this.loadEcmr(result.ecmr);
                         this.userEcmrRoles = result.roles;
                         this.setFormConstraints();
@@ -627,14 +625,14 @@ export class EcmrEditorComponent implements OnInit {
             } else {
                 const loadEcmrObs = this.ecmrEditorService.getEcmr(this.id);
                 const loadRolesObs = this.ecmrService.getEcmrRolesForCurrentUser(this.id);
-                const loadSealedDocumentObs = this.loadSealedDocument(false);
+                const loadSealMetadataObs = this.loadSealMetadata(false);
                 this.loadingService.showLoaderUntilCompleted(forkJoin({
                     ecmr: loadEcmrObs,
                     roles: loadRolesObs,
-                    sealedDocument: loadSealedDocumentObs
+                    sealMetadata: loadSealMetadataObs
                 }))
                     .subscribe(result => {
-                        this.sealedDocument = result.sealedDocument;
+                        this.sealMetadata = result.sealMetadata;
                         this.loadEcmr(result.ecmr);
                         this.userEcmrRoles = result.roles;
                         this.setFormConstraints();
@@ -660,17 +658,13 @@ export class EcmrEditorComponent implements OnInit {
         }
     }
 
-    private loadSealedDocument(isExternalUser: boolean) {
-        return (isExternalUser ? this.externalUserService.getSealedDocumentWithoutEcmr(this.id, this.userToken, this.tan) : this.sealedDocumentService.getSealedDocumentWithoutEcmr(this.id))
+    private loadSealMetadata(isExternalUser: boolean) {
+        return (isExternalUser ? this.externalUserService.getSealMetadata(this.id, this.userToken, this.tan) : this.sealMetadataService.getSealMetadata(this.id))
             .pipe(
                 catchError(err => {
-                    if (err.status === 404) {
-                        return of(null);
-                    } else {
                         this.snackbarService.openErrorSnackbar('general.snackbar_error')
                         console.log(err);
-                        return of(null)
-                    }
+                        return of([])
                 }));
     }
 
@@ -723,12 +717,12 @@ export class EcmrEditorComponent implements OnInit {
             maxWidth: '90vw',
             data: {
                 ecmr: ecmr,
-                sealedDocument: this.sealedDocument,
+                sealMetadata: this.sealMetadata,
                 roles: this.userEcmrRoles,
                 isExternalUser: this.isExternalUser,
                 tan: this.tan,
                 userToken: this.userToken
-            }
+            } as ShareEcmrDialogData
         });
     }
 
@@ -1066,6 +1060,8 @@ export class EcmrEditorComponent implements OnInit {
         const parsed = parseFloat(value.replaceAll(',', '.').trim());
         return isNaN(parsed) ? null : parsed;
     }
+
+    protected readonly TransportRole = TransportRole;
 }
 
 export function emailValidator(): ValidatorFn {

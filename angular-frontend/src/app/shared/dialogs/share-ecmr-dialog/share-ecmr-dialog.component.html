@@ -1,4 +1,4 @@
-<h2 mat-dialog-title> {{ 'share_ecmr_dialog.title' | translate }} - {{ ecmr.ecmrConsignment.referenceIdentificationNumber.value }} </h2>
+<h2 mat-dialog-title> {{ 'share_ecmr_dialog.title' | translate }} - {{ data.ecmr.ecmrConsignment.referenceIdentificationNumber.value }} </h2>
 <mat-dialog-content>
     <div class="d-flex flex-column w-100 mt-2 gap-2">
 
@@ -8,25 +8,21 @@
                                    (change)="changeRole(EcmrRole.Sender)">
                     {{ 'share_ecmr_dialog.sender' | translate }}
                 </mat-button-toggle>
-            } @if (carrierSharable) {
-            @if ((ecmrRoles.includes(EcmrRole.Sender) || ecmrRoles.includes(EcmrRole.Carrier)) && (!sealedDocument ||
-                sealedDocument.carrierSeal === null)) {
+            }
+            @if (carrierSharable) {
                 <mat-button-toggle [value]="EcmrRole.Carrier" [checked]="currentRole === EcmrRole.Carrier" class="flex-grow-1"
                                    (change)="changeRole(EcmrRole.Carrier)"
                 >
                     {{ 'share_ecmr_dialog.carrier' | translate }}
                 </mat-button-toggle>
             }
-        } @if (consigneeSharable) {
-            @if ((ecmrRoles.includes(EcmrRole.Sender) || ecmrRoles.includes(EcmrRole.Carrier) ||
-                ecmrRoles.includes(EcmrRole.Consignee)) && (!sealedDocument || sealedDocument.consigneeSeal === null)) {
-                <mat-button-toggle [value]="EcmrRole.Consignee" class="flex-grow-1" [checked]="currentRole === EcmrRole.Consignee"
-                                   (change)="changeRole(EcmrRole.Consignee)"
-                >
-                    {{ 'share_ecmr_dialog.consignee' | translate }}
-                </mat-button-toggle>
+            @if (consigneeSharable) {
+                    <mat-button-toggle [value]="EcmrRole.Consignee" class="flex-grow-1" [checked]="currentRole === EcmrRole.Consignee"
+                                       (change)="changeRole(EcmrRole.Consignee)"
+                    >
+                        {{ 'share_ecmr_dialog.consignee' | translate }}
+                    </mat-button-toggle>
             }
-        }
             <mat-button-toggle [value]="EcmrRole.Reader" class="flex-grow-1" [checked]="currentRole === EcmrRole.Reader"
                                (change)="changeRole(EcmrRole.Reader)">
                 {{ 'share_ecmr_dialog.share_pdf' | translate }}
@@ -42,8 +38,8 @@
                             <mat-icon>arrow_drop_down</mat-icon>
                         </button>
                     } @else {
-                    <mat-icon matIconPrefix>email</mat-icon>
-                }
+                        <mat-icon matIconPrefix>email</mat-icon>
+                    }
                     <mat-menu #menu="matMenu">
                         <button mat-menu-item (click)="selectSearchMode(SearchMode.EMAIL)">
                             <mat-icon>{{ searchOptionsMap.Email.icon }}</mat-icon>
@@ -67,17 +63,19 @@
                             }
                         </mat-autocomplete>
                     } @else {
-                    <input matInput [formControl]="groupFormControl" [matAutocomplete]="groupAutoComplete">
-                    <mat-autocomplete #groupAutoComplete="matAutocomplete" [displayWith]="displayGroupFn">
-                        @for (group of filteredGroupList; track group) {
-                            <mat-option [value]="group">{{ group.name }} <span class="description ms-1">{{ group.description }}</span></mat-option>
-                        }
-                    </mat-autocomplete>
-                    <span class="description ms-1">{{ getSelectedGroupOption()?.description }}</span>
-                } @if ((selectedSearch.mode === SearchMode.EMAIL && emailFormControl.hasError('required'))
-                || (selectedSearch.mode === SearchMode.GROUP && groupFormControl.hasError('required'))) {
-                    <mat-error>{{ "error.required" | translate }}</mat-error>
-                }
+                        <input matInput [formControl]="groupFormControl" [matAutocomplete]="groupAutoComplete">
+                        <mat-autocomplete #groupAutoComplete="matAutocomplete" [displayWith]="displayGroupFn">
+                            @for (group of filteredGroupList; track group) {
+                                <mat-option [value]="group">{{ group.name }} <span class="description ms-1">{{ group.description }}</span>
+                                </mat-option>
+                            }
+                        </mat-autocomplete>
+                        <span class="description ms-1">{{ getSelectedGroupOption()?.description }}</span>
+                    }
+                    @if ((selectedSearch.mode === SearchMode.EMAIL && emailFormControl.hasError('required'))
+                    || (selectedSearch.mode === SearchMode.GROUP && groupFormControl.hasError('required'))) {
+                        <mat-error>{{ "error.required" | translate }}</mat-error>
+                    }
                 </mat-form-field>
                 <button mat-flat-button color="primary" class="w-100" (click)="share()">{{ 'common.share' | translate }}</button>
                 <div class="w-100 divide-container d-flex flex-row gap-3 align-items-center">

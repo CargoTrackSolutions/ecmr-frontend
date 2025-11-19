@@ -11,7 +11,7 @@ import { DateTimeService } from '../../services/date-time.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
-import { EcmrSeal } from '../../../core/models/EcmrSeal';
+import { SealMetadata } from '../../../core/models/SealMetadata';
 
 @Component({
     selector: 'app-ecmr-seal',
@@ -26,11 +26,10 @@ import { EcmrSeal } from '../../../core/models/EcmrSeal';
 export class EcmrSealComponent {
     dateTimeService = inject(DateTimeService);
 
-
-    readonly sealed = input<boolean>();
     readonly buttonDisabled = input<boolean>();
-    readonly seal = input<EcmrSeal | null>();
-  @Output()
-  buttonClicked: EventEmitter<void> = new EventEmitter();
+    readonly $sealMetadata = input<SealMetadata | null>();
+
+    @Output()
+    buttonClicked: EventEmitter<void> = new EventEmitter();
 
 }
