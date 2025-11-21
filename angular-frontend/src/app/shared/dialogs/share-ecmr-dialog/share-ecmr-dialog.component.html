@@ -77,7 +77,21 @@
                         <mat-error>{{ "error.required" | translate }}</mat-error>
                     }
                 </mat-form-field>
-                <button mat-flat-button color="primary" class="w-100" (click)="share()">{{ 'common.share' | translate }}</button>
+                <button matButton="filled" class="w-100" (click)="share()"
+                        [disabled]="groupFormControl.invalid && emailFormControl.invalid">
+                    {{ 'common.share' |translate }}
+                    <mat-icon>share</mat-icon>
+                </button>
+                @let token = ecmrToken();
+                @if (token && (authService.getAuthenticatedUser() | async)) {
+                    <div class="external-sharing-container">
+                        <mat-divider></mat-divider>
+                        <h3>External Sharing</h3>
+                        <app-external-user-registration [ecmrId]="data.ecmr.ecmrId!" [ecmrToken]="token" [roleToShare]="currentRole"
+                                                        [dialogRef]="dialogRef"/>
+                    </div>
+                }
+
                 <div class="w-100 divide-container d-flex flex-row gap-3 align-items-center">
                     <div class="divider flex-grow-1"></div>
                     <div class="divide-text">{{ 'share_ecmr_dialog.share_via_qr' | translate }}</div>

@@ -38,8 +38,9 @@
                 <mat-error>{{ "error.required" | translate }}</mat-error>
             }
         </mat-form-field>
-        <button mat-flat-button color="primary" [disabled]="externalUser.invalid" (click)="sendRegistration()">
+        <button matButton="filled" color="primary" [disabled]="externalUser.invalid" (click)="sendRegistration()">
             {{ 'external_user_registration.register' | translate }}
+            <mat-icon>person_add</mat-icon>
         </button>
         <div class="d-flex justify-content-center align-items-center w-100 mt-3">
             <div class="ecmr-cmr-logo">

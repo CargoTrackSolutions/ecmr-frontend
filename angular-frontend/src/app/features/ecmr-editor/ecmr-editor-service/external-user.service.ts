@@ -59,7 +59,7 @@ export class ExternalUserService {
     }
 
     sealEcmr(id: string, userToken: string, tan: string) {
-        return this.http.post<Signature>(`${environment.backendUrl}/anonymous/ecmr/${id}/seal`, {
+        return this.http.post<Signature>(`${environment.backendUrl}/anonymous/ecmr/${id}/seal`, null, {
             params: {
                 'tan': tan,
                 'userToken': userToken

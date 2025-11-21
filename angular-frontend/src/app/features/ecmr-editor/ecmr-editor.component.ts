@@ -775,7 +775,6 @@ export class EcmrEditorComponent implements OnInit {
             this.ecmrToEdit.ecmrConsignment = this.ecmrConsignmentFormGroup.getRawValue();
 
             const $updateObservable = this.isExternalUser ? this.externalUserService.updateEcmr(this.ecmrToEdit, this.userToken, this.tan) : this.ecmrEditorService.updateEcmr(this.ecmrToEdit)
-
             $updateObservable.subscribe({
                 next: ecmr => {
                     this.loadEcmr(ecmr)

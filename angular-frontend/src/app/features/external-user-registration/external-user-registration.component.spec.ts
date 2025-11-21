@@ -14,7 +14,7 @@ import { HttpLoaderFactory } from '../../app.component';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { of } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -45,7 +45,12 @@ describe('CarrierRegistrationComponent', () => {
         {
             provide: ActivatedRoute,
             useValue: {
-                params: of({ id: 'someId' }) // Mock params observable with 'id'
+                snapshot: {
+                    paramMap: convertToParamMap({id: 'someId'}),
+                    queryParams: convertToParamMap({token: 'someToken', role: 'admin'}),
+                },
+                params: of({id: 'someId'}),
+                paramMap: of(convertToParamMap({id: 'someId'})),
             }
         },
         provideHttpClient(withInterceptorsFromDi()),

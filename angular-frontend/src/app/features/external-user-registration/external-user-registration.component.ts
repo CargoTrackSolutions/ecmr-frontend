@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { filter, Subscription, switchMap, takeWhile, tap } from 'rxjs';
+import { Component, DestroyRef, inject, input, InputSignal, model, ModelSignal, OnInit, Signal } from '@angular/core';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { switchMap } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
@@ -23,6 +23,11 @@ import { SnackbarService } from '../../core/services/snackbar.service';
 import { EcmrRole } from '../../core/enums/EcmrRole';
 import { LoadingService } from '../../core/services/loading.service';
 import { PhoneValidatorService } from '../../shared/services/phone-format.service';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { AuthenticatedUser } from '../../core/models/AuthenticatedUser';
+import { ExternalUserInformation } from '../../core/models/ExternalUserInformation';
+import { MatDialogRef } from '@angular/material/dialog';
+import { ShareEcmrDialogComponent } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component';
 
 @Component({
     selector: 'app-external-user-registration',
@@ -39,18 +44,22 @@ import { PhoneValidatorService } from '../../shared/services/phone-format.servic
     templateUrl: './external-user-registration.component.html',
     styleUrl: './external-user-registration.component.scss'
 })
-export class ExternalUserRegistrationComponent {
-    private route = inject(ActivatedRoute);
-    private externalUserRegistrationService = inject(ExternalUserRegistrationService);
-    private router = inject(Router);
-    private snackBarService = inject(SnackbarService);
-    private readonly loadingService = inject(LoadingService);
+export class ExternalUserRegistrationComponent implements OnInit {
 
+    private readonly authService: AuthService = inject(AuthService);
+    private readonly route: ActivatedRoute = inject(ActivatedRoute);
+    private readonly externalUserRegistrationService: ExternalUserRegistrationService = inject(ExternalUserRegistrationService);
+    private readonly router: Router = inject(Router);
+    private readonly snackBarService: SnackbarService = inject(SnackbarService);
+    private readonly loadingService: LoadingService = inject(LoadingService);
+    private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
-    sub: Subscription;
-    ecmrId: string;
-    ecmrToken: string;
-    roleToShare: EcmrRole;
+    ecmrId: ModelSignal<string> = model<string>('');
+    ecmrToken: ModelSignal<string> = model<string>('');
+    roleToShare: ModelSignal<EcmrRole | null> = model<EcmrRole | null>(null);
+    dialogRef: InputSignal<MatDialogRef<ShareEcmrDialogComponent> | null> = input<MatDialogRef<ShareEcmrDialogComponent> | null>(null);
+
+    authenticatedUser: Signal<AuthenticatedUser | null> = toSignal<AuthenticatedUser | null>(this.authService.getAuthenticatedUser(), {initialValue: null})
 
     externalUser = new FormGroup({
         firstName: new FormControl<string>('', [Validators.required]),
@@ -59,73 +68,97 @@ export class ExternalUserRegistrationComponent {
         company: new FormControl<string>('', [Validators.required]),
     })
 
+    tokenChange$ = toObservable(this.ecmrToken)
+
     constructor() {
-        const authService = inject(AuthService);
-        const snackBarService = this.snackBarService;
+        if (this.router.url.includes('/external-user-registration') && this.authenticatedUser() != null) {
+            this.snackBarService.openInfoSnackbar('external_user_registration.registered_user');
+            void this.router.navigateByUrl('/ecmr-overview');
+        }
 
-        authService.getAuthenticatedUser().pipe(takeWhile(user => !user, true))
-            .subscribe(user => {
-                if (user) {
-                    snackBarService.openInfoSnackbar('external_user_registration.registered_user');
-                    this.router.navigateByUrl('/ecmr-overview');
-                }
-            });
-
-        this.sub = this.route.params
-            .pipe(
-                tap(params => {
-                    this.ecmrId = params['id'];
-                }),
-                switchMap(() => this.route.queryParams),
-                tap(queryParams => {
-                    this.ecmrToken = queryParams['token'];
-                    this.roleToShare = queryParams['role'];
-                }),
-                filter(() => this.roleToShare != EcmrRole.Reader),
-                switchMap(() => this.externalUserRegistrationService.getExternalUserRegistrationInfo(this.ecmrId, this.ecmrToken))
-            )
-            .subscribe({
-                next: sharedInfo => {
-                    this.externalUser.controls.company.setValue(sharedInfo.companyName);
-                    if(this.roleToShare == EcmrRole.Carrier) {
-                        const driverFirstName = sharedInfo.driverName?.substring(0, sharedInfo.driverName.indexOf(" ")) || null;
-                        const driverLastName = sharedInfo.driverName?.substring(sharedInfo.driverName.indexOf(" ")) || null;
-                        this.externalUser.controls.firstName.setValue(driverFirstName);
-                        this.externalUser.controls.lastName.setValue(driverLastName);
-                        this.externalUser.controls.phone.setValue(sharedInfo.driverPhone);
-                    }
-                },
-                error: () => {
-                    this.snackBarService.openErrorSnackbar('general.snackbar_error');
-                }
-            });
+        this.tokenChange$.pipe(
+            switchMap(() => this.loadingService.showLoaderUntilCompleted(this.externalUserRegistrationService.getExternalUserRegistrationInfo(this.ecmrId(), this.ecmrToken()))),
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe((externalUserInformation: ExternalUserInformation): void => {
+            this.setDataForExternalUser(externalUserInformation);
+        })
     }
 
-    sendRegistration() {
-        if (this.externalUser.valid && this.ecmrId && this.ecmrToken) {
-            const registration: Registration = {
+    ngOnInit() {
+        this.getParamInformation();
+        this.loadDataForExternalUser()
+    }
+
+    private getParamInformation() {
+        const snapshot: ActivatedRouteSnapshot = this.route.snapshot;
+
+        const ecmrId: string | null = snapshot.paramMap.get('id');
+        if (ecmrId) this.ecmrId.set(ecmrId);
+
+        const token: string | null = snapshot.queryParams['token']
+        if (token) this.ecmrToken.set(token);
+
+        const role: EcmrRole | null = snapshot.queryParams['role'] as EcmrRole;
+        if (role) this.roleToShare.set(role);
+    }
+
+    private loadDataForExternalUser() {
+        this.loadingService.showLoaderUntilCompleted(this.externalUserRegistrationService.getExternalUserRegistrationInfo(this.ecmrId(), this.ecmrToken())).subscribe((externalUserInformation: ExternalUserInformation): void => {
+            this.setDataForExternalUser(externalUserInformation);
+        })
+    }
+
+    private setDataForExternalUser(externalUserInformation: ExternalUserInformation) {
+        this.externalUser.reset();
+        this.externalUser.controls.company.setValue(externalUserInformation.companyName);
+        if (this.roleToShare() === EcmrRole.Carrier) {
+            const driverFirstName = externalUserInformation.driverName?.substring(0, externalUserInformation.driverName.indexOf(' ')) || null;
+            const driverLastName = externalUserInformation.driverName?.substring(externalUserInformation.driverName.indexOf(' ')) || null;
+            this.externalUser.controls.firstName.setValue(driverFirstName);
+            this.externalUser.controls.lastName.setValue(driverLastName);
+            this.externalUser.controls.phone.setValue(externalUserInformation.driverPhone);
+        }
+    }
+
+    private createValidRegistrationModel(ecmrId: string, ecmrToken: string): Registration | null {
+        if (this.externalUser.valid && ecmrId && ecmrToken) {
+            return {
                 firstName: this.externalUser.controls.firstName.value!,
                 lastName: this.externalUser.controls.lastName.value!,
                 phone: this.externalUser.controls.phone.value!,
                 company: this.externalUser.controls.company.value!,
                 email: null,
-                ecmrId: this.ecmrId,
-                shareToken: this.ecmrToken
+                ecmrId: ecmrId,
+                shareToken: ecmrToken
             }
+        } else {
+            return null;
+        }
+    }
 
-            this.loadingService.showLoaderUntilCompleted(this.externalUserRegistrationService.sendRegistration(registration)).subscribe({
+    protected sendRegistration(): void {
+        const ecmrId = this.ecmrId();
+        const ecmrToken = this.ecmrToken();
+
+        const registrationModel = this.createValidRegistrationModel(ecmrId, ecmrToken);
+        if (registrationModel) {
+            this.loadingService.showLoaderUntilCompleted(
+                this.externalUserRegistrationService.sendRegistration(registrationModel)
+            ).subscribe({
                 next: (registrationResponse) => {
-                    this.router.navigate(['/external-user-registration-success', this.ecmrId], {queryParams: {token: registrationResponse.userToken}});
+                    //Close dialog if opened through share dialog
+                    const dialogRef = this.dialogRef()
+                    if (dialogRef != null) dialogRef.close();
+
+                    void this.router.navigate(['/external-user-registration-success', ecmrId], {queryParams: {token: registrationResponse.userToken}});
                 },
                 error: (err) => {
-                    if(err.status == 429) {
+                    if (err.status == 429) {
                         this.snackBarService.openInfoSnackbar('external_user_registration.too_many_requests');
                     }
                     console.log(err);
                 }
             })
         }
-
     }
-
 }

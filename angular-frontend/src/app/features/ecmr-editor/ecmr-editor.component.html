@@ -113,6 +113,16 @@
     <div class="row" [class.custom-template-style]="isTemplate() && !isPhone">
         <div class="m-3 d-flex flex-column gap-3 overflow-container col pb-3"
              [class.mobile-container]="isMobile">
+            @if (isExternalUser) {
+                <mat-card class="external-user-card">
+                    <mat-card-content>
+                        <span class="text-uppercase fw-bold text-center w-100 d-flex align-items-center">
+                            <mat-icon>person</mat-icon>
+                            External User
+                        </span>
+                    </mat-card-content>
+                </mat-card>
+            }
             <mat-card class="header-card">
                 <mat-card-content class="d-flex flex-row justify-content-between align-items-center">
                     <div class="flex-grow-1 d-flex gap-3 flex-row align-items-center overflow-hidden" formGroupName="referenceIdentificationNumber">

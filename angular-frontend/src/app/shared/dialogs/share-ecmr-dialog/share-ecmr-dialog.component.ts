@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
@@ -39,6 +39,10 @@ import { LoadingService } from '../../../core/services/loading.service';
 import { SealMetadata } from '../../../core/models/SealMetadata';
 import { ShareEcmrDialogData } from './share-ecmr-dialog-data';
 import { TransportRole } from '../../../core/models/TransportRole';
+import { ExternalUserRegistrationComponent } from '../../../features/external-user-registration/external-user-registration.component';
+import { AuthService } from '../../../core/services/auth.service';
+import { AsyncPipe } from '@angular/common';
+import { MatDivider } from '@angular/material/divider';
 
 export enum SearchMode {
     EMAIL = 'Email',
@@ -74,7 +78,10 @@ interface SearchConfig {
         FormsModule,
         MatMenuModule,
         MatSelectModule,
-        QRCodeComponent
+        QRCodeComponent,
+        ExternalUserRegistrationComponent,
+        AsyncPipe,
+        MatDivider
     ],
     templateUrl: './share-ecmr-dialog.component.html',
     styleUrl: './share-ecmr-dialog.component.scss'
@@ -89,6 +96,7 @@ export class ShareEcmrDialogComponent implements OnInit {
     private externalUserService = inject(ExternalUserService);
     private groupService = inject(GroupService);
     private loadingService = inject(LoadingService);
+    protected readonly authService = inject(AuthService);
 
 
     emailFormControl = new FormControl<string>('', Validators.required)
@@ -115,6 +123,7 @@ export class ShareEcmrDialogComponent implements OnInit {
     readerShareString = `${environment.backendUrl}/anonymous/ecmr`
     shareString = '';
     currentRole: EcmrRole;
+    ecmrToken = signal<string | null>(null);
 
     private breakpointSubscription: Subscription | undefined;
     isMobile: boolean;
@@ -338,6 +347,7 @@ export class ShareEcmrDialogComponent implements OnInit {
         if (this.data.ecmr.ecmrId) {
             (this.data.isExternalUser ? this.externalUserService.getShareToken(this.data.ecmr.ecmrId, role, this.data.userToken, this.data.tan) : this.ecmrService.getShareToken(this.data.ecmr.ecmrId, role)).subscribe(token => {
                 const ecmrToken = token;
+                this.ecmrToken.set(ecmrToken);
                 this.shareString = this.currentRole !== EcmrRole.Reader ?
                     `${this.externalUserShareString}/${this.data.ecmr.ecmrId}?token=${ecmrToken}&role=${this.currentRole}` :
                     `${this.readerShareString}/${this.data.ecmr.ecmrId}/share-pdf?shareToken=${ecmrToken}`

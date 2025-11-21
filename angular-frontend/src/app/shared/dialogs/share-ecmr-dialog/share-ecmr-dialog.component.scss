@@ -15,3 +15,22 @@
     font-size: 12px;
     color: rgb(169, 169, 169);
 }
+
+
+.external-sharing-container {
+  padding: 1rem 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  mat-divider {
+    width: 100%;
+    margin: 1rem 0;
+  }
+
+  app-external-user-registration {
+    width: 100%;
+  }
+}

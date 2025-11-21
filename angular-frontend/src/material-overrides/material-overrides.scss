@@ -34,4 +34,10 @@ body {
             elevated-container-color: var(--mat-sys-error-container),
     ));
   }
+
+  .external-user-card {
+    @include mat.card-overrides((
+            elevated-container-color: var(--mat-sys-secondary-container),
+    ));
+  }
 }
