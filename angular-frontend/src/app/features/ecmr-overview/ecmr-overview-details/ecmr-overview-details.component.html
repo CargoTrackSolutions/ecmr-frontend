@@ -1,4 +1,27 @@
-<div class="overflow-hidden  h-100">
+<div class="overview-details-container overflow-hidden  h-100"
+     appFileDropZone (filesDropped)="filesDropped($event)"
+     (invalidFiles)="invalidFiles.set($event)"
+     (fileHoverAmount)="fileHoverAmount.set($event)"
+     [fileDropEnabled]="selectedEcmr().ecmrStatus !== EcmrStatus.DELIVERED"
+     (hover)="isHovering.set($event)">
+    @if (isHovering()) {
+        <div class="hover-overlay" [class.error]="selectedEcmr().ecmrStatus === EcmrStatus.DELIVERED || invalidFiles() === fileHoverAmount()">
+            @if (selectedEcmr().ecmrStatus === EcmrStatus.DELIVERED) {
+                <mat-icon>close</mat-icon>
+                <h1>Can't upload documents to completed eCMR</h1>
+            } @else if (invalidFiles() > 0 && invalidFiles() === fileHoverAmount()) {
+                <mat-icon>close</mat-icon>
+                <h1>File is invalid</h1>
+            } @else if (invalidFiles() > 0) {
+                <mat-icon>warning</mat-icon>
+                <h1>{{ invalidFiles() + ' / ' + fileHoverAmount() }} file(s) are/is invalid and won't get uploaded</h1>
+            } @else {
+                <mat-icon>get_app</mat-icon>
+                <h1>Drop Files</h1>
+            }
+
+        </div>
+    }
     <mat-toolbar class="action-bar-shadow sticky-top">
         <mat-toolbar-row class="d-flex flex-row justify-content-between overflow-x-scroll">
             <div class="d-flex flex-row justify-content-start align-items-center gap-2">

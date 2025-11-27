@@ -1,0 +1,63 @@
+<h3 matDialogTitle>Dokumente</h3>
+<mat-dialog-content>
+    <table mat-table [dataSource]="dataSource" matSort>
+
+        <!--NAME-->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                Name
+            </th>
+            <td mat-cell *matCellDef="let file">
+                {{ file.name }}
+            </td>
+        </ng-container>
+
+        <!--CREATION_DATE-->
+        <ng-container matColumnDef="creationDate">
+            <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                Date
+            </th>
+            <td mat-cell *matCellDef="let file">
+                {{ file.creationDate }}
+            </td>
+        </ng-container>
+
+        <!--Type-->
+        <ng-container matColumnDef="type">
+            <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                Type
+            </th>
+            <td mat-cell *matCellDef="let file">
+                {{ file.type }}
+            </td>
+        </ng-container>
+
+        <!--SIZE-->
+        <ng-container matColumnDef="size">
+            <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                Size
+            </th>
+            <td mat-cell *matCellDef="let file">
+                {{ file.size }}
+            </td>
+        </ng-container>
+
+        <!--actions-->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>
+            </th>
+            <td mat-cell *matCellDef="let file">
+                Test
+            </td>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </table>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button matButton (click)="dialogRef.close()" class="mat-warn">
+        {{ 'common.close' | translate }}
+        <mat-icon>close</mat-icon>
+    </button>
+</mat-dialog-actions>

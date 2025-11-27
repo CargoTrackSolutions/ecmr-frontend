@@ -21,3 +21,36 @@
 .fake-panel {
   border: 1px solid rgba(0,0,0,.12);
 }
+
+.overview-details-container {
+  position: relative;
+}
+
+.hover-overlay {
+  background-color: color-mix(in srgb, var(--mat-sys-surface-container), transparent 25%);
+  z-index: 200000;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  pointer-events: none;
+
+  mat-icon, h1 {
+    pointer-events: none;
+  }
+
+  mat-icon {
+    font-size: 150px;
+    width: 150px;
+    height: 150px;
+  }
+}
+
+.hover-overlay.error {
+  background-color: color-mix(in srgb, var(--mat-sys-error-container), transparent 25%);
+  color: var(--mat-sys-on-error-container) !important
+}

@@ -1,0 +1,13 @@
+<input
+    #fileInput
+    type="file"
+    [accept]="acceptAttr"
+    multiple
+    (change)="onFileInputChange($event)"
+    hidden
+/>
+
+<button matButton="filled" type="button" (click)="fileInput.click()">
+    <mat-icon>upload_file</mat-icon>
+    Datei hochladen
+</button>

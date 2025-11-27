@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, computed, EventEmitter, inject, input, LOCALE_ID, model, Output, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, inject, input, LOCALE_ID, model, Output, signal, TemplateRef, WritableSignal } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
@@ -27,6 +27,8 @@ import { Item } from '../../../core/models/compositions/Item';
 import { SealMetadata } from '../../../core/models/SealMetadata';
 import { TransportRole } from '../../../core/models/TransportRole';
 import { SealMetadataRolePipe } from '../../../core/pipes/seal-metadata-role.pipe';
+import { FileDropZoneDirective } from '../../../shared/directives/file-drop-zone.directive';
+import { handleAutoChangeDetectionStatus } from '@angular/cdk/testing';
 
 @Component({
     selector: 'app-ecmr-overview-details',
@@ -46,16 +48,22 @@ import { SealMetadataRolePipe } from '../../../core/pipes/seal-metadata-role.pip
         MatToolbar,
         MatToolbarRow,
         EcmrStatusComponent,
-        SealMetadataRolePipe
+        SealMetadataRolePipe,
+        FileDropZoneDirective
     ],
     templateUrl: './ecmr-overview-details.component.html',
     styleUrl: './ecmr-overview-details.component.scss'
 })
 export class EcmrOverviewDetailsComponent {
+
     locale = inject(LOCALE_ID);
     private ecmrService = inject(EcmrService);
 
     isTemplate: boolean = false;
+
+    isHovering: WritableSignal<boolean> = signal<boolean>(false);
+    invalidFiles: WritableSignal<number> = signal<number>(0);
+    fileHoverAmount: WritableSignal<number> = signal<number>(0);
 
     constructor() {
         const route = inject(ActivatedRoute);
@@ -106,7 +114,12 @@ export class EcmrOverviewDetailsComponent {
     }
 
     protected readonly EcmrTransportType = EcmrTransportType;
-
     protected readonly EcmrStatus = EcmrStatus;
     protected readonly TransportRole = TransportRole;
+
+    protected filesDropped($event: File[]) {
+        console.log($event);
+    }
+
+    protected readonly handleAutoChangeDetectionStatus = handleAutoChangeDetectionStatus;
 }

@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, signal, ViewChild, WritableSignal } from '@angular/core';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatIconButton } from '@angular/material/button';
@@ -42,6 +42,10 @@ import { ExternalEcmrImportDialogComponent } from './dialog/external-ecmr-import
 import { SealMetadataService } from '../../shared/services/seal-metadata.service';
 import { SealMetadata } from '../../core/models/SealMetadata';
 import { ShareEcmrDialogData } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog-data';
+import { FileSelectorButtonComponent } from '../../shared/components/file-selector-button/file-selector-button.component';
+import { FileDialogComponent } from '../../shared/dialogs/file-dialog/file-dialog.component';
+import { FileModel } from '../../core/models/File.model';
+import { FileService } from '../../shared/services/file.service';
 
 @Component({
     selector: 'app-overview',
@@ -67,7 +71,8 @@ import { ShareEcmrDialogData } from '../../shared/dialogs/share-ecmr-dialog/shar
         TranslateModule,
         EcmrOverviewDetailsComponent,
         MatDrawer,
-        MatDrawerContainer
+        MatDrawerContainer,
+        FileSelectorButtonComponent
     ],
     templateUrl: './ecmrOverview.component.html',
     styleUrl: './ecmrOverview.component.scss'
@@ -82,6 +87,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     protected ecmrActionService = inject(EcmrActionService);
     private snackbarService = inject(SnackbarService);
     private sealMetadataService = inject(SealMetadataService);
+    private readonly fileService = inject(FileService);
 
 
     isMobile: boolean = false;
@@ -113,6 +119,9 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
 
     initialSort: Sort = {active: '', direction: ''};
     readonly ecmrType: EcmrType = EcmrType.ECMR;
+
+    selectedFiles: WritableSignal<File[]> = signal<File[]>([]);
+    filesForSelectedEcmr: WritableSignal<FileModel[]> = signal<FileModel[]>([]);
 
     constructor() {
         this.router.events.pipe(
@@ -294,6 +303,12 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
             })
         }
         this.selectedEcmr = ecmr;
+        if (ecmr?.ecmrId) {
+            this.fileService.getFilesForEcmr(ecmr.ecmrId).subscribe(files => {
+                this.filesForSelectedEcmr.set(files)
+            })
+        }
+
     }
 
     private loadSealMetadata(ecmrId: string): Observable<SealMetadata[]> {
@@ -393,5 +408,12 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         });
     }
 
+    openFileDialog() {
+        this.dialog.open(FileDialogComponent, {
+            data: this.filesForSelectedEcmr()
+        })
+    }
+
     protected readonly EcmrStatus = EcmrStatus;
+    protected readonly open = open;
 }

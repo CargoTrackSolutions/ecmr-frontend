@@ -51,6 +51,7 @@ import { SealMetadata } from '../../core/models/SealMetadata';
         MatMenuItem,
         MatTooltip,
         MatMenuTrigger,
+
     ],
     templateUrl: './archive.component.html',
     styleUrl: './archive.component.scss'
