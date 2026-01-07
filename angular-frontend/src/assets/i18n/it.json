@@ -39,6 +39,14 @@
     "share": "Condividi",
     "phone_prefix": "p.es. +39..."
   },
+  "documents": {
+    "title": "Documents",
+    "delete_confirmation": "Are you sure you want to delete this document?",
+    "documents": "Documents",
+    "upload_document": "Upload document",
+    "download": "Download",
+    "delete": "Delete"
+  },
   "confirmation": {
     "accept": "Accetta",
     "cancel": "Annulla",

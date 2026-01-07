@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CountryCode } from '../../core/enums/CountryCode';
-import { catchError, filter, forkJoin, map, Observable, of, startWith, Subscription, switchMap, tap } from 'rxjs';
+import { catchError, concat, filter, forkJoin, map, Observable, of, startWith, Subscription, switchMap, tap } from 'rxjs';
 import { CommonModule, DatePipe, NgClass } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -25,7 +25,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { EcmrConsignment } from '../../core/models/EcmrConsignment';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Signature } from '../../core/models/areas/signature/Signature';
 import { EcmrEditorService } from './ecmr-editor-service/ecmr-editor.service';
 import { Ecmr } from '../../core/models/Ecmr';
@@ -49,7 +49,7 @@ import { EcmrService } from '../../shared/services/ecmr.service';
 import { SnackbarService } from '../../core/services/snackbar.service';
 import { ShareEcmrDialogComponent } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component';
 import { EcmrActionService } from '../../shared/services/ecmr-action.service';
-import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent, ConfirmationDialogResult } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { EcmrStatusComponent } from '../../shared/components/ecmr-status/ecmr-status.component';
 import { EcmrTransportType } from '../../core/models/EcmrTransportType';
 import { AuthService } from '../../core/services/auth.service';
@@ -67,6 +67,11 @@ import { SealMetadataService } from '../../shared/services/seal-metadata.service
 import { SealMetadata } from '../../core/models/SealMetadata';
 import { SealMetadataRolePipe } from '../../core/pipes/seal-metadata-role.pipe';
 import { ShareEcmrDialogData } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog-data';
+import { FileSelectorButtonComponent } from '../../shared/components/file-selector-button/file-selector-button.component';
+import { FileSizePipe } from '../../core/pipes/file-size.pipe';
+import { DocumentService } from '../../shared/services/document.service';
+import { MatTooltip } from '@angular/material/tooltip';
+import { DocumentModel } from '../../core/models/DocumentModel';
 
 export enum EditorMode {
     ECMR_EDIT = 'ECMR_EDIT',
@@ -103,7 +108,10 @@ export enum EditorMode {
         MatChipInput,
         MatChipRemove,
         EcmrSealComponent,
-        SealMetadataRolePipe
+        SealMetadataRolePipe,
+        FileSelectorButtonComponent,
+        FileSizePipe,
+        MatTooltip
     ],
     providers: [DatePipe, DateTimeService],
     templateUrl: './ecmr-editor.component.html',
@@ -126,6 +134,8 @@ export class EcmrEditorComponent implements OnInit {
     authService = inject(AuthService);
     private userService = inject(UserService);
     private sealMetadataService = inject(SealMetadataService);
+    private documentService = inject(DocumentService);
+    private translateService = inject(TranslateService);
 
 
     canFillSenderFields: boolean = false;
@@ -152,6 +162,7 @@ export class EcmrEditorComponent implements OnInit {
     ecmrId: string | null;
     loadedTemplate: TemplateUser;
     sealMetadata: SealMetadata[] = [];
+    documents: DocumentModel[] = [];
 
     payerType: PayerType[] = Object.values(PayerType);
 
@@ -610,15 +621,18 @@ export class EcmrEditorComponent implements OnInit {
                 const loadEcmrObs = this.externalUserService.getEcmrWithTan(this.id, this.userToken, this.tan);
                 const loadRolesObs = this.externalUserService.getEcmrRolesForUser(this.id, this.userToken, this.tan);
                 const loadSelMetadataObs = this.loadSealMetadata(true);
+                const loadDocumentsObs = this.documentService.getDocuments(this.id);
                 this.loadingService.showLoaderUntilCompleted(forkJoin({
                     ecmr: loadEcmrObs,
                     roles: loadRolesObs,
-                    sealMetadata: loadSelMetadataObs
+                    sealMetadata: loadSelMetadataObs,
+                    documents: loadDocumentsObs
                 }))
                     .subscribe(result => {
                         this.sealMetadata = result.sealMetadata;
                         this.loadEcmr(result.ecmr);
                         this.userEcmrRoles = result.roles;
+                        this.documents = result.documents;
                         this.setFormConstraints();
                     })
 
@@ -626,15 +640,18 @@ export class EcmrEditorComponent implements OnInit {
                 const loadEcmrObs = this.ecmrEditorService.getEcmr(this.id);
                 const loadRolesObs = this.ecmrService.getEcmrRolesForCurrentUser(this.id);
                 const loadSealMetadataObs = this.loadSealMetadata(false);
+                const loadDocumentsObs = this.documentService.getDocuments(this.id);
                 this.loadingService.showLoaderUntilCompleted(forkJoin({
                     ecmr: loadEcmrObs,
                     roles: loadRolesObs,
-                    sealMetadata: loadSealMetadataObs
+                    sealMetadata: loadSealMetadataObs,
+                    documents: loadDocumentsObs
                 }))
                     .subscribe(result => {
                         this.sealMetadata = result.sealMetadata;
                         this.loadEcmr(result.ecmr);
                         this.userEcmrRoles = result.roles;
+                        this.documents = result.documents;
                         this.setFormConstraints();
                         this.scrollIfSigning();
                     });
@@ -1058,6 +1075,55 @@ export class EcmrEditorComponent implements OnInit {
     parseDecimal(value: string): number | null {
         const parsed = parseFloat(value.replaceAll(',', '.').trim());
         return isNaN(parsed) ? null : parsed;
+    }
+
+    uploadFiles(files: File[]) {
+        if (this.ecmrToEdit && this.ecmrToEdit.ecmrId) {
+            const uploadObservables = files.map(file => this.documentService.uploadDocument(file, this.ecmrToEdit!.ecmrId!));
+            const obs = concat(...uploadObservables).pipe(
+                switchMap(() => this.documentService.getDocuments(this.ecmrToEdit!.ecmrId!))
+            );
+            this.loadingService.showLoaderUntilCompleted(obs).subscribe({
+                next: documents => this.documents = documents,
+                error: () => this.snackbarService.openErrorSnackbar('general.snackbar_error')
+            });
+        }
+    }
+
+    deleteDocument(document: DocumentModel) {
+        if (!this.ecmrToEdit?.ecmrId) {
+            return;
+        }
+        this.matDialog.open(ConfirmationDialogComponent, {
+            data: {
+                text: 'documents.delete_confirmation',
+                checkBoxText: this.translateService.instant('documents.delete') + " " + document.fileName,
+            },
+        }).afterClosed().pipe(
+            filter(result => result),
+            map(result => result as ConfirmationDialogResult),
+            filter(result => result.isConfirmed && result.isCheckboxTicked),
+            switchMap(() => this.loadingService.showLoaderUntilCompleted(this.documentService.deleteDocument(document.id))),
+            switchMap(() => this.loadingService.showLoaderUntilCompleted(this.documentService.getDocuments(this.ecmrToEdit!.ecmrId!)))
+        ).subscribe({
+            next: documents => this.documents = documents,
+            error: () => this.snackbarService.openErrorSnackbar('general.snackbar_error')
+        })
+    }
+
+    downloadDocument(document: DocumentModel) {
+        this.loadingService.showLoaderUntilCompleted(this.documentService.downloadDocument(document.id)).subscribe(blob => {
+            const a = window.document.createElement('a')
+            const objectUrl = URL.createObjectURL(blob);
+            a.href = objectUrl;
+            a.download = document.fileName;
+            a.click();
+            URL.revokeObjectURL(objectUrl);
+        });
+    }
+
+    fileNameHasEnding(document: DocumentModel, fileEndings: string[]): boolean {
+        return fileEndings.some(ending => document.fileName.toLowerCase().endsWith(ending.toLowerCase()));
     }
 
     protected readonly TransportRole = TransportRole;

@@ -978,6 +978,55 @@
                     </div>
                 </mat-card-content>
             </mat-card>
+            <mat-card>
+                <mat-card-content>
+                    <h6 class="fw-bold my-2">{{'documents.title' | translate}}</h6>
+                    <div class="row g-3 align-items-stretch">
+
+                        <div class="col-12 col-lg-6 col-xl-3 d-flex">
+                            <mat-card appearance="outlined" class="w-100 d-flex flex-column">
+                                <mat-card-content
+                                        class="flex-fill d-flex align-items-center justify-content-center flex-column"
+                                        style="min-height: 100px;">
+                                    <app-file-selector-button
+                                            (filesSelected)="uploadFiles($event)">
+                                    </app-file-selector-button>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+
+                        @for (doc of documents; track doc) {
+                            <div class="col-12 col-lg-6 col-xl-3 d-flex">
+                                <mat-card appearance="outlined" class="w-100 d-flex flex-column">
+                                    <mat-card-content class="flex-fill d-flex align-items-center justify-content-center flex-column">
+                                        <div class="w-100 d-flex justify-content-end" style="margin-top: -0.6em; margin-right: -0.6em">
+                                            <button mat-icon-button matTooltip="{{'documents.delete' | translate}} {{doc.fileName}}" class="mat-warn"
+                                                    (click)="deleteDocument(doc)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </div>
+                                        <div class="mt-4 document w-100 d-flex align-items-center justify-content-center flex-column gap-2"
+                                             matTooltip="{{'documents.download' | translate}} {{doc.fileName}}"
+                                             (click)="downloadDocument(doc)" tabindex="0"
+                                             role="button" (keydown.enter)="downloadDocument(doc)">
+                                            @if (doc.fileName.endsWith('pdf')) {
+                                                <mat-icon class="icon-large">picture_as_pdf</mat-icon>
+                                            } @else if (fileNameHasEnding(doc, ['jpg', 'jpeg', 'bmp', 'png', 'tif', 'tiff'])) {
+                                                <mat-icon class="icon-large">image</mat-icon>
+                                            } @else {
+                                                <mat-icon class="icon-large">content_copy</mat-icon>
+                                            }
+                                            <div class="mt-3">{{ doc.fileName }}</div>
+                                            <div>{{ doc.size | fileSize }}</div>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        }
+
+                    </div>
+                </mat-card-content>
+            </mat-card>
         }
         </div>
         @if (!isMobile && !isTemplate()) {

@@ -15,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EcmrService } from '../../shared/services/ecmr.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { catchError, filter, Observable, of, Subscription, switchMap } from 'rxjs';
+import { catchError, filter, forkJoin, Observable, of, Subscription, switchMap } from 'rxjs';
 import { EcmrOverviewDetailsComponent } from '../ecmr-overview/ecmr-overview-details/ecmr-overview-details.component';
 import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
 import { Ecmr } from '../../core/models/Ecmr';
@@ -33,6 +33,8 @@ import { SnackbarService } from '../../core/services/snackbar.service';
 import { Sort } from '@angular/material/sort';
 import { SealMetadataService } from '../../shared/services/seal-metadata.service';
 import { SealMetadata } from '../../core/models/SealMetadata';
+import { DocumentModel } from '../../core/models/DocumentModel';
+import { DocumentService } from '../../shared/services/document.service';
 
 @Component({
     selector: 'app-archive',
@@ -65,11 +67,13 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
     private router = inject(Router);
     private loadingService = inject(LoadingService);
     private sealMetadataService = inject(SealMetadataService);
+    private documentService = inject(DocumentService);
 
     @ViewChild(EcmrTableComponent) table: EcmrTableComponent;
 
     selectedEcmr: Ecmr | null = null;
     selectedEcmrSealMetadata: SealMetadata[] = [];
+    selectedEcmrDocuments: DocumentModel[] = [];
 
     ecmr: Ecmr[] = [];
 
@@ -157,17 +161,22 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
 
     selectEcmr(ecmr: Ecmr | null) {
         this.selectedEcmrSealMetadata = [];
-        if (ecmr?.ecmrId) {
-            this.sealMetadataService.getSealMetadata(ecmr.ecmrId)
-                .pipe(
-                    catchError(err => {
-                        this.snackbarService.openErrorSnackbar('general.snackbar_error')
-                        console.log(err);
-                        return of([]);
-                    }))
-                .subscribe(sealMetadata => this.selectedEcmrSealMetadata = sealMetadata)
-        }
         this.selectedEcmr = ecmr;
+
+        if (!ecmr?.ecmrId) {
+            return;
+        }
+        const obs = forkJoin([this.sealMetadataService.getSealMetadata(ecmr.ecmrId), this.documentService.getDocuments(ecmr.ecmrId)]);
+        obs.pipe(
+            catchError(err => {
+                this.snackbarService.openErrorSnackbar('general.snackbar_error')
+                console.log(err);
+                return of([]);
+            }))
+            .subscribe(([sealMetadata, documents]) => {
+                this.selectedEcmrSealMetadata = sealMetadata;
+                this.selectedEcmrDocuments = documents;
+            })
     }
 
     closeDetailView($event: boolean) {

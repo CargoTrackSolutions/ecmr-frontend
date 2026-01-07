@@ -9,12 +9,14 @@
 import { Component, output, OutputEmitterRef, signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-file-selector-button',
     imports: [
         MatButton,
-        MatIcon
+        MatIcon,
+        TranslatePipe
     ],
     templateUrl: './file-selector-button.component.html',
     styleUrl: './file-selector-button.component.scss'
@@ -24,7 +26,8 @@ export class FileSelectorButtonComponent {
     filesSelected: OutputEmitterRef<File[]> = output<File[]>();
     invalidFilesSelected: OutputEmitterRef<File[]> = output<File[]>();
 
-    readonly acceptAttr = 'image/*,application/pdf';
+    acceptedFileEndings = ['.png', '.bmp', 'jpg', '.jpeg', '.tif', '.tiff', '.pdf']
+    readonly acceptAttr = this.acceptedFileEndings.join(",")
     private readonly maxFileSize = 10 * 1024 * 1024;
 
     readonly lastInvalidCount = signal(0);
@@ -60,10 +63,7 @@ export class FileSelectorButtonComponent {
     }
 
     private isValidFile(file: File): boolean {
-        const isImage = file.type.startsWith('image/');
-        const isPdf = file.type === 'application/pdf';
-
-        const isAllowedType = isImage || isPdf;
+        const isAllowedType = this.acceptedFileEndings.some(x => file.name.toLowerCase().endsWith(x.toLowerCase()));
         const isAllowedSize = file.size <= this.maxFileSize;
 
         return isAllowedType && isAllowedSize;

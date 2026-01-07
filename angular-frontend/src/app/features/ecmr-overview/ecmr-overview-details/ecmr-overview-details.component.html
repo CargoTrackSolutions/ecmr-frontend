@@ -19,7 +19,6 @@
                 <mat-icon>get_app</mat-icon>
                 <h1>Drop Files</h1>
             }
-
         </div>
     }
     <mat-toolbar class="action-bar-shadow sticky-top">
@@ -468,6 +467,35 @@
                     <app-ecmr-display-information-field [label]="'ecmr_editor.remarks'"
                                                         [displayedContent]="selectedEcmr().ecmrConsignment.nonContractualPartReservedForTheCarrier.nonContractualCarrierRemarks"/>
                 }
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="m-4">
+            <mat-card-content>
+                <h6 class="fw-bold my-2">{{'documents.title' | translate}}</h6>
+                <div class="row g-3 align-items-stretch">
+                    @for (doc of documents(); track doc) {
+                        <div class="col-12 col-lg-6 col-xl-3 d-flex">
+                            <mat-card appearance="outlined" class="w-100 d-flex flex-column">
+                                <mat-card-content class="flex-fill d-flex align-items-center justify-content-center flex-column">
+                                    <div class="mt-4 document w-100 d-flex align-items-center justify-content-center flex-column gap-2"
+                                         matTooltip="{{'documents.download' | translate}} {{doc.fileName}}"
+                                         (click)="downloadDocument.emit(doc)" tabindex="0"
+                                         role="button" (keydown.enter)="downloadDocument.emit(doc)">
+                                        @if (doc.fileName.endsWith('pdf')) {
+                                            <mat-icon class="icon-large">picture_as_pdf</mat-icon>
+                                        } @else if (fileNameHasEnding(doc, ['jpg', 'jpeg', 'bmp', 'png', 'tif', 'tiff'])) {
+                                            <mat-icon class="icon-large">image</mat-icon>
+                                        } @else {
+                                            <mat-icon class="icon-large">content_copy</mat-icon>
+                                        }
+                                        <div class="mt-3">{{ doc.fileName }}</div>
+                                        <div>{{ doc.size | fileSize }}</div>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    }
+                </div>
             </mat-card-content>
         </mat-card>
     </div>

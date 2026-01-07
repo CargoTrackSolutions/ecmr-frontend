@@ -29,6 +29,9 @@ import { TransportRole } from '../../../core/models/TransportRole';
 import { SealMetadataRolePipe } from '../../../core/pipes/seal-metadata-role.pipe';
 import { FileDropZoneDirective } from '../../../shared/directives/file-drop-zone.directive';
 import { handleAutoChangeDetectionStatus } from '@angular/cdk/testing';
+import { DocumentModel } from '../../../core/models/DocumentModel';
+import { FileSizePipe } from '../../../core/pipes/file-size.pipe';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-ecmr-overview-details',
@@ -49,7 +52,10 @@ import { handleAutoChangeDetectionStatus } from '@angular/cdk/testing';
         MatToolbarRow,
         EcmrStatusComponent,
         SealMetadataRolePipe,
-        FileDropZoneDirective
+        FileDropZoneDirective,
+        FileSizePipe,
+        MatTooltip,
+        MatTooltip
     ],
     templateUrl: './ecmr-overview-details.component.html',
     styleUrl: './ecmr-overview-details.component.scss'
@@ -74,11 +80,14 @@ export class EcmrOverviewDetailsComponent {
     }
 
     readonly selectedEcmr = model.required<Ecmr>();
+    readonly documents = model.required<DocumentModel[]>();
     readonly selectedSealMetadata = input<SealMetadata[]>();
     readonly quickViewButtons = input<TemplateRef<object>>();
     readonly mobileQuickViewButtons = input<TemplateRef<object>>();
 
     @Output() closeDetails = new EventEmitter();
+    @Output() uploadFiles = new EventEmitter<File[]>();
+    @Output() downloadDocument = new EventEmitter<DocumentModel>();
     readonly isMobile = input<boolean>();
 
 
@@ -122,4 +131,8 @@ export class EcmrOverviewDetailsComponent {
     }
 
     protected readonly handleAutoChangeDetectionStatus = handleAutoChangeDetectionStatus;
+
+    fileNameHasEnding(document: DocumentModel, fileEndings: string[]): boolean {
+        return fileEndings.some(ending => document.fileName.toLowerCase().endsWith(ending.toLowerCase()));
+    }
 }

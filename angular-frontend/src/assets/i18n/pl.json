@@ -39,6 +39,14 @@
     "share": "Udostępnij",
     "phone_prefix": "np. +48..."
   },
+  "documents": {
+    "title": "Documents",
+    "delete_confirmation": "Are you sure you want to delete this document?",
+    "documents": "Documents",
+    "upload_document": "Upload document",
+    "download": "Download",
+    "delete": "Delete"
+  },
   "confirmation": {
     "accept": "Akceptuj",
     "cancel": "Anuluj",

@@ -3,7 +3,8 @@
         @if (selectedTemplate && selectedTemplate.ecmr) {
             <app-ecmr-overview-details (closeDetails)="closeDetailView($event)"
                                        [quickViewButtons]="quickViewButtons"
-                                       [selectedEcmr]="selectedTemplate!.ecmr"/>
+                                       [selectedEcmr]="selectedTemplate!.ecmr"
+                                       [documents]="[]"/>
         }
     </mat-drawer>
     <article class="h-100">

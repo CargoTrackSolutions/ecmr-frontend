@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-export interface FileModel {
+export interface DocumentModel {
     id: number;
-    name: string;
+    fileName: string;
     mimeType: string;
-    creationDate: string;
+    uploadDate: string;
     size: number;
 }

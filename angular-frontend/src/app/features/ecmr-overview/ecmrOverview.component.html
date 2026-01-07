@@ -7,7 +7,9 @@
                                        [mobileQuickViewButtons]="mobileQuickViewButtons"
                                        [isMobile]="isMobile"
                                        [selectedEcmr]="selectedEcmr"
-                                       [selectedSealMetadata]="selectedEcmrSealMetadata"/>
+                                       [selectedSealMetadata]="selectedEcmrSealMetadata"
+                                       [documents]="documentsForSelectedEcmr()"
+                                       (downloadDocument)="downloadDocument($event)"/>
         }
     </mat-drawer>
     <article class="h-100">
@@ -68,14 +70,10 @@
 
     <ng-template #quickViewButtons let-ecmr>
         <div>
-            @if (filesForSelectedEcmr().length > 0) {
-                <button matButton="filled" (click)="openFileDialog()">
-                    {{ filesForSelectedEcmr().length + " Anhänge" }}
-                    <mat-icon>attach_file</mat-icon>
-                </button>
-            } @else {
-                <app-file-selector-button (filesSelected)="selectedFiles.set($event)"/>
-            }
+            <button matButton="filled" (click)="showDocuments()">
+                {{ documentsForSelectedEcmr().length }} {{'documents.documents' | translate}}
+                <mat-icon>attach_file</mat-icon>
+            </button>
             <button class="m-1" mat-flat-button color="primary" (click)="moveToArchive(ecmr.ecmrId)">{{ 'quick_view_buttons.archive' | translate }}
                 <mat-icon iconPositionEnd>archive</mat-icon>
             </button>
@@ -178,5 +176,3 @@
         </button>
     </ng-template>
 </mat-drawer-container>
-
-

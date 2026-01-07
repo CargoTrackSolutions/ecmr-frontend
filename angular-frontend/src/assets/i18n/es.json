@@ -39,6 +39,14 @@
     "share": "Compartir",
     "phone_prefix": "p.ej. +34..."
   },
+  "documents": {
+    "title": "Documents",
+    "delete_confirmation": "Are you sure you want to delete this document?",
+    "documents": "Documents",
+    "upload_document": "Upload document",
+    "download": "Download",
+    "delete": "Delete"
+  },
   "confirmation": {
     "accept": "Aceptar",
     "cancel": "Cancelar",

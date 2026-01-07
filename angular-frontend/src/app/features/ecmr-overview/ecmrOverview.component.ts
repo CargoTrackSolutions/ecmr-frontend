@@ -42,10 +42,8 @@ import { ExternalEcmrImportDialogComponent } from './dialog/external-ecmr-import
 import { SealMetadataService } from '../../shared/services/seal-metadata.service';
 import { SealMetadata } from '../../core/models/SealMetadata';
 import { ShareEcmrDialogData } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog-data';
-import { FileSelectorButtonComponent } from '../../shared/components/file-selector-button/file-selector-button.component';
-import { FileDialogComponent } from '../../shared/dialogs/file-dialog/file-dialog.component';
-import { FileModel } from '../../core/models/File.model';
-import { FileService } from '../../shared/services/file.service';
+import { DocumentModel } from '../../core/models/DocumentModel';
+import { DocumentService } from '../../shared/services/document.service';
 
 @Component({
     selector: 'app-overview',
@@ -71,8 +69,7 @@ import { FileService } from '../../shared/services/file.service';
         TranslateModule,
         EcmrOverviewDetailsComponent,
         MatDrawer,
-        MatDrawerContainer,
-        FileSelectorButtonComponent
+        MatDrawerContainer
     ],
     templateUrl: './ecmrOverview.component.html',
     styleUrl: './ecmrOverview.component.scss'
@@ -87,7 +84,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     protected ecmrActionService = inject(EcmrActionService);
     private snackbarService = inject(SnackbarService);
     private sealMetadataService = inject(SealMetadataService);
-    private readonly fileService = inject(FileService);
+    private readonly documentService = inject(DocumentService);
 
 
     isMobile: boolean = false;
@@ -121,7 +118,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     readonly ecmrType: EcmrType = EcmrType.ECMR;
 
     selectedFiles: WritableSignal<File[]> = signal<File[]>([]);
-    filesForSelectedEcmr: WritableSignal<FileModel[]> = signal<FileModel[]>([]);
+    documentsForSelectedEcmr: WritableSignal<DocumentModel[]> = signal<DocumentModel[]>([]);
 
     constructor() {
         this.router.events.pipe(
@@ -304,8 +301,8 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         }
         this.selectedEcmr = ecmr;
         if (ecmr?.ecmrId) {
-            this.fileService.getFilesForEcmr(ecmr.ecmrId).subscribe(files => {
-                this.filesForSelectedEcmr.set(files)
+            this.documentService.getDocuments(ecmr.ecmrId).subscribe(files => {
+                this.documentsForSelectedEcmr.set(files)
             })
         }
 
@@ -408,12 +405,24 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         });
     }
 
-    openFileDialog() {
-        this.dialog.open(FileDialogComponent, {
-            data: this.filesForSelectedEcmr()
-        })
+    showDocuments() {
     }
 
     protected readonly EcmrStatus = EcmrStatus;
     protected readonly open = open;
+
+
+
+    downloadDocument(document: DocumentModel) {
+        this.loadingService.showLoaderUntilCompleted(this.documentService.downloadDocument(document.id)).subscribe(blob => {
+            const a = window.document.createElement('a')
+            const objectUrl = URL.createObjectURL(blob);
+            a.href = objectUrl;
+            a.download = document.fileName;
+            a.click();
+            URL.revokeObjectURL(objectUrl);
+        });
+    }
+
+
 }
