@@ -211,6 +211,7 @@ describe('EcmrOverviewDetailsComponent', () => {
                 referenceIdentificationNumber: {value: 'FhG-IML-504'},
             }
         })
+        component.documents.set([]);
         fixture.detectChanges();
     });
 
