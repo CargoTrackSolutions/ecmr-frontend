@@ -91,6 +91,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     breakpointSubscription: Subscription | undefined;
 
     @ViewChild(EcmrTableComponent) table: EcmrTableComponent;
+    @ViewChild(EcmrOverviewDetailsComponent) ecmrOverviewDetails: EcmrOverviewDetailsComponent;
     @ViewChild(MatSort) sort: MatSort = new MatSort();
 
     // ecmr selected
@@ -405,7 +406,8 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         });
     }
 
-    showDocuments() {
+    scrollToDocuments() {
+        this.ecmrOverviewDetails.scrollToDocuments();
     }
 
     protected readonly EcmrStatus = EcmrStatus;

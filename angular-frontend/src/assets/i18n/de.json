@@ -40,12 +40,12 @@
     "phone_prefix": "z.B. +49..."
   },
   "documents": {
-    "title": "Documents",
-    "delete_confirmation": "Are you sure you want to delete this document?",
-    "documents": "Documents",
-    "upload_document": "Upload document",
-    "download": "Download",
-    "delete": "Delete"
+    "title": "Dokumente",
+    "delete_confirmation": "Sind Sie sicher, dass Sie das Dokument löschen möchten?",
+    "documents": "Dokumente",
+    "upload_document": "Dokument hochladen",
+    "download": "Herunterladen",
+    "delete": "Löschen"
   },
   "confirmation": {
     "accept": "Bestätigen",

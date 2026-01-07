@@ -6,7 +6,20 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { Component, EventEmitter, inject, input, LOCALE_ID, model, Output, signal, TemplateRef, WritableSignal } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    inject,
+    input,
+    LOCALE_ID,
+    model,
+    Output,
+    signal,
+    TemplateRef,
+    ViewChild,
+    WritableSignal
+} from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
@@ -88,6 +101,7 @@ export class EcmrOverviewDetailsComponent {
     @Output() closeDetails = new EventEmitter();
     @Output() uploadFiles = new EventEmitter<File[]>();
     @Output() downloadDocument = new EventEmitter<DocumentModel>();
+    @ViewChild('documentTitle') documentTitle: ElementRef<HTMLElement>;
     readonly isMobile = input<boolean>();
 
 
@@ -134,5 +148,9 @@ export class EcmrOverviewDetailsComponent {
 
     fileNameHasEnding(document: DocumentModel, fileEndings: string[]): boolean {
         return fileEndings.some(ending => document.fileName.toLowerCase().endsWith(ending.toLowerCase()));
+    }
+
+    scrollToDocuments() {
+        this.documentTitle.nativeElement.scrollIntoView({behavior: 'smooth'});
     }
 }

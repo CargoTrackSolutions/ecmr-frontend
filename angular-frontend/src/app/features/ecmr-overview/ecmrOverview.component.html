@@ -2,7 +2,8 @@
     <mat-drawer [position]="'end'" [opened]="selectedEcmr !== null" class="detail-view" [class.detail-view-mobile]="isMobile"
                 [mode]="'side'">
         @if (selectedEcmr) {
-            <app-ecmr-overview-details (closeDetails)="closeDetailView($event)"
+            <app-ecmr-overview-details #ecmrOverviewDetailsComponent
+                                       (closeDetails)="closeDetailView($event)"
                                        [quickViewButtons]="quickViewButtons"
                                        [mobileQuickViewButtons]="mobileQuickViewButtons"
                                        [isMobile]="isMobile"
@@ -70,7 +71,7 @@
 
     <ng-template #quickViewButtons let-ecmr>
         <div>
-            <button matButton="filled" (click)="showDocuments()">
+            <button matButton="filled" (click)="scrollToDocuments()">
                 {{ documentsForSelectedEcmr().length }} {{'documents.documents' | translate}}
                 <mat-icon>attach_file</mat-icon>
             </button>

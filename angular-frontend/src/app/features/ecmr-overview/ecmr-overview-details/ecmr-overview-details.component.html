@@ -471,7 +471,7 @@
         </mat-card>
         <mat-card class="m-4">
             <mat-card-content>
-                <h6 class="fw-bold my-2">{{'documents.title' | translate}}</h6>
+                <h6 class="fw-bold my-2" #documentTitle>{{'documents.title' | translate}}</h6>
                 <div class="row g-3 align-items-stretch">
                     @for (doc of documents(); track doc) {
                         <div class="col-12 col-lg-6 col-xl-3 d-flex">
