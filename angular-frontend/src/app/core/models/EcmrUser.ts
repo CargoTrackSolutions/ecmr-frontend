@@ -20,4 +20,5 @@ export interface EcmrUser {
     role: UserRole,
     defaultGroupId: number | null
     deactivated: boolean;
+    externalAccount: boolean;
 }

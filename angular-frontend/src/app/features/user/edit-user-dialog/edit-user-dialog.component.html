@@ -1,7 +1,14 @@
 <h2 mat-dialog-title>{{ (isEditMode ? "edit_user_dialog.edit" : "edit_user_dialog.create") | translate }}</h2>
 <mat-dialog-content class="d-flex flex-column overflow-auto gap-3 dialog-content">
     <div class="mt-4" [formGroup]="userFormGroup">
-        <h5 class="container-header">{{ "edit_user_dialog.user_information" | translate }}</h5>
+        <div class="container-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">{{ "edit_user_dialog.user_information" | translate }}</h5>
+            @if (user) {
+                <mat-chip [color]="user.externalAccount ? 'accent' : 'primary'" highlighted disableRipple class="mb-2">
+                    {{ (user.externalAccount ? 'user.external' : 'user.internal') | translate }}
+                </mat-chip>
+            }
+        </div>
         <div class="row">
             <mat-form-field class="col">
                 <mat-label>{{ "user.first_name" | translate }}</mat-label>
@@ -25,8 +32,8 @@
                 @if (userFormGroup.controls.email.invalid) {
                     <mat-error>{{ "common.errors.required" | translate }}</mat-error>
                 } @if (userFormGroup.controls.email.hasError('invalidEmail')) {
-                <mat-error>{{ "common.errors.invalid_email" | translate }}</mat-error>
-            }
+                    <mat-error>{{ "common.errors.invalid_email" | translate }}</mat-error>
+                }
             </mat-form-field>
             <mat-form-field class="col">
                 <mat-label>{{ "user.phone" | translate }}</mat-label>
@@ -70,6 +77,21 @@
                     <mat-error>{{ "common.errors.max_length" | translate }}</mat-error>
                 }
             </mat-form-field>
+
+        </div>
+        <div class="row">
+            @if (capabilities.externalUserManagement.changeMfa && user.externalAccount) {
+                <mat-checkbox [formControl]="mfaStatusFormControl" class="col" (click)="changeMfa()" [checked]="mfaEnabled">
+                    {{ "user_management.mfa" | translate }}
+                </mat-checkbox>
+            }
+
+            @if (capabilities.externalUserManagement.resetPassword && user.externalAccount) {
+                <button matButton class="mat-warn col" (click)="resetPassword()">
+                    {{ "user_management.password_reset" | translate }}
+                    <mat-icon>lock_reset</mat-icon>
+                </button>
+            }
         </div>
     </div>
     <h5 class="container-header">{{ "edit_user_dialog.locations_and_groups" | translate }}</h5>
@@ -122,8 +144,8 @@
                     @if (defaultGroupId === group.id) {
                         <mat-icon class="favourite-button" (click)="setDefaultGroupId(null)"> {{ 'star' }}</mat-icon>
                     } @else {
-                    <mat-icon class="favourite-button" (click)="setDefaultGroupId(group.id)"> {{ 'star_outline' }}</mat-icon>
-                }
+                        <mat-icon class="favourite-button" (click)="setDefaultGroupId(group.id)"> {{ 'star_outline' }}</mat-icon>
+                    }
                 </div>
             }
         </div>

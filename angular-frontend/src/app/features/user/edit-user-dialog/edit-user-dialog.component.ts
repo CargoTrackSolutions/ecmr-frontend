@@ -7,7 +7,7 @@
  */
 
 import { Component, inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
@@ -19,7 +19,7 @@ import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autoc
 import { TranslateModule } from '@ngx-translate/core';
 import { CountryCode } from '../../../core/enums/CountryCode';
 import { GroupService } from '../../group/group.service';
-import { catchError, filter, map, Observable, of, startWith } from 'rxjs';
+import { catchError, filter, map, Observable, of, startWith, switchMap } from 'rxjs';
 import { Group } from '../../../core/models/Group';
 import { UserRole } from '../../../core/enums/UserRole';
 import { EcmrUser } from '../../../core/models/EcmrUser';
@@ -40,6 +40,10 @@ import { FlatGroupNode } from '../../../core/models/FlatGroupNode';
 import { SnackbarService } from '../../../core/services/snackbar.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { PhoneValidatorService } from '../../../shared/services/phone-format.service';
+import { CapabilitiesService } from '../../../core/services/capabilities-service';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { ConfirmationDialogComponent } from '../../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { MatChip } from '@angular/material/chips';
 
 @Component({
     selector: 'app-edit-user-dialog',
@@ -67,7 +71,9 @@ import { PhoneValidatorService } from '../../../shared/services/phone-format.ser
         MatTreeNode,
         MatTreeNodeDef,
         MatTreeNodePadding,
-        MatTreeNodeToggle
+        MatTreeNodeToggle,
+        MatCheckbox,
+        MatChip
     ],
     templateUrl: './edit-user-dialog.component.html',
     styleUrl: './edit-user-dialog.component.scss'
@@ -78,6 +84,9 @@ export class EditUserDialogComponent implements OnInit {
     private userService = inject(UserService);
     private snackbarService = inject(SnackbarService);
     private loadingService = inject(LoadingService);
+    private capabilitiesService = inject(CapabilitiesService);
+    private matDialog = inject(MatDialog)
+
     data = inject<EcmrUser>(MAT_DIALOG_DATA);
 
 
@@ -95,6 +104,11 @@ export class EditUserDialogComponent implements OnInit {
         companyName: new FormControl<string | null>(null, [Validators.maxLength(255)]),
         role: new FormControl<UserRole | null>(null, Validators.required),
     })
+
+    mfaStatusFormControl = new FormControl<boolean>(false);
+    mfaEnabled = false;
+
+    capabilities = this.capabilitiesService.capabilities();
 
     private _transformer = (node: Group, level: number) => {
         return {
@@ -162,6 +176,13 @@ export class EditUserDialogComponent implements OnInit {
             this.loadingService.showLoaderUntilCompleted(this.userService.getGroupsForUser(this.user.id)).subscribe(groups => {
                 this.selectedGroups = groups;
             })
+
+            if(this.capabilities.externalUserManagement.getExternalUserMfaStatus && this.user.externalAccount) {
+                this.userService.getMfaStatus(this.user.email).subscribe(mfaStatus => {
+                    this.mfaStatusFormControl.setValue(mfaStatus);
+                    this.mfaEnabled = mfaStatus;
+                })
+            }
         }
     }
 
@@ -259,6 +280,30 @@ export class EditUserDialogComponent implements OnInit {
 
     setDefaultGroupId(id: number | null) {
         this.defaultGroupId = id;
+    }
+
+    resetPassword() {
+        this.matDialog.open(ConfirmationDialogComponent, {
+            data: {
+                text: 'user_management.reset_password_confirmation',
+            }
+        }).afterClosed().pipe(
+            filter(result => result.isConfirmed === true),
+            switchMap(() => this.userService.resetPassword(this.user.email))
+        ).subscribe({
+            next: () => {
+                this.snackbarService.openSuccessSnackbar('user_management.password_reset_successfully');
+            },
+            error: () => {
+                this.snackbarService.openErrorSnackbar('user_management.error_resetting_password');
+            }
+        })
+
+    }
+
+    changeMfa() {
+        const newMfaStatus = this.mfaStatusFormControl.value!;
+        this.userService.changeMfa(this.user.email, newMfaStatus).subscribe();
     }
 }
 

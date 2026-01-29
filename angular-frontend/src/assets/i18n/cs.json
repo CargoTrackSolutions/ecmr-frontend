@@ -487,7 +487,9 @@
     "last_name": "Příjmení",
     "phone": "Telefon",
     "role": "Role",
-    "companyName": "Název společnosti"
+    "companyName": "Název společnosti",
+    "external": "Externí uživatel",
+    "internal": "Interní uživatel"
   },
   "user_overview": {
     "activate_dialog": "Opravdu chcete aktivovat tohoto uživatele?",
@@ -555,5 +557,12 @@
       "ECMR_ALREADY_EXISTS": "Dokument eCMR s tímto ID již existuje.",
       "WRONG_ROLE": "Uživatel nemá potřebnou roli pro tuto akci."
     }
+  },
+  "user_management": {
+    "mfa": "MFA",
+    "password_reset": "Obnovit heslo",
+    "password_reset_successfully": "Heslo bylo úspěšně obnoveno",
+    "error_resetting_password": "Heslo se nepodařilo obnovit",
+    "reset_password_confirmation": "Opravdu chcete obnovit heslo? Uživatel bude informován e-mailem a bude se muset znovu přihlásit."
   }
 }

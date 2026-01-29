@@ -487,7 +487,9 @@
     "last_name": "Apellido",
     "phone": "Teléfono",
     "role": "Rol",
-    "companyName": "Nombre de la empresa"
+    "companyName": "Nombre de la empresa",
+    "external": "Usuario externo",
+    "internal": "Usuario interno"
   },
   "user_overview": {
     "activate_dialog": "¿Realmente desea activar este usuario?",
@@ -555,5 +557,12 @@
       "ECMR_ALREADY_EXISTS": "Ya existe un documento eCMR con este ID.",
       "WRONG_ROLE": "El usuario no tiene el rol requerido para esta acción."
     }
+  },
+  "user_management": {
+    "mfa": "MFA",
+    "password_reset": "Restablecer contraseña",
+    "password_reset_successfully": "La contraseña se ha restablecido correctamente",
+    "error_resetting_password": "No se pudo restablecer la contraseña",
+    "reset_password_confirmation": "¿Realmente desea restablecer la contraseña? El usuario será notificado por correo electrónico y deberá iniciar sesión nuevamente."
   }
 }

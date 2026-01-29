@@ -497,7 +497,9 @@
     "last_name": "Nachname",
     "phone": "Telefon",
     "role": "Rolle",
-    "companyName": "Firmierung"
+    "companyName": "Firmierung",
+    "external": "Externer Benutzer",
+    "internal": "Interner Benutzer"
   },
   "user_overview": {
     "activate_dialog": "Wollen Sie diesen Benutzer wirklich aktivieren?",
@@ -565,5 +567,12 @@
       "ECMR_ALREADY_EXISTS": "Ein eCMR-Dokument mit dieser ID existiert bereits.",
       "WRONG_ROLE": "Der Benutzer besitzt nicht die erforderliche Rolle für diese Aktion."
     }
+  },
+  "user_management": {
+    "mfa": "MFA",
+    "password_reset": "Passwort zurücksetzen",
+    "password_reset_successfully": "Passwort erfolgreich zurückgesetzt",
+    "error_resetting_password": "Passwort konnte nicht zurückgesetzt werden",
+    "reset_password_confirmation": "Soll das Passwort sicher zurückgesetzt werden? Der Benutzer wird per E-Mail informiert und muss sich neu einloggen."
   }
 }

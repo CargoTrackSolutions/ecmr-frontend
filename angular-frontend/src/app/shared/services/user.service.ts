@@ -7,7 +7,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { EcmrUser } from '../../core/models/EcmrUser';
 import { environment } from '../../../environments/environment';
 import { UserCreationAndUpdate } from '../../core/models/UserCreationAndUpdate';
@@ -56,5 +56,20 @@ export class UserService {
 
     deactivateUser(userId: number) {
         return this.http.post<void>(`${environment.backendUrl}/user/${userId}/deactivate`, {});
+    }
+
+    getMfaStatus(userEmail: string) {
+        const params = new HttpParams().set('email', userEmail);
+        return this.http.get<boolean>(`${environment.backendUrl}/user/mfa`, { params })
+    }
+
+    changeMfa(userEmail: string, newMfaStatus: boolean) {
+        const params = new HttpParams().set('email', userEmail).set('mfaEnabled', newMfaStatus.toString());
+        return this.http.patch<boolean>(`${environment.backendUrl}/user/mfa`, null, { params })
+    }
+
+    resetPassword(userEmail: string) {
+        const params = new HttpParams().set('email', userEmail);
+        return this.http.post<boolean>(`${environment.backendUrl}/user/reset-password`, null, { params })
     }
 }

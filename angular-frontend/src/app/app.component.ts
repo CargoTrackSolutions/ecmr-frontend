@@ -31,6 +31,7 @@ import { AuthenticatedUser } from './core/models/AuthenticatedUser';
 import { AuthService } from './core/services/auth.service';
 import { UserRole } from './core/enums/UserRole';
 import { MatTooltip } from '@angular/material/tooltip';
+import { CapabilitiesService } from './core/services/capabilities-service';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -50,6 +51,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private loadingService = inject(LoadingService);
     authService = inject(AuthService);
     private translate = inject(TranslateService);
+    private readonly capabilitiesService = inject(CapabilitiesService);
 
     title = 'angular-frontend';
     languages = [
@@ -85,6 +87,8 @@ export class AppComponent implements OnInit, OnDestroy {
         this.authService.getAuthenticatedUser().subscribe(user => {
             this.authenticatedUser = user;
         });
+
+        this.capabilitiesService.load();
     }
 
     ngOnInit() {

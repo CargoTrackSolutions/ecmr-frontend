@@ -487,7 +487,9 @@
     "last_name": "Nazwisko",
     "phone": "Telefon",
     "role": "Rola",
-    "companyName": "Nazwa firmy"
+    "companyName": "Nazwa firmy",
+    "external": "Użytkownik zewnętrzny",
+    "internal": "Użytkownik wewnętrzny"
   },
   "user_overview": {
     "activate_dialog": "Czy na pewno chcesz aktywować tego użytkownika?",
@@ -555,6 +557,13 @@
       "ECMR_ALREADY_EXISTS": "Dokument eCMR o tym identyfikatorze już istnieje.",
       "WRONG_ROLE": "Użytkownik nie ma wymaganego roli do tej akcji."
     }
+  },
+  "user_management": {
+    "mfa": "MFA",
+    "password_reset": "Resetuj hasło",
+    "password_reset_successfully": "Hasło zostało pomyślnie zresetowane",
+    "error_resetting_password": "Nie udało się zresetować hasła",
+    "reset_password_confirmation": "Czy na pewno chcesz zresetować hasło? Użytkownik zostanie powiadomiony e-mailem i będzie musiał zalogować się ponownie."
   }
 }
 
