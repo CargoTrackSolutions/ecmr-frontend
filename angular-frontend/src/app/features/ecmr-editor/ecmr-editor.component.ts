@@ -344,7 +344,7 @@ export class EcmrEditorComponent implements OnInit {
         }),
         //Area 26
         referenceIdentificationNumber: new FormGroup({
-            value: new FormControl<string>('', Validators.required)
+            value: new FormControl<string>('', [Validators.required, maxStringLengthValidator(35)])
         })
     })
 
@@ -1138,6 +1138,19 @@ export function emailValidator(): ValidatorFn {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         const valid = emailRegex.test(control.value);
         return valid ? null : {invalidEmail: true};
+    };
+}
+
+export function maxStringLengthValidator(max: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        if (!control.value) {
+            return null;
+        }
+        
+        if (control.value.length > max) {
+            return {maxLengthExceeded: true};
+        }
+        return null;
     };
 }
 

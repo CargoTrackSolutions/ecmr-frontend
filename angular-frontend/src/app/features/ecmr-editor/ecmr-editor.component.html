@@ -134,9 +134,13 @@
 
                         <mat-form-field class="flex-grow-1 id-input" subscriptSizing="dynamic">
                             <mat-label>{{ "ecmr_editor.reference_id" | translate }}</mat-label>
-                            <input matInput type="text" [dynamicDisable]="!canFillSenderFields" formControlName="value">
+                            <input matInput type="text" [dynamicDisable]="!canFillSenderFields" formControlName="value"
+                                >
                             @if (ecmrConsignmentFormGroup.controls.referenceIdentificationNumber.controls.value.hasError('required')) {
                                 <mat-error>{{ "error.required" | translate }}</mat-error>
+                            }
+                            @if (ecmrConsignmentFormGroup.controls.referenceIdentificationNumber.controls.value.hasError('maxLengthExceeded')) {
+                                <mat-error>{{ "common.errors.max_length" | translate }}</mat-error>
                             }
                         </mat-form-field>
                     </div>
