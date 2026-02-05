@@ -102,6 +102,19 @@ export class EcmrService {
         }
     }
 
+    saveEcmrPageSize(pageSize: number, ecmrType: EcmrType) {
+        localStorage.setItem(ecmrType.toString() + '_overview_pageSize', pageSize.toString());
+    }
+
+    getEcmrPageSize(ecmrType: EcmrType): number {
+        const pageSizeString: string | null = localStorage.getItem(ecmrType.toString() + '_overview_pageSize');
+        if (pageSizeString) {
+            return parseInt(pageSizeString)
+        } else {
+            return 10;
+        }
+    }
+
     private getEcmrSortKey(ecmrType: EcmrType): string {
         return `sort_${ecmrType}`;
     }

@@ -172,6 +172,9 @@ export class EcmrTableComponent implements OnInit {
 
     selection = new SelectionModel<Ecmr>(true, []);
 
+    pageSizeOptions: number[] = [10, 25, 50];
+    currentPageSize: number = 10;
+
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort = new MatSort();
 
@@ -185,6 +188,8 @@ export class EcmrTableComponent implements OnInit {
             });
 
         this.initColumns();
+
+        this.currentPageSize = this.ecmrService.getEcmrPageSize(this.ecmrType());
 
         this.selection.changed.subscribe(() => {
           this.selectedEcmrs.emit(this.selection.selected);
@@ -333,7 +338,12 @@ export class EcmrTableComponent implements OnInit {
         this.showColumSelection = false;
     }
 
-    onPageEvent() {
+    onPageEvent($event: PageEvent) {
+        if($event.pageSize !== this.currentPageSize) {
+            this.currentPageSize = $event.pageSize;
+            this.paginator.pageIndex = 0;
+            this.ecmrService.saveEcmrPageSize(this.currentPageSize, this.ecmrType());
+        }
         this.filterRequest.emit(this.getFilterValues());
     }
 

@@ -561,4 +561,5 @@
     }
 </div>
 <mat-paginator [showFirstLastButtons]="true" class="mat-paginator-sticky"
-               [pageSize]="10" (page)="onPageEvent()"/>
+               [pageSizeOptions]="pageSizeOptions"
+               [pageSize]="currentPageSize" (page)="onPageEvent($event)"/>
