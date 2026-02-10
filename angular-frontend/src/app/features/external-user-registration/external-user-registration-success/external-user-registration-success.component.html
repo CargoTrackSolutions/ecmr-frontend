@@ -9,7 +9,7 @@
         </div>
         <mat-form-field>
             <mat-label>{{ 'external_user_registration.tan' | translate }}</mat-label>
-            <input #focusedInput matInput type="text" [formControl]="carrierTan">
+            <input #focusedInput matInput type="text" [formControl]="carrierTan" autocomplete="one-time-code" maxlength="6">
             @if (carrierTan.hasError('required')) {
                 <mat-error>{{ "error.required" | translate }}</mat-error>
             }
