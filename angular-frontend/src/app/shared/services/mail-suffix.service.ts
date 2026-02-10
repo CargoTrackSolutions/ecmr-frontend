@@ -34,8 +34,8 @@ export class MailSuffixService {
         return this.http.delete<boolean>(this.backendUrl + '/' + suffix.id);
     }
 
-    updateMailSuffix(value: string, id: number): Observable<MailSuffix> {
-        return this.http.put<MailSuffix>(this.backendUrl + '/' + id, {mailSuffix: value});
+    updateMailSuffix(mailSuffix: string, id: number): Observable<MailSuffix> {
+        return this.http.put<MailSuffix>(this.backendUrl + '/' + id, mailSuffix);
     }
 
     createMailSuffix(value: string, approvedUrlId: number): Observable<MailSuffix> {

@@ -59,8 +59,9 @@ export class ApproveUrlDialogComponent implements OnInit {
 
     protected saveApprovedUrl(): void {
         if (this.form.valid) {
+            const urlValue = this.form.controls.url.value;
             const createUpdateModel: ApprovedUrlCreate = {
-                url: this.form.controls.url.value,
+                url: urlValue.endsWith('/') ? urlValue.slice(0, -1) : urlValue,
                 approvedState: this.form.controls.approvedState.value,
             }
 

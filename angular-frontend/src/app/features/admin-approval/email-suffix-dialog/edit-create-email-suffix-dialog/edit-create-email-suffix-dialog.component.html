@@ -8,6 +8,7 @@
 <mat-dialog-content>
     <mat-form-field>
         <mat-label>{{ 'email_suffix.mail_suffix' | translate }}</mat-label>
+        <span matTextPrefix>{{ '@' }}</span>
         <input matInput [formControl]="mailSuffix">
         <mat-error>{{ 'common.errors.required' | translate }}</mat-error>
         <mat-icon matIconPrefix>mail</mat-icon>
