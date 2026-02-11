@@ -225,6 +225,7 @@ export class EcmrTableComponent implements OnInit {
             .subscribe(() => {
                 const filterRequest: FilterRequest = this.getFilterValues();
                 this.ecmrService.saveFilterRequest(filterRequest);
+                this.paginator.pageIndex = 0;
                 this.filterRequest.emit(filterRequest);
             })
         this.dataSource.sort = this.sort;
