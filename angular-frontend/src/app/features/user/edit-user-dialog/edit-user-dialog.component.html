@@ -80,13 +80,13 @@
 
         </div>
         <div class="row">
-            @if (capabilities.externalUserManagement.changeMfa && user.externalAccount) {
+            @if (user && capabilities.externalUserManagement.changeMfa && user.externalAccount) {
                 <mat-checkbox [formControl]="mfaStatusFormControl" class="col" (click)="changeMfa()" [checked]="mfaEnabled">
                     {{ "user_management.mfa" | translate }}
                 </mat-checkbox>
             }
 
-            @if (capabilities.externalUserManagement.resetPassword && user.externalAccount) {
+            @if (user && capabilities.externalUserManagement.resetPassword && user.externalAccount) {
                 <button matButton class="mat-warn col" (click)="resetPassword()">
                     {{ "user_management.password_reset" | translate }}
                     <mat-icon>lock_reset</mat-icon>
