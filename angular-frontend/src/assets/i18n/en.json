@@ -328,10 +328,24 @@
     "log": {
       "actiontype": {
         "creation": "Created",
-        "edit": "Edited"
+        "edit": "Edited",
+        "share_internal": "Shared (internal)",
+        "share_external": "Shared (external)",
+        "share_guest": "Shared (Guest access)"
       },
       "tab": "History",
-      "title": "History for eCMR"
+      "title": "History for eCMR",
+      "comment": {
+        "share_internal": "Shared with group",
+        "share_external": "Shared with external user",
+        "share_guest": "Shared with external user via Guest access"
+      },
+      "share_role": {
+        "reader": "as Reader",
+        "sender": "as Sender",
+        "carrier": "as Carrier",
+        "consignee": "as Consignee"
+      }
     }
   },
   "imprint_legal_matter": {

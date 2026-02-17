@@ -1,6 +1,6 @@
 @for (log of historyLogs; track log) {
     <div class="d-flex flex-row p-3 gap-4 align-items-center justify-content-between data-container">
-        <div class="d-flex flex-row gap-2">
+        <div class="d-flex flex-row gap-2 flex-shrink-0">
             @switch (log.actionType) {
                 @case (ActionType.Creation) {
                     <mat-icon color="primary">add</mat-icon>
@@ -8,8 +8,27 @@
                 @case (ActionType.Edit) {
                     <mat-icon color="primary">edit</mat-icon>
                 }
+                @case (ActionType.ShareInternal) {
+                    <mat-icon color="primary">share</mat-icon>
+                }
+                @case (ActionType.ShareExternal) {
+                    <mat-icon color="primary">share</mat-icon>
+                }
+                @case (ActionType.ShareGuest) {
+                    <mat-icon color="primary">share</mat-icon>
+                }
             }
             <div>{{ ('history.log.actiontype.' + log.actionType.toLowerCase()) | translate }}</div>
+        </div>
+        <div class="d-flex flex-row">
+            @if (log.actionType.includes('Share')) {
+                <div>
+                    {{ (('history.log.comment.' + log.actionType.toLowerCase()) | translate) +
+                    (log.shareWith !== null ? " \"" + log.shareWith + "\" "  : " ") + 
+                    (('history.log.share_role.' + log.shareRole?.toLowerCase()) | translate) 
+                    }}
+                </div>
+            }
         </div>
         <div class="d-flex flex-column">
             <div>{{ dateTimeService.transformDate(log.timestamp) }}</div>

@@ -315,17 +315,31 @@
   },
   "history": {
     "access": {
-      "tab": "",
-      "title": "",
-      "external_user": ""
+      "tab": "Prístup",
+      "title": "Prístup k eCMR",
+      "external_user": "Externý používateľ"
     },
     "log": {
       "actiontype": {
         "creation": "Vytvorené",
-        "edit": "Upravené"
+        "edit": "Upravené",
+        "share_internal": "Zdieľané (interné)",
+        "share_external": "Zdieľané (externé)",
+        "share_guest": "Zdieľané (prístup pre hostí)"
       },
       "tab": "História",
-      "title": "História pre eCMR"
+      "title": "História pre eCMR",
+      "comment": {
+        "share_internal": "Zdieľané so skupinou",
+        "share_external": "Zdieľané s externým používateľom",
+        "share_guest": "Zdieľané s externým používateľom cez prístup pre hostí"
+      },
+      "share_role": {
+        "reader": "ako Čitateľ",
+        "sender": "ako Odosielateľ",
+        "carrier": "ako Dopravca",
+        "consignee": "ako Príjemca"
+      }
     }
   },
   "imprint_legal_matter": {

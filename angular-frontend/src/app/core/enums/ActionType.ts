@@ -8,5 +8,8 @@
 
 export enum ActionType {
     Creation = 'Creation',
-    Edit = 'Edit'
+    Edit = 'Edit',
+    ShareInternal = 'Share_Internal',
+    ShareExternal = 'Share_External',
+    ShareGuest = 'Share_Guest'
 }

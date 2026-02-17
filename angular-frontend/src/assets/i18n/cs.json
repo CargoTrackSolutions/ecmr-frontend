@@ -315,17 +315,31 @@
   },
   "history": {
     "access": {
-      "tab": "",
-      "title": "",
-      "external_user": ""
+      "tab": "Přístup",
+      "title": "Přístup k eCMR",
+      "external_user": "Externí uživatel"
     },
     "log": {
       "actiontype": {
         "creation": "Vytvořeno",
-        "edit": "Upraveno"
+        "edit": "Upraveno",
+        "share_internal": "Sdíleno (interně)",
+        "share_external": "Sdíleno (externě)",
+        "share_guest": "Sdíleno (přístup pro hosty)"
       },
       "tab": "Historie",
-      "title": "Historie pro eCMR"
+      "title": "Historie pro eCMR",
+      "comment": {
+        "share_internal": "Sdíleno se skupinou",
+        "share_external": "Sdíleno s externím uživatelem",
+        "share_guest": "Sdíleno s externím uživatelem přes přístup pro hosty"
+      },
+      "share_role": {
+        "reader": "jako Čtenář",
+        "sender": "jako Odesílatel",
+        "carrier": "jako Dopravce",
+        "consignee": "jako Příjemce"
+      }
     }
   },
   "imprint_legal_matter": {

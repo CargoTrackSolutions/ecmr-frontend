@@ -7,9 +7,12 @@
  */
 
 import { ActionType } from '../enums/ActionType';
+import { EcmrRole } from '../enums/EcmrRole';
 
 export interface HistoryLog {
     actionFrom: string;
     actionType: ActionType;
     timestamp: Date;
+    shareRole: EcmrRole | null;
+    shareWith: string | null;
 }

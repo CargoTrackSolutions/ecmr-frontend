@@ -315,17 +315,31 @@
   },
   "history": {
     "access": {
-      "tab": "",
-      "title": "",
-      "external_user": ""
+      "tab": "Acceso",
+      "title": "Acceso a eCMR",
+      "external_user": "Usuario externo"
     },
     "log": {
       "actiontype": {
         "creation": "Creado",
-        "edit": "Editado"
+        "edit": "Editado",
+        "share_internal": "Compartido (interno)",
+        "share_external": "Compartido (externo)",
+        "share_guest": "Compartido (acceso de invitado)"
       },
       "tab": "Historial",
-      "title": "Historial de eCMR"
+      "title": "Historial de eCMR",
+      "comment": {
+        "share_internal": "Compartido con grupo",
+        "share_external": "Compartido con usuario externo",
+        "share_guest": "Compartido con usuario externo mediante acceso de invitado"
+      },
+      "share_role": {
+        "reader": "como Lector",
+        "sender": "como Remitente",
+        "carrier": "como Transportista",
+        "consignee": "como Destinatario"
+      }
     }
   },
   "imprint_legal_matter": {

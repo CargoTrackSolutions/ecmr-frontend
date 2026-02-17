@@ -327,10 +327,24 @@
       "actiontype": {
         "creation": "Erstellt",
         "edit": "Bearbeitet",
-        "import": "Importiert"
+        "import": "Importiert",
+        "share_internal": "Geteilt (intern)",
+        "share_external": "Geteilt (extern)",
+        "share_guest": "Geteilt (Gastzugang)"
       },
       "tab": "Historie",
-      "title": "Historie für eCMR"
+      "title": "Historie für eCMR",
+      "comment": {
+        "share_internal": "Geteilt mit Gruppe",
+        "share_external": "Geteilt mit externem Benutzer",
+        "share_guest": "Geteilt mit externem Benutzer über Gastzugang"
+      },
+      "share_role": {
+        "reader": "als Leser",
+        "sender": "als Sender",
+        "carrier": "als Transporteur",
+        "consignee": "als Empfänger"
+      } 
     }
   },
   "imprint_legal_matter": {
