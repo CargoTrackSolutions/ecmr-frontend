@@ -514,6 +514,8 @@ export class EcmrEditorComponent implements OnInit {
             error: (err) => {
                 if (err.status === 400) {
                     this.snackbarService.openErrorSnackbar('Validation error: ' + err.error.message);
+                } else {
+                    this.snackbarService.openErrorSnackbar('general.snackbar_error');
                 }
                 console.error(err);
             }
@@ -795,7 +797,7 @@ export class EcmrEditorComponent implements OnInit {
             $updateObservable.subscribe({
                 next: ecmr => {
                     this.loadEcmr(ecmr)
-                    this.snackbarService.openSuccessSnackbar('ecmr_editor.save_success')
+                    this.snackbarService.openSuccessSnackbar('ecmr_editor.save_success');
                     if (returnToOverview) this.returnToOverview(ecmr)
                 },
                 error: error => {

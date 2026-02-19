@@ -26,10 +26,10 @@ export class SnackbarService {
     }
 
     openErrorSnackbar(message: string): void {
-        this.openErrorSnackbarWithDuration(message, 3000);
+        this.openErrorSnackbarWithDuration(message, 5000);
     }
 
-    openErrorSnackbarWithTranslationValue(message: string, translateValue: any): void {
+    openErrorSnackbarWithTranslationValue(message: string, translateValue: string): void {
         this._snackBar.openFromComponent(CustomSnackbarComponent, {
             data: {message: message, type: 'error', translateValue: translateValue, duration: 3000},
             duration: 3000,
@@ -46,7 +46,7 @@ export class SnackbarService {
     }
 
     openInfoSnackbar(message: string): void {
-        this.openInfoSnackbarWithDuration(message, 3000);
+        this.openInfoSnackbarWithDuration(message, 5000);
     }
 
     openSuccessSnackbarWithDuration(message: string, duration: number): void {
@@ -57,7 +57,7 @@ export class SnackbarService {
         });
     }
 
-    openSuccessSnackbarWithTranslationValue(message: string, translateValue: any): void {
+    openSuccessSnackbarWithTranslationValue(message: string, translateValue: string): void {
         this._snackBar.openFromComponent(CustomSnackbarComponent, {
             data: {message: message, type: 'success', translateValue: translateValue, duration: 3000},
             duration: 3000,
