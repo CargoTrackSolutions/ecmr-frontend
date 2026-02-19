@@ -578,5 +578,9 @@
     "password_reset_successfully": "Heslo bolo úspešne obnovené",
     "error_resetting_password": "Heslo sa nepodarilo obnoviť",
     "reset_password_confirmation": "Naozaj chcete obnoviť heslo? Používateľ bude informovaný e-mailom a bude sa musieť znova prihlásiť."
+  },
+  "auth": {
+    "no_permission": "Nemáte oprávnenie na prístup k tejto stránke",
+    "no_user": "Nenašiel sa žiadny používateľ"
   }
 }

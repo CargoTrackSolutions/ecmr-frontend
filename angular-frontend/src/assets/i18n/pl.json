@@ -578,6 +578,10 @@
     "password_reset_successfully": "Hasło zostało pomyślnie zresetowane",
     "error_resetting_password": "Nie udało się zresetować hasła",
     "reset_password_confirmation": "Czy na pewno chcesz zresetować hasło? Użytkownik zostanie powiadomiony e-mailem i będzie musiał zalogować się ponownie."
+  },
+  "auth": {
+    "no_permission": "Nie masz uprawnień do dostępu do tej strony",
+    "no_user": "Nie znaleziono użytkownika"
   }
 }
 

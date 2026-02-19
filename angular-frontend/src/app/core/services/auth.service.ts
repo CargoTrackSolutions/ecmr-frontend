@@ -9,21 +9,21 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { AuthenticatedUser } from '../models/AuthenticatedUser';
 import { UserService } from '../../shared/services/user.service';
 import { UserRole } from '../enums/UserRole';
+import { SnackbarService } from './snackbar.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
     private oauthService = inject(OAuthService);
-    private httpClient = inject(HttpClient);
     private userService = inject(UserService);
     private router = inject(Router);
+    private readonly snackbarService = inject(SnackbarService);
 
 
     private authenticatedUserSubject = new BehaviorSubject<AuthenticatedUser | null>(null);
@@ -73,11 +73,13 @@ export class AuthService {
         return this.getAuthenticatedUser().pipe(
             map(authenticatedUser => {
                 if(authenticatedUser == null) {
-                    this.router.navigateByUrl('/no-user');
+                    this.snackbarService.openErrorSnackbar('auth.no_user');
                     return false;
                 }
+
                 if(requiredRole && !this.hasRole(authenticatedUser, requiredRole)) {
-                    this.router.navigateByUrl('/no-permission');
+                    this.router.navigateByUrl('/');
+                    this.snackbarService.openErrorSnackbar('auth.no_permission');
                     return false;
                 }
                 return true;
@@ -92,11 +94,21 @@ export class AuthService {
         return this.getCompositeRoles(authenticatedUser.user.role).includes(role);
     }
 
+    public isNoEcmrCreationUser(): boolean {
+        if(!this.authenticatedUserSubject.value) {
+            return true;
+        }
+
+        return !this.getCompositeRoles(this.authenticatedUserSubject.value.user.role).includes(UserRole.User);
+    }
+
     private getCompositeRoles(role: UserRole): UserRole[] {
         if (role == UserRole.User) {
-            return [UserRole.User];
+            return [UserRole.User, UserRole.NoEcmrCreationUser];
         } else if(role == UserRole.Admin) {
-            return [UserRole.Admin, UserRole.User];
+            return [UserRole.Admin, UserRole.User, UserRole.NoEcmrCreationUser];
+        } else if(role == UserRole.NoEcmrCreationUser) {
+            return [UserRole.NoEcmrCreationUser]
         }
         return [];
     }

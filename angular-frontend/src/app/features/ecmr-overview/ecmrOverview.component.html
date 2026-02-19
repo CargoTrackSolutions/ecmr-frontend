@@ -39,10 +39,12 @@
                             }
                         }
                         @else {
-                            <button matButton="filled" class="search-bar-button" (click)="createNewEcmr()">
-                                <mat-icon iconPositionEnd>add</mat-icon>
-                                {{ 'overview.create_new' | translate }}
-                            </button>
+                            @if(!authService.isNoEcmrCreationUser()) {
+                                <button matButton="filled" class="search-bar-button" (click)="createNewEcmr()">
+                                    <mat-icon iconPositionEnd>add</mat-icon>
+                                    {{ 'overview.create_new' | translate }}
+                                </button>
+                            }
                             <!--TODO add internal export-->
                             @if (!isMobile) {
                                 <button matButton="tonal" (click)="importExternalEcmr()">{{ 'overview.import' | translate }}

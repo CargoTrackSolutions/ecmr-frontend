@@ -578,5 +578,9 @@
     "password_reset_successfully": "Heslo bylo úspěšně obnoveno",
     "error_resetting_password": "Heslo se nepodařilo obnovit",
     "reset_password_confirmation": "Opravdu chcete obnovit heslo? Uživatel bude informován e-mailem a bude se muset znovu přihlásit."
+  },
+  "auth": {
+    "no_permission": "Nemáte oprávnění k přístupu na tuto stránku",
+    "no_user": "Nebyl nalezen žádný uživatel"
   }
 }

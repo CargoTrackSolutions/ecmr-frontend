@@ -44,6 +44,8 @@ import { SealMetadata } from '../../core/models/SealMetadata';
 import { ShareEcmrDialogData } from '../../shared/dialogs/share-ecmr-dialog/share-ecmr-dialog-data';
 import { DocumentModel } from '../../core/models/DocumentModel';
 import { DocumentService } from '../../shared/services/document.service';
+import { UserRole } from '../../core/enums/UserRole';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
     selector: 'app-overview',
@@ -85,6 +87,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     private snackbarService = inject(SnackbarService);
     private sealMetadataService = inject(SealMetadataService);
     private readonly documentService = inject(DocumentService);
+    readonly authService = inject(AuthService);
 
 
     isMobile: boolean = false;
@@ -427,4 +430,5 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     }
 
 
+    protected readonly UserRole = UserRole;
 }

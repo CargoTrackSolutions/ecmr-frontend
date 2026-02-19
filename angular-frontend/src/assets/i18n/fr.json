@@ -578,5 +578,9 @@
     "password_reset_successfully": "Le mot de passe a été réinitialisé avec succès",
     "error_resetting_password": "Le mot de passe n'a pas pu être réinitialisé",
     "reset_password_confirmation": "Voulez-vous vraiment réinitialiser le mot de passe ? L'utilisateur sera informé par e-mail et devra se reconnecter."
+  },
+  "auth": {
+    "no_permission": "Vous n’avez pas l’autorisation d’accéder à cette page",
+    "no_user": "Aucun utilisateur trouvé"
   }
 }

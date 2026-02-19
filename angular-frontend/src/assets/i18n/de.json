@@ -588,5 +588,9 @@
     "password_reset_successfully": "Passwort erfolgreich zurückgesetzt",
     "error_resetting_password": "Passwort konnte nicht zurückgesetzt werden",
     "reset_password_confirmation": "Soll das Passwort sicher zurückgesetzt werden? Der Benutzer wird per E-Mail informiert und muss sich neu einloggen."
+  },
+  "auth": {
+    "no_permission": "Keine Berechtigung diese Seite aufzurufen",
+    "no_user": "Keinen Benutzer gefunden"
   }
 }

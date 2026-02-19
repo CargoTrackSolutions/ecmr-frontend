@@ -8,5 +8,6 @@
 
 export enum UserRole {
     Admin = 'Admin',
-    User = 'User'
+    User = 'User',
+    NoEcmrCreationUser = 'NoEcmrCreationUser'
 }

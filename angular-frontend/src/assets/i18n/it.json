@@ -578,5 +578,9 @@
     "password_reset_successfully": "Password reimpostata con successo",
     "error_resetting_password": "Impossibile reimpostare la password",
     "reset_password_confirmation": "Vuoi davvero reimpostare la password? L'utente verrà informato via e-mail e dovrà effettuare nuovamente l'accesso."
+  },
+  "auth": {
+    "no_permission": "Non hai il permesso di accedere a questa pagina",
+    "no_user": "Nessun utente trovato"
   }
 }

@@ -578,5 +578,9 @@
     "password_reset_successfully": "La contraseña se ha restablecido correctamente",
     "error_resetting_password": "No se pudo restablecer la contraseña",
     "reset_password_confirmation": "¿Realmente desea restablecer la contraseña? El usuario será notificado por correo electrónico y deberá iniciar sesión nuevamente."
+  },
+  "auth": {
+    "no_permission": "No tienes permiso para acceder a esta página",
+    "no_user": "No se encontró ningún usuario"
   }
 }

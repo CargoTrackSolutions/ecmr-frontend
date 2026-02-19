@@ -587,5 +587,9 @@
     "password_reset_successfully": "Password successfully reset",
     "error_resetting_password": "Password could not be reset",
     "reset_password_confirmation": "Do you really want to reset the password? The user will be notified by email and will need to log in again."
+  },
+  "auth": {
+    "no_permission": "No permission to access this page",
+    "no_user": "No user found"
   }
 }

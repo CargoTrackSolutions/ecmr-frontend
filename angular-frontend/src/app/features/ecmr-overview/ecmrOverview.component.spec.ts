@@ -53,14 +53,16 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../app.component';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { PayerType } from '../../core/enums/PayerType';
-import { of } from 'rxjs';
 import { EcmrService } from '../../shared/services/ecmr.service';
+import { AuthService } from '../../core/services/auth.service';
+import { of } from 'rxjs';
 
 describe('OverviewComponent', () => {
     let component: EcmrOverviewComponent;
     let fixture: ComponentFixture<EcmrOverviewComponent>;
 
     const ecmrServiceSpy = jasmine.createSpyObj('EcmrService', ['getAllEcmr', 'getShowColumns', 'getDisplayedColumns', 'getFilterRequest', 'getEcmrSort', 'getEcmrPageSize']);
+    const authServiceSpy = jasmine.createSpyObj('AuthService', ['isNoEcmrCreationUser', 'getAuthenticatedUser']);
 
     const testEcmr: Ecmr = {
         ecmrId: 'FhG-IML-504',
@@ -288,12 +290,14 @@ describe('OverviewComponent', () => {
                     })],
                 providers: [
                     {provide: EcmrService, useValue: ecmrServiceSpy},
+                    {provide: AuthService, useValue: authServiceSpy},
                     provideHttpClient(withInterceptorsFromDi())
                 ]
             })
                 .compileComponents();
 
             ecmrServiceSpy.getAllEcmr.and.returnValue(of([testEcmr]));
+            authServiceSpy.getAuthenticatedUser.and.returnValue({ subscribe: () => {}});
 
             fixture = TestBed.createComponent(EcmrOverviewComponent);
             component = fixture.componentInstance;
