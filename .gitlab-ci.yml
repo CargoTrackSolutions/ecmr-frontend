@@ -60,11 +60,17 @@ code_quality:
     CODECLIMATE_REGISTRY_USERNAME: $CI_REGISTRY_USER
     CODECLIMATE_REGISTRY_PASSWORD: $CI_REGISTRY_PASSWORD
     DOCKER_HOST: "tcp://docker:2375"
+  artifacts:
+    expire_in: 1 week
 
 container_scanning:
   tags:
     - active
+  artifacts:
+    expire_in: 1 week
 
 dependency_scanning:
   tags:
     - active
+  artifacts:
+    expire_in: 1 week
