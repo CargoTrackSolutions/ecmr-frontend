@@ -84,11 +84,11 @@ export class AppComponent implements OnInit, OnDestroy {
         this.translate.use(this.selectedLanguage.code);
 
         this.loading$ = this.loadingService.isLoading$;
-        this.authService.getAuthenticatedUser().subscribe(user => {
-            this.authenticatedUser = user;
-        });
 
-        this.capabilitiesService.load();
+        this.capabilitiesService.load(this.authService.getAuthenticatedUser())
+            .subscribe(user => {
+                this.authenticatedUser = user;
+            });
     }
 
     ngOnInit() {

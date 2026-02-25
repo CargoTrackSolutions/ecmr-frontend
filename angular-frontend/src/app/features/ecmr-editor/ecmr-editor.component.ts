@@ -623,7 +623,7 @@ export class EcmrEditorComponent implements OnInit {
                 const loadEcmrObs = this.externalUserService.getEcmrWithTan(this.id, this.userToken, this.tan);
                 const loadRolesObs = this.externalUserService.getEcmrRolesForUser(this.id, this.userToken, this.tan);
                 const loadSelMetadataObs = this.loadSealMetadata(true);
-                const loadDocumentsObs = this.documentService.getDocuments(this.id);
+                const loadDocumentsObs = this.externalUserService.getDocuments(this.id, this.userToken, this.tan);
                 this.loadingService.showLoaderUntilCompleted(forkJoin({
                     ecmr: loadEcmrObs,
                     roles: loadRolesObs,
@@ -1081,9 +1081,9 @@ export class EcmrEditorComponent implements OnInit {
 
     uploadFiles(files: File[]) {
         if (this.ecmrToEdit && this.ecmrToEdit.ecmrId) {
-            const uploadObservables = files.map(file => this.documentService.uploadDocument(file, this.ecmrToEdit!.ecmrId!));
+            const uploadObservables = files.map(file => this.isExternalUser ? this.externalUserService.uploadDocument(file, this.ecmrToEdit!.ecmrId!, this.userToken, this.tan) : this.documentService.uploadDocument(file, this.ecmrToEdit!.ecmrId!));
             const obs = concat(...uploadObservables).pipe(
-                switchMap(() => this.documentService.getDocuments(this.ecmrToEdit!.ecmrId!))
+                switchMap(() => this.isExternalUser ? this.externalUserService.getDocuments(this.ecmrToEdit!.ecmrId!, this.userToken, this.tan) : this.documentService.getDocuments(this.ecmrToEdit!.ecmrId!))
             );
             this.loadingService.showLoaderUntilCompleted(obs).subscribe({
                 next: documents => this.documents = documents,
@@ -1105,8 +1105,8 @@ export class EcmrEditorComponent implements OnInit {
             filter(result => result),
             map(result => result as ConfirmationDialogResult),
             filter(result => result.isConfirmed && result.isCheckboxTicked),
-            switchMap(() => this.loadingService.showLoaderUntilCompleted(this.documentService.deleteDocument(document.id))),
-            switchMap(() => this.loadingService.showLoaderUntilCompleted(this.documentService.getDocuments(this.ecmrToEdit!.ecmrId!)))
+            switchMap(() => this.loadingService.showLoaderUntilCompleted(this.isExternalUser ? this.externalUserService.deleteDocument(document.id,this.userToken, this.tan) : this.documentService.deleteDocument(document.id))),
+            switchMap(() => this.loadingService.showLoaderUntilCompleted(this.isExternalUser ? this.externalUserService.getDocuments(this.ecmrToEdit!.ecmrId!, this.userToken, this.tan) : this.documentService.getDocuments(this.ecmrToEdit!.ecmrId!)))
         ).subscribe({
             next: documents => this.documents = documents,
             error: () => this.snackbarService.openErrorSnackbar('general.snackbar_error')
@@ -1114,7 +1114,7 @@ export class EcmrEditorComponent implements OnInit {
     }
 
     downloadDocument(document: DocumentModel) {
-        this.loadingService.showLoaderUntilCompleted(this.documentService.downloadDocument(document.id)).subscribe(blob => {
+        this.loadingService.showLoaderUntilCompleted(this.isExternalUser ? this.externalUserService.downloadDocument(document.id, this.userToken, this.tan) : this.documentService.downloadDocument(document.id)).subscribe(blob => {
             const a = window.document.createElement('a')
             const objectUrl = URL.createObjectURL(blob);
             a.href = objectUrl;

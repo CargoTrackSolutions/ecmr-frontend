@@ -16,6 +16,7 @@ import { Signature } from '../../../core/models/areas/signature/Signature';
 import { EcmrShare } from '../../../core/models/EcmrShare';
 import { EcmrShareResponse } from '../../../core/models/EcmrShareResponse';
 import { SealMetadata } from '../../../core/models/SealMetadata';
+import { DocumentModel } from '../../../core/models/DocumentModel';
 
 @Injectable({
     providedIn: 'root'
@@ -23,6 +24,7 @@ import { SealMetadata } from '../../../core/models/SealMetadata';
 export class ExternalUserService {
     private http = inject(HttpClient);
 
+    private readonly anonymousUrl = environment.backendUrl + '/anonymous';
 
     constructor() {
         const handler = inject(HttpBackend);
@@ -31,11 +33,11 @@ export class ExternalUserService {
     }
 
     getEcmrWithTan(ecmrId: string, userToken: string, tan: string) {
-        return this.http.get<Ecmr>(`${environment.backendUrl}/anonymous/ecmr/${ecmrId}`, {params: {'tan': tan, 'userToken': userToken}});
+        return this.http.get<Ecmr>(`${this.anonymousUrl}/ecmr/${ecmrId}`, {params: {'tan': tan, 'userToken': userToken}});
     }
 
     isTanValid(ecmrId: string, userToken: string, tan: string) {
-        return this.http.get<Ecmr>(`${environment.backendUrl}/anonymous/is-tan-valid`, {
+        return this.http.get<Ecmr>(`${this.anonymousUrl}/is-tan-valid`, {
             params: {
                 'ecmrId': ecmrId,
                 'tan': tan,
@@ -45,7 +47,7 @@ export class ExternalUserService {
     }
 
     getEcmrRolesForUser(ecmrId: string, userToken: string, tan: string): Observable<EcmrRole[]> {
-        return this.http.get<EcmrRole[]>(`${environment.backendUrl}/anonymous/ecmr-role`, {
+        return this.http.get<EcmrRole[]>(`${this.anonymousUrl}/ecmr-role`, {
             params: {
                 'ecmrId': ecmrId,
                 'tan': tan,
@@ -55,11 +57,11 @@ export class ExternalUserService {
     }
 
     updateEcmr(ecmr: Ecmr, userToken: string, tan: string) {
-        return this.http.put<Ecmr>(`${environment.backendUrl}/anonymous/ecmr`, ecmr, {params: {'tan': tan, 'userToken': userToken}})
+        return this.http.put<Ecmr>(`${this.anonymousUrl}/ecmr`, ecmr, {params: {'tan': tan, 'userToken': userToken}})
     }
 
     sealEcmr(id: string, userToken: string, tan: string) {
-        return this.http.post<Signature>(`${environment.backendUrl}/anonymous/ecmr/${id}/seal`, null, {
+        return this.http.post<Signature>(`${this.anonymousUrl}/ecmr/${id}/seal`, null, {
             params: {
                 'tan': tan,
                 'userToken': userToken
@@ -68,7 +70,7 @@ export class ExternalUserService {
     }
 
     getShareToken(ecmrId: string, role: EcmrRole, userToken: string, tan: string) {
-        return this.http.get(`${environment.backendUrl}/anonymous/ecmr/${ecmrId}/share-token`, {
+        return this.http.get(`${this.anonymousUrl}/ecmr/${ecmrId}/share-token`, {
             params: {'ecmrRole': role, 'tan': tan, 'userToken': userToken},
             responseType: 'text'
         });
@@ -77,7 +79,7 @@ export class ExternalUserService {
     downloadPdf(ecmrId: string, userToken: string, tan: string) {
         let headers = new HttpHeaders();
         headers = headers.set('Accept', 'application/pdf');
-        return this.http.get(`${environment.backendUrl}/anonymous/ecmr/${ecmrId}/pdf`, {
+        return this.http.get(`${this.anonymousUrl}/ecmr/${ecmrId}/pdf`, {
             headers,
             responseType: 'blob',
             observe: 'response',
@@ -86,7 +88,7 @@ export class ExternalUserService {
     }
 
     shareEcmr(ecmrShare: EcmrShare, ecmrId: string, userToken: string, tan: string) {
-        return this.http.patch<EcmrShareResponse>(`${environment.backendUrl}/anonymous/ecmr/${ecmrId}/share`, ecmrShare, {
+        return this.http.patch<EcmrShareResponse>(`${this.anonymousUrl}/ecmr/${ecmrId}/share`, ecmrShare, {
             params: {
                 'tan': tan,
                 'userToken': userToken
@@ -95,8 +97,48 @@ export class ExternalUserService {
     }
 
     getSealMetadata(ecmrId: string, userToken: string, tan: string): Observable<SealMetadata[]> {
-        return this.http.get<SealMetadata[]>(`${environment.backendUrl}/anonymous/ecmr/${ecmrId}/seal-metadata`, {
+        return this.http.get<SealMetadata[]>(`${this.anonymousUrl}/ecmr/${ecmrId}/seal-metadata`, {
             params: {'tan': tan, 'userToken': userToken}
         });
+    }
+
+    uploadDocument(file: File, ecmrId: string, userToken: string, tan: string) {
+        const formData = new FormData();
+        formData.append('file', file);
+        return this.http.post<void>(`${this.anonymousUrl}/document?ecmrId=` + ecmrId, formData, {
+            params: {
+                'tan': tan,
+                'userToken': userToken
+            }
+        })
+    }
+
+    getDocuments(ecmrId: string, userToken: string, tan: string) {
+        return this.http.get<DocumentModel[]>(`${this.anonymousUrl}/document?ecmrId=${ecmrId}`, {
+            params: {
+                'tan': tan,
+                'userToken': userToken
+            }
+        });
+    }
+
+    deleteDocument(documentId: number, userToken: string, tan: string) {
+        return this.http.delete<void>(`${this.anonymousUrl}/document/${documentId}`, {
+            params: {
+                'tan': tan,
+                'userToken': userToken
+            }
+        });
+    }
+
+    downloadDocument(documentId: number, userToken: string, tan: string): Observable<Blob> {
+        return this.http.get(`${this.anonymousUrl}/document/${documentId}/download`, {
+            responseType: 'blob',
+            params: {
+                'tan': tan,
+                'userToken': userToken
+            }
+        });
+
     }
 }
