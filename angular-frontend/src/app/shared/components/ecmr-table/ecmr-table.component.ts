@@ -113,8 +113,8 @@ export class EcmrTableComponent implements OnInit {
     isMobile: boolean = false;
     breakpointSubscription: Subscription | undefined;
 
-    displayedColumns: string[] = ['id', 'referenceId', 'from', 'to', 'transportType', 'lastEditor', 'status', 'lastEditDate', 'creationDate', 'licensePlate', 'carrierName', 'carrierPostCode', 'consigneePostCode'];
-    columns: string[] = ['id', 'referenceId', 'from', 'to', 'transportType', 'lastEditor', 'status', 'lastEditDate', 'creationDate', 'licensePlate', 'carrierName', 'carrierPostCode', 'consigneePostCode'];
+    displayedColumns: string[] = ['id', 'ecmrId', 'referenceId', 'from', 'to', 'transportType', 'lastEditor', 'status', 'lastEditDate', 'creationDate', 'licensePlate', 'carrierName', 'carrierPostCode', 'consigneePostCode'];
+    columns: string[] = ['id', 'ecmrId', 'referenceId', 'from', 'to', 'transportType', 'lastEditor', 'status', 'lastEditDate', 'creationDate', 'licensePlate', 'carrierName', 'carrierPostCode', 'consigneePostCode'];
     filteredColumns: string[] = [];
 
     displayedColumnsMobile = ['content'];
@@ -130,6 +130,7 @@ export class EcmrTableComponent implements OnInit {
     // toggle for display of columns
     showColumns: ShowColumns = {
         id: true,
+        ecmrId: false,
         referenceId: true,
         from: true,
         to: true,
@@ -145,6 +146,7 @@ export class EcmrTableComponent implements OnInit {
     }
 
     filterFormGroup = new FormGroup({
+        ecmrId: new FormControl<string | null>(null),
         referenceId: new FormControl<string | null>(null),
         from: new FormControl<string | null>(null),
         to: new FormControl<string | null>(null),
@@ -234,6 +236,7 @@ export class EcmrTableComponent implements OnInit {
     getFilterValues(): FilterRequest {
         const formGroup = this.filterFormGroup.controls
         return {
+            ecmrId: formGroup.ecmrId.value != '' ? formGroup.ecmrId.value : null,
             referenceId: formGroup.referenceId.value != '' ? formGroup.referenceId.value : null,
             from: formGroup.from.value != '' ? formGroup.from.value : null,
             to: formGroup.to.value != '' ? formGroup.to.value : null,
@@ -312,7 +315,7 @@ export class EcmrTableComponent implements OnInit {
      * Update the table's columns and only show active columns
      */
     updateColumns() {
-        this.displayedColumns = [];
+        this.displayedColumns = ['select'];
         this.columns.forEach(column => {
             if (this.showColumns[column as keyof ShowColumns]) {
                 this.displayedColumns.push(column);

@@ -392,6 +392,7 @@
     "move_to_archive_success": "eCMR pomyślnie zarchiwizowano",
     "search": "Wyszukaj",
     "table_header": {
+      "ecmr_id": "ECMR ID",
       "carrier_name": "Nazwa przewoźnika",
       "carrier_post_code": "Kod pocztowy przewoźnika",
       "consignee_post_code": "Kod pocztowy odbiorcy",

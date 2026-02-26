@@ -81,6 +81,7 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
     isMobile: boolean = false
 
     filterRequest: FilterRequest = {
+        ecmrId: null,
         referenceId: null,
         from: null,
         to: null,

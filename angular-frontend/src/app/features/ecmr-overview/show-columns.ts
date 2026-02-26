@@ -7,7 +7,8 @@
  */
 
 export interface ShowColumns {
-    id: boolean,
+    id: boolean;
+    ecmrId: boolean;
     referenceId: boolean;
     from: boolean;
     to: boolean;

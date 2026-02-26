@@ -392,6 +392,7 @@
     "move_to_archive_success": "eCMR úspěšně archivován",
     "search": "Vyhledávání",
     "table_header": {
+      "ecmr_id": "ECMR ID",
       "carrier_name": "Jméno dopravce",
       "carrier_post_code": "PSČ dopravce",
       "consignee_post_code": "PSČ příjemce",

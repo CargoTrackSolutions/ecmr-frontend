@@ -106,6 +106,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     ecmr: Ecmr[] = [];
 
     filterRequest: FilterRequest = {
+        ecmrId: null,
         referenceId: null,
         from: null,
         to: null,

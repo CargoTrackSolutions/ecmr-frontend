@@ -43,6 +43,9 @@
                                 }}
                                 <mat-icon color="primary">close</mat-icon>
                             </button>
+                            <mat-checkbox [checked]="showColumns.ecmrId"
+                                          (change)="toggleColumnAtKey('ecmrId')">{{ 'overview.table_header.ecmr_id' | translate }}
+                            </mat-checkbox>
                             <mat-checkbox [checked]="showColumns.referenceId"
                                           (change)="toggleColumnAtKey('referenceId')">{{ 'overview.table_header.ref_id' | translate }}
                             </mat-checkbox>
@@ -106,6 +109,25 @@
             <ng-container *ngTemplateOutlet="actionButtons(); context: { $implicit: ecmr  }"/>
 
           </span>
+                </td>
+            </ng-container>
+
+            <!-- ECMR ID Column -->
+            <ng-container matColumnDef="ecmrId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag cdkDragLockAxis="x"
+                    cdkDragBoundary="mat-header-row">
+                    <div class="my-3">
+                        <span class="float-start fw-bold">{{ 'overview.table_header.ecmr_id' | translate }}</span>
+                        <br>
+                        @if (this.showFilter) {
+                            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" subscriptSizing="dynamic">
+                                <input (keydown.space)="$event.stopPropagation()" matInput formControlName="ecmrId">
+                                <mat-icon matSuffix color="warn" (click)="filterFormGroup.controls.ecmrId.reset()">close</mat-icon>
+                            </mat-form-field>
+                        }
+                    </div>
+                </th>
+                <td mat-cell *matCellDef="let ecmr; let i = index;">{{ ecmr.ecmrId }}
                 </td>
             </ng-container>
 
@@ -522,7 +544,7 @@
                             <div class="fs-5 mb-2" [class.ms-4]="!showCheckboxes" [class.ms-1]="showCheckboxes">
                                 {{ dateFormatService.formatDate(ecmr.editedAt) }}
                             </div>
-                            <div class="d-flex flex-row gap-2 mb-3" [class.mx-1]="!showCheckboxes" [class.mx-1]="showCheckboxes">
+                            <div class="d-flex flex-row gap-2 mb-3 mx-1">
                                 <div class="d-flex flex-column justify-content-center align-items-center line-icons">
                                     <div class="circle filled"></div>
                                     <div class="line"></div>

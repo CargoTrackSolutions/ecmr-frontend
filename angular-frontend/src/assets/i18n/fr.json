@@ -392,6 +392,7 @@
     "move_to_archive_success": "E-CMR archivé avec succès",
     "search": "Rechercher",
     "table_header": {
+      "ecmr_id": "ECMR ID",
       "carrier_name": "Nom du transporteur",
       "carrier_post_code": "Code postal du transporteur",
       "consignee_post_code": "Code postal du destinataire",

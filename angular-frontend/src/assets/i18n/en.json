@@ -398,6 +398,7 @@
     "move_to_archive_success": "eCMR successfully archived",
     "search": "Search",
     "table_header": {
+      "ecmr_id": "ECMR ID",
       "carrier_name": "Carrier Name",
       "carrier_post_code": "Carrier Post Code",
       "consignee_post_code": "Consignee Post Code",

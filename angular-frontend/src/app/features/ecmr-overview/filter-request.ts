@@ -10,6 +10,7 @@ import { EcmrStatus } from '../../core/models/EcmrStatus';
 import { EcmrTransportType } from '../../core/models/EcmrTransportType';
 
 export interface FilterRequest {
+    ecmrId: string | null,
     referenceId: string | null,
     from: string | null,
     to: string | null,
