@@ -391,6 +391,8 @@
     "import": "Importovat",
     "move_to_archive_success": "eCMR úspěšně archivován",
     "search": "Vyhledávání",
+    "group_filter": "Filtr skupin",
+    "group_filter_placeholder": "Vyberte skupinu",
     "table_header": {
       "ecmr_id": "ECMR ID",
       "carrier_name": "Jméno dopravce",

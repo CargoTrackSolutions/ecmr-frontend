@@ -247,6 +247,7 @@ export class EcmrTableComponent implements OnInit {
             carrierPostCode: formGroup.carrierPostCode.value != '' ? formGroup.carrierPostCode.value : null,
             consigneePostCode: formGroup.consigneePostCode.value != '' ? formGroup.consigneePostCode.value : null,
             lastEditor: formGroup.lastEditor.value != '' ? formGroup.lastEditor.value : null,
+            groupId: null
         }
     }
 

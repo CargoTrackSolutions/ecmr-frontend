@@ -391,6 +391,8 @@
     "import": "Importar",
     "move_to_archive_success": "eCMR archivado correctamente",
     "search": "Buscar",
+    "group_filter": "Filtrar por grupo",
+    "group_filter_placeholder": "Seleccione grupo",
     "table_header": {
       "ecmr_id": "ECMR ID",
       "carrier_name": "Nombre del transportista",

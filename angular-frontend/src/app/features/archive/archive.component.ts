@@ -91,7 +91,8 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
         carrierName: null,
         carrierPostCode: null,
         consigneePostCode: null,
-        lastEditor: null
+        lastEditor: null,
+        groupId: null,
     };
 
     initialSort: Sort = {active: '', direction: ''};

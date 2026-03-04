@@ -17,45 +17,71 @@
         <section class="d-flex flex-column h-100 overflow-hidden">
             <mat-toolbar>
                 <mat-toolbar-row class="d-flex flex-row justify-content-between">
-                    <h6>{{ 'overview.title' | translate }}</h6>
-                    <div class="search-bar-container">
-                        @if(selectedEcmrs.length > 0) {
-                            <button mat-flat-button color="primary" (click)="bulkMoveToArchive()">
-                                <mat-icon iconPositionEnd>archive</mat-icon>
-                                {{ 'overview.multiselect.archive' | translate }}
-                            </button>
-                            @if(bulkDeleteButtonVisible()) {
-                                @if(!isMobile) {
-                                    <button mat-flat-button color="warn" (click)="bulkDelete()">
-                                        <mat-icon iconPositionEnd>delete</mat-icon>
-                                        {{ 'overview.multiselect.delete' | translate }}
-                                    </button>
+                    <div class="left-toolbar-wrapper">
+                        <h6>{{ 'overview.title' | translate }}</h6>
+                        @if(groupsLoaded()) {
+                            <div class="group-filter-container">
+                                @if (availableGroups().length > 1) {
+                                    <mat-form-field subscriptSizing="dynamic" appearance="outline" class="group-filter">
+                                        <mat-label>{{ 'overview.group_filter' | translate }}</mat-label>
+                                        <input type="text" matInput [formControl]="availableGroupsFormControl" [matAutocomplete]="groupAutoComplete"
+                                               [placeholder]="'overview.group_filter_placeholder' | translate">
+                                        <mat-autocomplete #groupAutoComplete="matAutocomplete" (optionSelected)="onGroupSelected($event.option.value)"
+                                                          [displayWith]="displayGroupFn">
+                                            @for (group of filteredAvailableGroups(); track group.id) {
+                                                <mat-option [value]="group">
+                                                    {{ group.name }} - <span class="description">{{ group.description }}</span>
+                                                </mat-option>
+                                            }
+                                        </mat-autocomplete>
+                                        <button mat-icon-button matSuffix (click)="clearGroupFilter()">
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    </mat-form-field>
+                                } @else {
+                                    <span class="description">- {{ availableGroups()[0].name }}</span>
                                 }
-                                @else {
-                                    <button mat-flat-button class="button-mobile" color="warn" (click)="bulkDelete()">
-                                        <mat-icon>delete</mat-icon>
-                                    </button>
-                                }
-                            }
+                            </div>
                         }
-                        @else {
-                            @if(!authService.isNoEcmrCreationUser()) {
-                                <button matButton="filled" class="search-bar-button" (click)="createNewEcmr()">
-                                    <mat-icon iconPositionEnd>add</mat-icon>
-                                    {{ 'overview.create_new' | translate }}
+                    </div>
+                    <div class="right-toolbar-wrapper">
+                        <div class="search-bar-container">
+                            @if (selectedEcmrs.length > 0) {
+                                <button mat-flat-button color="primary" (click)="bulkMoveToArchive()">
+                                    <mat-icon iconPositionEnd>archive</mat-icon>
+                                    {{ 'overview.multiselect.archive' | translate }}
                                 </button>
-                            }
-                            <!--TODO add internal export-->
-                            @if (!isMobile) {
-                                <button matButton="tonal" (click)="importExternalEcmr()">{{ 'overview.import' | translate }}
-                                    <mat-icon iconPositionEnd>upload_file</mat-icon>
-                                </button>
+                                @if (bulkDeleteButtonVisible()) {
+                                    @if (!isMobile) {
+                                        <button mat-flat-button color="warn" (click)="bulkDelete()">
+                                            <mat-icon iconPositionEnd>delete</mat-icon>
+                                            {{ 'overview.multiselect.delete' | translate }}
+                                        </button>
+                                    } @else {
+                                        <button mat-flat-button class="button-mobile" color="warn" (click)="bulkDelete()">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    }
+                                }
                             } @else {
-                                <button matIconButton (click)="importExternalEcmr()">
-                                    <mat-icon>upload_file</mat-icon>
-                                </button>
+                                @if (!authService.isNoEcmrCreationUser()) {
+                                    <button matButton="filled" class="search-bar-button" (click)="createNewEcmr()">
+                                        <mat-icon iconPositionEnd>add</mat-icon>
+                                        {{ 'overview.create_new' | translate }}
+                                    </button>
+                                }
+                                <!--TODO add internal export-->
+                                @if (!isMobile) {
+                                    <button matButton="tonal" (click)="importExternalEcmr()">{{ 'overview.import' | translate }}
+                                        <mat-icon iconPositionEnd>upload_file</mat-icon>
+                                    </button>
+                                } @else {
+                                    <button matIconButton (click)="importExternalEcmr()">
+                                        <mat-icon>upload_file</mat-icon>
+                                    </button>
+                                }
                             }
-                        }
+                        </div>
                     </div>
                 </mat-toolbar-row>
             </mat-toolbar>
@@ -74,7 +100,7 @@
     <ng-template #quickViewButtons let-ecmr>
         <div>
             <button matButton="filled" (click)="scrollToDocuments()">
-                {{ documentsForSelectedEcmr().length }} {{'documents.documents' | translate}}
+                {{ documentsForSelectedEcmr().length }} {{ 'documents.documents' | translate }}
                 <mat-icon>attach_file</mat-icon>
             </button>
             <button class="m-1" mat-flat-button color="primary" (click)="moveToArchive(ecmr.ecmrId)">{{ 'quick_view_buttons.archive' | translate }}

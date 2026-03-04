@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: OLFL-1.3
  */
 
-import { AfterViewInit, Component, inject, OnInit, signal, ViewChild, WritableSignal } from '@angular/core';
+import { AfterViewInit, Component, computed, inject, OnInit, Signal, signal, ViewChild, WritableSignal } from '@angular/core';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -24,7 +24,7 @@ import { EcmrOverviewDetailsComponent } from './ecmr-overview-details/ecmr-overv
 
 import { Ecmr } from '../../core/models/Ecmr';
 import { EcmrTableComponent } from '../../shared/components/ecmr-table/ecmr-table.component';
-import { catchError, filter, forkJoin, Observable, of, Subscription, switchMap } from 'rxjs';
+import { catchError, filter, forkJoin, map, Observable, of, startWith, Subscription, switchMap } from 'rxjs';
 import { EcmrService } from '../../shared/services/ecmr.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
@@ -46,6 +46,10 @@ import { DocumentModel } from '../../core/models/DocumentModel';
 import { DocumentService } from '../../shared/services/document.service';
 import { UserRole } from '../../core/enums/UserRole';
 import { AuthService } from '../../core/services/auth.service';
+import { MatFormField, MatInput, MatLabel, MatSuffix } from '@angular/material/input';
+import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
+import { GroupFlat } from '../../core/models/GroupFlat';
+import { GroupService } from '../group/group.service';
 
 @Component({
     selector: 'app-overview',
@@ -71,7 +75,14 @@ import { AuthService } from '../../core/services/auth.service';
         TranslateModule,
         EcmrOverviewDetailsComponent,
         MatDrawer,
-        MatDrawerContainer
+        MatDrawerContainer,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        MatAutocompleteTrigger,
+        MatAutocomplete,
+        MatOption,
+        MatSuffix
     ],
     templateUrl: './ecmrOverview.component.html',
     styleUrl: './ecmrOverview.component.scss'
@@ -88,6 +99,7 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
     private sealMetadataService = inject(SealMetadataService);
     private readonly documentService = inject(DocumentService);
     readonly authService = inject(AuthService);
+    private groupService = inject(GroupService);
 
 
     isMobile: boolean = false;
@@ -116,11 +128,23 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         carrierName: null,
         carrierPostCode: null,
         consigneePostCode: null,
-        lastEditor: null
+        lastEditor: null,
+        groupId: null
     };
+
+    selectedGroupFilter: WritableSignal<GroupFlat | null> = signal<GroupFlat | null>(null);
+    availableGroups: WritableSignal<GroupFlat[]> = signal<GroupFlat[]>([]);
+    filteredAvailableGroups: WritableSignal<GroupFlat[]> = signal<GroupFlat[]>([]);
+    availableGroupsFormControl = new FormControl<string | GroupFlat>('');
+    groupsLoaded: Signal<boolean> = computed(() => {
+        return this.availableGroups().length > 0;
+    });
 
     initialSort: Sort = {active: '', direction: ''};
     readonly ecmrType: EcmrType = EcmrType.ECMR;
+    protected readonly EcmrStatus = EcmrStatus;
+    protected readonly open = open;
+    protected readonly UserRole = UserRole;
 
     selectedFiles: WritableSignal<File[]> = signal<File[]>([]);
     documentsForSelectedEcmr: WritableSignal<DocumentModel[]> = signal<DocumentModel[]>([]);
@@ -154,6 +178,8 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
             const savedSort = this.ecmrService.getEcmrSort(this.ecmrType);
             if (savedSort) this.initialSort = savedSort;
         }
+
+        this.setupGroupFilter();
     }
 
     ngAfterViewInit() {
@@ -165,6 +191,8 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
 
     loadData(): Observable<EcmrPage> {
         const paginator = this.table.paginator
+        this.filterRequest.groupId = this.getSelectedGroupId();
+
         if (this.isMobile || !this.table.sort?.active || !this.table.sort?.direction) {
             return this.loadingService.showLoaderUntilCompleted(this.ecmrService.getAllEcmr(this.filterRequest, EcmrType.ECMR, paginator.pageIndex, paginator.pageSize, 'creationDate', 'ASC'));
         } else {
@@ -414,11 +442,6 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         this.ecmrOverviewDetails.scrollToDocuments();
     }
 
-    protected readonly EcmrStatus = EcmrStatus;
-    protected readonly open = open;
-
-
-
     downloadDocument(document: DocumentModel) {
         this.loadingService.showLoaderUntilCompleted(this.documentService.downloadDocument(document.id)).subscribe(blob => {
             const a = window.document.createElement('a')
@@ -430,6 +453,68 @@ export class EcmrOverviewComponent implements OnInit, AfterViewInit {
         });
     }
 
+    protected onGroupSelected(group: GroupFlat) {
+        this.selectedGroupFilter.set(group);
+        this.loadData().subscribe(data => {
+            this.updateTableData(data);
+        })
+    }
 
-    protected readonly UserRole = UserRole;
+    private setupGroupFilter() {
+        this.groupService.getAllGroupsAsFlatList(true).subscribe(groups => {
+            this.availableGroups.set(groups);
+            this.filteredAvailableGroups.set(groups);
+
+            if(this.authService.getDefaultGroupIdForUser() != null) {
+                const groupFromList = groups.find(group => group.id === this.authService.getDefaultGroupIdForUser());
+                if(groupFromList) {
+                    this.availableGroupsFormControl.setValue(groupFromList);
+                    this.selectedGroupFilter.set(groupFromList);
+                }
+            }
+        });
+
+        this.availableGroupsFormControl.valueChanges
+            .pipe(
+                startWith(''),
+                map(value => (typeof value === 'string' ? value : value?.name)),
+                map(searchValue => searchValue
+                    ? this._filterGroups(searchValue)
+                    : this.availableGroups().slice()
+                )
+            )
+            .subscribe(filteredGroups => this.filteredAvailableGroups.set(filteredGroups));
+    }
+
+    private _filterGroups(searchValue: string): GroupFlat[] {
+        const filterValue = searchValue.toLowerCase();
+        return this.availableGroups().filter(group =>
+            (group.name?.toLowerCase() || '').includes(filterValue) ||
+            (group.description?.toLowerCase() || '').includes(filterValue)
+        );
+    }
+
+    protected clearGroupFilter() {
+        this.selectedGroupFilter.set(null);
+        this.availableGroupsFormControl.reset();
+        this.loadData().subscribe(data => {
+            this.updateTableData(data);
+        })
+    }
+
+    getSelectedGroupId() {
+        const selectedGroup = this.selectedGroupFilter();
+        return selectedGroup ? selectedGroup.id : null;
+    }
+
+    displayGroupFn(group: GroupFlat) {
+        if(group == null) return '';
+        let groupDisplay = group.name;
+
+        if (group.description) {
+            groupDisplay += ' - ' + group.description;
+        }
+
+        return groupDisplay;
+    }
 }

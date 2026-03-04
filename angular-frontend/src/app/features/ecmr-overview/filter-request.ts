@@ -21,4 +21,5 @@ export interface FilterRequest {
     carrierPostCode: string | null,
     consigneePostCode: string | null,
     lastEditor: string | null,
+    groupId: number | null
 }

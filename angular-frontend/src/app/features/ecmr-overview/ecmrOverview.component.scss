@@ -29,3 +29,19 @@
   width: 100vw;
 }
 
+.description {
+  color: rgb(169, 169, 169);
+}
+
+.left-toolbar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.right-toolbar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}

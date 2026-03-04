@@ -102,6 +102,14 @@ export class AuthService {
         return !this.getCompositeRoles(this.authenticatedUserSubject.value.user.role).includes(UserRole.User);
     }
 
+    public getDefaultGroupIdForUser(): number | null {
+        if(!this.authenticatedUserSubject.value) {
+            return null;
+        }
+
+        return this.authenticatedUserSubject.value.user.defaultGroupId;
+    }
+
     private getCompositeRoles(role: UserRole): UserRole[] {
         if (role == UserRole.User) {
             return [UserRole.User, UserRole.NoEcmrCreationUser];

@@ -56,13 +56,15 @@ import { PayerType } from '../../core/enums/PayerType';
 import { EcmrService } from '../../shared/services/ecmr.service';
 import { AuthService } from '../../core/services/auth.service';
 import { of } from 'rxjs';
+import { GroupService } from '../group/group.service';
 
 describe('OverviewComponent', () => {
     let component: EcmrOverviewComponent;
     let fixture: ComponentFixture<EcmrOverviewComponent>;
 
     const ecmrServiceSpy = jasmine.createSpyObj('EcmrService', ['getAllEcmr', 'getShowColumns', 'getDisplayedColumns', 'getFilterRequest', 'getEcmrSort', 'getEcmrPageSize']);
-    const authServiceSpy = jasmine.createSpyObj('AuthService', ['isNoEcmrCreationUser', 'getAuthenticatedUser']);
+    const authServiceSpy = jasmine.createSpyObj('AuthService', ['isNoEcmrCreationUser', 'getAuthenticatedUser', 'getDefaultGroupIdForUser']);
+    const groupServiceSpy = jasmine.createSpyObj('GroupService', ['getAllGroupsAsFlatList']);
 
     const testEcmr: Ecmr = {
         ecmrId: 'FhG-IML-504',
@@ -291,6 +293,7 @@ describe('OverviewComponent', () => {
                 providers: [
                     {provide: EcmrService, useValue: ecmrServiceSpy},
                     {provide: AuthService, useValue: authServiceSpy},
+                    {provide: GroupService, useValue: groupServiceSpy},
                     provideHttpClient(withInterceptorsFromDi())
                 ]
             })
@@ -298,6 +301,7 @@ describe('OverviewComponent', () => {
 
             ecmrServiceSpy.getAllEcmr.and.returnValue(of([testEcmr]));
             authServiceSpy.getAuthenticatedUser.and.returnValue({ subscribe: () => {}});
+            groupServiceSpy.getAllGroupsAsFlatList.and.returnValue(of([]));
 
             fixture = TestBed.createComponent(EcmrOverviewComponent);
             component = fixture.componentInstance;

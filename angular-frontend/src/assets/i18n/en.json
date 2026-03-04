@@ -397,6 +397,8 @@
     "import": "Import",
     "move_to_archive_success": "eCMR successfully archived",
     "search": "Search",
+    "group_filter": "Group filter",
+    "group_filter_placeholder": "Select group",
     "table_header": {
       "ecmr_id": "ECMR ID",
       "carrier_name": "Carrier Name",
