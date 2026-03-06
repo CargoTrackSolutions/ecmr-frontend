@@ -103,7 +103,7 @@ export class ShareEcmrDialogComponent implements OnInit {
     groupFormControl = new FormControl<string | GroupFlat>('', Validators.required)
     protected readonly EcmrRole = EcmrRole;
 
-    @ViewChild('qrcodeElement', {static: true}) qrcodeElement: QRCodeComponent;
+    @ViewChild('qrcodeElement', { static: true }) qrcodeElement: QRCodeComponent;
 
     userList: string[] = [];
     filteredUserList: string[] = [];
@@ -111,8 +111,8 @@ export class ShareEcmrDialogComponent implements OnInit {
     filteredGroupList: GroupFlat[] = [];
 
     readonly searchOptionsMap: { [key in SearchMode]: SearchConfig } = {
-        [SearchMode.EMAIL]: {mode: SearchMode.EMAIL, icon: 'email', labelKey: 'share_ecmr_dialog.email'},
-        [SearchMode.GROUP]: {mode: SearchMode.GROUP, icon: 'groups', labelKey: 'common.group'},
+        [SearchMode.EMAIL]: { mode: SearchMode.EMAIL, icon: 'email', labelKey: 'share_ecmr_dialog.email' },
+        [SearchMode.GROUP]: { mode: SearchMode.GROUP, icon: 'groups', labelKey: 'common.group' },
 
     };
     SearchMode = SearchMode;
@@ -128,7 +128,7 @@ export class ShareEcmrDialogComponent implements OnInit {
     private breakpointSubscription: Subscription | undefined;
     isMobile: boolean;
 
-    senderSharable:boolean = false;
+    senderSharable: boolean = false;
     carrierSharable: boolean = false;
     consigneeSharable: boolean = false;
 
@@ -261,7 +261,7 @@ export class ShareEcmrDialogComponent implements OnInit {
                     const shareResult: ShareEcmrResult = response.result;
                     switch (shareResult) {
                         case ShareEcmrResult.SharedExternal:
-                            if(response.url) {
+                            if (response.url) {
                                 this.snackBarService.openSuccessSnackbarWithTranslationValue('share_ecmr_dialog.shared_external_instance', response.url);
                             } else {
                                 this.snackBarService.openSuccessSnackbar('share_ecmr_dialog.shared_external');
@@ -357,9 +357,33 @@ export class ShareEcmrDialogComponent implements OnInit {
 
     copyLink() {
         if (this.shareString) {
-            navigator.clipboard.writeText(this.shareString);
-            this.snackBarService.openSuccessSnackbar('share_ecmr_dialog.link_copied')
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(this.shareString).then(() => {
+                    this.snackBarService.openSuccessSnackbar('share_ecmr_dialog.link_copied');
+                }).catch(() => this.fallbackCopy(this.shareString));
+            } else {
+                this.fallbackCopy(this.shareString);
+            }
         }
+    }
+
+    private fallbackCopy(text: string) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.top = "0";
+        textArea.style.left = "0";
+        textArea.style.position = "fixed";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            this.snackBarService.openSuccessSnackbar('share_ecmr_dialog.link_copied');
+        } catch (err) {
+            console.error('Fallback: unable to copy', err);
+            this.snackBarService.openErrorSnackbar('general.snackbar_error');
+        }
+        document.body.removeChild(textArea);
     }
 
     closeDialog() {
