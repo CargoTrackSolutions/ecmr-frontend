@@ -7,7 +7,6 @@
  */
 
 import { Component, inject, OnInit } from '@angular/core';
-import { MatLabel } from '@angular/material/form-field';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
@@ -15,7 +14,6 @@ import { HttpClient } from '@angular/common/http';
 @Component({
     selector: 'app-privacy',
     imports: [
-        MatLabel,
         MatToolbar,
         MatToolbarRow,
         TranslateModule
