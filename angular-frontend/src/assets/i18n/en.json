@@ -383,7 +383,9 @@
     "overview": "eCMR Overview",
     "privacy": "Privacy",
     "templates": "Templates Overview",
-    "user_overview": "User management"
+    "user_overview": "User management",
+    "instance_management": "Instance Management",
+    "pending_ecmr": "eCMR Import"
   },
   "overview": {
     "columns_settings": {

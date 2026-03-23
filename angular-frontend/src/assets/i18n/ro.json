@@ -383,7 +383,9 @@
         "overview": "Prezentare generală eCMR",
         "privacy": "Confidențialitate",
         "templates": "Prezentare generală șabloane",
-        "user_overview": "Management utilizator"
+        "user_overview": "Management utilizator",
+        "instance_management": "Management instanță",
+        "pending_ecmr": "Import eCMR"
     },
     "overview": {
         "columns_settings": {

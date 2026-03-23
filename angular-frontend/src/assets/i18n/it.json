@@ -377,7 +377,9 @@
     "overview": "Panoramica eCMR",
     "privacy": "Privacy",
     "templates": "Panoramica modelli",
-    "user_overview": "Gestione utenti"
+    "user_overview": "Gestione utenti",
+    "instance_management": "Gestione istanze",
+    "pending_ecmr": "Importazione eCMR"
   },
   "overview": {
     "columns_settings": {

@@ -377,7 +377,9 @@
     "overview": "Prehľad eCMR",
     "privacy": "Ochrana osobných údajov",
     "templates": "Prehľad šablón",
-    "user_overview": "Správa používateľov"
+    "user_overview": "Správa používateľov",
+    "instance_management": "Správa inštancií",
+    "pending_ecmr": "Import eCMR"
   },
   "overview": {
     "columns_settings": {

@@ -377,7 +377,9 @@
     "overview": "Resumen de eCMR",
     "privacy": "Privacidad",
     "templates": "Resumen de plantillas",
-    "user_overview": "Gestión de usuarios"
+    "user_overview": "Gestión de usuarios",
+    "instance_management": "Gestión de instancias",
+    "pending_ecmr": "Importación eCMR"
   },
   "overview": {
     "columns_settings": {
