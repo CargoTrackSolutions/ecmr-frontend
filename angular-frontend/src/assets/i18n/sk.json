@@ -587,5 +587,9 @@
   "auth": {
     "no_permission": "Nemáte oprávnenie na prístup k tejto stránke",
     "no_user": "Nenašiel sa žiadny používateľ"
+  },
+  "ghid": {
+    "title": "Používateľská príručka a dokumentácia",
+    "download": "Stiahnuť PDF"
   }
 }

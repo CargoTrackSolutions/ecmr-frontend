@@ -587,6 +587,10 @@
   "auth": {
     "no_permission": "Nie masz uprawnień do dostępu do tej strony",
     "no_user": "Nie znaleziono użytkownika"
+  },
+  "ghid": {
+    "title": "Podręcznik użytkownika i dokumentacja",
+    "download": "Pobierz PDF"
   }
 }
 

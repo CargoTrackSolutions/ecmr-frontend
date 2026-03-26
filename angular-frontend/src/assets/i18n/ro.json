@@ -596,5 +596,9 @@
     "auth": {
         "no_permission": "Nu aveți permisiunea de a accesa această pagină",
         "no_user": "Niciun utilizator găsit"
+    },
+    "ghid": {
+        "title": "Ghid de utilizare și documentație",
+        "download": "Descarcă PDF"
     }
 }

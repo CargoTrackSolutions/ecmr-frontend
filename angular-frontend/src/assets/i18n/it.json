@@ -587,5 +587,9 @@
   "auth": {
     "no_permission": "Non hai il permesso di accedere a questa pagina",
     "no_user": "Nessun utente trovato"
+  },
+  "ghid": {
+    "title": "Guida utente e documentazione",
+    "download": "Scarica PDF"
   }
 }

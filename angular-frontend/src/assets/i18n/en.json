@@ -596,5 +596,9 @@
   "auth": {
     "no_permission": "No permission to access this page",
     "no_user": "No user found"
+  },
+  "ghid": {
+    "title": "User Guide and Documentation",
+    "download": "Download PDF"
   }
 }
