@@ -12,6 +12,7 @@ import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatD
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle';
 import { EcmrRole } from '../../../core/enums/EcmrRole';
+import { UserRole } from '../../../core/enums/UserRole';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -22,7 +23,7 @@ import { EcmrService } from '../../services/ecmr.service';
 
 import { UserService } from '../../services/user.service';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
-import { catchError, filter, map, of, startWith, Subscription } from 'rxjs';
+import { catchError, filter, map, of, startWith, Subscription, take } from 'rxjs';
 import { EcmrShare } from '../../../core/models/EcmrShare';
 import { ShareEcmrResult } from '../../../core/enums/ShareEcmrResult';
 import { MatTooltip } from '@angular/material/tooltip';
@@ -148,10 +149,14 @@ export class ShareEcmrDialogComponent implements OnInit {
                 this.userService.getAllUserMail().subscribe(userResult => {
                     this.userList = userResult;
                 })
-                this.groupService.getAllGroupsAsFlatList(false).subscribe(groupResult => {
-                    this.groupList = groupResult;
-                    this.canSelectSearch = this.groupList.length > 0;
-                })
+                this.authService.getAuthenticatedUser().pipe(take(1)).subscribe(user => {
+                    if (this.authService.hasRole(user, UserRole.Admin)) {
+                        this.groupService.getAllGroupsAsFlatList(false).subscribe(groupResult => {
+                            this.groupList = groupResult;
+                            this.canSelectSearch = this.groupList.length > 0;
+                        });
+                    }
+                });
             }
         }
     }
