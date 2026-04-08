@@ -377,7 +377,9 @@
     "overview": "Przegląd eCMR",
     "privacy": "Prywatność",
     "templates": "Przegląd szablonów",
-    "user_overview": "Zarządzanie użytkownikami"
+    "user_overview": "Zarządzanie użytkownikami",
+    "instance_management": "Zarządzanie instancjami",
+    "pending_ecmr": "Import eCMR"
   },
   "overview": {
     "columns_settings": {
@@ -585,6 +587,10 @@
   "auth": {
     "no_permission": "Nie masz uprawnień do dostępu do tej strony",
     "no_user": "Nie znaleziono użytkownika"
+  },
+  "ghid": {
+    "title": "Podręcznik użytkownika i dokumentacja",
+    "download": "Pobierz PDF"
   }
 }
 

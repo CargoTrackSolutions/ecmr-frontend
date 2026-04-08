@@ -377,7 +377,9 @@
     "overview": "Přehled eCMR",
     "privacy": "Soukromí",
     "templates": "Přehled šablon",
-    "user_overview": "Správa uživatelů"
+    "user_overview": "Správa uživatelů",
+    "instance_management": "Správa instancí",
+    "pending_ecmr": "Import eCMR"
   },
   "overview": {
     "columns_settings": {
@@ -585,5 +587,9 @@
   "auth": {
     "no_permission": "Nemáte oprávnění k přístupu na tuto stránku",
     "no_user": "Nebyl nalezen žádný uživatel"
+  },
+  "ghid": {
+    "title": "Uživatelská příručka a dokumentace",
+    "download": "Stáhnout PDF"
   }
 }

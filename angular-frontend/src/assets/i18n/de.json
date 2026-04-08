@@ -595,5 +595,9 @@
   "auth": {
     "no_permission": "Keine Berechtigung diese Seite aufzurufen",
     "no_user": "Keinen Benutzer gefunden"
+  },
+  "ghid": {
+    "title": "Benutzerhandbuch und Dokumentation",
+    "download": "PDF herunterladen"
   }
 }

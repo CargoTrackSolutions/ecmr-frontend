@@ -377,7 +377,9 @@
     "overview": "Panoramica eCMR",
     "privacy": "Privacy",
     "templates": "Panoramica modelli",
-    "user_overview": "Gestione utenti"
+    "user_overview": "Gestione utenti",
+    "instance_management": "Gestione istanze",
+    "pending_ecmr": "Importazione eCMR"
   },
   "overview": {
     "columns_settings": {
@@ -585,5 +587,9 @@
   "auth": {
     "no_permission": "Non hai il permesso di accedere a questa pagina",
     "no_user": "Nessun utente trovato"
+  },
+  "ghid": {
+    "title": "Guida utente e documentazione",
+    "download": "Scarica PDF"
   }
 }

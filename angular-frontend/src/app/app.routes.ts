@@ -26,6 +26,7 @@ import {
 } from './features/external-user-registration/external-user-registration-success/external-user-registration-success.component';
 import { AdminApprovalComponent } from './features/admin-approval/admin-approval.component';
 import { PendingEcmrComponent } from './features/pending-ecmr/pending-ecmr.component';
+import { GhidComponent } from './features/ghid/ghid.component';
 
 export const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'ecmr-overview'},
@@ -48,5 +49,6 @@ export const routes: Routes = [
     {path: 'external-user-registration-success/:id', component: ExternalUserRegistrationSuccessComponent},
     {path: 'privacy', component: PrivacyComponent},
     {path: 'imprint-legal-matter', component: LegalMatterComponent},
-    {path: 'history/:id/:refId', component: HistoryComponent, canActivate: [AuthGuard]}
+    {path: 'history/:id/:refId', component: HistoryComponent, canActivate: [AuthGuard]},
+    {path: 'ghid', component: GhidComponent, canActivate: [AuthGuard]}
 ];

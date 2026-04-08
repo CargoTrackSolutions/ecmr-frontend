@@ -1,0 +1,25 @@
+<mat-toolbar>
+    <mat-toolbar-row>
+        <span>{{ 'ghid.title' | translate }}</span>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="ghid-container">
+    <div class="document-list">
+        @for (doc of documents; track doc.fileName) {
+            <div class="document-card">
+                <div class="document-info">
+                    <mat-icon class="document-icon" color="primary">picture_as_pdf</mat-icon>
+                    <div>
+                        <h2 class="document-title">{{ doc.title }}</h2>
+                        <p class="document-description">{{ doc.description }}</p>
+                    </div>
+                </div>
+                <button mat-stroked-button color="primary" (click)="downloadPdf(doc.fileName)">
+                    <mat-icon>download</mat-icon>
+                    {{ 'ghid.download' | translate }}
+                </button>
+            </div>
+        }
+    </div>
+</div>

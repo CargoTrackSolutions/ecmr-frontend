@@ -377,7 +377,9 @@
     "overview": "Aperçu de l\u0027eCMR",
     "privacy": "Confidentialité",
     "templates": "Aperçu des modèles",
-    "user_overview": "Gestion des utilisateurs"
+    "user_overview": "Gestion des utilisateurs",
+    "instance_management": "Gestion des instances",
+    "pending_ecmr": "Import eCMR"
   },
   "overview": {
     "columns_settings": {
@@ -585,5 +587,9 @@
   "auth": {
     "no_permission": "Vous n’avez pas l’autorisation d’accéder à cette page",
     "no_user": "Aucun utilisateur trouvé"
+  },
+  "ghid": {
+    "title": "Guide d’utilisation et documentation",
+    "download": "Télécharger le PDF"
   }
 }
