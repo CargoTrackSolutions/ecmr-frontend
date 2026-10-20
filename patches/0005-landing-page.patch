@@ -1,0 +1,30 @@
+Public landing page at "/" (overlay/angular-frontend/src/app/cargotrack/landing): visitors see it,
+signed-in users and the embedded app are sent to the overview as before. CargoTrack-specific.
+
+diff --git a/angular-frontend/src/app/app.routes.ts b/angular-frontend/src/app/app.routes.ts
+index a928c82..0d34978 100644
+--- a/angular-frontend/src/app/app.routes.ts
++++ b/angular-frontend/src/app/app.routes.ts
+@@ -5,10 +5,11 @@
+  * For details on the licensing terms, see the LICENSE file.
+  * SPDX-License-Identifier: OLFL-1.3
+  *
+- * Modified by CargoTrack: user guide route.
++ * Modified by CargoTrack: user guide route, public landing page at "/".
+  */
+ 
+ import { Routes } from '@angular/router';
++import { landingGuard } from './cargotrack/landing/landing.guard';
+ import { EcmrOverviewComponent } from './features/ecmr-overview/ecmrOverview.component';
+ import { EcmrEditorComponent } from './features/ecmr-editor/ecmr-editor.component';
+ import { ArchiveComponent } from './features/archive/archive.component';
+@@ -31,7 +32,8 @@ import { PendingEcmrComponent } from './features/pending-ecmr/pending-ecmr.compo
+ import { TransportFolderComponent } from './features/transport-folder/transport-folder.component';
+ 
+ export const routes: Routes = [
+-    {path: '', pathMatch: 'full', redirectTo: 'ecmr-overview'},
++    {path: '', pathMatch: 'full', canActivate: [landingGuard],
++        loadComponent: () => import('./cargotrack/landing/landing.component').then(m => m.LandingComponent)},
+     {path: 'login-callback', component: LoginCallbackComponent, canActivate: []},
+     {path: 'ecmr-overview', component: EcmrOverviewComponent, canActivate: [AuthGuard], data: {role: UserRole.NoEcmrCreationUser}},
+     {path: 'ecmr-editor', component: EcmrEditorComponent, canActivate: [AuthGuard], data: {role: UserRole.User}},

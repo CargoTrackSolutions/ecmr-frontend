@@ -10,6 +10,7 @@ the patches only wire it in.
 | `0002-romanian-language.patch` | Romanian in the language list (translations: `overlay/.../i18n/ro.json`) | Yes, candidate for a merge request |
 | `0003-user-guide.patch` | `/user-guide` route; the drawer's "User Guide & Docs" entry (no target upstream) links to it | No, CargoTrack-specific |
 | `0004-share-dialog-groups-admin-only.patch` | Share dialogs request the all-groups list only for admins (backend: 403 for others) | Yes, candidate for a merge request |
+| `0005-landing-page.patch` | `/` shows the public landing page instead of redirecting to the overview | No, CargoTrack-specific |
 
 Rules:
 - One change per file, numbered: `0003-short-description.patch`, created with `git diff` in an assembled tree

@@ -1,0 +1,147 @@
+@let tx = t();
+<div class="lp">
+    <header class="lp-header">
+        <div class="lp-container lp-header-inner">
+            <a class="lp-brand" routerLink="/">
+                <span class="lp-brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4.5" y="2.5" width="15" height="19" rx="2.5"/>
+                        <path d="M8 8h8M8 12h8M8 16h4"/>
+                    </svg>
+                </span>
+                <span class="lp-brand-text">
+                    <span class="lp-brand-name">eCMR</span>
+                    <span class="lp-brand-by">{{ tx.tagline }}</span>
+                </span>
+            </a>
+            <nav class="lp-nav">
+                <button type="button" (click)="scrollTo('lp-roles')">{{ tx.nav.roles }}</button>
+                <button type="button" (click)="scrollTo('lp-steps')">{{ tx.nav.steps }}</button>
+                <button type="button" (click)="scrollTo('lp-trust')">{{ tx.nav.trust }}</button>
+            </nav>
+            <div class="lp-header-actions">
+                <div class="lp-lang" role="group" aria-label="Language">
+                    <button type="button" [class.active]="lang() === 'ro'" (click)="setLang('ro')">RO</button>
+                    <button type="button" [class.active]="lang() === 'en'" (click)="setLang('en')">EN</button>
+                </div>
+                <a class="lp-btn lp-btn-primary lp-btn-sm" routerLink="/ecmr-overview">{{ tx.login }}</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="lp-hero">
+        <div class="lp-container lp-hero-grid">
+            <div class="lp-hero-copy">
+                <span class="lp-eyebrow">{{ tx.eyebrow }}</span>
+                <h1>{{ tx.title }}</h1>
+                <p class="lp-lead">{{ tx.lead }}</p>
+                <div class="lp-hero-cta">
+                    <a class="lp-btn lp-btn-primary" routerLink="/ecmr-overview">
+                        <mat-icon>login</mat-icon>{{ tx.login }}
+                    </a>
+                    <a class="lp-btn lp-btn-ghost" routerLink="/user-guide">
+                        <mat-icon>menu_book</mat-icon>{{ tx.guide }}
+                    </a>
+                </div>
+            </div>
+
+            <div class="lp-hero-visual" aria-hidden="true">
+                <div class="lp-doc">
+                    <div class="lp-doc-head">
+                        <span class="lp-doc-cmr">CMR</span>
+                        <span class="lp-doc-title">{{ tx.card.title }}</span>
+                        <span class="lp-doc-status">{{ tx.card.status }}</span>
+                    </div>
+                    <div class="lp-doc-row"><span>1.</span>{{ tx.card.sender }}<i></i></div>
+                    <div class="lp-doc-row"><span>2.</span>{{ tx.card.consignee }}<i></i></div>
+                    <div class="lp-doc-row"><span>16.</span>{{ tx.card.carrier }}<i></i></div>
+                    <div class="lp-doc-lines"><i></i><i></i><i></i></div>
+                    <div class="lp-doc-seals">
+                        <span class="lp-seal"><mat-icon>verified</mat-icon>{{ tx.card.sealed }} · {{ tx.card.sender }}</span>
+                        <span class="lp-seal"><mat-icon>verified</mat-icon>{{ tx.card.sealed }} · {{ tx.card.carrier }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="lp-section" id="lp-roles">
+        <div class="lp-container">
+            <div class="lp-section-head">
+                <h2>{{ tx.rolesTitle }}</h2>
+                <p>{{ tx.rolesLead }}</p>
+            </div>
+            <div class="lp-grid lp-grid-3">
+                @for (item of tx.roles; track item.title) {
+                    <div class="lp-card">
+                        <span class="lp-card-icon"><mat-icon>{{ item.icon }}</mat-icon></span>
+                        <h3>{{ item.title }}</h3>
+                        <p>{{ item.text }}</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+
+    <section class="lp-section lp-section-alt" id="lp-steps">
+        <div class="lp-container">
+            <div class="lp-section-head">
+                <h2>{{ tx.stepsTitle }}</h2>
+            </div>
+            <ol class="lp-steps">
+                @for (step of tx.steps; track step.title) {
+                    <li>
+                        <span class="lp-card-icon"><mat-icon>{{ step.icon }}</mat-icon></span>
+                        <h3>{{ step.title }}</h3>
+                        <p>{{ step.text }}</p>
+                    </li>
+                }
+            </ol>
+        </div>
+    </section>
+
+    <section class="lp-section" id="lp-trust">
+        <div class="lp-container">
+            <div class="lp-section-head">
+                <h2>{{ tx.trustTitle }}</h2>
+            </div>
+            <div class="lp-grid lp-grid-2">
+                @for (item of tx.trust; track item.title) {
+                    <div class="lp-card lp-card-row">
+                        <span class="lp-card-icon"><mat-icon>{{ item.icon }}</mat-icon></span>
+                        <div>
+                            <h3>{{ item.title }}</h3>
+                            <p>{{ item.text }}</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+
+    <section class="lp-section lp-section-alt">
+        <div class="lp-container">
+            <div class="lp-contact">
+                <div>
+                    <h2>{{ tx.contactTitle }}</h2>
+                    <p>{{ tx.contactText }}</p>
+                </div>
+                <a class="lp-btn lp-btn-primary" [href]="'mailto:' + contactMail">
+                    <mat-icon>mail</mat-icon>{{ contactMail }}
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="lp-footer">
+        <div class="lp-container lp-footer-inner">
+            <span>© {{ year }} Cargo Track Solutions S.R.L.</span>
+            <nav>
+                <a routerLink="/user-guide">{{ tx.guide }}</a>
+                <a routerLink="/privacy">{{ tx.privacy }}</a>
+                <a routerLink="/imprint-legal-matter">{{ tx.imprint }}</a>
+            </nav>
+        </div>
+    </footer>
+</div>

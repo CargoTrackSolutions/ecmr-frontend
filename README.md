@@ -25,6 +25,7 @@ scripts/          assemble.sh - builds the source tree in build/src
 | `overlay/angular-frontend/src/assets/i18n/ro.json` | Romanian translation: the wording of the earlier CargoTrack build (ecmr-frontend-old, formal address, matches the PDF manuals) plus the keys upstream added since; CI checks for missing keys |
 | `overlay/angular-frontend/src/assets/texts/{privacy,imprint}.{ro,en}.html` | Privacy policy and legal notice (Cargo Track Solutions S.R.L.), loaded by upstream's privacy / imprint pages; other UI languages get the English text (nginx fallback) |
 | `overlay/angular-frontend/src/app/cargotrack/user-guide/` + `assets/docs/*.pdf` | User guide page (`/user-guide`, public) with the Romanian manuals for sender, carrier and consignee |
+| `overlay/angular-frontend/src/app/cargotrack/landing/` + `src/cargotrack/_landing.scss` | Public landing page at `/` (ro/en, factual tone as required for the OLF partner listing); signed-in users and the embedded app go straight to the overview |
 | `overlay/angular-frontend/src/assets/cargotrack/favicon.ico` | CargoTrack favicon (upstream OLF icon not used, OLFL §6) |
 
 Brand colours come from upstream's runtime theme variables (`PRIMARY_COLOR`, ...), defaulting to the TMS palette in the image.

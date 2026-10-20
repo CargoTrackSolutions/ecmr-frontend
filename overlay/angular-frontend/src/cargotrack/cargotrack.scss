@@ -7,6 +7,7 @@
 // neutral tokens below. Upstream component styles are view-encapsulated, which is why some shell
 // rules need !important as well.
 @use '@angular/material' as mat;
+@use 'landing';
 
 $font: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
 $ink: #000;
