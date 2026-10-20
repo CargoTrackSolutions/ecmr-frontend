@@ -1,0 +1,312 @@
+// CargoTrack look for the upstream eCMR frontend, after the TMS-Diurne "tmslight" theme:
+// white surfaces, DM Sans, 8px buttons/boxes, 12px fields, light gray lines, soft shadows instead of fills.
+//
+// Loaded after the upstream styles.scss (see patches/0001-cargotrack-shell.patch), so it only overrides.
+// The brand colour itself (primary #2063F3) comes from PRIMARY_COLOR at runtime like upstream intends;
+// upstream's ThemeService writes the palette inline on <body>, hence the !important on the
+// neutral tokens below. Upstream component styles are view-encapsulated, which is why some shell
+// rules need !important as well.
+@use '@angular/material' as mat;
+
+$font: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+$ink: #000;
+$ink-muted: #505050;
+$line: #e7e7e7;
+$field-line: #cccccc;
+$hover: #f3f4f6;
+$tint: #eef3fe;
+$shadow: 0 3px 10px -2px rgba(0, 0, 0, 0.15);
+$radius-box: 8px;
+$radius-field: 12px;
+
+body {
+  @include mat.theme((
+          typography: (
+                  plain-family: $font,
+                  brand-family: $font,
+                  bold-weight: 600,
+                  medium-weight: 500,
+                  regular-weight: 400
+          )
+  ));
+
+  // Neutral roles: plain white surfaces with gray lines (Material tints them with the primary hue).
+  --mat-sys-background: #fff !important;
+  --mat-sys-on-background: #{$ink} !important;
+  --mat-sys-surface: #fff !important;
+  --mat-sys-on-surface: #{$ink} !important;
+  --mat-sys-surface-bright: #fff !important;
+  --mat-sys-surface-dim: #{$hover} !important;
+  --mat-sys-surface-container-lowest: #fff !important;
+  --mat-sys-surface-container-low: #fff !important;
+  --mat-sys-surface-container: #fff !important;
+  --mat-sys-surface-container-high: #fff !important;
+  --mat-sys-surface-container-highest: #{$hover} !important;
+  --mat-sys-surface-variant: #{$hover} !important;
+  --mat-sys-on-surface-variant: #{$ink-muted} !important;
+  --mat-sys-outline: #{$field-line} !important;
+  --mat-sys-outline-variant: #{$line} !important;
+  --mat-sys-primary-container: #{$tint} !important;
+  --mat-sys-on-primary-container: #1750cf !important;
+
+  margin: 0;
+  background: #fff;
+  color: $ink;
+  font-family: $font;
+  -webkit-font-smoothing: antialiased;
+
+  // Buttons: 8px corners instead of pills, text-base like daisyUI .btn
+  @include mat.button-overrides((
+          filled-container-shape: $radius-box,
+          outlined-container-shape: $radius-box,
+          protected-container-shape: $radius-box,
+          text-container-shape: $radius-box,
+          tonal-container-shape: $radius-box,
+          filled-container-height: 40px,
+          outlined-container-height: 40px,
+          protected-container-height: 40px,
+          text-container-height: 40px,
+          tonal-container-height: 40px,
+          filled-label-text-size: 1rem,
+          outlined-label-text-size: 1rem,
+          protected-label-text-size: 1rem,
+          text-label-text-size: 1rem,
+          tonal-label-text-size: 1rem,
+          outlined-outline-color: $line,
+          outlined-label-text-color: $ink,
+          protected-container-elevation-shadow: none,
+          protected-hover-container-elevation-shadow: $shadow
+  ));
+  @include mat.fab-overrides((
+          small-container-shape: $radius-box,
+          container-shape: $radius-box
+  ));
+
+  // Inputs: 12px outlined fields, black focus ring like the tmslight inputs
+  @include mat.form-field-overrides((
+          outlined-container-shape: $radius-field,
+          outlined-outline-color: $field-line,
+          outlined-hover-outline-color: $ink-muted,
+          outlined-focus-outline-color: $ink,
+          filled-container-color: #fff,
+          filled-disabled-container-color: $hover,
+          filled-container-shape: $radius-field,
+          filled-active-indicator-color: transparent,
+          filled-hover-active-indicator-color: transparent,
+          filled-focus-active-indicator-color: transparent,
+          filled-error-active-indicator-color: transparent,
+          filled-error-hover-active-indicator-color: transparent,
+          filled-error-focus-active-indicator-color: transparent
+  ));
+  @include mat.select-overrides((
+          panel-background-color: #fff
+  ));
+  @include mat.autocomplete-overrides((
+          background-color: #fff,
+          container-shape: $radius-box,
+          container-elevation-shadow: $shadow
+  ));
+
+  // Boxes: flat cards with a hairline border, dialogs/menus with the soft tmslight shadow
+  @include mat.card-overrides((
+          elevated-container-shape: $radius-box,
+          elevated-container-elevation: none,
+          outlined-container-shape: $radius-box,
+          outlined-outline-color: $line
+  ));
+  @include mat.dialog-overrides((
+          container-shape: $radius-box,
+          container-color: #fff
+  ));
+  @include mat.menu-overrides((
+          container-shape: $radius-box,
+          container-color: #fff,
+          container-elevation-shadow: $shadow
+  ));
+  @include mat.expansion-overrides((
+          container-shape: $radius-box,
+          container-background-color: #fff
+  ));
+
+  // Tables: muted medium header, hairline rows, gray hover
+  @include mat.table-overrides((
+          background-color: #fff,
+          header-headline-color: rgba(0, 0, 0, 0.5),
+          header-headline-weight: 500,
+          header-headline-size: 0.9375rem,
+          row-item-label-text-size: 0.9375rem,
+          row-item-outline-color: $line
+  ));
+  @include mat.paginator-overrides((
+          container-background-color: #fff
+  ));
+  @include mat.sidenav-overrides((
+          container-background-color: #fff,
+          container-shape: 0,
+          content-background-color: #fff
+  ));
+}
+
+.mat-mdc-card {
+  border: 1px solid $line;
+}
+
+// Upstream uses appearance="fill" (gray box, underline) for most editor fields; draw them like the
+// tmslight inputs instead: white, 12px corners, gray border, ink border on focus.
+.mat-form-field-appearance-fill .mat-mdc-text-field-wrapper {
+  border: 1px solid $field-line;
+  border-radius: $radius-field;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.mat-form-field-appearance-fill:hover .mat-mdc-text-field-wrapper {
+  border-color: $ink-muted;
+}
+
+.mat-form-field-appearance-fill.mat-focused .mat-mdc-text-field-wrapper {
+  border-color: $ink;
+  box-shadow: 0 0 0 1px $ink;
+}
+
+.mat-form-field-appearance-fill.mat-form-field-invalid .mat-mdc-text-field-wrapper {
+  border-color: var(--mat-sys-error);
+}
+
+.mat-form-field-appearance-fill.mat-form-field-disabled .mat-mdc-text-field-wrapper {
+  border-color: $line;
+}
+
+.mat-mdc-row:hover,
+tr.mat-mdc-row:hover > td {
+  background-color: $hover;
+}
+
+body ::-webkit-scrollbar-thumb {
+  background: #c4c4c4 !important;
+}
+
+body ::-webkit-scrollbar-thumb:hover {
+  background: #a3a3a3 !important;
+}
+
+// ---------------------------------------------------------------------------------------------
+// App shell (upstream app.component): white header with a hairline instead of the primary bar,
+// navigation items with the tmslight "lifted" active/hover state instead of solid fills.
+// ---------------------------------------------------------------------------------------------
+
+mat-toolbar.mat-toolbar {
+  background-color: #fff !important;
+  color: $ink !important;
+}
+
+app-root > mat-toolbar {
+  border-bottom: 1px solid $line;
+  font-weight: 600;
+
+  .menu-button div {
+    height: 2px !important;
+    background-color: $ink !important;
+  }
+}
+
+// Page toolbars (overview, archive, editor, ...): upstream renders the h6 title bold, uppercase and
+// in primary; tmslight page titles are plain ink in the h2 style.
+mat-toolbar h6 {
+  margin: 0;
+  color: $ink !important;
+  font-size: 1.5rem;
+  font-weight: 600 !important;
+  text-transform: none !important;
+}
+
+// Dark mode is not part of the CargoTrack design (embed.js pins the theme to light).
+.theme-switcher {
+  display: none !important;
+}
+
+// Grows with the number of languages instead of upstream's fixed 8 rows.
+.language-picker {
+  height: auto !important;
+  border: 1px solid $line;
+  border-radius: $radius-box !important;
+}
+
+.initials {
+  border-radius: 50% !important;
+}
+
+.icon-sidenav {
+  border-right: 1px solid $line !important;
+}
+
+.sidenav {
+  border-right: 1px solid $line !important;
+}
+
+.sidenav__icon {
+  width: 48px !important;
+  height: 48px !important;
+  margin: 8px;
+  border-radius: $radius-box;
+}
+
+.sidenav-container__icon-container {
+  height: 44px !important;
+  margin: 4px 8px;
+  padding: 0 1.25em !important;
+  border-radius: $radius-box;
+  color: $ink-muted !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+}
+
+.footer-line {
+  border-radius: $radius-box !important;
+  color: $ink-muted;
+}
+
+// Upstream: solid primary fill on .active and primary-container on hover; here: white + shadow.
+.sidenav__icon.active,
+.sidenav__icon:hover,
+.sidenav-container__icon-container:hover,
+.footer-line:hover {
+  background-color: #fff !important;
+  box-shadow: $shadow;
+  color: $ink !important;
+}
+
+.sidenav__icon.active {
+  .primary-fill {
+    fill: var(--mat-sys-primary) !important;
+  }
+
+  .primary-letter-fill {
+    fill: var(--mat-sys-on-primary) !important;
+  }
+
+  .primary-stroke {
+    stroke: var(--mat-sys-primary) !important;
+  }
+
+  .primary-icon,
+  .mat-icon {
+    color: var(--mat-sys-primary) !important;
+  }
+}
+
+// ---------------------------------------------------------------------------------------------
+// Embedded in the CargoTrack Web App (iframe): the host shows the user, language and session,
+// so the corresponding header items and the logout entry are hidden.
+// ---------------------------------------------------------------------------------------------
+
+.ct-embedded {
+  .language-container,
+  .initials {
+    display: none !important;
+  }
+
+  // first footer entry of the upstream drawer is "Logout"
+  .sidenav .footer-line:first-child {
+    display: none !important;
+  }
+}

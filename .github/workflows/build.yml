@@ -1,0 +1,93 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  IMAGE: ghcr.io/cargotracksolutions/ecmr-frontend
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: build/src/angular-frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble sources (upstream + patches + overlay)
+        working-directory: .
+        run: bash scripts/assemble.sh
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.12.0'
+          cache: npm
+          cache-dependency-path: build/src/angular-frontend/package-lock.json
+
+      - run: npm ci --no-audit --no-fund
+
+      - name: Check Romanian translation keys against English
+        run: |
+          node -e '
+            const flat = (o, p = "") => Object.entries(o).flatMap(([k, v]) => typeof v === "object" ? flat(v, p + k + ".") : [p + k]);
+            const en = flat(require("./src/assets/i18n/en.json")), ro = new Set(flat(require("./src/assets/i18n/ro.json")));
+            const missing = en.filter(k => !ro.has(k));
+            if (missing.length) { console.log("Missing in ro.json:\n" + missing.join("\n")); process.exit(1); }'
+
+      # Upstream unit tests (Karma, headless Chrome is preinstalled on ubuntu-latest)
+      - name: Test
+        run: npx ng test --watch=false --browsers=ChromeHeadless --progress=false
+
+      - name: Build
+        run: npx ng build --configuration=production
+
+  image:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble sources
+        run: bash scripts/assemble.sh
+
+      - name: Image tags
+        id: tags
+        run: |
+          . upstream.lock
+          echo "upstream=${UPSTREAM_SHA:0:8}" >> "$GITHUB_OUTPUT"
+          echo "overlay=${GITHUB_SHA:0:8}" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        if: github.event_name != 'pull_request'
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ${{ env.IMAGE }}:${{ steps.tags.outputs.overlay }}-up${{ steps.tags.outputs.upstream }}
+            ${{ github.ref == 'refs/heads/main' && format('{0}:main', env.IMAGE) || '' }}
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            ro.cargotrack.ecmr.upstream-sha=${{ steps.tags.outputs.upstream }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

@@ -1,0 +1,51 @@
+# Rendered by entrypoint.sh. Based on upstream nginx/default.conf; differences:
+# - frame-ancestors allows the CargoTrack Web App (FRAME_ANCESTORS) instead of 'self' only
+# - connect-src is the backend + identity provider (CSP_CONNECT_SRC) instead of localhost
+# - index.html / env.js are never cached; hashed bundles are cached for a year
+server {
+  listen 8080;
+  server_tokens off;
+  sendfile on;
+
+  default_type application/octet-stream;
+
+  gzip on;
+  gzip_http_version 1.1;
+  gzip_min_length   1100;
+  gzip_vary         on;
+  gzip_proxied      expired no-cache no-store private auth;
+  gzip_types        text/plain text/css application/json application/javascript text/xml application/xml text/javascript image/svg+xml;
+  gzip_comp_level   6;
+
+  root /usr/share/nginx/html;
+
+  set $csp "default-src 'self'; connect-src 'self' ${CSP_CONNECT_SRC}; font-src 'self' fonts.gstatic.com cdn.jsdelivr.net; frame-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; frame-ancestors ${FRAME_ANCESTORS}; img-src 'self' data: blob:; manifest-src 'self'; media-src 'self'; object-src 'self'; worker-src 'self'";
+
+  # add_header is not inherited into locations that set their own, so each location lists its headers.
+  location / {
+    try_files $uri $uri/ /index.html;
+    add_header Cache-Control "no-cache" always;
+    add_header Content-Security-Policy $csp always;
+    add_header X-Content-Type-Options nosniff always;
+    add_header Referrer-Policy strict-origin-when-cross-origin always;
+  }
+
+  location ~* \.(?:js|css|woff2?)$ {
+    try_files $uri =404;
+    add_header Cache-Control "public, max-age=31536000, immutable" always;
+    add_header X-Content-Type-Options nosniff always;
+  }
+
+  # ^~: env.js, embed.js and the i18n files are not content-hashed, so the regex rule above must not match them
+  location ^~ /assets/ {
+    try_files $uri =404;
+    add_header Cache-Control "no-cache" always;
+    add_header X-Content-Type-Options nosniff always;
+  }
+
+  location = /healthz {
+    access_log off;
+    default_type text/plain;
+    return 200 "ok\n";
+  }
+}

@@ -1,0 +1,7 @@
+/build/
+/.upstream/
+node_modules/
+*.env
+!config/*.env.example
+.idea/
+.vscode/

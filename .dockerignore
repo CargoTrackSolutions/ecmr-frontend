@@ -1,0 +1,7 @@
+*
+!build/src/angular-frontend/
+!build/src/LICENSE
+!docker/
+build/src/angular-frontend/node_modules/
+build/src/angular-frontend/dist/
+build/src/angular-frontend/.angular/

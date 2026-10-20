@@ -1,0 +1,4 @@
+# Pinned upstream revision, bumped via the "Upstream bump" workflow (PR).
+UPSTREAM_REPO=https://git.openlogisticsfoundation.org/wg-electronictransportdocuments/ecmr/ecmr-frontend.git
+UPSTREAM_REF=main
+UPSTREAM_SHA=4e08150c13725141084815a132514cb5d55dcb4a

@@ -1,0 +1,40 @@
+CargoTrack shell: theme stylesheet, embed script, title, favicon and font.
+CargoTrack-specific, not intended for upstream.
+
+diff --git a/angular-frontend/angular.json b/angular-frontend/angular.json
+index a06d067..9d614e7 100644
+--- a/angular-frontend/angular.json
++++ b/angular-frontend/angular.json
+@@ -34,7 +34,8 @@
+               "src/assets"
+             ],
+             "styles": [
+-              "src/styles.scss"
++              "src/styles.scss",
++              "src/cargotrack/cargotrack.scss"
+             ],
+             "scripts": []
+           },
+diff --git a/angular-frontend/src/index.html b/angular-frontend/src/index.html
+index 4cc8cad..2f70818 100644
+--- a/angular-frontend/src/index.html
++++ b/angular-frontend/src/index.html
+@@ -1,13 +1,15 @@
+ <!doctype html>
++<!-- Modified by CargoTrack: title, favicon, DM Sans font, embed.js -->
+ <html lang="en">
+ <head>
+     <meta charset="utf-8">
+-    <title>eCMR Service</title>
++    <title>eCMR · CargoTrack</title>
+     <base href="/">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <script src="assets/deployment/env.js"></script>
+-    <link rel="icon" type="image/x-icon" href="assets/icons/fav_icon.png">
+-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
++    <script src="assets/cargotrack/embed.js"></script>
++    <link rel="icon" type="image/x-icon" href="assets/cargotrack/favicon.ico">
++    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&display=swap" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+ </head>

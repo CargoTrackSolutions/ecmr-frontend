@@ -1,0 +1,26 @@
+Romanian UI language (translations: overlay/angular-frontend/src/assets/i18n/ro.json).
+Upstream candidate: drop this patch and ro.json once an upstream merge request adds Romanian.
+
+diff --git a/angular-frontend/src/app/app.component.ts b/angular-frontend/src/app/app.component.ts
+index dcc1f9a..1f4cd17 100644
+--- a/angular-frontend/src/app/app.component.ts
++++ b/angular-frontend/src/app/app.component.ts
+@@ -4,6 +4,8 @@
+  * Licensed under the Open Logistics Foundation License 1.3.
+  * For details on the licensing terms, see the LICENSE file.
+  * SPDX-License-Identifier: OLFL-1.3
++ *
++ * Modified by CargoTrack: Romanian added to the language list.
+  */
+ 
+ import { HttpClient } from '@angular/common/http';
+@@ -65,7 +67,8 @@ export class AppComponent implements OnInit, OnDestroy {
+         {flag: '🇮🇹', code: 'it'},
+         {flag: '🇵🇱', code: 'pl'},
+         {flag: '🇸🇰', code: 'sk'},
+-        {flag: '🇨🇿', code: 'cs'}
++        {flag: '🇨🇿', code: 'cs'},
++        {flag: '🇷🇴', code: 'ro'}
+     ];
+     selectedLanguage: { flag: string, code: string };
+     languagePickerExtended: boolean = false;

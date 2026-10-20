@@ -1,0 +1,706 @@
+{
+  "archive": {
+    "confirmation_message": "Ești sigur că dorești să reactivezi acest eCMR?",
+    "move_to_overview_success": "eCMR reactivat cu succes",
+    "search": "Caută",
+    "title": "Arhivă"
+  },
+  "external_user_registration": {
+    "authenticate": "Autentifică-te",
+    "authentication": "Autentificare",
+    "company": "Companie",
+    "first_name": "Prenume",
+    "last_name": "Nume",
+    "phone": "Telefon",
+    "register": "Înregistrează-te",
+    "registered_user": "Ca utilizator înregistrat nu poți accesa înregistrarea transportatorului.",
+    "tan": "TAN",
+    "tan_message": "Codul TAN va fi trimis în curând prin SMS",
+    "title": "Înregistrare",
+    "too_many_requests": "Au fost prea multe încercări de înregistrare. Încearcă din nou peste o oră."
+  },
+  "common": {
+    "back": "Înapoi",
+    "cancel": "Renunță",
+    "close": "Închide",
+    "copy": "Copiază",
+    "edit": "Editează",
+    "send": "Trimite",
+    "errors": {
+      "invalid_countryCode": "Cod de țară invalid",
+      "invalid_email": "E-mail invalid",
+      "invalid_phone": "Formatul trebuie să fie, de ex., '+40...'",
+      "max_length": "Numărul maxim de caractere a fost depășit",
+      "required": "Obligatoriu"
+    },
+    "group": "Grup",
+    "reset": "Resetează",
+    "save": "Salvează",
+    "search": "Caută",
+    "share": "Partajează",
+    "phone_prefix": "de ex. +40...",
+    "timestamp": "Marcaj temporal"
+  },
+  "documents": {
+    "title": "Documente",
+    "delete_confirmation": "Ești sigur că dorești să ștergi acest document?",
+    "documents": "Documente",
+    "upload_document": "Încarcă document",
+    "download": "Descarcă",
+    "delete": "Șterge"
+  },
+  "file_drop": {
+    "drop_files": "Plasează fișierele aici",
+    "file_invalid": "Fișierul este invalid",
+    "files_invalid": "{{ invalid }} / {{ total }} fișier(e) sunt invalide și nu vor fi încărcate",
+    "upload_not_allowed": "Nu se pot încărca documente într-un eCMR finalizat"
+  },
+  "confirmation": {
+    "accept": "Acceptă",
+    "cancel": "Renunță",
+    "checkbox": "Creează o copie editabilă a acestui eCMR.",
+    "title": "Confirmare"
+  },
+  "ecmr_editor": {
+    "compact_view": "Versiune compactă",
+    "extended_view": "Versiune extinsă",
+    "add_item": "Adaugă poziție",
+    "delete_all_items": "Șterge toate pozițiile",
+    "carrier_information": {
+      "city_name": "Localitate",
+      "country": "Țară",
+      "email": "E-mail",
+      "license_plate": "Număr de înmatriculare",
+      "name": "Denumire companie",
+      "person_name": "Persoană de contact",
+      "driver_phone": "Telefon șofer",
+      "carrier_phone": "Telefon transportator",
+      "phone": "Telefon",
+      "post_code": "Cod poștal",
+      "region": "Regiune",
+      "street_name": "Stradă"
+    },
+    "carrier_signature": {
+      "signature": "Semnătură"
+    },
+    "carriers_reservations": {
+      "reservation_and_observation": "Rezerve și observații"
+    },
+    "cash_on_delivery": {
+      "particulars": "Detalii",
+      "title": "Ramburs"
+    },
+    "consignee": {
+      "city_name": "Localitate",
+      "country": "Țară",
+      "email": "E-mail",
+      "name": "Denumire companie",
+      "person_name": "Persoană de contact",
+      "phone": "Telefon",
+      "post_code": "Cod poștal",
+      "street_name": "Stradă"
+    },
+    "create_new_title": "Creează nou",
+    "delivery_of_the_goods": {
+      "opening_hours": "Program de lucru",
+      "place": "Loc"
+    },
+    "documents_handed_to_carrier": {
+      "remarks": "Observații"
+    },
+    "edit_title": "Editează",
+    "email": "E-mail",
+    "error_mandatory": "Acest câmp este obligatoriu pentru semnare.",
+    "error_too_short": "Trebuie să conțină cel puțin 2 caractere",
+    "error_volume_min": "Trebuie să fie mai mare decât 0",
+    "error_volume_format": "Format incorect. (5 cifre și până la 5 zecimale)",
+    "error_weight_format": "Format incorect. (4 cifre și până la 5 zecimale)",
+    "error_min_date": "Data trebuie să fie ulterioară datei de 01/01/2000",
+    "eseal_information": "Acest eCMR a fost semnat cu sigiliu electronic (eSeal).",
+    "established": {
+      "in": "În",
+      "on": "La data",
+      "at": "La ora"
+    },
+    "gross_weight_in_kg": {
+      "gross_weight": "Greutate brută"
+    },
+    "items": "Poziții",
+    "load_from_template": "Încarcă din șablon",
+    "mandatory_missing": "Completează toate câmpurile obligatorii.",
+    "marks_and_nos": {
+      "barcode_number": "Cod de bare",
+      "marking_text": "Text marcaj"
+    },
+    "method_of_packing": {
+      "type_text": "Tip ambalaj"
+    },
+    "total_item_count": "Cantitate totală",
+    "counting_unit": "buc.",
+    "multi_consignee_shipment": {
+      "confirmation_message": "Ești sigur că dorești să marchezi acest eCMR ca transport cu mai mulți destinatari? Toate informațiile din câmpurile destinatarului se vor pierde.",
+      "is_multi_consignee_shipment": "Mai mulți destinatari",
+      "multi_consignee_shipment_notice": "Acest transport are mai mulți destinatari. Informațiile despre destinatari se găsesc în documentele aflate asupra șoferului."
+    },
+    "nature_of_goods": {
+      "identification_text": "Denumirea mărfii"
+    },
+    "non_contractual_part_reserved_for_the_carrier": "Parte necontractuală rezervată transportatorului",
+    "number_of_packages": {
+      "item_quantity": "Număr de colete"
+    },
+    "other_useful_particulars": {
+      "particulars": "Detalii"
+    },
+    "phone": "Telefon",
+    "receival_signature": {
+      "date": "Data",
+      "place": "Loc",
+      "remarks": "Observațiile destinatarului",
+      "signature": "Semnătură"
+    },
+    "reference_id": "Număr de referință",
+    "remarks": "Observații",
+    "reset_confirmation_message": "Urmează să resetezi eCMR-ul, iar toate câmpurile vor fi golite. Continui?",
+    "save_as_template": "Salvează ca șablon",
+    "save_as_template_note": "Reține că datele introduse în rubricile 10-15 nu vor fi salvate în șablon.",
+    "save_failure": "eCMR-ul nu a putut fi salvat",
+    "save_success": "eCMR salvat cu succes",
+    "sender": {
+      "city_name": "Localitate",
+      "country": "Țară",
+      "email": "E-mail",
+      "name": "Denumire companie",
+      "person_name": "Persoană de contact",
+      "phone": "Telefon",
+      "post_code": "Cod poștal",
+      "street_name": "Stradă"
+    },
+    "sender_signature": {
+      "signature": "Semnătură"
+    },
+    "senders_instruction": {
+      "description": "Descriere"
+    },
+    "sign": "Semnează",
+    "signature_successful": "Semnare reușită. Câmpurile eCMR au fost blocate",
+    "special_agreements_sen_carr": {
+      "special_agreements": "Convenții speciale"
+    },
+    "successive_carrier_information": {
+      "city_name": "Localitate",
+      "country": "Țară",
+      "date": "Data",
+      "email": "E-mail",
+      "name": "Denumire companie",
+      "person_name": "Persoană de contact",
+      "driver_phone": "Telefon șofer",
+      "carrier_phone": "Telefon transportator",
+      "phone": "Telefon",
+      "post_code": "Cod poștal",
+      "region": "Regiune",
+      "signature": "Semnătură",
+      "street_name": "Stradă"
+    },
+    "taking_over_the_goods": {
+      "place": "Loc",
+      "date_of_arrival": "Data sosirii",
+      "time_of_arrival": "Ora sosirii",
+      "date_of_departure": "Data plecării",
+      "time_of_departure": "Ora plecării"
+    },
+    "template": {
+      "create_new_title": "Creează șablon",
+      "edit_title": "Editează șablonul"
+    },
+    "template_name": "Nume șablon",
+    "template_save_success": "Șablon salvat cu succes",
+    "title_1": "1. Expeditor (nume, adresă, țară)",
+    "title_10": "10. Mărci și numere",
+    "title_11": "11. Număr de colete",
+    "title_12": "12. Mod de ambalare",
+    "title_13": "13. Natura mărfii",
+    "title_14": "14. Greutate brută în kg",
+    "title_15": "15. Volum în m³",
+    "title_16": "16. Convenții speciale între expeditor și transportator",
+    "title_17": "17. De plătit de",
+    "title_18": "18. Alte informații utile",
+    "title_19": "19. Ramburs",
+    "title_2": "2. Destinatar (nume, adresă, țară)",
+    "title_20": "20. Acest transport este supus, indiferent de orice clauză contrară, Convenției privind contractul de transport internațional de mărfuri pe șosele (CMR)",
+    "title_21": "21. Întocmit",
+    "title_22": "22. Semnătura expeditorului",
+    "title_23": "23. Semnătura transportatorului",
+    "title_24": "24. Marfă primită",
+    "title_24_signature": "Semnătura destinatarului",
+    "title_3": "3. Preluarea mărfii",
+    "title_4": "4. Livrarea mărfii",
+    "title_5": "5. Instrucțiunile expeditorului",
+    "title_6": "6. Transportator (nume, adresă, țară, alte referințe)",
+    "title_7": "7. Transportatori succesivi",
+    "title_8": "8. Rezervele și observațiile transportatorului la preluarea mărfii",
+    "title_9": "9. Documente predate transportatorului de către expeditor",
+    "to_be_paid_by": {
+      "carriage_charges": "Taxe de transport",
+      "currency": "Monedă",
+      "custom_duties_charges": "Taxe vamale",
+      "other_charges": "Alte cheltuieli",
+      "payer": "Plătitor",
+      "supplementary_charges": "Taxe suplimentare"
+    },
+    "user_guides_and_docs": "Ghid de utilizare și documentație",
+    "volume_in_m3": {
+      "volume": "Volum"
+    },
+    "carrier_vehicle_configuration": "Configurația vehiculului transportatorului",
+    "successive_carriers_vehicle_configuration": "Configurația vehiculului transportatorilor succesivi",
+    "truck_license_plate": "Nr. înmatriculare camion",
+    "trailer_license_plate": "Nr. înmatriculare remorcă",
+    "second_trailer_license_plate": "Nr. înmatriculare a doua remorcă",
+    "no_vehicle_configurations_available": "Nu există configurații de vehicul disponibile."
+  },
+  "ecmr_external_import": {
+    "ecmr_id": "ID eCMR",
+    "failure": "eCMR-ul nu a putut fi importat.",
+    "failure_409": "Există deja un eCMR cu acest ID.",
+    "import": "Importă",
+    "required_error": "Acest câmp este obligatoriu.",
+    "share_token": "Token de partajare",
+    "success": "eCMR importat cu succes.",
+    "import_request_success": "Cererea de import eCMR a fost trimisă cu succes. Poți urmări starea importului în secțiunea \"Import eCMR\".",
+    "title": "Importă eCMR extern",
+    "url": "URL"
+  },
+  "ecmr_import": {
+    "e_token": "E-Token",
+    "import": "Importă",
+    "switch_camera": "Schimbă camera",
+    "title": "Importă eCMR"
+  },
+  "ecmr_status": {
+    "DELIVERED": "Livrat",
+    "IN_TRANSPORT": "În transport",
+    "LOADING": "În încărcare",
+    "NEW": "Nou"
+  },
+  "edit_user_dialog": {
+    "already_exists": "Utilizatorul cu e-mailul '{{ translateValue }}' există deja",
+    "create": "Creează utilizator",
+    "edit": "Editează utilizator",
+    "error_saving": "Eroare la salvarea utilizatorului!",
+    "location": "Locație",
+    "locations_and_groups": "Locații și grupuri",
+    "successfully_created": "Utilizator creat cu succes.",
+    "successfully_saved": "Utilizator salvat cu succes.",
+    "user_information": "Informații utilizator"
+  },
+  "error": {
+    "default_group_required": "Cel puțin un grup trebuie marcat ca favorit",
+    "ecmr_not_found": "eCMR-ul nu a fost găsit",
+    "not_implemented": "Neimplementat",
+    "pattern": "Număr invalid",
+    "required": "Câmpul nu poate fi gol"
+  },
+  "general": {
+    "apply_button": "Aplică",
+    "snackbar_action": "Închide",
+    "snackbar_error": "A apărut o eroare. Încearcă din nou mai târziu."
+  },
+  "group_change_parent": {
+    "parent_group": "Grup părinte",
+    "title": "Schimbă grupul părinte"
+  },
+  "group_detail": {
+    "remove_user": "Elimină utilizatorul",
+    "title": "Gestionare utilizatori"
+  },
+  "group_edit_dialog": {
+    "create": "Creează grup",
+    "description": "Descriere",
+    "edit": "Editează grup",
+    "group_save_success": "Grup salvat cu succes",
+    "location": "Locație",
+    "name": "Nume",
+    "parent_group": "Grup părinte"
+  },
+  "group_overview": {
+    "collapse_all": "Restrânge tot",
+    "create_new": "Creează grup nou",
+    "delete_bad_request": "Un grup care are subgrupuri sau persoane alocate nu poate fi șters",
+    "delete_confirm": "Ești sigur că dorești să ștergi grupul? Toți utilizatorii și toate eCMR-urile vor fi mutate cu un nivel mai sus.",
+    "delete_group": "Șterge grupul",
+    "expand_all": "Extinde tot",
+    "location_name": "Locație",
+    "name": "Nume",
+    "search": "Caută",
+    "title": "Gestionare grupuri",
+    "tooltips": {
+      "change_parent": "Schimbă grupul părinte",
+      "create_new": "Creează grup nou",
+      "delete": "Șterge grupul",
+      "edit_name": "Editează grupul",
+      "user": "Utilizatori alocați"
+    }
+  },
+  "history": {
+    "access": {
+      "tab": "Acces",
+      "title": "Acces la eCMR",
+      "external_user": "Utilizator extern"
+    },
+    "log": {
+      "actiontype": {
+        "creation": "Creat",
+        "edit": "Editat",
+        "import": "Importat dintr-o instanță externă",
+        "share_internal": "Partajat (intern)",
+        "share_external": "Partajat (extern)",
+        "share_guest": "Partajat (acces invitat)",
+        "received_sync_or_update": "Sincronizat de o instanță externă"
+      },
+      "tab": "Istoric",
+      "title": "Istoric eCMR",
+      "comment": {
+        "share_internal": "Partajat cu grupul",
+        "share_external": "Partajat cu un utilizator extern",
+        "share_guest": "Partajat cu un utilizator extern prin acces invitat"
+      },
+      "share_role": {
+        "reader": "ca cititor",
+        "sender": "ca expeditor",
+        "carrier": "ca transportator",
+        "consignee": "ca destinatar"
+      }
+    }
+  },
+  "imprint_legal_matter": {
+    "title": "Date de identificare și informații legale"
+  },
+  "item": {
+    "empty": "Gol"
+  },
+  "location": {
+    "city": "Localitate",
+    "countryCode": "Cod țară",
+    "create": "Creează locație",
+    "delete": "Șterge locația",
+    "edit": "Editează locația",
+    "error": {
+      "not_created": "Locația nu a putut fi creată",
+      "not_found": "Locația nu a fost găsită"
+    },
+    "name": "Nume",
+    "officeNumber": "Număr birou",
+    "postcode": "Cod poștal",
+    "street": "Stradă",
+    "success": {
+      "created": "Locație creată cu succes",
+      "updated": "Locație actualizată cu succes"
+    },
+    "title": "Gestionare locații"
+  },
+  "menu": {
+    "archive": "Arhivă",
+    "group_overview": "Gestionare grupuri",
+    "imprint_legal": "Date de identificare, informații legale",
+    "location_overview": "Gestionare locații",
+    "logout": "Deconectare",
+    "overview": "Prezentare eCMR",
+    "privacy": "Confidențialitate",
+    "templates": "Prezentare șabloane",
+    "user_overview": "Gestionare utilizatori",
+    "instance_management": "Gestionare instanțe",
+    "pending_ecmr": "Import eCMR",
+    "transport_folder": "Dosar de transport"
+  },
+  "overview": {
+    "columns_settings": {
+      "configure_columns": "Configurează coloanele"
+    },
+    "confirmation_message": "Ești sigur că dorești să muți acest eCMR în arhivă?",
+    "multi_selection": "selecție multiplă",
+    "create_new": "Creează nou",
+    "delete_ecmr_dialog_text": "Ești sigur că dorești să ștergi acest eCMR? Acțiunea nu poate fi anulată.",
+    "delete_success": "eCMR șters cu succes",
+    "filter": "Filtrează după:",
+    "import": "Importă",
+    "move_to_archive_success": "eCMR arhivat cu succes",
+    "search": "Caută",
+    "group_filter": "Filtru grup",
+    "group_filter_placeholder": "Selectează grupul",
+    "table_header": {
+      "ecmr_id": "ID eCMR",
+      "carrier_name": "Nume transportator",
+      "carrier_post_code": "Cod poștal transportator",
+      "consignee_post_code": "Cod poștal destinatar",
+      "creation_date": "Data creării",
+      "from": "De la",
+      "last_edit_date": "Data ultimei modificări",
+      "last_editor": "Modificat ultima dată de",
+      "license_plate": "Număr de înmatriculare",
+      "ref_id": "Număr de referință",
+      "status": "Stare",
+      "to": "Către",
+      "transport_id": "ID transport",
+      "transport_type": "Tip transport",
+      "transport_types": {
+        "international": "Internațional",
+        "national": "Național"
+      }
+    },
+    "title": "Prezentare eCMR",
+    "tooltips": {
+      "delete": "Șterge eCMR",
+      "delete_template": "Șterge șablonul",
+      "edit": "Editează",
+      "guest_access": "Acces invitat",
+      "history": "Istoric",
+      "share": "Partajează eCMR",
+      "sign": "Semnează eCMR"
+    },
+    "multiselect": {
+      "archive": "Arhivează",
+      "delete": "Șterge",
+      "archive_confirmation_message": "Ești sigur că dorești să muți în arhivă cele {{count}} eCMR-uri selectate?",
+      "delete_confirmation_message": "Ești sigur că dorești să ștergi cele {{count}} eCMR-uri selectate? Acțiunea nu poate fi anulată.",
+      "archive_success": "eCMR-urile selectate au fost arhivate cu succes.",
+      "delete_success": "eCMR-urile selectate au fost șterse cu succes.",
+      "enable_multiselect": "Selectează eCMR-uri",
+      "select_all": "Selectează tot",
+      "deselect_all": "Deselectează tot"
+    }
+  },
+  "privacy": {
+    "title": "Declarație de confidențialitate"
+  },
+  "quick_view_buttons": {
+    "archive": "Arhivează",
+    "copy": "Copiază",
+    "edit": "Editează",
+    "history": "Istoric",
+    "pdf": "PDF",
+    "remove_archive": "Reactivează eCMR",
+    "share": "Partajează"
+  },
+  "share_create_dialog": {
+    "title": "Selectează grupurile pentru partajare"
+  },
+  "share_ecmr_dialog": {
+    "carrier": "Transportator",
+    "carrier_icon": "T",
+    "carrier_desc": "Acces de editare și semnare la câmpurile transportatorului",
+    "consignee": "Destinatar",
+    "consignee_icon": "D",
+    "consignee_desc": "Acces doar pentru citire",
+    "consignee_after_carrier_sealed_desc": "Acces de editare și semnare la câmpurile destinatarului",
+    "copy_link": "Copiază linkul",
+    "copy_qr": "Copiază codul QR",
+    "download_qr": "Descarcă codul QR",
+    "email": "E-mail",
+    "email_icon": "E",
+    "link_copied": "Link copiat în clipboard",
+    "no_group_found": "Nu a fost găsit niciun grup cu acest nume.",
+    "no_qr_code_found": "Nu a fost găsit niciun cod QR",
+    "no_user_found": "Nu a fost găsit niciun utilizator intern cu acest e-mail",
+    "next": "Înainte",
+    "qr_copied": "Cod QR copiat în clipboard",
+    "select_one_group": "Selectează un grup",
+    "sender": "Expeditor",
+    "sender_desc": "Acces de editare și semnare la câmpurile expeditorului",
+    "share_pdf": "Partajează prin PDF",
+    "share_pdf_icon": "P",
+    "share_via_qr": "Sau partajează prin cod QR",
+    "shared_external": "Partajat cu un utilizator extern",
+    "shared_external_instance": "Partajat cu o instanță externă ({{ translateValue }})",
+    "shared_internal": "Partajat cu un utilizator intern din grupul {{ translateValue }}",
+    "step1_label": "Alege rolul destinatarului partajării",
+    "step2_label": "Alege organizația destinatarului partajării",
+    "my_org": "Organizația mea",
+    "my_org_icon": "O",
+    "my_org_desc": "Partajează în cadrul organizației tale",
+    "another_org": "Altă organizație",
+    "another_org_icon": "A",
+    "another_org_desc": "Partajează cu organizația unui partener de afaceri",
+    "another_org_not_supported": "Partajarea ca expeditor către organizația destinatarului nu este acceptată",
+    "guest_user": "Utilizator invitat",
+    "guest_user_icon": "I",
+    "guest_user_desc": "Înregistrează un partener de afaceri care nu are un sistem eCMR",
+    "reader_desc": "Vizualizare doar pentru citire a documentului",
+    "step3_label": "Alege dispozitivul",
+    "step4_label": "Înregistrare prin",
+    "guest_device": "Dispozitivul invitatului",
+    "guest_device_desc": "Înregistrare pe dispozitivul partenerului de afaceri",
+    "your_device": "Dispozitivul tău",
+    "your_device_icon": "D",
+    "your_device_desc": "Înregistrează partenerul de afaceri pe acest dispozitiv",
+    "register_qr": "Cod QR",
+    "register_qr_icon": "QR",
+    "register_qr_desc": "Scanează codul sau copiază linkul pentru înregistrare",
+    "register_email": "E-mail",
+    "register_email_desc": "Trimite linkul de înregistrare prin e-mail",
+    "share_via_label": "Partajează prin",
+    "share_via_email": "E-mail",
+    "share_via_email_desc": "Partajează cu un coleg prin e-mail",
+    "share_via_email_external_desc": "Partajează cu un partener de afaceri prin e-mail",
+    "share_via_group": "Grup",
+    "share_via_group_icon": "G",
+    "share_via_group_desc": "Partajează cu un grup de utilizatori predefinit",
+    "confirm_subtitle": "Verifică detaliile de mai jos și confirmă partajarea:",
+    "confirm_registration_subtitle": "Verifică detaliile de mai jos și confirmă înregistrarea:",
+    "confirm_role": "Rol",
+    "confirm_name": "Nume",
+    "confirm_phone": "Telefon",
+    "confirm_company": "Companie",
+    "register": "Înregistrează",
+    "tan_hint": "Un cod TAN va fi trimis la numărul de telefon indicat.",
+    "guest_registered": "Utilizator invitat înregistrat cu succes",
+    "title": "Partajează eCMR",
+    "user_has_no_group": "Utilizatorul nu are niciun grup",
+    "group_ambigous": "Partajarea este ambiguă din cauza unor nume și descrieri de grup duplicate.",
+    "seal_mandatory_for_external": "Pentru partajarea externă, eCMR-ul trebuie să fie sigilat cel puțin o dată.",
+    "previous_seal_mandatory_for_external_instance": "Pentru partajarea cu o instanță externă, sigiliul anterior trebuie să fie aplicat.",
+    "error_400": "eCMR-ul nu a putut fi partajat.",
+    "with_external": "utilizator extern",
+    "with_guest": "acces invitat",
+    "with_internal": "utilizator intern",
+    "approved_url_same_as_origin": "Configurare greșită a instanțelor aprobate",
+    "external_sharing_not_possible": "Partajarea externă nu este posibilă",
+    "external_user_not_exists": "Acest utilizator nu există în instanța externă",
+    "url_not_approved": "Instanța destinatară nu este aprobată",
+    "role_already_externally_shared": "Acest rol a fost deja partajat extern"
+  },
+  "signature": {
+    "by": "De către:",
+    "clear": "Șterge semnătura",
+    "confirm_text": "Ești sigur? Nu vei mai putea face modificări în eCMR.",
+    "signed_on": "Sigilat la:"
+  },
+  "template_overview": {
+    "clear_filter": "Șterge filtrul",
+    "delete_success": "Șablon șters cu succes",
+    "delete_template_dialog_text": "Ești sigur că dorești să ștergi acest șablon? Acțiunea nu poate fi anulată!",
+    "load_from_template_header": "Încarcă date din șablon",
+    "load_selected": "Încarcă selecția",
+    "table_header": {
+      "name": "Nume",
+      "number": "Număr"
+    },
+    "title": "Prezentare șabloane"
+  },
+  "template_share_dialog": {
+    "success": "Șablon partajat cu succes",
+    "title": "Partajează șablonul"
+  },
+  "title": "Serviciu eCMR",
+  "user": {
+    "email": "E-mail",
+    "first_name": "Prenume",
+    "last_name": "Nume",
+    "phone": "Telefon",
+    "role": "Rol",
+    "companyName": "Denumire companie",
+    "external": "Utilizator extern",
+    "internal": "Utilizator intern"
+  },
+  "user_overview": {
+    "activate_dialog": "Sigur dorești să activezi acest utilizator?",
+    "activate_success": "Utilizator activat cu succes",
+    "activate_user": "Activează utilizatorul",
+    "create_user": "Creează utilizator nou",
+    "deactivate_dialog": "Sigur dorești să dezactivezi acest utilizator?",
+    "deactivate_success": "Utilizator dezactivat cu succes",
+    "deactivate_user": "Dezactivează utilizatorul",
+    "edit_user": "Editează utilizatorul",
+    "title": "Gestionare utilizatori"
+  },
+  "url_approval": {
+    "title": "Gestionare instanțe",
+    "import": "Importă instanțe",
+    "export": "Exportă instanțe",
+    "add": "Adaugă instanță",
+    "pending": "Instanțe în așteptarea aprobării",
+    "no_pending": "Nicio instanță în așteptarea aprobării",
+    "approve": "Aprobă instanța",
+    "reject": "Respinge instanța",
+    "count": "Număr: ",
+    "instances": "Instanțe",
+    "url": "URL instanță",
+    "approved": "Aprobat",
+    "created_at": "Creat la",
+    "updated_at": "Actualizat la",
+    "updated_by": "Actualizat de",
+    "update_url": "Actualizează URL",
+    "create_url": "Creează URL",
+    "delete_message": "Dorești să ștergi această instanță? Toate sufixele de e-mail asociate vor fi șterse",
+    "delete_success": "URL-ul instanței a fost șters cu succes",
+    "approval_change": "Aprobarea a fost actualizată cu succes",
+    "import_error": "Importul instanțelor a eșuat",
+    "import_success": "Instanțele au fost importate cu succes",
+    "save_success": "Instanță salvată cu succes",
+    "update_success": "Instanță actualizată cu succes",
+    "save_exists_already": "Instanța indicată există deja"
+  },
+  "email_suffix": {
+    "title": "Sufix de e-mail pentru",
+    "import": "Importă sufixe de e-mail",
+    "export": "Exportă sufixe de e-mail",
+    "add": "Adaugă sufix de e-mail",
+    "create": "Creează sufix de e-mail",
+    "edit": "Actualizează sufixul de e-mail",
+    "mail_suffix": "Sufix de e-mail",
+    "import_error": "Importul sufixelor de e-mail a eșuat",
+    "import_success": "Sufixele de e-mail au fost importate cu succes",
+    "delete_message": "Dorești să ștergi acest sufix de e-mail?",
+    "delete_success": "Sufix de e-mail șters cu succes",
+    "save_success": "Sufix de e-mail salvat cu succes",
+    "update_success": "Sufix de e-mail actualizat cu succes",
+    "save_exists_already": "Sufixul de e-mail indicat există deja pentru această instanță sau pentru alta"
+  },
+  "pending_ecmr_import": {
+    "title": "Import eCMR",
+    "pending": "În așteptare",
+    "information_message": "Procesarea eCMR-urilor din instanțele aprobate poate dura ceva timp.",
+    "instance_url": "URL instanță: ",
+    "creation_time": "Creat la: ",
+    "receiving_user_mail": "Destinatar: ",
+    "error": "Eroare!",
+    "approval_missing": "Lipsește aprobarea!",
+    "go_to_approvals": "Mergi la Gestionare instanțe",
+    "errors": {
+      "INVALID_SEAL": "Sigiliul furnizat este invalid.",
+      "USER_NO_DEFAULT_GROUP": "Utilizatorul nu are un grup implicit alocat.",
+      "USER_NOT_EXISTS": "Utilizatorul specificat nu există.",
+      "USER_NO_PERMISSION": "Utilizatorul nu are permisiunile necesare.",
+      "USER_GROUP_NOT_FOUND": "Grupul utilizatorului nu a fost găsit.",
+      "ECMR_ALREADY_EXISTS": "Există deja un document eCMR cu acest ID.",
+      "WRONG_ROLE": "Utilizatorul nu are rolul necesar pentru această acțiune."
+    }
+  },
+  "user_management": {
+    "mfa": "MFA",
+    "password_reset": "Resetează parola",
+    "password_reset_successfully": "Parolă resetată cu succes",
+    "error_resetting_password": "Parola nu a putut fi resetată",
+    "reset_password_confirmation": "Sigur dorești să resetezi parola? Utilizatorul va fi notificat prin e-mail și va trebui să se autentifice din nou."
+  },
+  "auth": {
+    "no_permission": "Nu ai permisiunea de a accesa această pagină",
+    "no_user": "Niciun utilizator găsit"
+  },
+  "share_error_dialog": {
+    "dialog_title": "Eroare la partajarea externă",
+    "description": "eCMR-ul nu a putut fi partajat extern.\n Dorești să fie partajat în schimb prin e-mail la următoarea adresă?"
+  },
+  "transport_folder": {
+    "folder_list_title": "Dosare de transport",
+    "ecmr_list_title": "Documente eCMR",
+    "active_filter": "Active",
+    "archive_filter": "Arhivate",
+    "original_transport_url": "URL instanță de origine",
+    "actions": {
+      "share_all": "Partajează tot",
+      "sign_all": "Semnează tot"
+    },
+    "invalid_transport_id": "ID de transport invalid"
+  }
+}
