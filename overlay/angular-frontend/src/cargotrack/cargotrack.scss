@@ -295,6 +295,65 @@ mat-toolbar h6 {
 }
 
 // ---------------------------------------------------------------------------------------------
+// Privacy / imprint pages: upstream injects assets/texts/<page>.<lang>.html via innerHTML.
+// ---------------------------------------------------------------------------------------------
+
+// upstream privacy page uses a mat-label instead of the h6 page title
+app-privacy mat-toolbar mat-label {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+// upstream legal-matter page clips its content (overflow-hidden on the article)
+app-legal-matter > article {
+  overflow: auto !important;
+}
+
+.legal-matter-content {
+  max-width: 960px;
+  line-height: 1.6;
+
+  h3 {
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid $line;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  section:first-child h3 {
+    margin-top: 0.5rem;
+  }
+
+  p,
+  ul {
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    padding-left: 1.5rem;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+
+  a {
+    color: var(--mat-sys-primary);
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .text-muted {
+    color: $ink-muted !important;
+  }
+}
+
+// ---------------------------------------------------------------------------------------------
 // Embedded in the CargoTrack Web App (iframe): the host shows the user, language and session,
 // so the corresponding header items and the logout entry are hidden.
 // ---------------------------------------------------------------------------------------------

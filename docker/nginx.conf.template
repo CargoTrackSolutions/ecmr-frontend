@@ -36,6 +36,18 @@ server {
     add_header X-Content-Type-Options nosniff always;
   }
 
+  # Privacy / imprint texts exist in ro and en only; other UI languages get the English text.
+  location ^~ /assets/texts/ {
+    add_header Cache-Control "no-cache" always;
+    add_header X-Content-Type-Options nosniff always;
+
+    location ~ ^/assets/texts/(privacy|imprint)\.[a-z]+\.html$ {
+      try_files $uri /assets/texts/$1.en.html =404;
+      add_header Cache-Control "no-cache" always;
+      add_header X-Content-Type-Options nosniff always;
+    }
+  }
+
   # ^~: env.js, embed.js and the i18n files are not content-hashed, so the regex rule above must not match them
   location ^~ /assets/ {
     try_files $uri =404;

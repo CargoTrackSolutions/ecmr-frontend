@@ -8,6 +8,7 @@ the patches only wire it in.
 |---|---|---|
 | `0001-cargotrack-shell.patch` | `angular.json`: adds `cargotrack.scss` after `styles.scss`; `index.html`: title, favicon, DM Sans, `embed.js` | No, CargoTrack-specific |
 | `0002-romanian-language.patch` | Romanian in the language list (translations: `overlay/.../i18n/ro.json`) | Yes, candidate for a merge request |
+| `0003-user-guide.patch` | `/user-guide` route; the drawer's "User Guide & Docs" entry (no target upstream) links to it | No, CargoTrack-specific |
 
 Rules:
 - One change per file, numbered: `0003-short-description.patch`, created with `git diff` in an assembled tree

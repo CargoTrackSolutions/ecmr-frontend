@@ -1,0 +1,42 @@
+User guide page (/user-guide, overlay/angular-frontend/src/app/cargotrack/user-guide) linked from the
+upstream drawer entry "User Guide & Docs", which has no target upstream. CargoTrack-specific.
+
+diff --git a/angular-frontend/src/app/app.component.html b/angular-frontend/src/app/app.component.html
+index 62e1970..712a6d6 100644
+--- a/angular-frontend/src/app/app.component.html
++++ b/angular-frontend/src/app/app.component.html
+@@ -212,8 +212,11 @@
+                         <mat-icon color="primary">logout</mat-icon>
+                         <span>{{ 'menu.logout' | translate }}</span>
+                     </div>
+-                    <a class="footer-line">
+-                        <mat-icon iconPositionEnd color="primary">open_in_new</mat-icon>
++                    <!-- Modified by CargoTrack: link to the user guide page -->
++                    <a class="footer-line"
++                       tabindex="0" [routerLink]="['/user-guide']" (click)="navigateTo('user-guide')"
++                       (keyup.enter)="navigateTo('user-guide')">
++                        <mat-icon color="primary">menu_book</mat-icon>
+                         {{ "ecmr_editor.user_guides_and_docs" | translate }}
+                     </a>
+                     <a class="footer-line"
+diff --git a/angular-frontend/src/app/app.routes.ts b/angular-frontend/src/app/app.routes.ts
+index 1e272ad..400cc95 100644
+--- a/angular-frontend/src/app/app.routes.ts
++++ b/angular-frontend/src/app/app.routes.ts
+@@ -4,6 +4,8 @@
+  * Licensed under the Open Logistics Foundation License 1.3.
+  * For details on the licensing terms, see the LICENSE file.
+  * SPDX-License-Identifier: OLFL-1.3
++ *
++ * Modified by CargoTrack: user guide route.
+  */
+ 
+ import { Routes } from '@angular/router';
+@@ -50,5 +52,6 @@ export const routes: Routes = [
+     {path: 'external-user-registration-success/:id', component: ExternalUserRegistrationSuccessComponent},
+     {path: 'privacy', component: PrivacyComponent},
+     {path: 'imprint-legal-matter', component: LegalMatterComponent},
+-    {path: 'history/:id/:refId', component: HistoryComponent, canActivate: [AuthGuard]}
++    {path: 'history/:id/:refId', component: HistoryComponent, canActivate: [AuthGuard]},
++    {path: 'user-guide', loadComponent: () => import('./cargotrack/user-guide/user-guide.component').then(m => m.UserGuideComponent)}
+ ];

@@ -1,0 +1,24 @@
+<article class="d-flex flex-column h-100 overflow-auto">
+    <mat-toolbar class="action-bar-shadow">
+        <mat-toolbar-row>
+            <h6>{{ texts().title }}</h6>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <section class="guide">
+        <p class="intro">{{ texts().intro }}</p>
+        @for (manual of manuals; track manual.file) {
+            <div class="manual">
+                <mat-icon class="manual-icon">picture_as_pdf</mat-icon>
+                <div class="manual-text">
+                    <div class="manual-title">{{ manual.title[lang()] }}</div>
+                    <div class="manual-description">{{ manual.description[lang()] }}</div>
+                </div>
+                <a matButton="outlined" [href]="'assets/docs/' + manual.file" target="_blank" rel="noopener">
+                    <mat-icon>download</mat-icon>
+                    {{ texts().download }}
+                </a>
+            </div>
+        }
+    </section>
+</article>

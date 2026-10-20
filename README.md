@@ -22,7 +22,9 @@ scripts/          assemble.sh - builds the source tree in build/src
 |---|---|
 | `overlay/angular-frontend/src/cargotrack/cargotrack.scss` | CargoTrack look (TMS-Diurne "tmslight"): white surfaces, DM Sans, 8px buttons/cards, 12px outlined fields, light-gray lines, muted table headers, white header and navigation with shadowed active items, normal-case black page titles. Only overrides Material tokens and upstream classes |
 | `overlay/angular-frontend/src/assets/cargotrack/embed.js` | Runs before Angular: detects the iframe (or `?embedded=1`) and sets `html.ct-embedded`, takes the UI language from `?lang=`, pins the theme to light |
-| `overlay/angular-frontend/src/assets/i18n/ro.json` | Romanian translation (all 623 keys of `en.json`; CI checks for missing keys) |
+| `overlay/angular-frontend/src/assets/i18n/ro.json` | Romanian translation: the wording of the earlier CargoTrack build (ecmr-frontend-old, formal address, matches the PDF manuals) plus the keys upstream added since; CI checks for missing keys |
+| `overlay/angular-frontend/src/assets/texts/{privacy,imprint}.{ro,en}.html` | Privacy policy and legal notice (Cargo Track Solutions S.R.L.), loaded by upstream's privacy / imprint pages; other UI languages get the English text (nginx fallback) |
+| `overlay/angular-frontend/src/app/cargotrack/user-guide/` + `assets/docs/*.pdf` | User guide page (`/user-guide`, public) with the Romanian manuals for sender, carrier and consignee |
 | `overlay/angular-frontend/src/assets/cargotrack/favicon.ico` | CargoTrack favicon (upstream OLF icon not used, OLFL §6) |
 
 Brand colours come from upstream's runtime theme variables (`PRIMARY_COLOR`, ...), defaulting to the TMS palette in the image.
