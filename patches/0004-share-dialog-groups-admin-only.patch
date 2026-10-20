@@ -1,0 +1,77 @@
+Share dialogs: request the all-groups list (GET /group/flat-list) only for admins; the backend answers 403
+for other users. Taken over from ecmr-frontend-old (0f87590). Upstream candidate.
+
+diff --git a/angular-frontend/src/app/shared/dialogs/share-ecmr-dialog-redesign/share-ecmr-dialog-redesign.component.ts b/angular-frontend/src/app/shared/dialogs/share-ecmr-dialog-redesign/share-ecmr-dialog-redesign.component.ts
+index b8170cf..6487443 100644
+--- a/angular-frontend/src/app/shared/dialogs/share-ecmr-dialog-redesign/share-ecmr-dialog-redesign.component.ts
++++ b/angular-frontend/src/app/shared/dialogs/share-ecmr-dialog-redesign/share-ecmr-dialog-redesign.component.ts
+@@ -4,6 +4,8 @@
+  * Licensed under the Open Logistics Foundation License 1.3.
+  * For details on the licensing terms, see the LICENSE file.
+  * SPDX-License-Identifier: OLFL-1.3
++ *
++ * Modified by CargoTrack: all-groups list requested for admins only (backend answers 403 otherwise).
+  */
+ 
+ import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
+@@ -21,7 +23,8 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
+ import { EcmrService } from '../../services/ecmr.service';
+ import { UserService } from '../../services/user.service';
+ import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
+-import { filter, map, Observable, of, startWith, Subscription, switchMap, tap } from 'rxjs';
++import { filter, map, Observable, of, startWith, Subscription, switchMap, take, tap } from 'rxjs';
++import { UserRole } from '../../../core/enums/UserRole';
+ import { EcmrShare } from '../../../core/models/EcmrShare';
+ import { ShareEcmrError } from '../../../core/enums/ShareEcmrError';
+ import { MatTooltip } from '@angular/material/tooltip';
+@@ -195,7 +198,12 @@ export class ShareEcmrDialogRedesignComponent implements OnInit {
+                 this.userService.getAllUserMail().subscribe(userResult => {
+                     this.userList = userResult;
+                 })
+-                this.groupService.getAllGroupsAsFlatList(false).subscribe(groupResult => {
++                // GET /group/flat-list (all groups) is admin-only in the backend
++                this.authService.getAuthenticatedUser().pipe(
++                    take(1),
++                    filter(user => this.authService.hasRole(user, UserRole.Admin)),
++                    switchMap(() => this.groupService.getAllGroupsAsFlatList(false))
++                ).subscribe(groupResult => {
+                     this.groupList = groupResult;
+                     this.canSelectSearch = this.groupList.length > 0;
+                 })
+diff --git a/angular-frontend/src/app/shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component.ts b/angular-frontend/src/app/shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component.ts
+index 933a0c7..1f1465b 100644
+--- a/angular-frontend/src/app/shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component.ts
++++ b/angular-frontend/src/app/shared/dialogs/share-ecmr-dialog/share-ecmr-dialog.component.ts
+@@ -4,6 +4,8 @@
+  * Licensed under the Open Logistics Foundation License 1.3.
+  * For details on the licensing terms, see the LICENSE file.
+  * SPDX-License-Identifier: OLFL-1.3
++ *
++ * Modified by CargoTrack: all-groups list requested for admins only (backend answers 403 otherwise).
+  */
+ 
+ import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
+@@ -22,7 +24,8 @@ import { EcmrService } from '../../services/ecmr.service';
+ 
+ import { UserService } from '../../services/user.service';
+ import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
+-import { filter, map, Observable, of, startWith, Subscription, switchMap, tap } from 'rxjs';
++import { filter, map, Observable, of, startWith, Subscription, switchMap, take, tap } from 'rxjs';
++import { UserRole } from '../../../core/enums/UserRole';
+ import { EcmrShare } from '../../../core/models/EcmrShare';
+ import { ShareEcmrError } from '../../../core/enums/ShareEcmrError';
+ import { MatTooltip } from '@angular/material/tooltip';
+@@ -154,7 +157,12 @@ export class ShareEcmrDialogComponent implements OnInit {
+                 this.userService.getAllUserMail().subscribe(userResult => {
+                     this.userList = userResult;
+                 })
+-                this.groupService.getAllGroupsAsFlatList(false).subscribe(groupResult => {
++                // GET /group/flat-list (all groups) is admin-only in the backend
++                this.authService.getAuthenticatedUser().pipe(
++                    take(1),
++                    filter(user => this.authService.hasRole(user, UserRole.Admin)),
++                    switchMap(() => this.groupService.getAllGroupsAsFlatList(false))
++                ).subscribe(groupResult => {
+                     this.groupList = groupResult;
+                     this.canSelectSearch = this.groupList.length > 0;
+                 })
