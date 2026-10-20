@@ -6,3 +6,4 @@
 Dockerfile text eol=lf
 *.png binary
 *.ico binary
+upstream.lock text eol=lf
