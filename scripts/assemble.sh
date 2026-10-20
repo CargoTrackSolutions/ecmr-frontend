@@ -29,8 +29,9 @@ if [ -d "$OUT/angular-frontend/node_modules" ]; then
 fi
 rm -rf "$OUT"
 mkdir -p "$OUT"
-# autocrlf off: identical LF tree on Windows and CI, so patches apply the same everywhere
-git -C "$CACHE" -c core.autocrlf=false archive "$SHA" | tar -x -C "$OUT"
+# autocrlf off + eol=lf: identical LF tree on Windows and CI, so patches apply the same everywhere
+# (without core.eol, Windows git writes CRLF for files that upstream's .gitattributes marks as text)
+git -C "$CACHE" -c core.autocrlf=false -c core.eol=lf archive "$SHA" | tar -x -C "$OUT"
 if [ -d "$ROOT/build/.node_modules" ]; then
   mv "$ROOT/build/.node_modules" "$OUT/angular-frontend/node_modules"
 fi
@@ -41,7 +42,7 @@ for p in "${patches[@]}"; do
   echo ">> Applying patch $(basename "$p")"
   # The ceiling keeps git from treating build/src as a subdirectory of this repository:
   # inside a repo, git apply silently skips every path outside the current directory.
-  (cd "$OUT" && GIT_CEILING_DIRECTORIES="$ROOT" git apply --whitespace=nowarn "$p") || {
+  (cd "$OUT" && GIT_CEILING_DIRECTORIES="$ROOT" git -c core.autocrlf=false -c core.eol=lf apply --whitespace=nowarn "$p") || {
     echo "Patch $(basename "$p") no longer applies to upstream $SHA - rebase it or drop it if merged upstream." >&2
     exit 1
   }
